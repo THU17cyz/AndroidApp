@@ -1,6 +1,7 @@
 package com.example.androidapp.Adapter;
 
 import android.content.Context;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -11,7 +12,8 @@ import java.util.List;
 
 public class TestAdapter<T> extends MyBaseAdapter {
 
-    private TextView mTvName;
+    private ImageView mHead;
+    private TextView mName;
 
     public TestAdapter(List<T> data, Context context){
         super(R.layout.test_layout, data, context);
@@ -19,17 +21,18 @@ public class TestAdapter<T> extends MyBaseAdapter {
 
     @Override
     protected void initView(BaseViewHolder viewHolder, Object o) {
-        mTvName=viewHolder.getView(R.id.tv_name);
+        mName = viewHolder.getView(R.id.name);
+        mHead = viewHolder.getView(R.id.head);
     }
 
     @Override
     protected void initData(BaseViewHolder viewHolder, Object o) {
-        mTvName.setText(o.toString());
+        mName.setText(o.toString());
     }
 
     @Override
     protected void setListener(BaseViewHolder viewHolder, Object o) {
         //mTvName点击事件
-        viewHolder.addOnClickListener(mTvName.getId());
+        viewHolder.addOnClickListener(mName.getId());
     }
 }
