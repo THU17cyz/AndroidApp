@@ -4,5 +4,15 @@
     <string name="title_dashboard">我的</string>
     <string name="title_notifications">消息</string>
     <string name="title_query">搜索</string>
+    <string name="cellphone">手机号</string>
+    <string name="verification_code">验证码</string>
+    <string name="password">密码</string>
+    <string name="password_again">重复密码</string>
+    <string name="REAL_NAME">姓名</string>
+    <string name="NEXT_STEP">下一步</string>
+    <string name="AFFILIATION">学校</string>
+    <string name="AFFILIATION_ID">学号/工号</string>
+    <string name="IDENTITY_CARD">身份证号</string>
+    <string name="FINISH_LOGON">注册</string>
     <string name="tab_1">These are the top stories:</string>
 </resources>

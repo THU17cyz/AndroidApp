@@ -31,4 +31,11 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //按钮点击事件处理
+    @OnClick(R.id.logonButton)
+    public void logon() {
+        Intent intent = new Intent(this, LogonActivity.class);
+        startActivity(intent);
+    }
+
 }
