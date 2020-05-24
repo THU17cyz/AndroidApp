@@ -30,5 +30,12 @@ public class ResetPasswordActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //按钮点击事件处理
+    @OnClick(R.id.returnButton)
+    public void returnToLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
 
 }
