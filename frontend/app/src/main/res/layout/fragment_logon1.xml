@@ -56,7 +56,7 @@
             android:background="@drawable/shape_login_button"
             android:padding="15dp"
             android:shadowColor="@android:color/transparent"
-            android:text="获取验证码" />
+            android:text="@string/GET_VERIFICATION_CODE" />
 
 
     </LinearLayout>
