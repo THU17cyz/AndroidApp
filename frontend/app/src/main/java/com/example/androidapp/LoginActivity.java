@@ -2,7 +2,6 @@ package com.example.androidapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +15,12 @@ public class LoginActivity extends AppCompatActivity {
 
     @BindView(R.id.login_btn)
     Button loginBtn;
+
+    @BindView(R.id.logon)
+    Button logonBtn;
+
+    @BindView(R.id.forgetPassword)
+    Button forgetPasswordButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +37,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //按钮点击事件处理
-    @OnClick(R.id.logonButton)
+    @OnClick(R.id.logon)
     public void logon() {
         Intent intent = new Intent(this, LogonActivity.class);
+        startActivity(intent);
+    }
+
+    //按钮点击事件处理
+    @OnClick(R.id.forgetPassword)
+    public void resetPassword() {
+        Intent intent = new Intent(this, ResetPasswordActivity.class);
         startActivity(intent);
     }
 

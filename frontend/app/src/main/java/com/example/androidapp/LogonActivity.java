@@ -33,10 +33,13 @@ public class LogonActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("基本信息"));
         tabLayout.addTab(tabLayout.newTab().setText("身份验证"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+//        tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
         LogonPagerAdapter pagerAdapter = new LogonPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        // viewPager.set
+
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

@@ -45,4 +45,5 @@ public class LogonPagerAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return mNumOfTabs;
     }
+
 }
