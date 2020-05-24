@@ -38,4 +38,11 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @OnClick(R.id.forget_pwd)
+    public void forgetPwd(){
+        // todo
+        Intent intent = new Intent(this, ForgetPasswordActivity.class);
+        startActivity(intent);
+    }
+
 }
