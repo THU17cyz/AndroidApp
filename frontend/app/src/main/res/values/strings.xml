@@ -16,6 +16,7 @@
     <string name="NEXT_STEP">下一步</string>
     <string name="AFFILIATION">学校</string>
     <string name="AFFILIATION_ID">学号/工号</string>
+    <string name="CONFIRM">确认</string>
     <string name="IDENTITY_CARD">身份证号</string>
     <string name="FINISH_LOGON">注册</string>
     <string name="tab_1">These are the top stories:</string>
