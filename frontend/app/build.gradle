@@ -43,5 +43,7 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50'
     implementation("com.jakewharton:butterknife:10.2.1")
     annotationProcessor("com.jakewharton:butterknife-compiler:10.2.1")
+
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 //    implementation 'com.zhy:base-adapter:3.0.3'
 }
