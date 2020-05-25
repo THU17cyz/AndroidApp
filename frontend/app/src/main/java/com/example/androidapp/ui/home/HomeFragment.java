@@ -19,6 +19,9 @@ import com.example.androidapp.Adapter.MyPagerAdapter;
 import com.example.androidapp.LoginActivity;
 import com.example.androidapp.R;
 import com.google.android.material.tabs.TabLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 public class HomeFragment extends Fragment {
 
@@ -70,6 +73,20 @@ public class HomeFragment extends Fragment {
         });
 
         btn = root.findViewById(R.id.button);
+
+        RefreshLayout refreshLayout = (RefreshLayout) root.findViewById(R.id.refreshLayout);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshlayout) {
+                refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
+            }
+        });
 
         return root;
     }
