@@ -9,10 +9,14 @@ import com.example.androidapp.R;
 
 import java.util.List;
 
+import butterknife.BindView;
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class TestAdapter<T> extends MyBaseAdapter {
 
-    private ImageView mHead;
+    private CircleImageView mHead;
+
     private TextView mName;
 
     public TestAdapter(List<T> data, Context context){
@@ -22,7 +26,8 @@ public class TestAdapter<T> extends MyBaseAdapter {
     @Override
     protected void initView(BaseViewHolder viewHolder, Object o) {
         mName = viewHolder.getView(R.id.name);
-        mHead = viewHolder.getView(R.id.head);
+        mHead = viewHolder.getView(R.id.profile_image);
+        //
     }
 
     @Override
