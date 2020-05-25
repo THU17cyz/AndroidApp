@@ -20,5 +20,8 @@
     <string name="AFFILIATION_ID">学号/工号</string>
     <string name="IDENTITY_CARD">身份证号</string>
     <string name="FINISH_LOGON">注册</string>
+
+    <string name="WATCH">关注</string>
+    <string name="STOP_WATCH">取消关注</string>
     <string name="tab_1">These are the top stories:</string>
 </resources>

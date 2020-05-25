@@ -1,6 +1,7 @@
 package com.example.androidapp.Adapter;
 
 import android.content.Context;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,8 +18,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class TestAdapter<T> extends MyBaseAdapter {
 
     private CircleImageView mHead;
-
     private TextView mName;
+    private TextView mAffiliation;
+    private Button mWatchBtn;
 
     public TestAdapter(List<T> data, Context context){
         super(R.layout.test_layout, data, context);
@@ -26,21 +28,25 @@ public class TestAdapter<T> extends MyBaseAdapter {
 
     @Override
     protected void initView(BaseViewHolder viewHolder, Object o) {
-        mName = viewHolder.getView(R.id.name);
-        mHead = viewHolder.getView(R.id.profile_image);
+        // 这里大多数情况应该不需要初始化
+//        mName = viewHolder.getView(R.id.name);
+//        mHead = viewHolder.getView(R.id.profile_image);
+//        mAffiliation = viewHolder.getView(R.id.affiliation);
+//        mWatchBtn = viewHolder.getView(R.id.watch_btn);
         //
     }
 
     @Override
     protected void initData(BaseViewHolder viewHolder, Object o) {
-//        TabFragment1.Item data = (TabFragment1.Item) o;
-//        System.out.println(data.t1);
-        mName.setText(o.toString());
+        // 在这里链式赋值就可以了
+        TabFragment1.Profile data = (TabFragment1.Profile) o;
+        viewHolder.setText(R.id.name, data.name)
+                .setText(R.id.affiliation, data.affiliation);
     }
 
     @Override
     protected void setListener(BaseViewHolder viewHolder, Object o) {
-        //mTvName点击事件
-        viewHolder.addOnClickListener(mName.getId());
+        // 注册按钮点击事件
+        viewHolder.addOnClickListener(R.id.watch_btn);
     }
 }
