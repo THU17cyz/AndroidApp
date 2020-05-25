@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.example.androidapp.Fragments.TabFragment1;
 import com.example.androidapp.R;
 
 import java.util.List;
@@ -32,6 +33,8 @@ public class TestAdapter<T> extends MyBaseAdapter {
 
     @Override
     protected void initData(BaseViewHolder viewHolder, Object o) {
+//        TabFragment1.Item data = (TabFragment1.Item) o;
+//        System.out.println(data.t1);
         mName.setText(o.toString());
     }
 

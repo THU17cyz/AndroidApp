@@ -87,7 +87,7 @@ public abstract class MyBaseAdapter<T> extends BaseQuickAdapter<T, BaseViewHolde
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(this);
-        openLoadAnimation();//默认adapter渐现效果
+        // openLoadAnimation();//默认adapter渐现效果
     }
 
     /**adapter渐现动画**/
