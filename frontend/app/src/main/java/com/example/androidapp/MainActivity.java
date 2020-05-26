@@ -47,11 +47,12 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+//    @BindView(R.id.toolbar)
+//    Toolbar toolbar;
 //
 //    @BindView(R.id.drawer_layout)
 //    DrawerLayout drawerLayout;
+    private Drawer drawer;
 
     public static Handler msgHandler;
 
@@ -77,13 +78,14 @@ public class MainActivity extends AppCompatActivity {
                 .statusBarColor(R.color.colorPrimary)
                 .init();
 
-        setSupportActionBar(toolbar);
+        // setSupportActionBar(toolbar);
+        // toolbar.inflateMenu(R.menu.top_menu_home);
         PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName(R.string.TEST);
         PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2).withName(R.string.TEST);
         SecondaryDrawerItem item3 = new SecondaryDrawerItem().withIdentifier(3).withName(R.string.TEST);
-        new DrawerBuilder()
+        drawer = new DrawerBuilder()
                 .withActivity(this)
-                .withToolbar(toolbar)
+//                .withToolbar(toolbar)
                 .addDrawerItems(
                         item1,
                         new DividerDrawerItem(),
@@ -98,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .build();
+
+
 
 //        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
 //                this, drawerLayout, toolbar, R.string.TEST, R.string.TEST
@@ -144,6 +148,10 @@ public class MainActivity extends AppCompatActivity {
 //                }
 //            }
 //        });
+    }
+
+    public void openDrawer() {
+        drawer.openDrawer();
     }
 
 

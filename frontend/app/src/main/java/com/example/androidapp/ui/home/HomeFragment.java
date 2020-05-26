@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,32 +18,34 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.androidapp.Adapter.MyPagerAdapter;
 import com.example.androidapp.LoginActivity;
+import com.example.androidapp.MainActivity;
 import com.example.androidapp.R;
 import com.google.android.material.tabs.TabLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
-    private Button btn;
+
+    @BindView(R.id.imageButton)
+    ImageButton drawerBtn;
+
+    private Unbinder unbinder;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
 
 
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
+        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-//        final TextView textView = root.findViewById(R.id.text_home);
-//        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
+        unbinder = ButterKnife.bind(this, root);
 
         TabLayout tabLayout = root.findViewById(R.id.tab_layout);
 
@@ -98,6 +101,14 @@ public class HomeFragment extends Fragment {
 //            Intent intent = new Intent(getActivity(), LoginActivity.class);
 //            startActivity(intent);
 //        });
+        drawerBtn.setOnClickListener(v -> {
+            MainActivity parentActivity = (MainActivity) getActivity();
+            parentActivity.openDrawer();
+        });
     }
 
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 }
