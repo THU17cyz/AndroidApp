@@ -72,7 +72,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        btn = root.findViewById(R.id.button);
+        // btn = root.findViewById(R.id.button);
 
         RefreshLayout refreshLayout = (RefreshLayout) root.findViewById(R.id.refreshLayout);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -94,10 +94,10 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        btn.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
-        });
+//        btn.setOnClickListener(v -> {
+//            Intent intent = new Intent(getActivity(), LoginActivity.class);
+//            startActivity(intent);
+//        });
     }
 
 }

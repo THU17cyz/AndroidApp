@@ -14,13 +14,13 @@
     tools:context=".ui.home.HomeFragment">
 
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="33dp"
-        android:focusable="auto"
-        android:text="Button"
-        tools:visibility="invisible" />
+<!--    <Button-->
+<!--        android:id="@+id/button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="33dp"-->
+<!--        android:focusable="auto"-->
+<!--        android:text="Button"-->
+<!--        tools:visibility="invisible" />-->
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
