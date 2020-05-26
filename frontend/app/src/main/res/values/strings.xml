@@ -26,4 +26,10 @@
 
     <string name="TEST">测试</string>
     <string name="tab_1">These are the top stories:</string>
+
+    <string name="INFO">通知</string>
+    <string name="CHAT">会话</string>
+    <string name="INFO_LIST">通知列表</string>
+    <string name="CHAT_LIST">会话列表</string>
+    <string name="ALL_READ">全标已读</string>
 </resources>
