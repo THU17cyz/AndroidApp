@@ -19,7 +19,6 @@
         android:id="@+id/flexbox_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         app:alignContent="flex_start"
         app:alignItems="center"
         app:dividerDrawable="@drawable/divider_shape"
@@ -28,143 +27,181 @@
         app:justifyContent="flex_start"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_view"
-        app:showDivider="beginning|middle">
+        app:layout_constraintTop_toBottomOf="@+id/textView1"
+        app:showDivider="beginning|middle|end">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@drawable/shape_label"
-            android:gravity="center"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="程序员"
-            android:textColor="@color/text_color"
-            app:layout_alignSelf="flex_start" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:background="@drawable/shape_label"-->
+<!--            android:gravity="center"-->
+<!--            android:paddingLeft="15dp"-->
+<!--            android:paddingRight="15dp"-->
+<!--            android:text="程序员"-->
+<!--            android:textColor="@color/text_color"-->
+<!--            app:layout_alignSelf="flex_start" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@drawable/shape_label"
-            android:gravity="center"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="影视天堂"
-            android:textColor="@color/text_color"
-            app:layout_alignSelf="flex_start"
-            app:layout_flexGrow="1" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:background="@drawable/shape_label"-->
+<!--            android:gravity="center"-->
+<!--            android:paddingLeft="15dp"-->
+<!--            android:paddingRight="15dp"-->
+<!--            android:text="影视天堂"-->
+<!--            android:textColor="@color/text_color"-->
+<!--            app:layout_alignSelf="flex_start"-->
+<!--            app:layout_flexGrow="1" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@drawable/shape_label"
-            android:gravity="center"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="美食"
-            android:textColor="@color/text_color"
-            app:layout_alignSelf="flex_start"
-            app:layout_flexGrow="1" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:background="@drawable/shape_label"-->
+<!--            android:gravity="center"-->
+<!--            android:paddingLeft="15dp"-->
+<!--            android:paddingRight="15dp"-->
+<!--            android:text="美食"-->
+<!--            android:textColor="@color/text_color"-->
+<!--            app:layout_alignSelf="flex_start"-->
+<!--            app:layout_flexGrow="1" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@drawable/shape_label"
-            android:gravity="center"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="漫画.手绘"
-            android:textColor="@color/text_color"
-            app:layout_alignSelf="flex_start"
-            app:layout_flexGrow="1" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:background="@drawable/shape_label"-->
+<!--            android:gravity="center"-->
+<!--            android:paddingLeft="15dp"-->
+<!--            android:paddingRight="15dp"-->
+<!--            android:text="漫画.手绘"-->
+<!--            android:textColor="@color/text_color"-->
+<!--            app:layout_alignSelf="flex_start"-->
+<!--            app:layout_flexGrow="1" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@drawable/shape_label"
-            android:gravity="center"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="广告圈"
-            android:textColor="@color/text_color"
-            app:layout_alignSelf="flex_start" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:background="@drawable/shape_label"-->
+<!--            android:gravity="center"-->
+<!--            android:paddingLeft="15dp"-->
+<!--            android:paddingRight="15dp"-->
+<!--            android:text="广告圈"-->
+<!--            android:textColor="@color/text_color"-->
+<!--            app:layout_alignSelf="flex_start" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@drawable/shape_label"
-            android:gravity="center"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="旅行.在路上"
-            android:textColor="@color/text_color"
-            app:layout_alignSelf="flex_start" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:background="@drawable/shape_label"-->
+<!--            android:gravity="center"-->
+<!--            android:paddingLeft="15dp"-->
+<!--            android:paddingRight="15dp"-->
+<!--            android:text="旅行.在路上"-->
+<!--            android:textColor="@color/text_color"-->
+<!--            app:layout_alignSelf="flex_start" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@drawable/shape_label"
-            android:gravity="center"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="娱乐八卦"
-            android:textColor="@color/text_color"
-            app:layout_alignSelf="flex_start" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:background="@drawable/shape_label"-->
+<!--            android:gravity="center"-->
+<!--            android:paddingLeft="15dp"-->
+<!--            android:paddingRight="15dp"-->
+<!--            android:text="娱乐八卦"-->
+<!--            android:textColor="@color/text_color"-->
+<!--            app:layout_alignSelf="flex_start" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@drawable/shape_label"
-            android:gravity="center"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="青春"
-            android:textColor="@color/text_color"
-            app:layout_alignSelf="flex_start" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:background="@drawable/shape_label"-->
+<!--            android:gravity="center"-->
+<!--            android:paddingLeft="15dp"-->
+<!--            android:paddingRight="15dp"-->
+<!--            android:text="青春"-->
+<!--            android:textColor="@color/text_color"-->
+<!--            app:layout_alignSelf="flex_start" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@drawable/shape_label"
-            android:gravity="center"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="谈写作"
-            android:textColor="@color/text_color"
-            app:layout_alignSelf="flex_start" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:background="@drawable/shape_label"-->
+<!--            android:gravity="center"-->
+<!--            android:paddingLeft="15dp"-->
+<!--            android:paddingRight="15dp"-->
+<!--            android:text="谈写作"-->
+<!--            android:textColor="@color/text_color"-->
+<!--            app:layout_alignSelf="flex_start" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@drawable/shape_label"
-            android:gravity="center"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="短篇小说"
-            android:textColor="@color/text_color"
-            app:layout_alignSelf="flex_start" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:background="@drawable/shape_label"-->
+<!--            android:gravity="center"-->
+<!--            android:paddingLeft="15dp"-->
+<!--            android:paddingRight="15dp"-->
+<!--            android:text="短篇小说"-->
+<!--            android:textColor="@color/text_color"-->
+<!--            app:layout_alignSelf="flex_start" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@drawable/shape_label"
-            android:gravity="center"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="散文"
-            android:textColor="@color/text_color"
-            app:layout_alignSelf="flex_start" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:background="@drawable/shape_label"-->
+<!--            android:gravity="center"-->
+<!--            android:paddingLeft="15dp"-->
+<!--            android:paddingRight="15dp"-->
+<!--            android:text="散文"-->
+<!--            android:textColor="@color/text_color"-->
+<!--            app:layout_alignSelf="flex_start" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@drawable/shape_label"
-            android:gravity="center"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="摄影"
-            android:textColor="@color/text_color"
-            app:layout_alignSelf="flex_start"
-            app:layout_order="2" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:background="@drawable/shape_label"-->
+<!--            android:gravity="center"-->
+<!--            android:paddingLeft="15dp"-->
+<!--            android:paddingRight="15dp"-->
+<!--            android:text="摄影"-->
+<!--            android:textColor="@color/text_color"-->
+<!--            app:layout_alignSelf="flex_start"-->
+<!--            app:layout_order="2" />-->
     </com.google.android.flexbox.FlexboxLayout>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="@string/HOT_SEARCH"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_view" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/HISTORY_SEARCH"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/flexbox_layout" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/historyList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

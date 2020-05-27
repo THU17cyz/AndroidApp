@@ -24,6 +24,9 @@
     <string name="WATCH">关注</string>
     <string name="STOP_WATCH">取消关注</string>
 
+    <string name="HOT_SEARCH">热门搜索</string>
+    <string name="HISTORY_SEARCH">搜索历史</string>
+
     <string name="TEST">测试</string>
     <string name="tab_1">These are the top stories:</string>
 

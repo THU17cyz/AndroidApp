@@ -68,4 +68,6 @@ dependencies {
 
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
 
+//    implementation 'com.ruffian.library:RWidgetHelper-AndroidX:0.0.4'
+
 }
