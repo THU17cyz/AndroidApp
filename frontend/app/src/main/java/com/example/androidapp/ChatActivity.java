@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.androidapp.ChatTest.fixtures.MessagesFixtures;
 import com.example.androidapp.ChatTest.model.Message;
+import com.gyf.immersionbar.ImmersionBar;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.chatkit.commons.ImageLoader;
 import com.stfalcon.chatkit.commons.models.IMessage;
@@ -37,6 +38,10 @@ public class ChatActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        ImmersionBar.with(this)
+                .statusBarColor(R.color.colorPrimary)
+                .init();
 
         messagesList = findViewById(R.id.messagesList);
 

@@ -34,7 +34,6 @@ import java.util.List;
 
 public class NotificationsFragment extends Fragment {
 
-    private Button btn;
     private Button all_read;
     private TextView type_text;
 
@@ -100,8 +99,6 @@ public class NotificationsFragment extends Fragment {
 
             }
         });
-
-        btn = root.findViewById(R.id.button);
 
 
         return root;

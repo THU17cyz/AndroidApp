@@ -10,14 +10,6 @@
     android:padding="0dp"
     tools:context=".ui.notifications.NotificationsFragment">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="33dp"
-        android:focusable="auto"
-        android:text="Button"
-        tools:visibility="invisible" />
-
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
