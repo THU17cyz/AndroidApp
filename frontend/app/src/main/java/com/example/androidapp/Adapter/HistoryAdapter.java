@@ -31,10 +31,10 @@ public class HistoryAdapter<T> extends MyBaseAdapter {
 
     @Override
     public void remove(int position) {
-        System.out.println(getData());
         getData().remove(position);
         notifyItemRemoved(position);
     }
+
 
     @Override
     protected void initView(BaseViewHolder viewHolder, Object o) {

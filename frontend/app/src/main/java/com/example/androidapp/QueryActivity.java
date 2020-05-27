@@ -1,5 +1,6 @@
 package com.example.androidapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -27,6 +28,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class QueryActivity extends AppCompatActivity {
 
@@ -55,6 +57,21 @@ public class QueryActivity extends AppCompatActivity {
 
         searchView.setIconifiedByDefault(false);
         searchView.requestFocus();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                Intent intent = new Intent(getApplicationContext(), QueryResultActivity.class);
+                intent.putExtra("query", s);
+                startActivity(intent);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+
+                return false;
+            }
+        });
 
         fillFlexBox(Arrays.asList("清华大学","清华大学软件学院","万人称我美食家","小花","小海","小林","小叶","小虎","小柔"));
 
@@ -74,7 +91,8 @@ public class QueryActivity extends AppCompatActivity {
         });
 
         historyAdapter.setOnItemClickListener((adapter, view, position) -> {
-            Toast.makeText(this, "testItemClick" + position, Toast.LENGTH_SHORT).show();
+            searchView.setQuery((String) adapter.getData().get(position), true);
+//            Toast.makeText(this, "testItemClick" + position, Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -98,5 +116,11 @@ public class QueryActivity extends AppCompatActivity {
             flexboxLayout.addView(textView);
         }
 
+    }
+
+    @OnClick(R.id.returnButton)
+    public void returnToParent() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }
