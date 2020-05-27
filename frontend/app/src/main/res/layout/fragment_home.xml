@@ -29,15 +29,20 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:srcCompat="@drawable/ic_dashboard_black_24dp" />
 
-        <SearchView
+        <EditText
+            android:id="@+id/search_view"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:hint="搜点什么吧"
+            android:drawableLeft="@drawable/ic_search_black_24dp"
+            android:drawablePadding="10dp"
+            android:clickable="true"
+            android:focusableInTouchMode="false"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/imageButton"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-        </SearchView>
+            app:layout_constraintTop_toTopOf="parent"></EditText>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.tabs.TabLayout
