@@ -33,8 +33,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        ImageView imageView = findViewById(R.id.image);
-        Picasso.with(this).load("http://i.imgur.com/DvpvklR.png").placeholder(R.drawable.bg_login).into(imageView);
 
 
         SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
