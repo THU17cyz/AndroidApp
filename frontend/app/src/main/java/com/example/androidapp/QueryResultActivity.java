@@ -14,6 +14,9 @@ import com.example.androidapp.Fragments.QueryResult.Teacher;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
 
+import java.util.Arrays;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -89,12 +92,16 @@ public class QueryResultActivity extends AppCompatActivity {
         });
     }
 
-    public void filterResult() {
+    public void filterResult(List<Boolean> filters) {
         Toast.makeText(this, "66666", Toast.LENGTH_SHORT).show();
         int pos = viewPager.getCurrentItem();
         if (pos == 0) {
             Teacher teacher = (Teacher) pagerAdapter.getRegisteredFragment(0);
             teacher.isFilterOpen = false;
+            for (Boolean item: filters) {
+                Toast.makeText(this, String.valueOf(item), Toast.LENGTH_SHORT).show();
+            }
+
         }
 
     }
