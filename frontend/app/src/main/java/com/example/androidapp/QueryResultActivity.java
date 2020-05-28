@@ -5,7 +5,11 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.viewpager.widget.ViewPager;
 
+import com.example.androidapp.Adapter.LogonPagerAdapter;
+import com.example.androidapp.Adapter.QueryResultPageAdapter;
+import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
 
 import butterknife.BindView;
@@ -14,6 +18,12 @@ import butterknife.ButterKnife;
 public class QueryResultActivity extends AppCompatActivity {
     @BindView(R.id.search_view)
     SearchView searchView;
+
+    @BindView(R.id.tabLayout)
+    TabLayout tabLayout;
+
+    @BindView(R.id.pager)
+    ViewPager viewPager;
 
     private String query;
 
@@ -43,6 +53,33 @@ public class QueryResultActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String s) {
                 return false;
+            }
+        });
+
+        tabLayout.addTab(tabLayout.newTab().setText("教师"));
+        tabLayout.addTab(tabLayout.newTab().setText("学生"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        QueryResultPageAdapter pagerAdapter = new QueryResultPageAdapter(
+                getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        // viewPager.set
+
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
     }

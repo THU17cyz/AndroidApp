@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="orderArray">
+        <item>默认</item>
+        <item>按关注人数</item>
+    </string-array>
+
+
+</resources>
