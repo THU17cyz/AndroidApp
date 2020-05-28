@@ -26,6 +26,7 @@ import com.example.androidapp.Adapter.MyPagerAdapter;
 import com.example.androidapp.Adapter.NotificationPagerAdapter;
 import com.example.androidapp.Adapter.TestAdapter;
 import com.example.androidapp.R;
+import com.example.androidapp.TeacherHomepageActivity;
 import com.google.android.material.tabs.TabLayout;
 import com.squareup.picasso.Picasso;
 
@@ -58,7 +59,8 @@ public class NotificationsFragment extends Fragment {
         all_read.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getActivity(), TeacherHomepageActivity.class);
+                startActivity(intent);
             }
         });
 
