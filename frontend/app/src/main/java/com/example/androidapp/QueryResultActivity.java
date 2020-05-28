@@ -2,6 +2,7 @@ package com.example.androidapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -9,6 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.androidapp.Adapter.LogonPagerAdapter;
 import com.example.androidapp.Adapter.QueryResultPageAdapter;
+import com.example.androidapp.Fragments.QueryResult.Teacher;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
 
@@ -24,6 +26,9 @@ public class QueryResultActivity extends AppCompatActivity {
 
     @BindView(R.id.pager)
     ViewPager viewPager;
+
+    QueryResultPageAdapter pagerAdapter;
+
 
     private String query;
 
@@ -59,7 +64,7 @@ public class QueryResultActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("教师"));
         tabLayout.addTab(tabLayout.newTab().setText("学生"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        QueryResultPageAdapter pagerAdapter = new QueryResultPageAdapter(
+        pagerAdapter = new QueryResultPageAdapter(
                 getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -82,5 +87,15 @@ public class QueryResultActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void filterResult() {
+        Toast.makeText(this, "66666", Toast.LENGTH_SHORT).show();
+        int pos = viewPager.getCurrentItem();
+        if (pos == 0) {
+            Teacher teacher = (Teacher) pagerAdapter.getRegisteredFragment(0);
+            teacher.isFilterOpen = false;
+        }
+
     }
 }
