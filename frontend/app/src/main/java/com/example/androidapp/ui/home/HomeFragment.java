@@ -58,8 +58,8 @@ public class HomeFragment extends Fragment {
 
         TabLayout tabLayout = root.findViewById(R.id.tab_layout);
 
-        tabLayout.addTab(tabLayout.newTab().setText("1"));
-        tabLayout.addTab(tabLayout.newTab().setText("2"));
+        tabLayout.addTab(tabLayout.newTab().setText("推荐"));
+        tabLayout.addTab(tabLayout.newTab().setText("关注"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = root.findViewById(R.id.pager);
