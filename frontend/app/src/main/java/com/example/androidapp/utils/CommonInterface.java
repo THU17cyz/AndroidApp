@@ -33,7 +33,7 @@ public class CommonInterface {
     }
 
     // 以下为网络请求的封装
-    private static final String server_url = "http://34.238.156.247:8080";
+    private static final String server_url = "http://121.40.164.252:8080";
 
     private static Request request;
 
@@ -74,7 +74,7 @@ public class CommonInterface {
      * @param callback
      * @param params
      */
-    public static void sendOkHttpPostRequest(String url, okhttp3.Callback callback, HashMap<String,String> params)
+    public static void sendOkHttpPostRequest(String url, okhttp3.Callback callback, HashMap<String, String> params)
     {
         OkHttpClient okHttpClient = new OkHttpClient.Builder().cookieJar(cookieJar).build();
         FormBody.Builder builder = new FormBody.Builder();

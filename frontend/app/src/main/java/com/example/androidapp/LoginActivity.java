@@ -1,15 +1,32 @@
 package com.example.androidapp;
 
 import android.content.Intent;
+import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.androidapp.Requests.LoginRequest;
+import com.example.androidapp.utils.CommonInterface;
+import com.kingja.loadsir.callback.Callback;
+import com.kingja.loadsir.callback.ProgressCallback;
+import com.kingja.loadsir.core.LoadService;
+import com.kingja.loadsir.core.LoadSir;
 import com.squareup.picasso.Picasso;
+
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,12 +44,27 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.forgetPassword)
     Button forgetPasswordButton;
 
+    @BindView(R.id.account)
+    EditText account;
+
+    @BindView(R.id.password)
+    EditText password;
+
+    LoadService loadService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+        ProgressCallback loadingCallback = new ProgressCallback.Builder()
+                .setTitle("Loading")
+                .build();
+        LoadSir.beginBuilder()
+                .addCallback(loadingCallback)
+                .setDefaultCallback(ProgressCallback.class)//设置默认状态页
+                .commit();
 
 
         SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
@@ -51,8 +83,13 @@ public class LoginActivity extends AppCompatActivity {
     //按钮点击事件处理
     @OnClick(R.id.login_btn)
     public void login() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        loadService = LoadSir.getDefault().register(this, (Callback.OnReloadListener) v -> {
+
+        });
+//        new LoginRequest(LoginActivity.this, "T", account.getText().toString(),
+//                password.getText().toString()).sendRequest();
+        jumpToMain();
+
     }
 
     //按钮点击事件处理
@@ -66,6 +103,12 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.forgetPassword)
     public void resetPassword() {
         Intent intent = new Intent(this, ResetPasswordActivity.class);
+        startActivity(intent);
+    }
+
+    public void jumpToMain() {
+        loadService.showSuccess();
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
