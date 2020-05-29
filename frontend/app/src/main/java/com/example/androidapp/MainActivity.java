@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.bg_login)
                 .addProfiles(
-                        new ProfileDrawerItem().withName("黄翔").withEmail("个性签名").withIcon(getResources().getDrawable(R.drawable.ic_drawer_focus_24dp))
+                        new ProfileDrawerItem().withName("用户名").withEmail("个性签名").withIcon(getResources().getDrawable(R.drawable.ic_drawer_homepage_24dp))
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override

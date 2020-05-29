@@ -20,5 +20,15 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="personal_homepage_font_style" parent="android:Widget">
+
+        <item name="android:textSize">20dp</item>
+
+    </style>
+
+    <style name="TabLayoutTextStyle">
+        <item name="android:textSize">@dimen/textsizi</item>
+    </style>
+
 
 </resources>

@@ -10,14 +10,55 @@
     android:padding="0dp"
     tools:context=".ui.notifications.NotificationsFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:srcCompat="@drawable/ic_dashboard_black_24dp" />
+
+        <EditText
+            android:id="@+id/search_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:hint="搜点什么吧"
+            android:drawableLeft="@drawable/ic_search_black_24dp"
+            android:drawablePadding="10dp"
+            android:clickable="true"
+            android:focusableInTouchMode="false"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/imageButton"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"></EditText>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.google.android.material.tabs.TabLayout
+        app:tabTextColor="@color/white"
+        app:tabTextAppearance="@style/TabLayoutTextStyle"
+        android:layout_below="@id/top_bar"
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:background="@color/colorPrimaryDark"
         android:minHeight="?attr/actionBarSize"
+
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <!--        app:tabIndicatorColor="@color/white"-->
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -27,20 +68,24 @@
         android:id="@+id/bar"
         >
         <TextView
+            android:layout_marginLeft="10dp"
             android:id="@+id/type_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:textSize="30dp"
+            android:textSize="20dp"
             android:layout_centerVertical="true"
             android:textAlignment="center"></TextView>
         <Button
+            android:layout_marginRight="10dp"
             android:id="@+id/all_read"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/ALL_READ"
+            android:textColor="@color/md_blue_300"
+            android:background="@color/transparent"
             android:layout_alignParentRight="true"
-            android:textSize="30dp"></Button>
+            android:textSize="20dp"></Button>
 
     </RelativeLayout>
 

@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme">
-        <activity android:name=".TeacherHomepageActivity"></activity>
+        <activity android:name=".TeacherHomepageActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="fullSensor" />
 
         <activity android:name=".ChatActivity"
             android:windowSoftInputMode="adjustPan"></activity>
