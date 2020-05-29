@@ -75,4 +75,6 @@ dependencies {
 
     implementation 'com.github.razerdp:BasePopup:2.2.3'
 
+    implementation 'cn.jzvd:jiaozivideoplayer:7.4.1'
+
 }

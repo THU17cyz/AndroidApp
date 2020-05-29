@@ -55,7 +55,9 @@ public class TabFragment1 extends Fragment {
         // mNameList = Arrays.asList("小明","小红","小芳","小花","小海","小林","小叶","小虎","小柔");
         mNameList = new ArrayList<>();
         mNameList.add(new Profile("黄翔", "清华大学", 999));
-        mTestAdapter=new TestAdapter(mNameList, getContext());//初始化NameAdapter
+        mNameList.add(new Profile("黄翔", "清华大学", 999));
+        mNameList.add(new Profile("黄翔", "清华大学", 999));
+        mTestAdapter = new TestAdapter(mNameList, getContext());//初始化NameAdapter
         mTestAdapter.setRecyclerManager(mRecyclerView);//设置RecyclerView特性
         mTestAdapter.openLeftAnimation();//设置加载动画
 
@@ -64,6 +66,7 @@ public class TabFragment1 extends Fragment {
         mTestAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             // 用position获取点击的是什么
             Toast.makeText(getActivity(), "testItemChildClick" + position, Toast.LENGTH_SHORT).show();
+            view.setBackground(getContext().getDrawable(R.drawable.shape_unwatch_button));
         });
 
         // RecycleView 本身的监听事件
