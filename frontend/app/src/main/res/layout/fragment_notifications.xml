@@ -47,16 +47,16 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.tabs.TabLayout
-        app:tabTextColor="@color/white"
-        app:tabTextAppearance="@style/TabLayoutTextStyle"
-        android:layout_below="@id/top_bar"
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
+        android:layout_below="@id/top_bar"
+        android:background="@color/transparent"
         android:minHeight="?attr/actionBarSize"
+        android:theme="@style/Theme.AppCompat.Light"
+        app:tabTextAppearance="@style/TabLayoutTextStyle"
 
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+        app:tabTextColor="@color/black" />
     <!--        app:tabIndicatorColor="@color/white"-->
 
 

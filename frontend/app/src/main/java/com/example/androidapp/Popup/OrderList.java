@@ -25,7 +25,7 @@ import co.lujun.androidtagview.TagView;
 import razerdp.basepopup.BasePopupWindow;
 
 public class OrderList extends BasePopupWindow {
-    private static final String[] options = {"术士", "重装"};
+    private static final String[] options = {"985", "211", "一本", "二本"};
     private static final Boolean[] selected = {false, false};
     FlexboxLayout flexboxLayout;
 

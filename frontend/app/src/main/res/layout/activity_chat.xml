@@ -7,29 +7,28 @@
     android:fitsSystemWindows="true">
 
     <RelativeLayout
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:id="@+id/title"
-        android:background="@color/primary"
-        android:orientation="horizontal"
-        >
+        android:background="@color/md_light_blue_300"
+        android:orientation="horizontal">
+
         <Button
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
             android:id="@+id/returnButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:background="@drawable/ic_keyboard_arrow_left_white_24dp" />
 
         <TextView
-            android:layout_centerInParent="true"
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:text="老王"
             android:textColor="@color/white"
-            android:textSize="25dp"
-            android:id="@+id/name"
-            ></TextView>
+            android:textSize="25dp"></TextView>
 
     </RelativeLayout>
 

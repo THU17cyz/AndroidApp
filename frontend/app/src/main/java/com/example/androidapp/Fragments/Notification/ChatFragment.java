@@ -43,7 +43,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
         imageLoader = new ImageLoader() {
             @Override
             public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
-                Picasso.with(getContext()).load(url).placeholder(R.drawable.bg_login).into(imageView);
+                Picasso.with(getContext()).load(url).placeholder(R.drawable.ic_person_outline_black_24dp).into(imageView);
                 Log.d("url",url);
             }
         };

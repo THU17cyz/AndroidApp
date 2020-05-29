@@ -73,7 +73,7 @@ public class QueryActivity extends AppCompatActivity {
             }
         });
 
-        fillFlexBox(Arrays.asList("清华大学","清华大学软件学院","万人称我美食家","小花","小海","小林","小叶","小虎","小柔"));
+        fillFlexBox(Arrays.asList("清华大学","清华大学软件学院","北京大学","小花","小海","小林","小叶","小虎","小柔"));
 
         historyList.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
 
