@@ -26,7 +26,7 @@ import razerdp.basepopup.BasePopupWindow;
 
 public class OrderList extends BasePopupWindow {
     private static final String[] options = {"985", "211", "一本", "二本"};
-    private static final Boolean[] selected = {false, false};
+    private static final Boolean[] selected = {false, false, false, false};
     FlexboxLayout flexboxLayout;
 
     public OrderList(Context context) {

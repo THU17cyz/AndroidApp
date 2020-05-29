@@ -1,5 +1,6 @@
 package com.example.androidapp.Fragments;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
@@ -7,7 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -73,6 +76,11 @@ public class TabFragment1 extends Fragment {
         mTestAdapter.setOnItemClickListener((adapter, view, position) -> {
             Toast.makeText(getActivity(), "testItemClick" + position, Toast.LENGTH_SHORT).show();
         });
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(new ColorDrawable(ContextCompat.getColor(getContext(), android.R.color.darker_gray)));
+
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
 
         return root;
 

@@ -48,7 +48,7 @@ public class ChatActivity extends AppCompatActivity
         imageLoader = new ImageLoader() {
             @Override
             public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
-                Picasso.with(getApplicationContext()).load(url).placeholder(R.drawable.bg_login).into(imageView);
+                Picasso.with(getApplicationContext()).load(url).placeholder(R.drawable.ic_person_outline_black_24dp).into(imageView);
                 Log.d("url",url);
             }
         };
