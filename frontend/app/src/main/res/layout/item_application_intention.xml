@@ -13,11 +13,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="研究方向"
+        android:text="兴趣方向"
         android:textColor="@color/md_blue_500"
         style="@style/personal_homepage_font_style"></TextView>
 
     <LinearLayout
+
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
         android:layout_width="match_parent"
@@ -28,58 +29,14 @@
             android:layout_marginRight="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="类型"
+            android:text="意向状态"
             style="@style/personal_homepage_font_style"></TextView>
 
         <TextView
             android:layout_marginRight="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="研究生"
-            style="@style/personal_homepage_font_style"></TextView>
-    </LinearLayout>
-
-    <LinearLayout
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_marginRight="6dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="人数"
-            style="@style/personal_homepage_font_style"></TextView>
-
-        <TextView
-            android:layout_marginRight="6dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="6"
-            style="@style/personal_homepage_font_style"></TextView>
-    </LinearLayout>
-
-    <LinearLayout
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_marginRight="6dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="状态"
-            style="@style/personal_homepage_font_style"></TextView>
-
-        <TextView
-            android:layout_marginRight="6dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="正进行"
+            android:text="正在找"
             style="@style/personal_homepage_font_style"></TextView>
     </LinearLayout>
 
@@ -100,7 +57,7 @@
 
         <com.ms.square.android.expandabletextview.ExpandableTextView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/expand_text_view_info"
+            android:id="@+id/expand_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             expandableTextView:maxCollapsedLines="4"

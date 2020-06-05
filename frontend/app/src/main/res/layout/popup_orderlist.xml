@@ -21,22 +21,22 @@
         app:layout_constraintTop_toTopOf="parent"
         app:showDivider="beginning|middle|end"></com.google.android.flexbox.FlexboxLayout>
 
-<!--    <co.lujun.androidtagview.TagContainerLayout-->
-<!--        android:id="@+id/container"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_margin="0dp"-->
-<!--        android:padding="10dp"-->
-<!--        app:container_enable_drag="false"-->
-<!--        app:horizontal_interval="10dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:tag_clickable="true"-->
-<!--        app:tag_theme="pure_teal"-->
-<!--        app:vertical_interval="10dp">-->
+    <!--    <co.lujun.androidtagview.TagContainerLayout-->
+    <!--        android:id="@+id/container"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_margin="0dp"-->
+    <!--        android:padding="10dp"-->
+    <!--        app:container_enable_drag="false"-->
+    <!--        app:horizontal_interval="10dp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:tag_clickable="true"-->
+    <!--        app:tag_theme="pure_teal"-->
+    <!--        app:vertical_interval="10dp">-->
 
-<!--    </co.lujun.androidtagview.TagContainerLayout>-->
+    <!--    </co.lujun.androidtagview.TagContainerLayout>-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/btns"

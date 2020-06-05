@@ -43,7 +43,6 @@
         android:textColorHint="@color/white" />
 
 
-
     <EditText
         android:id="@+id/password"
         android:layout_width="match_parent"
@@ -71,9 +70,6 @@
         android:padding="15dp"
         android:shadowColor="@android:color/transparent"
         android:text="@string/FINISH_LOGON" />
-
-
-
 
 
 </LinearLayout>

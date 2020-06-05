@@ -35,4 +35,9 @@
     <string name="INFO_LIST">通知列表</string>
     <string name="CHAT_LIST">会话列表</string>
     <string name="ALL_READ">全标已读</string>
+
+    <string name="PERSONAL_INFO">个人信息</string>
+    <string name="RECRUITMENT">招生意向</string>
+    <string name="APPLICATION">申请意向</string>
+    <string name="CANNOT_BE_NULL">该项不能为空</string>
 </resources>

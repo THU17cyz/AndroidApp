@@ -167,17 +167,16 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:background="@color/gray"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
-
+            android:padding="20dp"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -187,281 +186,244 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="3dp"
                     android:text="个人信息"
                     android:textSize="25dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="3dp"
                     android:textStyle="bold"></TextView>
 
                 <Button
-                    android:id="@+id/btn_edit_info"
+                    android:layout_gravity="center"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_gravity="center"
+                    android:id="@+id/btn_edit_info"
                     android:background="@drawable/ic_btn_chat"></Button>
 
             </LinearLayout>
 
 
             <LinearLayout
-                android:id="@+id/info_card"
+                android:paddingTop="3dp"
+                android:paddingBottom="15dp"
+                android:showDividers="middle"
+                android:divider="@drawable/shape_line"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_round_rect"
-                android:divider="@drawable/shape_line"
-                android:orientation="vertical"
-                android:paddingTop="3dp"
-                android:paddingBottom="15dp"
-                android:showDividers="middle">
+                android:id="@+id/info_card"
+                android:orientation="vertical">
 
                 <LinearLayout
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="5dp">
+                    android:orientation="horizontal">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:layout_marginRight="6dp"
-                        android:text="姓名"></TextView>
-
-                    <TextView
-                        style="@style/personal_homepage_font_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="张三"></TextView>
+                        android:text="姓名"
+                        style="@style/personal_homepage_font_style"></TextView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="张三"
+                        style="@style/personal_homepage_font_style"></TextView>
                 </LinearLayout>
 
                 <LinearLayout
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="5dp">
+                    android:orientation="horizontal">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:layout_marginRight="6dp"
-                        android:text="性别"></TextView>
-
-                    <TextView
-                        style="@style/personal_homepage_font_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="男"></TextView>
+                        android:text="性别"
+                        style="@style/personal_homepage_font_style"></TextView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="男"
+                        style="@style/personal_homepage_font_style"></TextView>
                 </LinearLayout>
 
                 <LinearLayout
+                    android:paddingRight="20dp"
+                    android:paddingLeft="20dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="5dp">
+                    android:orientation="horizontal">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:layout_marginRight="6dp"
-                        android:text="学校"></TextView>
-
-                    <TextView
-                        style="@style/personal_homepage_font_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="清华"></TextView>
+                        android:text="学校"
+                        style="@style/personal_homepage_font_style"></TextView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="清华"
+                        style="@style/personal_homepage_font_style"></TextView>
                 </LinearLayout>
 
                 <LinearLayout
+                    android:paddingRight="20dp"
+                    android:paddingLeft="20dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="5dp">
+                    android:orientation="horizontal">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:layout_marginRight="6dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
-                        android:text="院系"></TextView>
+                        android:text="院系"
+                        style="@style/personal_homepage_font_style"></TextView>
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:layout_marginRight="6dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
-                        android:text="软件学院"></TextView>
+                        android:text="软件学院"
+                        style="@style/personal_homepage_font_style"></TextView>
                 </LinearLayout>
 
                 <LinearLayout
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="5dp">
+                    android:orientation="horizontal">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:layout_marginRight="6dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
-                        android:text="职务"></TextView>
+                        android:text="专业"
+                        style="@style/personal_homepage_font_style"></TextView>
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:layout_marginRight="6dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
-                        android:text="教授"></TextView>
+                        android:text="软件"
+                        style="@style/personal_homepage_font_style"></TextView>
                 </LinearLayout>
 
                 <LinearLayout
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="5dp">
+                    android:orientation="horizontal">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:layout_marginRight="6dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
-                        android:text="电话"></TextView>
+                        android:text="电话"
+                        style="@style/personal_homepage_font_style"></TextView>
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:layout_marginRight="6dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
-                        android:text="19900999999"></TextView>
+                        android:text="18811560909"
+                        style="@style/personal_homepage_font_style"></TextView>
                 </LinearLayout>
 
                 <LinearLayout
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="5dp">
+                    android:orientation="horizontal">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:layout_marginRight="6dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
-                        android:text="邮箱"></TextView>
+                        android:text="邮箱"
+                        style="@style/personal_homepage_font_style"></TextView>
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:layout_marginRight="6dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
-                        android:text="199@qq.com"></TextView>
+                        android:text="18811@qq.com"
+                        style="@style/personal_homepage_font_style"></TextView>
                 </LinearLayout>
 
                 <LinearLayout
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="5dp">
+                    android:orientation="horizontal">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:layout_marginRight="6dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
-                        android:text="主页"></TextView>
+                        android:text="主页"
+                        style="@style/personal_homepage_font_style"></TextView>
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:layout_marginRight="6dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
-                        android:text="www.baidu.com"></TextView>
+                        android:text="www.tet.com"
+                        style="@style/personal_homepage_font_style"></TextView>
                 </LinearLayout>
 
                 <LinearLayout
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="5dp">
+                    android:orientation="horizontal">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:layout_marginRight="6dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
-                        android:text="地址"></TextView>
+                        android:text="地址"
+                        style="@style/personal_homepage_font_style"></TextView>
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:layout_marginRight="6dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
-                        android:text="紫荆公寓1号楼"></TextView>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="5dp">
-
-                    <TextView
-                        style="@style/personal_homepage_font_style"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
-                        android:text="研究方向"></TextView>
-
-                    <co.lujun.androidtagview.TagContainerLayout
-                        android:id="@+id/tagContainerLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:padding="10dp"
-                        app:container_background_color="@color/white"
-                        app:container_border_width="0dp"
-                        app:container_enable_drag="true"
-                        app:horizontal_interval="10dp"
-                        app:tag_background_color="@color/white"
-                        app:tag_border_color="@color/colorPrimary"
-                        app:tag_clickable="true"
-                        app:tag_corner_radius="5dp"
-                        app:tag_enable_cross="false"
-                        app:tag_text_color="@color/colorPrimary"
-                        app:tag_theme="none"
-                        app:vertical_interval="10dp" />
-
+                        android:text="紫荆公寓一号楼"
+                        style="@style/personal_homepage_font_style"></TextView>
                 </LinearLayout>
 
                 <LinearLayout
@@ -509,51 +471,28 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="5dp">
+                    android:orientation="vertical">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
-                        android:text="研究方向"></TextView>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="几时放假啊打发打发"></TextView>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="5dp"
-                    android:paddingRight="20dp"
-                    android:paddingBottom="5dp">
-
-                    <TextView
-                        style="@style/personal_homepage_font_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="3dp"
-                        android:text="研究成果"></TextView>
+                        android:text="研究经历"
+                        style="@style/personal_homepage_font_style"></TextView>
                     <!-- sample xml -->
                     <com.ms.square.android.expandabletextview.ExpandableTextView xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/expand_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        expandableTextView:animDuration="200"
-                        expandableTextView:maxCollapsedLines="4">
+                        expandableTextView:maxCollapsedLines="4"
+                        expandableTextView:animDuration="200">
 
                         <TextView
                             android:id="@id/expandable_text"
@@ -561,16 +500,16 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
-                            android:textColor="#666666"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"
+                            android:textColor="#666666" />
 
                         <ImageButton
                             android:id="@id/expand_collapse"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:padding="16dp"
                             android:layout_gravity="right|bottom"
-                            android:background="@android:color/transparent"
-                            android:padding="16dp" />
+                            android:background="@android:color/transparent" />
                     </com.ms.square.android.expandabletextview.ExpandableTextView>
 
 
@@ -593,7 +532,7 @@
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="招生意向"
+                    android:text="申请意向"
                     android:textSize="25dp"
                     android:layout_marginBottom="3dp"
                     android:layout_marginRight="5dp"
@@ -609,19 +548,19 @@
 
 
             <LinearLayout
-                android:id="@+id/enroll_card"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:showDividers="middle"
+                android:divider="@drawable/shape_line"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_round_rect"
-                android:divider="@drawable/shape_line"
-                android:orientation="vertical"
-                android:paddingTop="3dp"
-                android:paddingBottom="3dp"
-                android:showDividers="middle">
+                android:id="@+id/enroll_card"
+                android:orientation="vertical">
 
-                <include layout="@layout/item_research_direction"></include>
+                <include layout="@layout/item_application_intention"></include>
 
-                <include layout="@layout/item_research_direction"></include>
+                <include layout="@layout/item_application_intention"></include>
 
 
             </LinearLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StudentEditIntentionActivity"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:title="@string/APPLICATION"
+        app:titleTextColor="@color/white"
+        app:subtitleTextAppearance="@style/TabLayoutTextStyle"
+        app:navigationIcon="@drawable/jz_back_normal"></androidx.appcompat.widget.Toolbar>
+
+    <include
+        layout="@layout/item_activity_student_edit_intention"
+        android:id="@+id/item_1"></include>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="添加"
+        android:textAlignment="center"></Button>
+
+
+</LinearLayout>
