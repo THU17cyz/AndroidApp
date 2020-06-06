@@ -13,7 +13,13 @@ import androidx.fragment.app.Fragment;
 
 import com.example.androidapp.ChatActivity;
 import com.example.androidapp.ChatTest.fixtures.DialogsFixtures;
+import com.example.androidapp.ChatTest.model.Dialog;
+import com.example.androidapp.ChatTest.model.Message;
+import com.example.androidapp.ChatTest.model.User;
 import com.example.androidapp.R;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.chatkit.commons.ImageLoader;
 import com.stfalcon.chatkit.commons.models.IDialog;
@@ -21,8 +27,13 @@ import com.stfalcon.chatkit.dialogs.DialogsList;
 import com.stfalcon.chatkit.dialogs.DialogsListAdapter;
 import com.stfalcon.chatkit.utils.DateFormatter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class ChatFragment extends Fragment implements DateFormatter.Formatter{
     private DialogsList dialogsList;
@@ -32,7 +43,6 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
 
 
     public ChatFragment() {
-
     }
 
     @Override
@@ -50,7 +60,15 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
 
 
         dialogsAdapter = new DialogsListAdapter<>( imageLoader);
-        dialogsAdapter.setItems(DialogsFixtures.getDialogs());
+
+        User user  =new User("0","ming","http://i.imgur.com/pv1tBmT.png",false);
+        ArrayList<Dialog> dialogs = new ArrayList<>();
+        Dialog dialog = new Dialog("0","联系人一","http://i.imgur.com/pv1tBmT.png",
+                new ArrayList<User>(Arrays.asList(user)),
+                new Message("0",user,"一句话"),4);
+        dialogs.add(dialog);
+
+        dialogsAdapter.setItems(dialogs);
         Log.d("dia",DialogsFixtures.getDialogs().get(0).getDialogPhoto());
 
         dialogsAdapter.setDatesFormatter(this);
@@ -65,16 +83,40 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
 
         dialogsList.setAdapter(dialogsAdapter);
 
+
+        RefreshLayout refreshLayout = (RefreshLayout) root.findViewById(R.id.refreshLayout);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshlayout) {
+                refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
+            }
+        });
+
         return root;
 
     }
 
     @Override
     public String format(Date date) {
+
+//        SimpleDateFormat bjSdf = new SimpleDateFormat();     // 北京
+//        bjSdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));  // 设置北京时区
+//        try {
+//            date = bjSdf.parse(bjSdf.format(date));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
         if (DateFormatter.isToday(date)) {
             return DateFormatter.format(date, DateFormatter.Template.TIME);
+            //return "今天";
         } else if (DateFormatter.isYesterday(date)) {
-            return "yes";
+            return "昨天";
         } else if (DateFormatter.isCurrentYear(date)) {
             return DateFormatter.format(date, DateFormatter.Template.STRING_DAY_MONTH);
         } else {

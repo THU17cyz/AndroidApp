@@ -20,7 +20,14 @@ public class Message implements IMessage,
     private Voice voice;
 
     public Message(String id, User user, String text) {
-        this(id, user, text, new Date());
+
+        // todo 解决方案
+        Date date = new Date();
+        date.setTime(date.getTime()+8*60*60*1000);
+        this.id = id;
+        this.text = text;
+        this.user = user;
+        this.createdAt = date;
     }
 
     public Message(String id, User user, String text, Date createdAt) {
