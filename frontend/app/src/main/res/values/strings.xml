@@ -40,4 +40,10 @@
     <string name="RECRUITMENT">招生意向</string>
     <string name="APPLICATION">申请意向</string>
     <string name="CANNOT_BE_NULL">该项不能为空</string>
+
+    <string-array name="view_types_dialog">
+        <item name="image">Image (default)</item>
+        <item name="voice">Voice message (custom)</item>
+    </string-array>
+    <string name="error_gif">x or y bound size should be at least %1$dpx and file size should be no more than %2$sM</string>
 </resources>
