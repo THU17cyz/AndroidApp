@@ -1,4 +1,4 @@
-package com.example.androidapp;
+package com.example.androidapp.Activity;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.androidapp.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.gyf.immersionbar.ImmersionBar;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
@@ -43,7 +44,7 @@ public class StudentHomepageActivity extends AppCompatActivity {
     button.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Intent intent = new Intent(getApplicationContext(),StudentEditInfoActivity.class);
+        Intent intent = new Intent(getApplicationContext(), StudentEditInfoActivity.class);
         startActivity(intent);
       }
     });

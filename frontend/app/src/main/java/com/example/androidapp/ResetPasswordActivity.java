@@ -6,32 +6,32 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import butterknife.BindView;
+//import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
 public class ResetPasswordActivity extends AppCompatActivity {
 
-    @BindView(R.id.resetButton)
+//    @BindView(R.id.resetButton)
     Button resetButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
-        ButterKnife.bind(this);
+//        ButterKnife.bind(this);
     }
 
     //按钮点击事件处理
-    @OnClick(R.id.resetButton)
+//    @OnClick(R.id.resetButton)
     public void resetPassword() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 
     //按钮点击事件处理
-    @OnClick(R.id.returnButton)
+//    @OnClick(R.id.returnButton)
     public void returnToLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);

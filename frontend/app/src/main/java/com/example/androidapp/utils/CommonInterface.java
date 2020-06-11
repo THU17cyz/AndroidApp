@@ -33,7 +33,8 @@ public class CommonInterface {
     }
 
     // 以下为网络请求的封装
-    private static final String server_url = "http://121.40.164.252:8080";
+    //private static final String server_url = "http://121.40.164.252:8080";
+    private static final String server_url = "http://192.168.1.1:8080";
 
     private static Request request;
 

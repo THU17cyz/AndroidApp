@@ -3,24 +3,19 @@ package com.example.androidapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.androidapp.Activity.MainActivity;
 import com.example.androidapp.Adapter.HistoryAdapter;
-import com.example.androidapp.Adapter.TestAdapter;
-import com.example.androidapp.Fragments.TabFragment1;
 import com.google.android.flexbox.FlexboxLayout;
 import com.gyf.immersionbar.ImmersionBar;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;

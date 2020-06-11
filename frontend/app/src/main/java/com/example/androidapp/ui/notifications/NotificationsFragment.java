@@ -1,38 +1,24 @@
 package com.example.androidapp.ui.notifications;
 
-import android.app.Notification;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.example.androidapp.Adapter.MyPagerAdapter;
 import com.example.androidapp.Adapter.NotificationPagerAdapter;
-import com.example.androidapp.Adapter.TestAdapter;
 import com.example.androidapp.R;
-import com.example.androidapp.StudentHomepageActivity;
-import com.example.androidapp.TeacherHomepageActivity;
+import com.example.androidapp.Activity.TeacherHomepageActivity;
 import com.google.android.material.tabs.TabLayout;
-import com.squareup.picasso.Picasso;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class NotificationsFragment extends Fragment {
 

@@ -1,27 +1,24 @@
-package com.example.androidapp;
+package com.example.androidapp.Activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.DocumentsContract;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.androidapp.ChatTest.GifSizeFilter;
 import com.example.androidapp.ChatTest.fixtures.MessagesFixtures;
 import com.example.androidapp.ChatTest.model.Message;
 import com.example.androidapp.ChatTest.model.User;
+import com.example.androidapp.R;
 import com.gyf.immersionbar.ImmersionBar;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.chatkit.commons.ImageLoader;
@@ -39,7 +36,6 @@ import com.zhihu.matisse.internal.entity.CaptureStrategy;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 
 public class ChatActivity extends AppCompatActivity

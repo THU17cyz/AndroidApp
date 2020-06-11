@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    tools:context=".TeacherEditInfoActivity">
+    tools:context=".Activity.TeacherEditInfoActivity">
 
 
     <androidx.appcompat.widget.Toolbar

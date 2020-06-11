@@ -1,4 +1,4 @@
-package com.example.androidapp;
+package com.example.androidapp.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,7 +14,7 @@ import android.widget.Toast;
 
 import com.andreabaccega.formedittextvalidator.Validator;
 import com.andreabaccega.widget.FormEditText;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.example.androidapp.R;
 import com.gyf.immersionbar.ImmersionBar;
 
 public class StudentEditInfoActivity extends AppCompatActivity {

@@ -1,12 +1,9 @@
 package com.example.androidapp.Requests;
 
-import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.androidapp.LoginActivity;
-import com.example.androidapp.MainActivity;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;

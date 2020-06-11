@@ -1,28 +1,20 @@
-package com.example.androidapp;
+package com.example.androidapp.Activity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 
+import com.example.androidapp.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.gyf.immersionbar.ImmersionBar;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
-import com.squareup.picasso.Picasso;
-import com.stfalcon.chatkit.messages.MessageInput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +22,6 @@ import java.util.List;
 
 import co.lujun.androidtagview.TagContainerLayout;
 import co.lujun.androidtagview.TagView;
-import de.hdodenhof.circleimageview.CircleImageView;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 

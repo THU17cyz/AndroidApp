@@ -1,4 +1,4 @@
-package com.example.androidapp;
+package com.example.androidapp.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.andreabaccega.widget.FormEditText;
+import com.example.androidapp.R;
 
 public class TeacherEditIntentionActivity extends AppCompatActivity {
 

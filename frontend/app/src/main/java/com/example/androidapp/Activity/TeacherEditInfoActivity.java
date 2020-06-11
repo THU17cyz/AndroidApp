@@ -1,8 +1,10 @@
-package com.example.androidapp;
+package com.example.androidapp.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.androidapp.R;
 
 public class TeacherEditInfoActivity extends AppCompatActivity {
 

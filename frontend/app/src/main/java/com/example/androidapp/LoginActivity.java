@@ -1,32 +1,19 @@
 package com.example.androidapp;
 
 import android.content.Intent;
-import android.hardware.Camera;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.androidapp.Activity.MainActivity;
 import com.example.androidapp.Requests.LoginRequest;
-import com.example.androidapp.utils.CommonInterface;
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.callback.ProgressCallback;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
-import com.squareup.picasso.Picasso;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -86,8 +73,8 @@ public class LoginActivity extends AppCompatActivity {
         loadService = LoadSir.getDefault().register(this, (Callback.OnReloadListener) v -> {
 
         });
-//        new LoginRequest(LoginActivity.this, "T", account.getText().toString(),
-//                password.getText().toString()).sendRequest();
+        new LoginRequest(LoginActivity.this, "T", account.getText().toString(),
+                password.getText().toString()).sendRequest();
         jumpToMain();
 
     }

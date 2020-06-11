@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.androidapp.ChatActivity;
+import com.example.androidapp.Activity.ChatActivity;
 import com.example.androidapp.ChatTest.fixtures.DialogsFixtures;
 import com.example.androidapp.ChatTest.model.Dialog;
 import com.example.androidapp.ChatTest.model.Message;
@@ -27,13 +27,10 @@ import com.stfalcon.chatkit.dialogs.DialogsList;
 import com.stfalcon.chatkit.dialogs.DialogsListAdapter;
 import com.stfalcon.chatkit.utils.DateFormatter;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 public class ChatFragment extends Fragment implements DateFormatter.Formatter{
     private DialogsList dialogsList;

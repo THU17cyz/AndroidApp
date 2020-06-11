@@ -1,4 +1,4 @@
-package com.example.androidapp;
+package com.example.androidapp.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,8 +10,8 @@ import android.widget.TextView;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.example.androidapp.R;
 
-import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 
