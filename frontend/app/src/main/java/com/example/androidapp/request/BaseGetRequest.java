@@ -1,20 +1,21 @@
 package com.example.androidapp.request;
 
 import com.example.androidapp.util.Http;
+
 import java.util.HashMap;
 import okhttp3.Callback;
 
-public class BasePostRequest {
+public class BaseGetRequest {
     private String url;
-    private HashMap<String, String> param;
+    private HashMap<String, String> query;
     private Callback callback;
 
-    public BasePostRequest() {
-        param = new HashMap<>();
+    public BaseGetRequest() {
+        query = new HashMap<>();
     }
 
     public void send() {
-        Http.sendOkHttpPostRequest(url, param, callback);
+        Http.sendOkHttpGetRequest(url, query, callback);
     }
 
 }

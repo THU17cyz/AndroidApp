@@ -12,6 +12,7 @@ import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -59,6 +60,8 @@ public class Http {
      */
     public static void sendOkHttpPostRequest(String url, HashMap<String, String> param, okhttp3.Callback callback)
     {
+        MultipartBody.Builder requestBuilder = new MultipartBody.Builder();
+
         FormBody.Builder builder = new FormBody.Builder();
         for(String key:param.keySet()) {
             builder.add(key, param.get(key));
