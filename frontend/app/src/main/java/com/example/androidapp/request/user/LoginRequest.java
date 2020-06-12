@@ -1,29 +1,20 @@
-package com.example.androidapp.request;
+package com.example.androidapp.request.user;
 
-import android.util.Log;
-import android.widget.Toast;
-
-import com.example.androidapp.LoginActivity;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
-import okhttp3.Call;
+import com.example.androidapp.request.base.BasePostRequest;
 import okhttp3.Callback;
-import okhttp3.Response;
 
 public class LoginRequest extends BasePostRequest {
-    public LoginRequest(LoginActivity context, String type, String account, String password) {
+    public LoginRequest(Callback callback, String type, String account, String password) {
+        // 设置请求URL
+        this.to("/api/user/login");
+        // 设置请求参数
+        this.put("type", type);
+        this.put("account", account);
+        this.put("password", password);
+        // 设置回调函数
+        this.call(callback);
 
-
-//        url = "/api/user/login";
-//        params.put("type", type);
-//        params.put("account", account);
-//        params.put("password", password);
-//        callback = new Callback() {
+//                callback = new Callback() {
 //            @Override
 //            public void onFailure(@NotNull Call call, @NotNull IOException e) {
 //                Log.e("error", e.toString());
