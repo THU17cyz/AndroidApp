@@ -6,10 +6,12 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.androidapp.R;
+import com.example.androidapp.util.Global;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gyf.immersionbar.ImmersionBar;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -164,6 +166,16 @@ public class MainActivity extends AppCompatActivity {
 //                }
 //            }
 //        });
+
+
+
+        // *** HTTP 测试 ***
+        if (Global.HTTP_TEST_MODE) {
+            Log.e("Test", "*****************");
+        }
+
+
+
     }
 
     public void openDrawer() {
