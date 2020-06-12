@@ -1,11 +1,7 @@
 package com.example.androidapp.request.user;
 
-<<<<<<< HEAD:frontend/app/src/main/java/com/example/androidapp/request/user/LoginRequest.java
 import com.example.androidapp.request.base.BasePostRequest;
 import okhttp3.Callback;
-=======
-import com.example.androidapp.activity.LoginActivity;
->>>>>>> ae9e954e7b767e05075522a4cf9db22bffe9456d:frontend/app/src/main/java/com/example/androidapp/request/LoginRequest.java
 
 public class LoginRequest extends BasePostRequest {
     public LoginRequest(Callback callback, String type, String account, String password) {
