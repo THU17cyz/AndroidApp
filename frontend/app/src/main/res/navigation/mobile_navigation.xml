@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.androidapp.ui.home.HomeFragment"
+        android:name="com.example.androidapp.UI.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
@@ -19,25 +19,25 @@
 
     <fragment
         android:id="@+id/navigation_follow"
-        android:name="com.example.androidapp.ui.follow.FollowFragment"
+        android:name="com.example.androidapp.UI.follow.FollowFragment"
         android:label="@string/title_follow"
         tools:layout="@layout/fragment_follow" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.androidapp.ui.notifications.NotificationsFragment"
+        android:name="com.example.androidapp.UI.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 
     <fragment
         android:id="@+id/navigation_conversations"
-        android:name="com.example.androidapp.ui.conversations.ConversationsFragment"
+        android:name="com.example.androidapp.UI.conversations.ConversationsFragment"
         android:label="@string/title_conversations"
         tools:layout="@layout/fragment_conversations" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.androidapp.ui.dashboard.DashboardFragment"
+        android:name="com.example.androidapp.UI.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 </navigation>

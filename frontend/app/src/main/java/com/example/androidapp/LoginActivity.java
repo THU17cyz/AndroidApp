@@ -8,8 +8,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.androidapp.Activity.MainActivity;
-import com.example.androidapp.Requests.LoginRequest;
+import com.example.androidapp.activity.MainActivity;
+import com.example.androidapp.request.LoginRequest;
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.callback.ProgressCallback;
 import com.kingja.loadsir.core.LoadService;

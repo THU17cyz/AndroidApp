@@ -8,13 +8,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.androidapp.Adapter.LogonPagerAdapter;
-import com.example.androidapp.Adapter.QueryResultPageAdapter;
-import com.example.androidapp.Fragments.QueryResult.Teacher;
+import com.example.androidapp.adapter.QueryResultPageAdapter;
+import com.example.androidapp.fragment.QueryResult.Teacher;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
 
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;

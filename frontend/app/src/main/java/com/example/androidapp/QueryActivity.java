@@ -12,8 +12,8 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.androidapp.Activity.MainActivity;
-import com.example.androidapp.Adapter.HistoryAdapter;
+import com.example.androidapp.activity.MainActivity;
+import com.example.androidapp.adapter.HistoryAdapter;
 import com.google.android.flexbox.FlexboxLayout;
 import com.gyf.immersionbar.ImmersionBar;
 
