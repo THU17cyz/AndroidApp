@@ -6,16 +6,11 @@ import java.util.HashMap;
 import okhttp3.Callback;
 
 public class BaseGetRequest {
-    private String url;
-    private HashMap<String, String> query;
-    private Callback callback;
-
-    public BaseGetRequest() {
-        query = new HashMap<>();
-    }
+    private String url = null;
+    private HashMap<String, String> query = new HashMap<>();
+    private Callback callback = null;
 
     public void send() {
         Http.sendOkHttpGetRequest(url, query, callback);
     }
-
 }
