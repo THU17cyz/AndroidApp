@@ -15,7 +15,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.androidapp.adapter.MyPagerAdapter;
 import com.example.androidapp.activity.MainActivity;
-import com.example.androidapp.QueryActivity;
+import com.example.androidapp.activity.QueryActivity;
 import com.example.androidapp.R;
 import com.google.android.material.tabs.TabLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -41,17 +41,13 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-
-
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, root);
 
 
 
-
         TabLayout tabLayout = root.findViewById(R.id.tab_layout);
-
         tabLayout.addTab(tabLayout.newTab().setText("推荐"));
         tabLayout.addTab(tabLayout.newTab().setText("关注"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);

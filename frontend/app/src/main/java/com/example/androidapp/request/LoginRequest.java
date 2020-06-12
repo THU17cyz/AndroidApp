@@ -1,19 +1,6 @@
 package com.example.androidapp.request;
 
-import android.util.Log;
-import android.widget.Toast;
-
-import com.example.androidapp.LoginActivity;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
+import com.example.androidapp.activity.LoginActivity;
 
 public class LoginRequest extends BasePostRequest {
     public LoginRequest(LoginActivity context, String type, String account, String password) {

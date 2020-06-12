@@ -1,4 +1,4 @@
-package com.example.androidapp;
+package com.example.androidapp.util;
 
 import android.app.Activity;
 import android.graphics.Rect;

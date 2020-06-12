@@ -1,4 +1,4 @@
-package com.example.androidapp;
+package com.example.androidapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.androidapp.R;
+import com.example.androidapp.activity.LoginActivity;
 import com.example.androidapp.adapter.LogonPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 

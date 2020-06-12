@@ -1,4 +1,4 @@
-package com.example.androidapp;
+package com.example.androidapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +8,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.androidapp.activity.MainActivity;
+import com.example.androidapp.R;
 import com.example.androidapp.request.LoginRequest;
+import com.example.androidapp.util.SoftKeyBoardListener;
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.callback.ProgressCallback;
 import com.kingja.loadsir.core.LoadService;
@@ -73,8 +74,8 @@ public class LoginActivity extends AppCompatActivity {
         loadService = LoadSir.getDefault().register(this, (Callback.OnReloadListener) v -> {
 
         });
-        new LoginRequest(LoginActivity.this, "T", account.getText().toString(),
-                password.getText().toString()).sendRequest();
+//        new LoginRequest(LoginActivity.this, "T", account.getText().toString(),
+//                password.getText().toString()).sendRequest();
         jumpToMain();
 
     }
