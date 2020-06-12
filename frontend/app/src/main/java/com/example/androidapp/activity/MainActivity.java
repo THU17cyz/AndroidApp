@@ -72,56 +72,8 @@ public class MainActivity extends AppCompatActivity {
         // setSupportActionBar(toolbar);
         // toolbar.inflateMenu(R.menu.top_menu_home);
 
-        // Create the AccountHeader
-        AccountHeader headerResult = new AccountHeaderBuilder()
-                .withActivity(this)
-                .withHeaderBackground(R.drawable.bg_login)
-                .addProfiles(
-                        new ProfileDrawerItem().withName("用户名").withEmail("个性签名").withIcon(getResources().getDrawable(R.drawable.ic_drawer_homepage_24dp))
-                )
-                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-                    @Override
-                    public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
-                        return false;
-                    }
-                })
-                .build();
-
-
-        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withIcon(getResources().getDrawable(R.drawable.ic_drawer_homepage_24dp)).withName("我的主页");
-        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2).withIcon(getResources().getDrawable(R.drawable.ic_drawer_chat_24dp)).withName("我的会话");
-        PrimaryDrawerItem item3 = new PrimaryDrawerItem().withIdentifier(3).withIcon(getResources().getDrawable(R.drawable.ic_drawer_focus_24dp)).withName("我的关注");
-        PrimaryDrawerItem item4 = new PrimaryDrawerItem().withIdentifier(4).withIcon(getResources().getDrawable(R.drawable.ic_drawer_info_24dp)).withName("我的通知");
-        PrimaryDrawerItem item5 = new PrimaryDrawerItem().withIdentifier(5).withIcon(getResources().getDrawable(R.drawable.ic_drawer_settings_24dp)).withName("设置");
-        PrimaryDrawerItem item6 = new PrimaryDrawerItem().withIdentifier(6).withIcon(getResources().getDrawable(R.drawable.ic_drawer_quit_24dp)).withName("退出登录");
-
-        drawer = new DrawerBuilder()
-                .withAccountHeader(headerResult)
-                .withActivity(this)
-//                .withToolbar(toolbar)
-                .addDrawerItems(
-                        item1,
-                        new DividerDrawerItem(),
-                        item2,
-                        new DividerDrawerItem(),
-                        item3,
-                        new DividerDrawerItem(),
-                        item4,
-                        new DividerDrawerItem(),
-                        item5,
-                        new DividerDrawerItem(),
-                        item6
-                )
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        // do something with the clicked item :D
-                        return true;
-                    }
-                })
-                .build();
-
-
+        // 初始化侧边栏
+        initDrawer();
 
 //        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
 //                this, drawerLayout, toolbar, R.string.TEST, R.string.TEST
@@ -183,6 +135,60 @@ public class MainActivity extends AppCompatActivity {
 
     public void openDrawer() {
         drawer.openDrawer();
+    }
+
+
+    /**
+     * [method]初始化侧边栏
+     */
+    private void initDrawer(){
+        // Create the AccountHeader
+        AccountHeader headerResult = new AccountHeaderBuilder()
+                .withActivity(this)
+                .withHeaderBackground(R.drawable.bg_login)
+                .addProfiles(
+                        new ProfileDrawerItem().withName("用户名").withEmail("个性签名").withIcon(getResources().getDrawable(R.drawable.ic_drawer_homepage_24dp))
+                )
+                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                    @Override
+                    public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
+                        return false;
+                    }
+                })
+                .build();
+
+        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withIcon(getResources().getDrawable(R.drawable.ic_drawer_homepage_24dp)).withName("我的主页");
+        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2).withIcon(getResources().getDrawable(R.drawable.ic_drawer_chat_24dp)).withName("我的会话");
+        PrimaryDrawerItem item3 = new PrimaryDrawerItem().withIdentifier(3).withIcon(getResources().getDrawable(R.drawable.ic_drawer_focus_24dp)).withName("我的关注");
+        PrimaryDrawerItem item4 = new PrimaryDrawerItem().withIdentifier(4).withIcon(getResources().getDrawable(R.drawable.ic_drawer_info_24dp)).withName("我的通知");
+        PrimaryDrawerItem item5 = new PrimaryDrawerItem().withIdentifier(5).withIcon(getResources().getDrawable(R.drawable.ic_drawer_settings_24dp)).withName("设置");
+        PrimaryDrawerItem item6 = new PrimaryDrawerItem().withIdentifier(6).withIcon(getResources().getDrawable(R.drawable.ic_drawer_quit_24dp)).withName("退出登录");
+
+        drawer = new DrawerBuilder()
+                .withAccountHeader(headerResult)
+                .withActivity(this)
+//                .withToolbar(toolbar)
+                .addDrawerItems(
+                        item1,
+                        new DividerDrawerItem(),
+                        item2,
+                        new DividerDrawerItem(),
+                        item3,
+                        new DividerDrawerItem(),
+                        item4,
+                        new DividerDrawerItem(),
+                        item5,
+                        new DividerDrawerItem(),
+                        item6
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        // do something with the clicked item :D
+                        return true;
+                    }
+                })
+                .build();
     }
 
 

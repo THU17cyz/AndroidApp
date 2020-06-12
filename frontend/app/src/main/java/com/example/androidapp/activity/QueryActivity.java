@@ -1,4 +1,4 @@
-package com.example.androidapp;
+package com.example.androidapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.androidapp.activity.MainActivity;
+import com.example.androidapp.R;
 import com.example.androidapp.adapter.HistoryAdapter;
 import com.google.android.flexbox.FlexboxLayout;
 import com.gyf.immersionbar.ImmersionBar;

@@ -1,4 +1,4 @@
-package com.example.androidapp;
+package com.example.androidapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,8 +7,8 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 //import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import com.example.androidapp.R;
+import com.example.androidapp.activity.LoginActivity;
 
 
 public class ResetPasswordActivity extends AppCompatActivity {

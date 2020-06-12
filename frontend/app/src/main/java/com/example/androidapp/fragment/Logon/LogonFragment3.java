@@ -9,7 +9,7 @@ import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.androidapp.LoginActivity;
+import com.example.androidapp.activity.LoginActivity;
 import com.example.androidapp.R;
 
 import butterknife.BindView;

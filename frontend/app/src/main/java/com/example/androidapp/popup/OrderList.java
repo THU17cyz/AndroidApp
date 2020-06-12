@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.example.androidapp.QueryResultActivity;
+import com.example.androidapp.activity.QueryResultActivity;
 import com.example.androidapp.R;
 import com.google.android.flexbox.FlexboxLayout;
 
