@@ -15,7 +15,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.gyf.immersionbar.ImmersionBar;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 
-public class StudentHomepageActivity extends AppCompatActivity {
+public class StudentHomepageActivity extends BaseActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.androidapp.R;
+import com.example.androidapp.UI.home.HomeFragment;
 import com.example.androidapp.request.user.LoginRequest;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Http;
@@ -30,13 +32,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
+    
+    private long exitTime = 0;
 
 //    @BindView(R.id.toolbar)
 //    Toolbar toolbar;
@@ -192,5 +197,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+
+            // 获取当前fragment
+            Fragment current = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment).getChildFragmentManager().getPrimaryNavigationFragment();
+
+            // 主页双击返回退出程序
+            if(current!=null&& current instanceof HomeFragment){
+                if(System.currentTimeMillis()-exitTime>2000){
+                    Toast.makeText(getApplicationContext(),"再按一次退出程序",
+                            Toast.LENGTH_LONG).show();
+                    exitTime = System.currentTimeMillis();
+                } else {
+                    appExit(MainActivity.this);
+                }
+                return false;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
 }

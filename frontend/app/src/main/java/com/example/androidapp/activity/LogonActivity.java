@@ -15,7 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LogonActivity extends AppCompatActivity {
+public class LogonActivity extends BaseActivity {
 
     @BindView(R.id.logonTabLayout)
     TabLayout tabLayout;

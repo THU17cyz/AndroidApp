@@ -19,7 +19,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class QueryResultActivity extends AppCompatActivity {
+public class QueryResultActivity extends BaseActivity {
     @BindView(R.id.search_view)
     SearchView searchView;
 

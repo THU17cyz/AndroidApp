@@ -38,7 +38,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class ChatActivity extends AppCompatActivity
+public class ChatActivity extends BaseActivity
         implements
         DateFormatter.Formatter,
         DialogInterface.OnClickListener{

@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 
 import com.example.androidapp.R;
 
-public class TeacherEditIntentionActivity extends AppCompatActivity {
+public class TeacherEditIntentionActivity extends BaseActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

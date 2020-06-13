@@ -25,7 +25,7 @@ import co.lujun.androidtagview.TagView;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
-public class TeacherHomepageActivity extends AppCompatActivity {
+public class TeacherHomepageActivity extends BaseActivity {
 
     private Button btn_focus;
     private Button btn_chat;

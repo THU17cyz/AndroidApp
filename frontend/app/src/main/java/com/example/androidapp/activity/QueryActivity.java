@@ -25,7 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class QueryActivity extends AppCompatActivity {
+public class QueryActivity extends BaseActivity {
 
     @BindView(R.id.search_view)
     SearchView searchView;

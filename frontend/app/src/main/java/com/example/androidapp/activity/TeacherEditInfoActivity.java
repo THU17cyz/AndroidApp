@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.example.androidapp.R;
 
-public class TeacherEditInfoActivity extends AppCompatActivity {
+public class TeacherEditInfoActivity extends BaseActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

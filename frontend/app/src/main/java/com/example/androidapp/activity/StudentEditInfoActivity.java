@@ -17,7 +17,7 @@ import com.andreabaccega.widget.FormEditText;
 import com.example.androidapp.R;
 import com.gyf.immersionbar.ImmersionBar;
 
-public class StudentEditInfoActivity extends AppCompatActivity {
+public class StudentEditInfoActivity extends BaseActivity {
 
   private FormEditText formEditText;
 

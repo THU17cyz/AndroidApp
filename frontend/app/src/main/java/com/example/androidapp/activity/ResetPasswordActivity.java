@@ -11,7 +11,7 @@ import com.example.androidapp.R;
 import com.example.androidapp.activity.LoginActivity;
 
 
-public class ResetPasswordActivity extends AppCompatActivity {
+public class ResetPasswordActivity extends BaseActivity {
 
 //    @BindView(R.id.resetButton)
     Button resetButton;

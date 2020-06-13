@@ -15,7 +15,7 @@ import com.example.androidapp.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class StudentEditIntentionActivity extends AppCompatActivity {
+public class StudentEditIntentionActivity extends BaseActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
