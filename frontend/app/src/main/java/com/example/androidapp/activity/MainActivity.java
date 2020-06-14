@@ -130,12 +130,8 @@ public class MainActivity extends BaseActivity {
 
         // *** HTTP 测试 ***
         if (Global.HTTP_TEST_MODE) {
-            new LoginRequest(Http.callbackExample_2, "T", "T1", "T1").send();
-            Log.e("Test", "*****************");
+            Http.testRequest();
         }
-
-
-
     }
 
     public void openDrawer() {

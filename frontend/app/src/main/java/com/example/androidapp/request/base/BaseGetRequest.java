@@ -41,6 +41,6 @@ public class BaseGetRequest {
      * 发送请求
      */
     public void send() {
-        Http.sendOkHttpGetRequest(this.url, this.query, this.callback);
+        Http.sendHttpGetRequest(this.url, this.query, this.callback);
     }
 }

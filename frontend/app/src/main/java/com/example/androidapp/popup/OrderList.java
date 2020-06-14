@@ -29,7 +29,6 @@ public class OrderList extends BasePopupWindow {
 
     public OrderList(Context context) {
         super(context);
-
     }
 
     @Override

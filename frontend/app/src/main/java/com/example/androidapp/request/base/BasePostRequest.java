@@ -59,6 +59,6 @@ public class BasePostRequest {
      * 发送请求
      */
     public void send() {
-        Http.sendOkHttpPostRequest(this.url, this.param, this.fileKey, this.fileObject, this.callback);
+        Http.sendHttpPostRequest(this.url, this.param, this.fileKey, this.fileObject, this.callback);
     }
 }
