@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.androidapp.request.user.GetInfoRequest;
 import com.example.androidapp.request.user.LoginRequest;
+import com.example.androidapp.request.user.UpdateInfoPicture;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -16,9 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -85,6 +83,8 @@ public class Http {
      * @param callback {Callback} 回调函数
      */
     public static void sendHttpPostRequest(String url, HashMap<String, String> param, String fileKey, File fileObject, okhttp3.Callback callback) {
+        if (param.isEmpty() && (fileKey == null || fileObject == null))
+            return;
         MultipartBody.Builder mulBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
         for(Map.Entry<String, String> entry : param.entrySet()) {
             mulBuilder.addFormDataPart(entry.getKey(), entry.getValue());
@@ -103,12 +103,31 @@ public class Http {
      */
     public static void testRequest() {
         Log.e("Test", "*****************");
-        new LoginRequest(Http.callbackExample_2, "T", "T1", "T1").send();
+        new LoginRequest(Http.callbackExample_1, "T", "T1", "T1").send();
     }
 
     /**
      * HTTP 回调实例
      */
+    private static Callback callbackExample_0 = new Callback() {
+        @Override
+        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+            try {
+                // 打印返回结果
+                Log.e("HttpResponse", response.toString());
+                ResponseBody responseBody = response.body();
+                String responseBodyString = responseBody != null ? responseBody.string() : "";
+                Log.e("HttpResponse", responseBodyString);
+                JSONObject jsonObject = new JSONObject(responseBodyString);
+                boolean status = (Boolean) jsonObject.get("status");
+                Log.e("HttpResponse", status ? "√√√√√√√√√√√√√√√√√√√√√√√√√√" : "××××××××××××××××××××××××××");
+            } catch (JSONException e) {
+                Log.e("HttpResponse", e.toString());
+            }
+        }
+        @Override
+        public void onFailure(@NotNull Call call, @NotNull IOException e) { Log.e("HttpError", e.toString()); }
+    };
     private static Callback callbackExample_1 = new Callback() {
         @Override
         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
@@ -121,20 +140,15 @@ public class Http {
                 JSONObject jsonObject = new JSONObject(responseBodyString);
                 boolean status = (Boolean) jsonObject.get("status");
                 Log.e("HttpResponse", status ? "√√√√√√√√√√√√√√√√√√√√√√√√√√" : "××××××××××××××××××××××××××");
+                // TODO 在此定义请求嵌套
+                new UpdateInfoPicture(callbackExample_0, null).send();
             } catch (JSONException e) {
                 Log.e("HttpResponse", e.toString());
             }
         }
-
         @Override
-        public void onFailure(@NotNull Call call, @NotNull IOException e) {
-            Log.e("HttpError", e.toString());
-        }
+        public void onFailure(@NotNull Call call, @NotNull IOException e) { Log.e("HttpError", e.toString()); }
     };
-
-    /**
-     * HTTP 回调实例
-     */
     private static Callback callbackExample_2 = new Callback() {
         @Override
         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
@@ -147,20 +161,14 @@ public class Http {
                 JSONObject jsonObject = new JSONObject(responseBodyString);
                 boolean status = (Boolean) jsonObject.get("status");
                 Log.e("HttpResponse", status ? "√√√√√√√√√√√√√√√√√√√√√√√√√√" : "××××××××××××××××××××××××××");
-                // 在此链接
-                new GetInfoRequest(callbackExample_1, "I", null, null).send();
+                // TODO 在此定义请求嵌套
+                new GetInfoRequest(callbackExample_0, "I", null, null).send();
             } catch (JSONException e) {
                 Log.e("HttpResponse", e.toString());
             }
         }
-
         @Override
-        public void onFailure(@NotNull Call call, @NotNull IOException e) {
-            Log.e("HttpError", e.toString());
-        }
+        public void onFailure(@NotNull Call call, @NotNull IOException e) { Log.e("HttpError", e.toString()); }
     };
-
-
-
 
 }
