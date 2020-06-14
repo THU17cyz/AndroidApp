@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.example.androidapp.request.user.GetInfoRequest;
 import com.example.androidapp.request.user.LoginRequest;
-import com.example.androidapp.request.user.UpdateInfoPicture;
+import com.example.androidapp.request.user.UpdateInfoPictureRequest;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -141,7 +141,8 @@ public class Http {
                 boolean status = (Boolean) jsonObject.get("status");
                 Log.e("HttpResponse", status ? "√√√√√√√√√√√√√√√√√√√√√√√√√√" : "××××××××××××××××××××××××××");
                 // TODO 在此定义请求嵌套
-                new UpdateInfoPicture(callbackExample_0, null).send();
+                // File p = new File("E:\\360MoveData\\Users\\Wish\\Documents\\AndroidApp\\frontend\\app\\src\\main\\res\\drawable\\png_head.png");
+                new UpdateInfoPictureRequest(callbackExample_0, null).send();
             } catch (JSONException e) {
                 Log.e("HttpResponse", e.toString());
             }
