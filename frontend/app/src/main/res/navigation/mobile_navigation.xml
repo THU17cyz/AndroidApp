@@ -19,21 +19,21 @@
 
     <fragment
         android:id="@+id/navigation_follow"
-        android:name="com.example.androidapp.UI.follow.FollowFragment"
+        android:name="com.example.androidapp.UI.follow.FollowFragmentNav"
         android:label="@string/title_follow"
-        tools:layout="@layout/fragment_follow" />
+        tools:layout="@layout/fragment_follow_nav" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.androidapp.UI.notifications.NotificationsFragment"
+        android:name="com.example.androidapp.UI.conversation.ConversationFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_conversation" />
 
     <fragment
         android:id="@+id/navigation_conversations"
-        android:name="com.example.androidapp.UI.conversations.ConversationsFragment"
+        android:name="com.example.androidapp.UI.notification.NotificationFragment"
         android:label="@string/title_conversations"
-        tools:layout="@layout/fragment_conversations" />
+        tools:layout="@layout/fragment_notification" />
 
     <fragment
         android:id="@+id/navigation_dashboard"

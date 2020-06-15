@@ -1,4 +1,4 @@
-package com.example.androidapp.fragment.Notification;
+package com.example.androidapp.fragment.Conversation;
 
 public class ChatItem {
     public String str1;

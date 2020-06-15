@@ -1,13 +1,13 @@
-package com.example.androidapp.UI.conversations;
+package com.example.androidapp.UI.notification;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ConversationsViewModel extends ViewModel {
+public class NotificationViewModel extends ViewModel {
   private MutableLiveData<String> mText;
 
-  public ConversationsViewModel() {
+  public NotificationViewModel() {
     mText = new MutableLiveData<>();
     mText.setValue("This is dashboard fragment");
   }

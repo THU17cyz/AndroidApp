@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.example.androidapp.fragment.Notification.ChatItem;
+import com.example.androidapp.fragment.Conversation.ChatItem;
 import com.example.androidapp.R;
 
 import java.util.List;

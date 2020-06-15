@@ -1,4 +1,4 @@
-package com.example.androidapp.fragment.Notification;
+package com.example.androidapp.fragment.Conversation;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

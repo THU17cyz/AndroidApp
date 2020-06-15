@@ -1,4 +1,4 @@
-package com.example.androidapp.fragment.Notification;
+package com.example.androidapp.fragment.Conversation;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,11 +40,13 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
 
 
     public ChatFragment() {
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_chat, container, false);
+
         dialogsList = root.findViewById(R.id.dialogsList);
 
         imageLoader = new ImageLoader() {
@@ -55,8 +57,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
             }
         };
 
-
-        dialogsAdapter = new DialogsListAdapter<>( imageLoader);
+        dialogsAdapter = new DialogsListAdapter<>(imageLoader);
 
         User user  =new User("0","ming","http://i.imgur.com/pv1tBmT.png",false);
         ArrayList<Dialog> dialogs = new ArrayList<>();

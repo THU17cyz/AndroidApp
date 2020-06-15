@@ -41,172 +41,172 @@ import java.util.List;
 public class ChatActivity extends BaseActivity
         implements
         DateFormatter.Formatter,
-        DialogInterface.OnClickListener{
+        DialogInterface.OnClickListener {
   private static final int REQUEST_CODE_CHOOSE = 10;
   private List<Uri> mUris;
   private List<String> mPaths;
 
   private MessagesList messagesList;
-    private MessagesListAdapter messagesAdapter;
-    private MessageInput messageInput;
-    private Date lastLoadedDate;
-    private ImageLoader imageLoader;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+  private MessagesListAdapter messagesAdapter;
+  private MessageInput messageInput;
+  private Date lastLoadedDate;
+  private ImageLoader imageLoader;
 
-        ImmersionBar.with(this)
-                .statusBarColor(R.color.colorPrimary)
-                .init();
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_chat);
 
-        messagesList = findViewById(R.id.messagesList);
+    // 状态栏
+    ImmersionBar.with(this)
+            .statusBarColor(R.color.colorPrimary)
+            .init();
 
-        imageLoader = new ImageLoader() {
-            @Override
-            public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
-                Picasso.with(getApplicationContext()).load(url).placeholder(R.drawable.ic_person_outline_black_24dp).into(imageView);
-                Log.d("url",url);
-            }
-        };
+    // 消息列表
+    messagesList = findViewById(R.id.messagesList);
 
+    // 头像
+    imageLoader = new ImageLoader() {
+      @Override
+      public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
+        Picasso.with(getApplicationContext()).load(url).placeholder(R.drawable.ic_person_outline_black_24dp).into(imageView);
+        Log.d("url", url);
+      }
+    };
 
-        messagesAdapter = new MessagesListAdapter<>("0", imageLoader);
-//        messagesAdapter.enableSelectionMode(new MessagesListAdapter.SelectionListener() {
-//            @Override
-//            public void onSelectionChanged(int count) {
-//
-//
-//            }
-//        });
+    messagesAdapter = new MessagesListAdapter<>("0", imageLoader);
 
-
-        messagesAdapter.setLoadMoreListener(new MessagesListAdapter.OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-                Log.i("TAG", "onLoadMore: " + page + " " + totalItemsCount);
-                if (totalItemsCount < 100) {
-                    loadMessages();
-                }
-            }
-        });
-        messagesAdapter.setDateHeadersFormatter(this);
-
-        messagesAdapter.setOnMessageClickListener(new MessagesListAdapter.OnMessageClickListener() {
-            @Override
-            public void onMessageClick(IMessage message) {
-                Toast.makeText(getApplicationContext(),message.getText()+"clilcked",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        messagesList.setAdapter(messagesAdapter);
-
-
-
-        messageInput = findViewById(R.id.input);
-        messageInput.setInputListener(new MessageInput.InputListener() {
-            @Override
-            public boolean onSubmit(CharSequence input) {
-                messagesAdapter.addToStart(
-                        new Message("0",new User("0","ming",null,true),input.toString())
-                        ,true);
-                return true;
-            }
-        });
-        messageInput.setAttachmentsListener(new MessageInput.AttachmentsListener() {
-            @Override
-            public void onAddAttachments() {
-                Toast.makeText(getApplicationContext(),"attachment",Toast.LENGTH_SHORT).show();
-                new AlertDialog.Builder(ChatActivity.this)
-                        .setItems(R.array.view_types_dialog, ChatActivity.this)
-                        .show();
-//                messagesAdapter.addToStart(MessagesFixtures.getImageMessage(), true);
-
-            }
-        });
-
-    }
-
-
-
-    @Override
-    public String format(Date date) {
-        if (DateFormatter.isToday(date)) {
-            return "今天";
-        } else if (DateFormatter.isYesterday(date)) {
-            return "昨天";
-        } else {
-            return DateFormatter.format(date, DateFormatter.Template.STRING_DAY_MONTH_YEAR);
+    // 加载更多消息
+    messagesAdapter.setLoadMoreListener(new MessagesListAdapter.OnLoadMoreListener() {
+      @Override
+      public void onLoadMore(int page, int totalItemsCount) {
+        Log.i("TAG", "onLoadMore: " + page + " " + totalItemsCount);
+        if (totalItemsCount < 100) {
+          loadMessages();
         }
-    }
+      }
+    });
 
-    protected void loadMessages() {
-        new Handler().postDelayed(new Runnable() { //imitation of internet connection
-            @Override
-            public void run() {
-                ArrayList<Message> messages = MessagesFixtures.getMessages(lastLoadedDate);
-                lastLoadedDate = messages.get(messages.size() - 1).getCreatedAt();
-                messagesAdapter.addToEnd(messages, false);
-            }
-        }, 1000);
-    }
+    // 设置日期格式
+    messagesAdapter.setDateHeadersFormatter(this);
+
+    // 消息点击事件
+    messagesAdapter.setOnMessageClickListener(new MessagesListAdapter.OnMessageClickListener() {
+      @Override
+      public void onMessageClick(IMessage message) {
+        Toast.makeText(getApplicationContext(), message.getText() + "clilcked", Toast.LENGTH_SHORT).show();
+      }
+    });
+    messagesList.setAdapter(messagesAdapter);
 
 
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        switch (which) {
-            case 0:
+    // 输入框
+    messageInput = findViewById(R.id.input);
+    // 输入提交事件
+    messageInput.setInputListener(new MessageInput.InputListener() {
+      @Override
+      public boolean onSubmit(CharSequence input) {
+        messagesAdapter.addToStart(
+                new Message("0", new User("0", "ming", null, true), input.toString())
+                , true);
+        return true;
+      }
+    });
+    // 加号点击事件
+    messageInput.setAttachmentsListener(new MessageInput.AttachmentsListener() {
+      @Override
+      public void onAddAttachments() {
+        Toast.makeText(getApplicationContext(), "attachment", Toast.LENGTH_SHORT).show();
+        new AlertDialog.Builder(ChatActivity.this)
+                .setItems(R.array.view_types_dialog, ChatActivity.this)
+                .show();
 //                messagesAdapter.addToStart(MessagesFixtures.getImageMessage(), true);
 
-              Matisse.from(ChatActivity.this)
-                      .choose(MimeType.ofImage(), false)
-                      .countable(true)
-                      .capture(true)
-                      .captureStrategy(
-                              new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider", "test"))
-                      .maxSelectable(9)
-                      .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
-                      .gridExpectedSize(
-                              getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
-                      .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                      .thumbnailScale(0.85f)
-                      .imageEngine(new GlideEngine())
-                      .setOnSelectedListener((uriList, pathList) -> {
-                        Log.e("onSelected", "onSelected: pathList=" + pathList);
-                      })
-                      .showSingleMediaType(true)
-                      .originalEnable(true)
-                      .maxOriginalSize(10)
-                      .autoHideToolbarOnSingleTap(true)
-                      .setOnCheckedListener(isChecked -> {
-                        Log.e("isChecked", "onCheck: isChecked=" + isChecked);
-                      })
-                      .forResult(REQUEST_CODE_CHOOSE);
-                break;
-            case 1:
+      }
+    });
+
+  }
+
+
+  @Override
+  public String format(Date date) {
+    if (DateFormatter.isToday(date)) {
+      return "今天";
+    } else if (DateFormatter.isYesterday(date)) {
+      return "昨天";
+    } else {
+      return DateFormatter.format(date, DateFormatter.Template.STRING_DAY_MONTH_YEAR);
+    }
+  }
+
+  protected void loadMessages() {
+    new Handler().postDelayed(new Runnable() { //imitation of internet connection
+      @Override
+      public void run() {
+        ArrayList<Message> messages = MessagesFixtures.getMessages(lastLoadedDate);
+        lastLoadedDate = messages.get(messages.size() - 1).getCreatedAt();
+        messagesAdapter.addToEnd(messages, false);
+      }
+    }, 1000);
+  }
+
+
+  @Override
+  public void onClick(DialogInterface dialog, int which) {
+    switch (which) {
+      case 0:
+        // 从相册里选择图片
+        Matisse.from(ChatActivity.this)
+                .choose(MimeType.ofImage(), false)
+                .countable(true)
+                .capture(true)
+                .captureStrategy(
+                        new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider", "test"))
+                .maxSelectable(9)
+                .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+                .gridExpectedSize(
+                        getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                .thumbnailScale(0.85f)
+                .imageEngine(new GlideEngine())
+                .setOnSelectedListener((uriList, pathList) -> {
+                  Log.e("onSelected", "onSelected: pathList=" + pathList);
+                })
+                .showSingleMediaType(true)
+                .originalEnable(true)
+                .maxOriginalSize(10)
+                .autoHideToolbarOnSingleTap(true)
+                .setOnCheckedListener(isChecked -> {
+                  Log.e("isChecked", "onCheck: isChecked=" + isChecked);
+                })
+                .forResult(REQUEST_CODE_CHOOSE);
+        break;
+      case 1:
 //                messagesAdapter.addToStart(MessagesFixtures.getVoiceMessage(), true);
-                break;
-        }
+        break;
     }
+  }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-      if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-        mUris = Matisse.obtainResult(data);
-        mPaths = Matisse.obtainPathResult(data);
-        Log.d("Matisse", "mSelected: " + mUris);
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
 
-        for(int i=0;i<mUris.size();i++){
-          Message message = new Message("0",new User("0","ming",null,true),null);
-          message.setImage(new Message.Image(mUris.get(i).toString()));
-          Log.d("Matisse print",  mUris.get(i).toString());
-          messagesAdapter.addToStart(message, true);
-        }
+    // 发送已选择的图片
+    if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+      mUris = Matisse.obtainResult(data);
+      mPaths = Matisse.obtainPathResult(data);
+      Log.d("Matisse", "mSelected: " + mUris);
+
+      for (int i = 0; i < mUris.size(); i++) {
+        Message message = new Message("0", new User("0", "ming", null, true), null);
+        message.setImage(new Message.Image(mUris.get(i).toString()));
+        Log.d("Matisse print", mUris.get(i).toString());
+        messagesAdapter.addToStart(message, true);
+      }
 //content://media/external/images/media/27
 //        messagesAdapter.addToStart(MessagesFixtures.getImageMessage(), true);
 
-      }
-
     }
+
+  }
 }

@@ -42,6 +42,11 @@
     <string name="RECRUITMENT">招生意向</string>
     <string name="APPLICATION">申请意向</string>
     <string name="CANNOT_BE_NULL">该项不能为空</string>
+    <string name="TUTOR">导师</string>
+    <string name="STUDENT">学生</string>
+
+    <string name="FOLLOWER">粉丝</string>
+
 
 
     <string name="error_gif">x or y bound size should be at least %1$dpx and file size should be no more than %2$sM</string>

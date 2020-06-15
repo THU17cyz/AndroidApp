@@ -8,7 +8,7 @@
     android:focusable="auto"
     android:focusableInTouchMode="true"
     android:padding="0dp"
-    tools:context=".UI.notifications.NotificationsFragment">
+    tools:context=".UI.conversation.ConversationFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top_bar"
@@ -56,46 +56,13 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/Theme.AppCompat.Light"
         app:tabTextAppearance="@style/TabLayoutTextStyle"
-
         app:tabTextColor="@color/black" />
-    <!--        app:tabIndicatorColor="@color/white"-->
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_below="@id/tab_layout"
-        android:gravity="center_vertical"
-        android:id="@+id/bar">
-
-        <TextView
-            android:layout_marginLeft="10dp"
-            android:id="@+id/type_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:textSize="20dp"
-            android:layout_centerVertical="true"
-            android:textAlignment="center"></TextView>
-
-        <Button
-            android:layout_marginRight="10dp"
-            android:id="@+id/all_read"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/ALL_READ"
-            android:textColor="@color/md_blue_300"
-            android:background="@color/transparent"
-            android:layout_alignParentRight="true"
-            android:textSize="20dp"></Button>
-
-    </RelativeLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/bar" />
+        android:layout_below="@id/tab_layout" />
 
 
 </RelativeLayout>
