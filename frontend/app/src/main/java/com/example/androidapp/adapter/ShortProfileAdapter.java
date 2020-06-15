@@ -1,6 +1,8 @@
 package com.example.androidapp.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -40,16 +42,31 @@ public class ShortProfileAdapter<T> extends MyBaseAdapter {
         // 在这里链式赋值就可以了
         ShortProfile data = (ShortProfile) o;
         viewHolder.setText(R.id.name, data.name)
-                .setText(R.id.info, data.affiliation + "  " + data.fanNum + "人关注");
-        mHead = viewHolder.getView(R.id.profile_image);
+                .setText(R.id.info, data.affiliation).setText(R.id.fan,  data.fanNum + "人关注");
+
         try {
-            Picasso.with(mHead.getContext()).load(data.url).placeholder(R.drawable.ic_person_outline_black_24dp).into(mHead);
+            mHead = viewHolder.getView(R.id.profile_image);
+            Picasso.with(mHead.getContext()).load(data.url).
+                    placeholder(R.drawable.ic_person_outline_black_24dp).into(mHead);
         } catch (Exception e) {
             System.out.println(e);
         }
 
+        if (data.isValidated) {
+            TextView mNameView = viewHolder.getView(R.id.name);
+            Drawable drawable = mNameView.getContext().getDrawable(R.drawable.ic_validated);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            mNameView.setCompoundDrawables(null,null, drawable, null);
+        }
+
+
+
+
         mWatchBtn = viewHolder.getView(R.id.watch_btn);
-        //mWatchBtn.setPressed_(true);
+        if (data.isFan) {
+            mWatchBtn.setPressed_(true);
+        }
+
     }
 
     @Override
