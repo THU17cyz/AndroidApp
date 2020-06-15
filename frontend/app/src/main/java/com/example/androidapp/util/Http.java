@@ -109,7 +109,7 @@ public class Http {
     /**
      * HTTP 回调实例
      */
-    private static Callback callbackExample_0 = new Callback() {
+    public static Callback callbackExample_0 = new Callback() {
         @Override
         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
             try {
@@ -128,7 +128,7 @@ public class Http {
         @Override
         public void onFailure(@NotNull Call call, @NotNull IOException e) { Log.e("HttpError", e.toString()); }
     };
-    private static Callback callbackExample_1 = new Callback() {
+    public static Callback callbackExample_1 = new Callback() {
         @Override
         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
             try {
@@ -150,7 +150,7 @@ public class Http {
         @Override
         public void onFailure(@NotNull Call call, @NotNull IOException e) { Log.e("HttpError", e.toString()); }
     };
-    private static Callback callbackExample_2 = new Callback() {
+    public static Callback callbackExample_2 = new Callback() {
         @Override
         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
             try {
