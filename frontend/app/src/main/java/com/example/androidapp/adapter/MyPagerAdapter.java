@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.example.androidapp.fragment.TabFragment1;
+import com.example.androidapp.fragment.RecommendFragment;
 
 /**
  * Fragment to return the clicked tab.
@@ -28,8 +28,8 @@ public class MyPagerAdapter extends FragmentStatePagerAdapter {
         //return the corresponded fragment according to position
         //remember that the position can not be out of [0, 2]
         switch (position) {
-            case 0: return new TabFragment1();
-            case 1: return new TabFragment1();
+            case 0: return new RecommendFragment();
+            case 1: return new RecommendFragment();
             default: return null;
         }
         //To do closed

@@ -1,9 +1,7 @@
 package com.example.androidapp.fragment.QueryResult;
 
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,29 +11,14 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 
 import com.example.androidapp.R;
-import com.example.androidapp.adapter.queryPageAdapter.StudentAdapter;
+import com.example.androidapp.adapter.ShortProfileAdapter;
 import com.example.androidapp.entity.StudentProfile;
 import com.example.androidapp.entity.StudentQueryInfo;
-import com.example.androidapp.entity.TeacherQueryInfo;
-import com.example.androidapp.popup.SelectList;
-import com.example.androidapp.request.search.SearchStudentRequest;
-import com.example.androidapp.request.search.SearchTeacherRequest;
-import com.kingja.loadsir.callback.Callback;
-import com.kingja.loadsir.core.LoadSir;
 
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
-import okhttp3.Call;
-import okhttp3.Response;
 
 public class Student extends Base {
 
@@ -51,7 +34,7 @@ public class Student extends Base {
 
         ArrayList<StudentProfile> mNameList = new ArrayList<>();
         mNameList.add(new StudentProfile(1, "黄翔", "清华大学", "", 999));
-        adapter = new StudentAdapter(mNameList, getContext());//初始化NameAdapter
+        adapter = new ShortProfileAdapter(mNameList, getContext());//初始化NameAdapter
         adapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
         adapter.openLeftAnimation();//设置加载动画
 

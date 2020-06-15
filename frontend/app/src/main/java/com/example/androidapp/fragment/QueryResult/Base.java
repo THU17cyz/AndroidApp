@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidapp.R;
 import com.example.androidapp.adapter.MyBaseAdapter;
-import com.example.androidapp.adapter.queryPageAdapter.TeacherAdapter;
+import com.example.androidapp.adapter.ShortProfileAdapter;
 import com.example.androidapp.entity.TeacherProfile;
 import com.example.androidapp.popup.SelectList;
 import com.example.androidapp.request.search.SearchTeacherRequest;
@@ -79,7 +79,7 @@ public class Base extends Fragment {
 
         ArrayList<TeacherProfile> mNameList = new ArrayList<>();
         mNameList.add(new TeacherProfile(1, "黄翔", "清华大学", "", 999));
-        adapter = new TeacherAdapter(mNameList, getContext());//初始化NameAdapter
+        adapter = new ShortProfileAdapter(mNameList, getContext());//初始化NameAdapter
         adapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
         adapter.openLeftAnimation();//设置加载动画
 

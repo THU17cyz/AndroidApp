@@ -1,6 +1,5 @@
 package com.example.androidapp.fragment.QueryResult;
 
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,14 +12,11 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 
 import com.example.androidapp.activity.QueryResultActivity;
-import com.example.androidapp.adapter.queryPageAdapter.TeacherAdapter;
+import com.example.androidapp.adapter.ShortProfileAdapter;
 import com.example.androidapp.entity.TeacherProfile;
 import com.example.androidapp.R;
 import com.example.androidapp.entity.TeacherQueryInfo;
-import com.example.androidapp.popup.SelectList;
 import com.example.androidapp.request.information.GetInformationRequest;
-import com.example.androidapp.request.search.SearchStudentRequest;
-import com.example.androidapp.request.search.SearchTeacherRequest;
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadSir;
 
@@ -33,7 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -53,7 +48,7 @@ public class Teacher extends Base {
 
         ArrayList<TeacherProfile> mNameList = new ArrayList<>();
         mNameList.add(new TeacherProfile(2, "黄翔", "清华大学", "", 999));
-        adapter = new TeacherAdapter(mNameList, getContext());//初始化NameAdapter
+        adapter = new ShortProfileAdapter(mNameList, getContext());//初始化NameAdapter
         adapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
         adapter.openLeftAnimation();//设置加载动画
 

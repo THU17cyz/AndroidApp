@@ -1,26 +1,27 @@
 package com.example.androidapp.adapter;
 
 import android.content.Context;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.example.androidapp.fragment.TabFragment1;
+import com.example.androidapp.component.FocusButton;
+import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class TestAdapter<T> extends MyBaseAdapter {
+public class ShortProfileAdapter<T> extends MyBaseAdapter {
 
     private CircleImageView mHead;
     private TextView mName;
     private TextView mAffiliation;
-    private Button mWatchBtn;
+    private FocusButton mWatchBtn;
 
-    public TestAdapter(List<T> data, Context context){
+    public ShortProfileAdapter(List<T> data, Context context){
         super(R.layout.layout_profile_row, data, context);
     }
 
@@ -30,17 +31,25 @@ public class TestAdapter<T> extends MyBaseAdapter {
 //        mName = viewHolder.getView(R.id.name);
 //        mHead = viewHolder.getView(R.id.profile_image);
 //        mAffiliation = viewHolder.getView(R.id.affiliation);
-//        mWatchBtn = viewHolder.getView(R.id.watch_btn);
+
         //
     }
 
     @Override
     protected void initData(BaseViewHolder viewHolder, Object o) {
         // 在这里链式赋值就可以了
-        TabFragment1.Profile data = (TabFragment1.Profile) o;
+        ShortProfile data = (ShortProfile) o;
         viewHolder.setText(R.id.name, data.name)
-                .setText(R.id.affiliation, data.affiliation)
-        .setText(R.id.fan_num, data.fanNum + "人关注");
+                .setText(R.id.info, data.affiliation + "  " + data.fanNum + "人关注");
+        mHead = viewHolder.getView(R.id.profile_image);
+        try {
+            Picasso.with(mHead.getContext()).load(data.url).placeholder(R.drawable.ic_person_outline_black_24dp).into(mHead);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        mWatchBtn = viewHolder.getView(R.id.watch_btn);
+        //mWatchBtn.setPressed_(true);
     }
 
     @Override

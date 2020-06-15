@@ -13,9 +13,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.androidapp.adapter.TestAdapter;
+import com.example.androidapp.adapter.ShortProfileAdapter;
 import com.example.androidapp.R;
 import com.example.androidapp.component.FocusButton;
+import com.example.androidapp.entity.ShortProfile;
+import com.example.androidapp.entity.TeacherProfile;
 
 import java.util.ArrayList;
 
@@ -23,26 +25,15 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TabFragment1 extends Fragment {
-    public class Profile {
-        public String name;
-        public String affiliation;
-        public int fanNum;
-        // TODO 照片
-        public Profile(String name, String affiliation, int fanNum) {
-            this.name = name;
-            this.affiliation = affiliation;
-            this.fanNum = fanNum;
-        }
-    }
+public class RecommendFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
 
-    private ArrayList<Profile> mNameList;
-    private TestAdapter mTestAdapter;
+    private ArrayList<ShortProfile> mNameList;
+    private ShortProfileAdapter mShortProfileAdapter;
 
     //To do
-    public TabFragment1() {
+    public RecommendFragment() {
 
     }
 
@@ -54,16 +45,15 @@ public class TabFragment1 extends Fragment {
         mRecyclerView = root.findViewById(R.id.recycler_view);
         // mNameList = Arrays.asList("小明","小红","小芳","小花","小海","小林","小叶","小虎","小柔");
         mNameList = new ArrayList<>();
-        mNameList.add(new Profile("黄翔", "清华大学", 999));
-        mNameList.add(new Profile("黄翔", "清华大学", 999));
-        mNameList.add(new Profile("黄翔", "清华大学", 999));
-        mTestAdapter = new TestAdapter(mNameList, getContext());//初始化NameAdapter
-        mTestAdapter.setRecyclerManager(mRecyclerView);//设置RecyclerView特性
-        mTestAdapter.openLeftAnimation();//设置加载动画
+        mNameList.add(new TeacherProfile(1, "黄翔", "清华大学", "",999));
+        mNameList.add(new TeacherProfile(2, "黄翔", "清华大学", "",999));
+        mShortProfileAdapter = new ShortProfileAdapter(mNameList, getContext());//初始化NameAdapter
+        mShortProfileAdapter.setRecyclerManager(mRecyclerView);//设置RecyclerView特性
+        // mTestAdapter.openLeftAnimation();//设置加载动画
 
         // 子组件的监听事件，比如按钮
         // 在Adapter里注册（addOnClickListener）
-        mTestAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+        mShortProfileAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             // 用position获取点击的是什么
             Toast.makeText(getActivity(), "testItemChildClick" + position, Toast.LENGTH_SHORT).show();
             ((FocusButton) view).click();
@@ -71,7 +61,7 @@ public class TabFragment1 extends Fragment {
         });
 
         // RecycleView 本身的监听事件
-        mTestAdapter.setOnItemClickListener((adapter, view, position) -> {
+        mShortProfileAdapter.setOnItemClickListener((adapter, view, position) -> {
             Toast.makeText(getActivity(), "testItemClick" + position, Toast.LENGTH_SHORT).show();
         });
 
