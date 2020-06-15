@@ -84,7 +84,7 @@ public class FocusButton extends androidx.appcompat.widget.AppCompatButton imple
     drawable = new GradientDrawable();
     drawable.setColor(bg_color);
     drawable.setCornerRadius(radius);
-    drawable.setStroke(border_width,border_color);
+    drawable.setStroke(border_width, border_color);
 
     drawable_pressed = new GradientDrawable();
     drawable_pressed.setColor(bg_color_pressed);
@@ -107,19 +107,23 @@ public class FocusButton extends androidx.appcompat.widget.AppCompatButton imple
     Toast.makeText(context,"ok",Toast.LENGTH_LONG).show();
 
     TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.FocusButton);
-    if(typedArray!=null){
+    if (typedArray != null) {
       bg_color_pressed = typedArray.getColor(R.styleable.FocusButton_bg_color_pressed,Color.DKGRAY);
       bg_color = typedArray.getColor(R.styleable.FocusButton_bg_color,Color.RED);
       text_color_pressed = typedArray.getColor(R.styleable.FocusButton_text_color_pressed,Color.WHITE);
       text_color = typedArray.getColor(R.styleable.FocusButton_text_color,Color.WHITE);
       text_pressed = typedArray.getString(R.styleable.FocusButton_text_pressed);
-      if(text_pressed==null){text_pressed="已关注";}
+      if (text_pressed == null) {
+        text_pressed = "已关注";
+      }
       text = typedArray.getString(R.styleable.FocusButton_text);
-      if(text==null){text="关注";}
-      radius = typedArray.getDimension(R.styleable.FocusButton_radius,15);
-      border_width = typedArray.getInteger(R.styleable.FocusButton_border_width,0);
-      border_color_pressed = typedArray.getColor(R.styleable.FocusButton_border_color_pressed,Color.TRANSPARENT);
-      border_color = typedArray.getColor(R.styleable.FocusButton_border_color,Color.TRANSPARENT);
+      if (text == null) {
+        text = "关注";
+      }
+      radius = typedArray.getDimension(R.styleable.FocusButton_radius, 15);
+      border_width = typedArray.getInteger(R.styleable.FocusButton_border_width, 0);
+      border_color_pressed = typedArray.getColor(R.styleable.FocusButton_border_color_pressed, Color.TRANSPARENT);
+      border_color = typedArray.getColor(R.styleable.FocusButton_border_color, Color.TRANSPARENT);
       typedArray.recycle();
     }
   }
@@ -127,14 +131,14 @@ public class FocusButton extends androidx.appcompat.widget.AppCompatButton imple
 
   @Override
   public void onClick(View v) {
-    if(pressed){
-      pressed=false;
+    if(!pressed){
+      pressed = true;
       setBackgroundDrawable(drawable_pressed);
       setText(text_pressed);
       setTextColor(text_color_pressed);
 
     } else {
-      pressed=true;
+      pressed = false;
       setBackgroundDrawable(drawable);
       setTextColor(text_color);
       setText(text);
