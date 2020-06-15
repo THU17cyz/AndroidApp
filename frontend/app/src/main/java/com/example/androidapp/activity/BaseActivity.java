@@ -13,7 +13,7 @@ public class BaseActivity extends AppCompatActivity {
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    Log.d("BaseActivity",getClass().getSimpleName());
+    Log.d("BaseActivity", getClass().getSimpleName());
     ActivityCollector.addActivity(this);
   }
 
@@ -25,15 +25,17 @@ public class BaseActivity extends AppCompatActivity {
 
   /**
    * 退出应用程序
-   * @param context
+   * @param context {Context}
    */
-  public void appExit(Context context){
+  public void appExit(Context context) {
     try{
       ActivityCollector.finishAll();
       ActivityManager activityManager = (ActivityManager) context
               .getSystemService(Context.ACTIVITY_SERVICE);
+      assert activityManager != null;
       activityManager.killBackgroundProcesses(context.getPackageName());
       System.exit(0);
-    }catch (Exception ignored){}
+    } catch (Exception ignored) {
+    }
   }
 }

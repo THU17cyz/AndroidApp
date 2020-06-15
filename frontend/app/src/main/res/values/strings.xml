@@ -9,6 +9,7 @@
 
     <string name="LOGIN">登录</string>
     <string name="LOGON">注册</string>
+    <string name="ACCOUNT">账号</string>
     <string name="CELLPHONE">手机号</string>
     <string name="GET_VERIFICATION_CODE">获取验证码</string>
     <string name="VERIFICATION_CODE">验证码</string>

@@ -6,8 +6,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.androidapp.R;
 import com.example.androidapp.util.SoftKeyBoardListener;
 import com.kingja.loadsir.callback.Callback;
@@ -21,8 +19,10 @@ import butterknife.OnClick;
 
 
 public class LoginActivity extends BaseActivity {
-
-    @BindView(R.id.login_btn)
+    /******************************
+     ************ 变量 ************
+     ******************************/
+    @BindView(R.id.login)
     Button loginBtn;
 
     @BindView(R.id.logon)
@@ -39,6 +39,9 @@ public class LoginActivity extends BaseActivity {
 
     LoadService loadService;
 
+    /******************************
+     ************ 视图 ************
+     ******************************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,22 +70,29 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    //按钮点击事件处理
-    @OnClick(R.id.login_btn)
-    public void login() {
-//        loadService = LoadSir.getDefault().register(this, (Callback.OnReloadListener) v -> {
-//
-//        });
+    public void onJumpToMain() {
+        //loadService.showSuccess();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    /******************************
+     ************ 事件 ************
+     ******************************/
+    @OnClick(R.id.login)
+    public void onClickLogin() {
+    // loadService = LoadSir.getDefault().register(this, (Callback.OnReloadListener) v -> {
+    // });
+    // loadService.showSuccess();
+
 //        new LoginRequest(LoginActivity.this, "T", account.getText().toString(),
 //                password.getText().toString()).send();
-
-        jumpToMain();
+     this.onJumpToMain();
 
     }
 
-    //按钮点击事件处理
     @OnClick(R.id.logon)
-    public void logon() {
+    public void onClickLogon() {
         Intent intent = new Intent(this, LogonActivity.class);
         startActivity(intent);
     }
@@ -94,10 +104,9 @@ public class LoginActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    public void jumpToMain() {
-        //loadService.showSuccess();
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
+    /******************************
+     ************ 逻辑 ************
+     ******************************/
+
 
 }
