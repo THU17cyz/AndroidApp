@@ -12,6 +12,8 @@ import com.example.androidapp.fragment.QueryResult.Recruit;
 import com.example.androidapp.fragment.QueryResult.Student;
 import com.example.androidapp.fragment.QueryResult.Teacher;
 
+import org.jetbrains.annotations.NotNull;
+
 
 public class QueryResultPageAdapter extends FragmentStatePagerAdapter {
     SparseArray<Fragment> registeredFragments = new SparseArray<>();
@@ -50,6 +52,7 @@ public class QueryResultPageAdapter extends FragmentStatePagerAdapter {
         return mNumOfTabs;
     }
 
+    @NotNull
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         Fragment fragment = (Fragment) super.instantiateItem(container, position);

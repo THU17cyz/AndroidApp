@@ -1,11 +1,12 @@
-package com.example.androidapp.adapter;
+package com.example.androidapp.adapter.queryPageAdapter;
 
 import android.content.Context;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.example.androidapp.fragment.QueryResult.Teacher;
+import com.example.androidapp.adapter.MyBaseAdapter;
+import com.example.androidapp.entity.TeacherProfile;
 import com.example.androidapp.R;
 
 import java.util.List;
@@ -18,8 +19,8 @@ public class TeacherAdapter extends MyBaseAdapter {
     private TextView mAffiliation;
     private Button mWatchBtn;
 
-    public TeacherAdapter(List<Teacher.TeacherProfile> data, Context context){
-        super(R.layout.test_layout, data, context);
+    public TeacherAdapter(List<TeacherProfile> data, Context context){
+        super(R.layout.layout_profile_row, data, context);
     }
 
     @Override
@@ -29,7 +30,7 @@ public class TeacherAdapter extends MyBaseAdapter {
     @Override
     protected void initData(BaseViewHolder viewHolder, Object o) {
         // 在这里链式赋值就可以了
-        Teacher.TeacherProfile data = (Teacher.TeacherProfile) o;
+        TeacherProfile data = (TeacherProfile) o;
         viewHolder.setText(R.id.name, data.name)
                 .setText(R.id.affiliation, data.affiliation)
                 .setText(R.id.fan_num, data.fanNum + "人关注");

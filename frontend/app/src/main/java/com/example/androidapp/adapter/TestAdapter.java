@@ -21,7 +21,7 @@ public class TestAdapter<T> extends MyBaseAdapter {
     private Button mWatchBtn;
 
     public TestAdapter(List<T> data, Context context){
-        super(R.layout.test_layout, data, context);
+        super(R.layout.layout_profile_row, data, context);
     }
 
     @Override
