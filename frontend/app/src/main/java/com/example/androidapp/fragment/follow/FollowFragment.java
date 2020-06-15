@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,28 +13,30 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidapp.R;
-import com.example.androidapp.adapter.FollowListAdapter;
-import com.example.androidapp.entity.Follower;
+import com.example.androidapp.adapter.ShortProfileAdapter;
+import com.example.androidapp.component.FocusButton;
+import com.example.androidapp.entity.ShortProfile;
+import com.example.androidapp.entity.TeacherProfile;
+import com.example.androidapp.fragment.ProfileListFragment;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-public class FollowFragment extends Fragment {
+public class FollowFragment extends ProfileListFragment {
 
   SmartRefreshLayout refreshLayout;
   RecyclerView recyclerView;
-  FollowListAdapter adapter;
+  ShortProfileAdapter adapter;
+
+  public FollowFragment() {
+
+  }
 
   @Nullable
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-    View root = inflater.inflate(R.layout.fragment_follow, container, false);
+    View root = super.onCreateView(inflater, container, savedInstanceState);  // inflater.inflate(R.layout.fragment_follow, container, false);
 
 //    refreshLayout = root.findViewById(R.id.refreshLayout);
 //    refreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -49,16 +52,6 @@ public class FollowFragment extends Fragment {
 //      }
 //    });
 
-    recyclerView = root.findViewById(R.id.recycler_view);
-    recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-    adapter = new FollowListAdapter(this.getActivity());
-    recyclerView.setAdapter(adapter);
-
-    List<Follower> followers = new ArrayList<>(Arrays.asList(
-            new Follower("",""),
-            new Follower("","")
-            ));
-    adapter.setTopicListAndNotify(followers);
 
 
     return root;

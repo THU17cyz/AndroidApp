@@ -5,16 +5,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.androidapp.R;
 import com.example.androidapp.adapter.QueryResultPageAdapter;
-import com.example.androidapp.entity.ApplyQueryInfo;
-import com.example.androidapp.entity.RecruitQueryInfo;
-import com.example.androidapp.entity.StudentQueryInfo;
-import com.example.androidapp.entity.TeacherQueryInfo;
+import com.example.androidapp.entity.queryInfo.ApplyQueryInfo;
+import com.example.androidapp.entity.queryInfo.RecruitQueryInfo;
+import com.example.androidapp.entity.queryInfo.StudentQueryInfo;
+import com.example.androidapp.entity.queryInfo.TeacherQueryInfo;
 import com.example.androidapp.fragment.QueryResult.Student;
 import com.example.androidapp.fragment.QueryResult.Teacher;
 import com.example.androidapp.request.search.SearchStudentRequest;

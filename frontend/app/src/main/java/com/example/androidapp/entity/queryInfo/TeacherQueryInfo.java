@@ -1,4 +1,4 @@
-package com.example.androidapp.entity;
+package com.example.androidapp.entity.queryInfo;
 
 public class TeacherQueryInfo {
     private String name;

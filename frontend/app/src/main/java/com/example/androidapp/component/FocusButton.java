@@ -15,6 +15,9 @@ import androidx.annotation.Dimension;
 import androidx.annotation.Nullable;
 
 import com.example.androidapp.R;
+import com.kingja.loadsir.callback.Callback;
+import com.kingja.loadsir.core.LoadService;
+import com.kingja.loadsir.core.LoadSir;
 
 import butterknife.OnClick;
 
@@ -45,16 +48,16 @@ import butterknife.OnClick;
 
 public class FocusButton extends androidx.appcompat.widget.AppCompatButton implements View.OnClickListener {
 
-  private int bg_color_pressed = Color.DKGRAY;
-  private int bg_color = Color.RED;
-  private int text_color_pressed = Color.WHITE;
-  private int text_color = Color.WHITE;
+  private int bg_color_pressed = Color.GRAY;
+  private int bg_color = Color.WHITE;
+  private int text_color_pressed = Color.DKGRAY;
+  private int text_color = Color.BLUE;
   private String text_pressed = "已关注";
-  private String text = "关注";
-  private float radius = 15;
+  private String text = "+ 关注";
+  private float radius = 20;
   private int border_color_pressed = Color.TRANSPARENT;
-  private int border_color = Color.TRANSPARENT;
-  private int border_width = 0;
+  private int border_color = Color.BLUE;
+  private int border_width = 3;
 
   private GradientDrawable drawable_pressed;
   private GradientDrawable drawable;
@@ -108,22 +111,22 @@ public class FocusButton extends androidx.appcompat.widget.AppCompatButton imple
 
     TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.FocusButton);
     if (typedArray != null) {
-      bg_color_pressed = typedArray.getColor(R.styleable.FocusButton_bg_color_pressed,Color.DKGRAY);
-      bg_color = typedArray.getColor(R.styleable.FocusButton_bg_color,Color.RED);
-      text_color_pressed = typedArray.getColor(R.styleable.FocusButton_text_color_pressed,Color.WHITE);
-      text_color = typedArray.getColor(R.styleable.FocusButton_text_color,Color.WHITE);
+      bg_color_pressed = typedArray.getColor(R.styleable.FocusButton_bg_color_pressed, Color.GRAY);
+      bg_color = typedArray.getColor(R.styleable.FocusButton_bg_color, Color.WHITE);
+      text_color_pressed = typedArray.getColor(R.styleable.FocusButton_text_color_pressed, Color.DKGRAY);
+      text_color = typedArray.getColor(R.styleable.FocusButton_text_color,Color.BLUE);
       text_pressed = typedArray.getString(R.styleable.FocusButton_text_pressed);
       if (text_pressed == null) {
         text_pressed = "已关注";
       }
       text = typedArray.getString(R.styleable.FocusButton_text);
       if (text == null) {
-        text = "关注";
+        text = "+ 关注";
       }
-      radius = typedArray.getDimension(R.styleable.FocusButton_radius, 15);
-      border_width = typedArray.getInteger(R.styleable.FocusButton_border_width, 0);
+      radius = typedArray.getDimension(R.styleable.FocusButton_radius, 20);
+      border_width = typedArray.getInteger(R.styleable.FocusButton_border_width, 3);
       border_color_pressed = typedArray.getColor(R.styleable.FocusButton_border_color_pressed, Color.TRANSPARENT);
-      border_color = typedArray.getColor(R.styleable.FocusButton_border_color, Color.TRANSPARENT);
+      border_color = typedArray.getColor(R.styleable.FocusButton_border_color, Color.BLUE);
       typedArray.recycle();
     }
   }
@@ -131,7 +134,22 @@ public class FocusButton extends androidx.appcompat.widget.AppCompatButton imple
 
   @Override
   public void onClick(View v) {
-    if(!pressed){
+    if (!pressed){
+      pressed = true;
+      setBackgroundDrawable(drawable_pressed);
+      setText(text_pressed);
+      setTextColor(text_color_pressed);
+
+    } else {
+      pressed = false;
+      setBackgroundDrawable(drawable);
+      setTextColor(text_color);
+      setText(text);
+    }
+  }
+
+  public void click() {
+    if (!pressed){
       pressed = true;
       setBackgroundDrawable(drawable_pressed);
       setText(text_pressed);
@@ -147,5 +165,13 @@ public class FocusButton extends androidx.appcompat.widget.AppCompatButton imple
 
   public boolean isPressed(){
     return pressed;
+  }
+
+
+  public void setPressed_(boolean pressed) {
+    this.pressed = pressed;
+    setBackgroundDrawable(drawable_pressed);
+    setText(text_pressed);
+    setTextColor(text_color_pressed);
   }
 }

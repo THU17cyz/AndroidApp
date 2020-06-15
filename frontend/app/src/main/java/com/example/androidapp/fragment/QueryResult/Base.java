@@ -20,7 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidapp.R;
 import com.example.androidapp.adapter.MyBaseAdapter;
-import com.example.androidapp.adapter.queryPageAdapter.TeacherAdapter;
+import com.example.androidapp.adapter.ShortProfileAdapter;
+import com.example.androidapp.component.FocusButton;
+import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.entity.TeacherProfile;
 import com.example.androidapp.popup.SelectList;
 import com.example.androidapp.request.search.SearchTeacherRequest;
@@ -55,9 +57,10 @@ public class Base extends Fragment {
 
     @BindView(R.id.recycleView)
     protected RecyclerView recyclerView;
-    protected MyBaseAdapter adapter;
+    protected ShortProfileAdapter mShortProfileAdapter;
 
     SelectList selectList;
+    protected ArrayList<ShortProfile> mProfileList;
 
 
     protected Unbinder unbinder;
@@ -66,6 +69,9 @@ public class Base extends Fragment {
 
     protected String[] order;
     protected int current_order = 0;
+
+    private String test_url = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1592237104788&di=da06c7ee8d8256243940b53531bdeba7&imgtype=0&src=http%3A%2F%2Ftupian.qqjay.com%2Ftou2%2F2018%2F1106%2F60bdf5b88754650e51ccee32bb6ac8ae.jpg";
+
 
     public Base() {
 
@@ -77,25 +83,20 @@ public class Base extends Fragment {
         unbinder = ButterKnife.bind(this, root);
         initViews();
 
-        ArrayList<TeacherProfile> mNameList = new ArrayList<>();
-        mNameList.add(new TeacherProfile(1, "黄翔", "清华大学", "", 999));
-        adapter = new TeacherAdapter(mNameList, getContext());//初始化NameAdapter
-        adapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
-        adapter.openLeftAnimation();//设置加载动画
+        mProfileList = new ArrayList<>();
+        mProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
+                test_url,999, true, false));
+        mShortProfileAdapter = new ShortProfileAdapter(mProfileList, getContext());//初始化NameAdapter
+        mShortProfileAdapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
+        mShortProfileAdapter.openLeftAnimation();//设置加载动画
 
-        // 子组件的监听事件，比如按钮
-        // 在Adapter里注册（addOnClickListener）
-        adapter.setOnItemChildClickListener((adapter, view, position) -> {
-            // 用position获取点击的是什么
+        mShortProfileAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             // TODO 关注
-            Toast.makeText(getActivity(), "testItemChildClick" + position, Toast.LENGTH_SHORT).show();
-            view.setBackground(getContext().getDrawable(R.drawable.shape_unwatch_button));
+            ((FocusButton) view).click();
         });
 
-        // RecycleView 本身的监听事件
-        adapter.setOnItemClickListener((adapter, view, position) -> {
+        mShortProfileAdapter.setOnItemClickListener((adapter, view, position) -> {
             // TODO 进入其主页
-            Toast.makeText(getActivity(), "testItemClick" + position, Toast.LENGTH_SHORT).show();
         });
 
 
@@ -159,15 +160,6 @@ public class Base extends Fragment {
 
     @OnClick(R.id.selectText)
     public void openSelectWindow() {
-//        if (selectText.isActivated()) {
-//            orderList.dismiss();
-//            selectText.setActivated(false);
-//        } else {
-//            selectText.setActivated(true);
-//            orderList = new OrderList(getContext());
-//            orderList.showPopupWindow(orderSpinner);
-//            orderList.setBackground(0);
-//        }
         if (isFilterOpen) {
             isFilterOpen = false;
             if (selectList != null) selectList.dismiss();
