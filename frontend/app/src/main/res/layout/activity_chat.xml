@@ -37,7 +37,7 @@
         android:id="@+id/messagesList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/input"
+        android:layout_above="@id/messageInput"
         android:layout_below="@id/title"
 
         app:dateHeaderFormat="dd MMMM yyyy"
@@ -69,7 +69,7 @@
     <!--        android:background="@color/gray_light"/>-->
 
     <com.stfalcon.chatkit.messages.MessageInput
-        android:id="@+id/input"
+        android:id="@+id/messageInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

@@ -20,25 +20,11 @@
         app:subtitleTextAppearance="@style/TabLayoutTextStyle"
         app:navigationIcon="@drawable/jz_back_normal"></androidx.appcompat.widget.Toolbar>
 
-
-    <ScrollView
-        android:layout_below="@id/toolbar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/linearLayout"
-            android:orientation="vertical">
-
-            <include
-                layout="@layout/item_activity_teacher_edit_intention"
-                android:id="@+id/item_1"></include>
-
-        </LinearLayout>
-
-    </ScrollView>
+        android:layout_height="wrap_content"
+        android:id="@+id/recycler_view"
+        ></RelativeLayout>
 
 
 

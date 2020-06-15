@@ -11,7 +11,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.androidapp.chatTest.GifSizeFilter;
@@ -37,33 +40,56 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-public class ChatActivity extends BaseActivity
-        implements
-        DateFormatter.Formatter,
-        DialogInterface.OnClickListener {
+
+public class ChatActivity
+        extends BaseActivity
+        implements  DateFormatter.Formatter,
+                    DialogInterface.OnClickListener,
+                    MessagesListAdapter.OnLoadMoreListener,
+                    MessagesListAdapter.OnMessageClickListener,
+                    MessageInput.InputListener,
+                    MessageInput.AttachmentsListener
+{
   private static final int REQUEST_CODE_CHOOSE = 10;
-  private List<Uri> mUris;
-  private List<String> mPaths;
 
-  private MessagesList messagesList;
+  @BindView(R.id.messagesList)
+  MessagesList messagesList;
+
+  @BindView(R.id.messageInput)
+  MessageInput messageInput;
+
+  @BindView(R.id.name)
+  TextView name;
+
+  @BindView(R.id.returnButton)
+  Button btn_return;
+
   private MessagesListAdapter messagesAdapter;
-  private MessageInput messageInput;
   private Date lastLoadedDate;
   private ImageLoader imageLoader;
+
+  private List<Uri> mUris;
+  private List<String> mPaths;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_chat);
+    ButterKnife.bind(this);
+    initView();
+  }
 
+  /**
+   * 初始化视图
+   */
+  private void initView(){
     // 状态栏
     ImmersionBar.with(this)
             .statusBarColor(R.color.colorPrimary)
             .init();
-
-    // 消息列表
-    messagesList = findViewById(R.id.messagesList);
 
     // 头像
     imageLoader = new ImageLoader() {
@@ -74,60 +100,18 @@ public class ChatActivity extends BaseActivity
       }
     };
 
+    //消息列表
     messagesAdapter = new MessagesListAdapter<>("0", imageLoader);
-
-    // 加载更多消息
-    messagesAdapter.setLoadMoreListener(new MessagesListAdapter.OnLoadMoreListener() {
-      @Override
-      public void onLoadMore(int page, int totalItemsCount) {
-        Log.i("TAG", "onLoadMore: " + page + " " + totalItemsCount);
-        if (totalItemsCount < 100) {
-          loadMessages();
-        }
-      }
-    });
-
-    // 设置日期格式
     messagesAdapter.setDateHeadersFormatter(this);
-
-    // 消息点击事件
-    messagesAdapter.setOnMessageClickListener(new MessagesListAdapter.OnMessageClickListener() {
-      @Override
-      public void onMessageClick(IMessage message) {
-        Toast.makeText(getApplicationContext(), message.getText() + "clilcked", Toast.LENGTH_SHORT).show();
-      }
-    });
     messagesList.setAdapter(messagesAdapter);
-
-
-    // 输入框
-    messageInput = findViewById(R.id.input);
-    // 输入提交事件
-    messageInput.setInputListener(new MessageInput.InputListener() {
-      @Override
-      public boolean onSubmit(CharSequence input) {
-        messagesAdapter.addToStart(
-                new Message("0", new User("0", "ming", null, true), input.toString())
-                , true);
-        return true;
-      }
-    });
-    // 加号点击事件
-    messageInput.setAttachmentsListener(new MessageInput.AttachmentsListener() {
-      @Override
-      public void onAddAttachments() {
-        Toast.makeText(getApplicationContext(), "attachment", Toast.LENGTH_SHORT).show();
-        new AlertDialog.Builder(ChatActivity.this)
-                .setItems(R.array.view_types_dialog, ChatActivity.this)
-                .show();
-//                messagesAdapter.addToStart(MessagesFixtures.getImageMessage(), true);
-
-      }
-    });
-
   }
 
 
+  /**
+   * 处理日期格式
+   * @param date
+   * @return
+   */
   @Override
   public String format(Date date) {
     if (DateFormatter.isToday(date)) {
@@ -187,6 +171,13 @@ public class ChatActivity extends BaseActivity
     }
   }
 
+
+  /**
+   * 获得已选择的照片
+   * @param requestCode
+   * @param resultCode
+   * @param data
+   */
   @Override
   protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
@@ -208,5 +199,51 @@ public class ChatActivity extends BaseActivity
 
     }
 
+  }
+
+  /**
+   * 加载更多信息
+   * @param page
+   * @param totalItemsCount
+   */
+  @Override
+  public void onLoadMore(int page, int totalItemsCount) {
+    Log.i("TAG", "onLoadMore: " + page + " " + totalItemsCount);
+    if (totalItemsCount < 100) {
+      loadMessages();
+    }
+  }
+
+  /**
+   * 消息点击事件
+   * @param message
+   */
+  @Override
+  public void onMessageClick(IMessage message) {
+    Toast.makeText(getApplicationContext(), message.getText() + "clilcked", Toast.LENGTH_SHORT).show();
+  }
+
+  /**
+   * 输入提交事件
+   * @param input
+   * @return
+   */
+  @Override
+  public boolean onSubmit(CharSequence input) {
+    messagesAdapter.addToStart(
+            new Message("0", new User("0", "ming", null, true), input.toString())
+            , true);
+    return true;
+  }
+
+  /**
+   * 加号点击事件
+   */
+  @Override
+  public void onAddAttachments() {
+    Toast.makeText(getApplicationContext(), "attachment", Toast.LENGTH_SHORT).show();
+    new AlertDialog.Builder(ChatActivity.this)
+            .setItems(R.array.view_types_dialog, ChatActivity.this)
+            .show();
   }
 }
