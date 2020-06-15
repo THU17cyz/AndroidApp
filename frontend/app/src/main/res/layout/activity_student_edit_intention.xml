@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.StudentEditIntentionActivity"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
+        android:layout_alignParentTop="true"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,16 +19,20 @@
         app:subtitleTextAppearance="@style/TabLayoutTextStyle"
         app:navigationIcon="@drawable/jz_back_normal"></androidx.appcompat.widget.Toolbar>
 
-    <include
-        layout="@layout/item_activity_student_edit_intention"
-        android:id="@+id/item_1"></include>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recycler_view"
+        ></RelativeLayout>
+
 
 
     <Button
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="添加"
+        android:text="确定"
         android:textAlignment="center"></Button>
 
 
-</LinearLayout>
+</RelativeLayout>
