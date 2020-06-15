@@ -87,7 +87,7 @@ public class LoginActivity extends BaseActivity {
             public void onReload(View v) { }
         });
         new LoginRequest(this.handleLogin, "T", "T1", "T1").send();
-        
+
         // loadService.showSuccess();
 //    loadService = LoadSir.getDefault().register(this, (Callback.OnReloadListener) v -> {
 //    });
@@ -126,6 +126,7 @@ public class LoginActivity extends BaseActivity {
                 JSONObject jsonObject = new JSONObject(responseBodyString);
                 boolean status = (Boolean) jsonObject.get("status");
                 Log.e("HttpResponse", status ? "√√√√√√√√√√√√√√√√√√√√√√√√√√" : "××××××××××××××××××××××××××");
+                LoginActivity.this.onJumpToMain();
             } catch (JSONException e) {
                 Log.e("HttpResponse", e.toString());
             }
