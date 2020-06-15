@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidapp.adapter.TestAdapter;
 import com.example.androidapp.R;
+import com.example.androidapp.component.FocusButton;
 
 import java.util.ArrayList;
 
@@ -65,7 +66,8 @@ public class TabFragment1 extends Fragment {
         mTestAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             // 用position获取点击的是什么
             Toast.makeText(getActivity(), "testItemChildClick" + position, Toast.LENGTH_SHORT).show();
-            view.setBackground(getContext().getDrawable(R.drawable.shape_unwatch_button));
+            ((FocusButton) view).click();
+            // view.setBackground(getContext().getDrawable(R.drawable.shape_unwatch_button));
         });
 
         // RecycleView 本身的监听事件

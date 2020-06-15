@@ -61,14 +61,11 @@
             android:text="TextView" />
     </LinearLayout>
 
-    <Button
+    <com.example.androidapp.component.FocusButton
         android:id="@+id/watch_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
-        android:layout_weight="1"
-        android:background="@drawable/shape_watch_button"
-        android:text="@string/WATCH"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
