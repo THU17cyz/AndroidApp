@@ -25,15 +25,15 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.androidapp.UI.conversation.ConversationFragment"
+        android:name="com.example.androidapp.UI.notification.NotificationFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_conversation" />
+        tools:layout="@layout/fragment_notification" />
 
     <fragment
         android:id="@+id/navigation_conversations"
-        android:name="com.example.androidapp.UI.notification.NotificationFragment"
+        android:name="com.example.androidapp.UI.conversation.ConversationFragment"
         android:label="@string/title_conversations"
-        tools:layout="@layout/fragment_notification" />
+        tools:layout="@layout/fragment_conversation" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
