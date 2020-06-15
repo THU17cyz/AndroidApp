@@ -50,7 +50,7 @@ public class Student extends Base {
         initViews();
 
         ArrayList<StudentProfile> mNameList = new ArrayList<>();
-        mNameList.add(new StudentProfile("黄翔", "清华大学", "", 999));
+        mNameList.add(new StudentProfile(1, "黄翔", "清华大学", "", 999));
         adapter = new StudentAdapter(mNameList, getContext());//初始化NameAdapter
         adapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
         adapter.openLeftAnimation();//设置加载动画

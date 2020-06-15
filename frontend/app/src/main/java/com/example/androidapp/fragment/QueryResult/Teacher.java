@@ -52,7 +52,7 @@ public class Teacher extends Base {
         initViews();
 
         ArrayList<TeacherProfile> mNameList = new ArrayList<>();
-        mNameList.add(new TeacherProfile("黄翔", "清华大学", "", 999));
+        mNameList.add(new TeacherProfile(2, "黄翔", "清华大学", "", 999));
         adapter = new TeacherAdapter(mNameList, getContext());//初始化NameAdapter
         adapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
         adapter.openLeftAnimation();//设置加载动画
