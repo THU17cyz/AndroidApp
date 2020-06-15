@@ -19,11 +19,11 @@ import com.google.android.flexbox.FlexboxLayout;
 import java.util.Arrays;
 import java.util.List;
 
-import co.lujun.androidtagview.TagContainerLayout;
 import razerdp.basepopup.BasePopupWindow;
 
 public class SelectList extends BasePopupWindow {
-    private static final String[] options = {"985", "211", "一本", "二本"};
+    private final int num = 4;
+    private static final String[] options = {"男 ", "女 ", "一本", "二本"};
     private static final Boolean[] selected = {false, false, false, false};
     FlexboxLayout flexboxLayout;
 
@@ -37,49 +37,26 @@ public class SelectList extends BasePopupWindow {
 
         // setBackground(0);
         setOutSideTouchable(true);
-        setPopupGravity(Gravity.BOTTOM);
+        setPopupGravity(Gravity.BOTTOM | Gravity.RIGHT);
         setAlignBackground(true);
         setAlignBackgroundGravity(Gravity.TOP);
 
 
         ConstraintLayout view = (ConstraintLayout) createPopupById(R.layout.popup_orderlist);
-        TagContainerLayout container = (TagContainerLayout) view.getViewById(R.id.container);
         flexboxLayout = (FlexboxLayout) view.getViewById(R.id.flexbox_layout);
         fillFlexBox(Arrays.asList(options));
-//        container.setTags(options);
-//        container.setOnTagClickListener(new TagView.OnTagClickListener() {
-//            @Override
-//            public void onTagClick(int position, String text) {
-//                if (selected[position]) {
-//                    selected[position] = false;
-//                } else {
-//                    selected[position] = true;
-//                }
-//                Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
-//                container.selectTagView(position);
-//            }
-//
-//            @Override
-//            public void onTagLongClick(int position, String text) {
-//
-//            }
-//
-//            @Override
-//            public void onSelectedTagDrag(int position, String text) {
-//
-//            }
-//
-//            @Override
-//            public void onTagCrossClick(int position) {
-//
-//            }
-//        });
+
         ConstraintLayout btns = (ConstraintLayout) view.getViewById(R.id.btns);
         Button enterBtn = (Button) btns.getViewById(R.id.enterBtn);
         enterBtn.setOnClickListener(v -> {
             dismiss();
             QueryResultActivity activity = (QueryResultActivity) getContext();
             activity.filterResult(Arrays.asList(selected));
+        });
+
+        Button clearBtn = (Button) btns.getViewById(R.id.clearBtn);
+        clearBtn.setOnClickListener(v -> {
+            resetFlexBox();
         });
         return view;
     }
@@ -100,22 +77,52 @@ public class SelectList extends BasePopupWindow {
 
     private void fillFlexBox(List<String> queries) {
         float factor = getContext().getResources().getDisplayMetrics().density;
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                (int) (40 * factor));
+//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+//                (int) (40 * factor));
+
         for (String query: queries) {
             TextView textView = new TextView(getContext());
-            textView.setLayoutParams(params);
+            textView.setWidth((int) (60 * factor));
+            // textView.setLayoutParams(params);
             textView.setClickable(true);
             textView.setBackground(getContext().getDrawable(R.drawable.shape_label));
             textView.setText(query);
             textView.setGravity(Gravity.CENTER);
-            textView.setPadding(15,0,15,0);
+            textView.setPadding(20, 20, 20, 20);
             textView.setTextColor(getContext().getColor(R.color.text_color));
+
             textView.setOnClickListener(viewIn -> {
-                Toast.makeText(getContext(), query, Toast.LENGTH_SHORT).show();
-                selected[Arrays.asList(options).indexOf(query)] = true;
+                int idx = Arrays.asList(options).indexOf(query);
+                if (selected[idx]) {
+                    selected[idx] = false;
+                    textView.setBackground(getContext().getDrawable(R.drawable.shape_label));
+                    textView.setTextColor(getContext().getColor(R.color.text_color));
+                    textView.setPadding(20, 20, 20, 20);
+                    textView.setWidth((int) (60 * factor));
+                } else {
+                    selected[idx] = true;
+                    textView.setBackground(getContext().getDrawable(R.drawable.shape_label_pressed));
+                    textView.setTextColor(getContext().getColor(R.color.label_pressed_text));
+                    textView.setPadding(20, 20, 20, 20);
+                    textView.setWidth((int) (60 * factor));
+                }
+
             });
             flexboxLayout.addView(textView);
+        }
+    }
+
+    private void resetFlexBox() {
+        float factor = getContext().getResources().getDisplayMetrics().density;
+        for (int i = 0; i < num; i++) {
+
+            TextView textView = ((TextView)flexboxLayout.getFlexItemAt(i));
+            textView.setTextColor(getContext().getColor(R.color.text_color));
+            textView.setBackground(getContext().getDrawable(R.drawable.shape_label));
+            textView.setPadding(20, 20, 20, 20);
+            textView.setWidth((int) (60 * factor));
+            selected[i] = false;
+
         }
 
     }

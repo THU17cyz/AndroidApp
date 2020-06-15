@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="60dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,8 +21,8 @@
 
         <ImageButton
             android:id="@+id/imageButton"
-            android:layout_width="?attr/actionBarSize"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:background="@color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -34,11 +34,11 @@
             android:id="@+id/search_view"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:hint="搜点什么吧"
+            android:clickable="true"
             android:drawableLeft="@drawable/ic_search_black_24dp"
             android:drawablePadding="10dp"
-            android:clickable="true"
             android:focusableInTouchMode="false"
+            android:hint="搜点什么吧"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/imageButton"

@@ -163,10 +163,10 @@ public class Base extends Fragment {
         if (isFilterOpen) {
             isFilterOpen = false;
             if (selectList != null) selectList.dismiss();
-            selectText.setTextColor(Color.BLACK);
+            // selectText.setTextColor(Color.BLACK);
         } else {
             isFilterOpen = true;
-            selectText.setTextColor(Color.BLUE);
+            // selectText.setTextColor(Color.BLUE);
             selectList = new SelectList(getContext());
             selectList.showPopupWindow(orderSpinner);
         }

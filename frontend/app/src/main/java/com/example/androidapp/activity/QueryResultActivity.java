@@ -35,6 +35,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -234,5 +235,11 @@ public class QueryResultActivity extends BaseActivity {
 
     public List<Integer> getTeacherIdList() {
         return teacherIdList;
+    }
+
+    @OnClick(R.id.returnButton)
+    public void returnToParent() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }
