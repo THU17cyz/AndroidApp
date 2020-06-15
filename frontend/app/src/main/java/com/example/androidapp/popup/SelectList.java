@@ -22,12 +22,12 @@ import java.util.List;
 import co.lujun.androidtagview.TagContainerLayout;
 import razerdp.basepopup.BasePopupWindow;
 
-public class OrderList extends BasePopupWindow {
+public class SelectList extends BasePopupWindow {
     private static final String[] options = {"985", "211", "一本", "二本"};
     private static final Boolean[] selected = {false, false, false, false};
     FlexboxLayout flexboxLayout;
 
-    public OrderList(Context context) {
+    public SelectList(Context context) {
         super(context);
     }
 

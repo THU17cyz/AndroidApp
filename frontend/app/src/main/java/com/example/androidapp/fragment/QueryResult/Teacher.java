@@ -3,6 +3,7 @@ package com.example.androidapp.fragment.QueryResult;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,15 +19,27 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidapp.adapter.TeacherAdapter;
-import com.example.androidapp.popup.OrderList;
+import com.example.androidapp.popup.SelectList;
 import com.example.androidapp.R;
+import com.example.androidapp.request.search.SearchTeacherRequest;
+import com.kingja.loadsir.callback.Callback;
+import com.kingja.loadsir.callback.ProgressCallback;
+import com.kingja.loadsir.core.LoadService;
+import com.kingja.loadsir.core.LoadSir;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import okhttp3.Call;
+import okhttp3.Response;
 
 public class Teacher extends Fragment {
     public class TeacherProfile {
@@ -54,12 +67,15 @@ public class Teacher extends Fragment {
     private RecyclerView recyclerView;
     private TeacherAdapter adapter;
 
-    OrderList orderList;
+    SelectList selectList;
 
 
     private Unbinder unbinder;
 
-    private static final String[] order = {"default", "hot"};
+    LoadService loadService;
+
+    private static final String[] order = {"默认", "关注人数最多", "最相关"};
+    private int current_order = 0;
 
     public Teacher() {
 
@@ -70,19 +86,16 @@ public class Teacher extends Fragment {
         View root = inflater.inflate(R.layout.fragment_teacher_result, container, false);
         unbinder = ButterKnife.bind(this, root);
 
-        spinnerAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, order);
 
+        spinnerAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, order);
         //下拉的样式res
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //绑定 Adapter到控件
         orderSpinner.setAdapter(spinnerAdapter);
-
         orderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
-            {
-                Toast.makeText(getActivity(), order[pos], Toast.LENGTH_SHORT).show();
-                // new OrderList(getContext()).showPopupWindow(orderSpinner);
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                current_order = pos;
             }
 
             @Override
@@ -113,12 +126,35 @@ public class Teacher extends Fragment {
         adapter.setOnItemClickListener((adapter, view, position) -> {
             Toast.makeText(getActivity(), "testItemClick" + position, Toast.LENGTH_SHORT).show();
         });
-
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(new ColorDrawable(ContextCompat.getColor(getContext(), android.R.color.darker_gray)));
-
         recyclerView.addItemDecoration(dividerItemDecoration);
 
+
+        loadService = LoadSir.getDefault().register(recyclerView, (Callback.OnReloadListener) v -> {
+
+        });
+
+        new SearchTeacherRequest(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.e("error", e.toString());
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String resStr = response.body().string();
+                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+                Log.e("response", resStr);
+                try {
+                    // 解析json，然后进行自己的内部逻辑处理
+                    JSONObject jsonObject = new JSONObject(resStr);
+                    loadService.showSuccess();
+                } catch (JSONException e) {
+
+                }
+            }
+        }, "烦").send();
 
         return root;
 
@@ -142,13 +178,13 @@ public class Teacher extends Fragment {
 //        }
         if (isFilterOpen) {
             isFilterOpen = false;
-            if (orderList != null) orderList.dismiss();
+            if (selectList != null) selectList.dismiss();
             selectText.setTextColor(Color.BLACK);
         } else {
             isFilterOpen = true;
             selectText.setTextColor(Color.BLUE);
-            orderList = new OrderList(getContext());
-            orderList.showPopupWindow(orderSpinner);
+            selectList = new SelectList(getContext());
+            selectList.showPopupWindow(orderSpinner);
         }
 
 //        orderList.setOutSideTouchable(true);

@@ -10,6 +10,10 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.androidapp.R;
 import com.example.androidapp.adapter.QueryResultPageAdapter;
+import com.example.androidapp.entity.ApplyQueryInfo;
+import com.example.androidapp.entity.RecruitQueryInfo;
+import com.example.androidapp.entity.StudentQueryInfo;
+import com.example.androidapp.entity.TeacherQueryInfo;
 import com.example.androidapp.fragment.QueryResult.Teacher;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
@@ -30,6 +34,17 @@ public class QueryResultActivity extends BaseActivity {
     ViewPager viewPager;
 
     QueryResultPageAdapter pagerAdapter;
+
+    String[] tabs = {"教师", "学生", "招生意向", "报考意向"};
+
+    List<Integer> teacherIdList;
+    List<Integer> studentIdList;
+    List<Integer> applyIdList;
+    List<Integer> recruitIdList;
+    List<TeacherQueryInfo> teacherQueryInfoList;
+    List<StudentQueryInfo> studentQueryInfoList;
+    List<ApplyQueryInfo> applyQueryInfoList;
+    List<RecruitQueryInfo> recruitQueryInfoList;
 
 
     private String query;
@@ -63,8 +78,9 @@ public class QueryResultActivity extends BaseActivity {
             }
         });
 
-        tabLayout.addTab(tabLayout.newTab().setText("教师"));
-        tabLayout.addTab(tabLayout.newTab().setText("学生"));
+        for (String tab: tabs) {
+            tabLayout.addTab(tabLayout.newTab().setText(tab));
+        }
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         pagerAdapter = new QueryResultPageAdapter(
                 getSupportFragmentManager(), tabLayout.getTabCount());
@@ -76,7 +92,8 @@ public class QueryResultActivity extends BaseActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
+                int position = tab.getPosition();
+                viewPager.setCurrentItem(position);
             }
 
             @Override

@@ -24,12 +24,6 @@ public class TeacherAdapter extends MyBaseAdapter {
 
     @Override
     protected void initView(BaseViewHolder viewHolder, Object o) {
-        // 这里大多数情况应该不需要初始化
-//        mName = viewHolder.getView(R.id.name);
-//        mHead = viewHolder.getView(R.id.profile_image);
-//        mAffiliation = viewHolder.getView(R.id.affiliation);
-//        mWatchBtn = viewHolder.getView(R.id.watch_btn);
-        //
     }
 
     @Override

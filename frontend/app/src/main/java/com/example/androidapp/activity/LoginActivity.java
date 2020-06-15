@@ -70,9 +70,9 @@ public class LoginActivity extends BaseActivity {
     //按钮点击事件处理
     @OnClick(R.id.login_btn)
     public void login() {
-        loadService = LoadSir.getDefault().register(this, (Callback.OnReloadListener) v -> {
-
-        });
+//        loadService = LoadSir.getDefault().register(this, (Callback.OnReloadListener) v -> {
+//
+//        });
 //        new LoginRequest(LoginActivity.this, "T", account.getText().toString(),
 //                password.getText().toString()).send();
 
@@ -95,7 +95,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void jumpToMain() {
-        loadService.showSuccess();
+        //loadService.showSuccess();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

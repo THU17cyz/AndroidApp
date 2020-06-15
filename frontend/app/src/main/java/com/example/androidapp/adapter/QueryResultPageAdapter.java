@@ -7,12 +7,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.example.androidapp.fragment.QueryResult.Apply;
+import com.example.androidapp.fragment.QueryResult.Recruit;
 import com.example.androidapp.fragment.QueryResult.Student;
 import com.example.androidapp.fragment.QueryResult.Teacher;
 
 
 public class QueryResultPageAdapter extends FragmentStatePagerAdapter {
-    SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
+    SparseArray<Fragment> registeredFragments = new SparseArray<>();
     int mNumOfTabs;
 
     public QueryResultPageAdapter(FragmentManager fm, int NumOfTabs) {
@@ -33,6 +35,8 @@ public class QueryResultPageAdapter extends FragmentStatePagerAdapter {
         switch (position) {
             case 0: return new Teacher();
             case 1: return new Student();
+            case 2: return new Recruit();
+            case 3: return new Apply();
             default: return null;
         }
         //To do closed
