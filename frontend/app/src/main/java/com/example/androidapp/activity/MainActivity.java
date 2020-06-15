@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.androidapp.R;
 import com.example.androidapp.UI.home.HomeFragment;
+import com.example.androidapp.application.App;
 import com.example.androidapp.request.user.LoginRequest;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Http;
@@ -208,7 +209,7 @@ public class MainActivity extends BaseActivity {
                             Toast.LENGTH_LONG).show();
                     exitTime = System.currentTimeMillis();
                 } else {
-                    appExit(MainActivity.this);
+                    App.appExit(MainActivity.this);
                 }
                 return false;
             }

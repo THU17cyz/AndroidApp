@@ -8,34 +8,21 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.kingja.loadsir.core.LoadService;
+
 public class BaseActivity extends AppCompatActivity {
+    LoadService loadService;
 
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    Log.d("BaseActivity", getClass().getSimpleName());
-    ActivityCollector.addActivity(this);
-  }
-
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    ActivityCollector.removeActivity(this);
-  }
-
-  /**
-   * 退出应用程序
-   * @param context {Context}
-   */
-  public void appExit(Context context) {
-    try{
-      ActivityCollector.finishAll();
-      ActivityManager activityManager = (ActivityManager) context
-              .getSystemService(Context.ACTIVITY_SERVICE);
-      assert activityManager != null;
-      activityManager.killBackgroundProcesses(context.getPackageName());
-      System.exit(0);
-    } catch (Exception ignored) {
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d("BaseActivity", getClass().getSimpleName());
+        ActivityCollector.addActivity(this);
     }
-  }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
+    }
 }
