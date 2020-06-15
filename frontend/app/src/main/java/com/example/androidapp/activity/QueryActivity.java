@@ -81,7 +81,6 @@ public class QueryActivity extends BaseActivity {
 
         historyAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             // 用position获取点击的是什么
-            System.out.println(view instanceof Button);
             adapter.remove(position);
         });
 
