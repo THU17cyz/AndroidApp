@@ -25,7 +25,7 @@ public class InfoFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_info, container, false);
+        View root = inflater.inflate(R.layout.fragment_self_info, container, false);
         mRecyclerView = root.findViewById(R.id.recycler_view);
         mNameList = Arrays.asList("小红", "小芳", "小花", "小海", "小林", "小叶", "小虎", "小柔");
         mInfoAdapter = new InfoAdapter(mNameList, getContext());//初始化NameAdapter

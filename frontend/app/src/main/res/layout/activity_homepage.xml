@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_above="@id/buttons"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -18,6 +19,15 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|enterAlways|snap">
+
+                <Button
+                    android:id="@+id/btn_edit"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/ic_drawer_settings_24dp">
+                </Button>
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -155,15 +165,19 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
+
         <androidx.viewpager.widget.ViewPager
-            android:id="@+id/view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+        </androidx.viewpager.widget.ViewPager>
+
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <LinearLayout
+        android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

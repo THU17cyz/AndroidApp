@@ -1,9 +1,11 @@
 package com.example.androidapp.UI.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +18,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.androidapp.R;
+import com.example.androidapp.activity.EditInfoActivity;
 import com.example.androidapp.adapter.HomepagePagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
@@ -25,7 +28,6 @@ import butterknife.ButterKnife;
 
 public class DashboardFragment
         extends Fragment
-        implements TabLayout.OnTabSelectedListener
 {
 
     @BindView(R.id.toolbar)
@@ -34,8 +36,6 @@ public class DashboardFragment
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
 
-    @BindView(R.id.view_pager)
-    ViewPager viewPager;
 
     @BindView(R.id.img_avatar)
     ImageView imgAvatar;
@@ -52,16 +52,21 @@ public class DashboardFragment
     @BindView(R.id.num_focused)
     TextView numFocused;
 
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
 
-    private HomepagePagerAdapter pagerAdapter;
+    @BindView(R.id.btn_edit)
+    Button button;
+
+
+//    private HomepagePagerAdapter pagerAdapter;
 
 
     private DashboardViewModel dashboardViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                ViewModelProviders.of(this).get(DashboardViewModel.class);
+
         View root = inflater.inflate(R.layout.activity_homepage, container, false);
 
         ButterKnife.bind(this,root);
@@ -75,25 +80,51 @@ public class DashboardFragment
         tabLayout.addTab(tabLayout.newTab().setText("招生信息"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        pagerAdapter = new HomepagePagerAdapter(getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
+
+        HomepagePagerAdapter pagerAdapter = new HomepagePagerAdapter(getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), EditInfoActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return root;
     }
 
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-        viewPager.setCurrentItem(tab.getPosition());
-    }
-
-    @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-
-    }
-
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-
-    }
+//    @Override
+//    public void onTabSelected(TabLayout.Tab tab) {
+//        viewPager.setCurrentItem(tab.getPosition());
+//    }
+//
+//    @Override
+//    public void onTabUnselected(TabLayout.Tab tab) {
+//
+//    }
+//
+//    @Override
+//    public void onTabReselected(TabLayout.Tab tab) {
+//
+//    }
 }

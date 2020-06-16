@@ -38,14 +38,14 @@ public class TeacherEditIntentionActivity extends BaseActivity {
 
 
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    adapter = new EditEnrollmentListAdapter(this);
+//    adapter = new EditEnrollmentListAdapter(this);
     recyclerView.setAdapter(adapter);
 
     List<EditEnrollment> editEnrollments = new ArrayList<>(Arrays.asList(
             new EditEnrollment(),
             new EditEnrollment()
     ));
-    adapter.setListAndNotify(editEnrollments);
+//    adapter.setListAndNotify(editEnrollments);
 
 
   }

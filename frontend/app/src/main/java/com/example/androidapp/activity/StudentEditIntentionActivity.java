@@ -40,14 +40,14 @@ public class StudentEditIntentionActivity extends BaseActivity {
 
 
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    adapter = new EditApplicationListAdapter(this);
+//    adapter = new EditApplicationListAdapter(this);
     recyclerView.setAdapter(adapter);
 
     List<EditApplication> editApplications = new ArrayList<>(Arrays.asList(
             new EditApplication(),
             new EditApplication()
     ));
-    adapter.setListAndNotify(editApplications);
+//    adapter.setListAndNotify(editApplications);
 
 //    TextView textView = findViewById(R.id.item_1).findViewById(R.id.choose);
 //    ArrayList<String> options1Items = new ArrayList<>(Arrays.asList("已确定","被拒绝","进行中"));

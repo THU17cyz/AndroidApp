@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:divider="@drawable/shape_line"
+    android:showDividers="middle"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:textColor="?android:attr/textColorPrimary"
+            android:id="@+id/text_direction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="兴趣方向"
+            android:textSize="20dp"></TextView>
+
+        <TextView
+            android:id="@+id/direction"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="20dp"
+            android:text="量子力学"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            ></TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:textColor="?android:attr/textColorPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="意向状态"
+            android:textSize="20dp"></TextView>
+
+        <TextView
+            android:textColor="?android:attr/textColorSecondary"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="进行中"
+            android:textSize="20dp"
+            android:id="@+id/state"
+            ></TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:textColor="?android:attr/textColorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:text="个人简历"
+            android:textSize="20dp"></TextView>
+
+        <TextView
+            android:textColor="?android:attr/textColorSecondary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="简历是xxx"
+            android:textSize="20dp"
+            android:id="@+id/profile"
+            ></TextView>
+
+<!--        <com.ms.square.android.expandabletextview.ExpandableTextView xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--            xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"-->
+<!--            android:id="@+id/expand_text_info"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            expandableTextView:animDuration="200"-->
+<!--            expandableTextView:maxCollapsedLines="4">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/text_info"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:layout_marginRight="10dp"-->
+<!--                android:textColor="?android:attr/textColorSecondary"-->
+<!--                android:text="xxxxxx"-->
+<!--                android:textSize="16sp" />-->
+
+<!--            <ImageButton-->
+<!--                android:id="@id/expand_collapse"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="right|bottom"-->
+<!--                android:background="@android:color/transparent"-->
+<!--                android:padding="16dp" />-->
+<!--        </com.ms.square.android.expandabletextview.ExpandableTextView>-->
+    </LinearLayout>
+
+
+</LinearLayout>
