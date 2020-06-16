@@ -1,5 +1,8 @@
 package com.example.androidapp.adapter;
 
+import android.util.SparseArray;
+import android.view.ViewGroup;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -7,13 +10,16 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import com.example.androidapp.fragment.RecommendFragment;
 import com.example.androidapp.fragment.follow.FollowFragment;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Fragment to return the clicked tab.
  */
-public class MyPagerAdapter extends FragmentStatePagerAdapter {
+public class RecommendPagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
+    SparseArray<Fragment> registeredFragments = new SparseArray<>();
 
-    public MyPagerAdapter(FragmentManager fm, int NumOfTabs) {
+    public RecommendPagerAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
     }
@@ -42,5 +48,23 @@ public class MyPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
         return mNumOfTabs;
+    }
+
+    @NotNull
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        Fragment fragment = (Fragment) super.instantiateItem(container, position);
+        registeredFragments.put(position, fragment);
+        return fragment;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        registeredFragments.remove(position);
+        super.destroyItem(container, position, object);
+    }
+
+    public Fragment getRegisteredFragment(int position) {
+        return registeredFragments.get(position);
     }
 }
