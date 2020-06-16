@@ -16,13 +16,18 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LogonActivity extends BaseActivity {
-
+    /******************************
+     ************ 变量 ************
+     ******************************/
     @BindView(R.id.logonTabLayout)
     TabLayout tabLayout;
 
     @BindView(R.id.logonPager)
     ViewPager viewPager;
 
+    /******************************
+     ************ 方法 ************
+     ******************************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,14 +65,19 @@ public class LogonActivity extends BaseActivity {
 
     }
 
-    //按钮点击事件处理
+    public void onNextPage() {
+        viewPager.setCurrentItem(tabLayout.getSelectedTabPosition() + 1);
+    }
+
+
+    /******************************
+     ************ 事件 ************
+     ******************************/
     @OnClick(R.id.returnButton)
-    public void returnToLogin() {
+    public void onClickReturnToLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 
-    public void nextPage() {
-        viewPager.setCurrentItem(tabLayout.getSelectedTabPosition() + 1);
-    }
+
 }

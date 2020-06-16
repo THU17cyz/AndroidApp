@@ -130,7 +130,6 @@ public class LoginActivity extends BaseActivity {
             } catch (JSONException e) {
                 Log.e("HttpResponse", e.toString());
             }
-
         }
 
         @Override

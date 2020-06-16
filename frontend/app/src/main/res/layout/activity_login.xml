@@ -10,7 +10,9 @@
     android:padding="20dp">
 
 
-    <EditText
+    <com.andreabaccega.widget.FormEditText
+        app:testType="regexp"
+        app:customRegexp="^[0-9]*$"
         android:id="@+id/account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,9 +24,15 @@
         android:padding="15dp"
         android:textColor="@color/white"
         android:textColorHighlight="@color/white"
-        android:textColorHint="@color/white" />
+        android:textColorHint="@color/white"
+        android:autofillHints="" />
 
-    <EditText
+
+
+
+    <com.andreabaccega.widget.FormEditText
+        app:testType="regexp"
+        app:customRegexp="^[0-9]*$"
         android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -118,7 +126,6 @@
             android:shadowColor="@android:color/transparent"
             android:text="@string/LOGON"
             android:textColor="@android:color/black" />
-
     </RelativeLayout>
 
 

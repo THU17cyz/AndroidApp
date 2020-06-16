@@ -4,9 +4,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.example.androidapp.fragment.Logon.LogonFragment1;
-import com.example.androidapp.fragment.Logon.LogonFragment2;
-import com.example.androidapp.fragment.Logon.LogonFragment3;
+import com.example.androidapp.fragment.logon.LogonFragment1;
+import com.example.androidapp.fragment.logon.LogonFragment2;
+import com.example.androidapp.fragment.logon.LogonFragment3;
 
 /**
  * Fragment to return the clicked tab.

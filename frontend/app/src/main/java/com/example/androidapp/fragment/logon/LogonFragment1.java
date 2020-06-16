@@ -1,4 +1,4 @@
-package com.example.androidapp.fragment.Logon;
+package com.example.androidapp.fragment.logon;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +38,7 @@ public class LogonFragment1 extends Fragment {
         super.onActivityCreated(savedInstanceState);
         nextStepButton.setOnClickListener(v -> {
             LogonActivity activity = (LogonActivity) getActivity();
-            activity.nextPage();
+            activity.onNextPage();
         });
     }
 
