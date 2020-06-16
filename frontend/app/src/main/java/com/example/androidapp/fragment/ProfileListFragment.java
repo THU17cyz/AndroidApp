@@ -84,7 +84,7 @@ public class ProfileListFragment extends Fragment {
                     new DeleteFromWatchRequest(new Callback() {
                         @Override
                         public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                            Log.e("error", e.toString());
+                            Log.e("error1", e.toString());
                             getActivity().runOnUiThread(btn::clickFail);
                         }
 
@@ -94,11 +94,12 @@ public class ProfileListFragment extends Fragment {
                             Log.e("response", resStr);
                             try {
                                 JSONObject jsonObject = new JSONObject(resStr);
+                                profile.isFan = false;
                                 getActivity().runOnUiThread(btn::clickSuccess);
 
 //                            loadService.showSuccess();
                             } catch (JSONException e) {
-                                Log.e("error", e.toString());
+                                Log.e("error2", e.toString());
                                 getActivity().runOnUiThread(btn::clickFail);
                             }
 
@@ -108,7 +109,7 @@ public class ProfileListFragment extends Fragment {
                     new AddToWatchRequest(new Callback() {
                         @Override
                         public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                            Log.e("error", e.toString());
+                            Log.e("error1", e.toString());
                             getActivity().runOnUiThread(btn::clickFail);
                         }
 
@@ -118,9 +119,10 @@ public class ProfileListFragment extends Fragment {
                             Log.e("response", resStr);
                             try {
                                 JSONObject jsonObject = new JSONObject(resStr);
+                                profile.isFan = true;
                                 getActivity().runOnUiThread(btn::clickSuccess);
                             } catch (JSONException e) {
-                                Log.e("error", e.toString());
+                                Log.e("error2", e.toString());
                                 getActivity().runOnUiThread(btn::clickFail);
                             }
 

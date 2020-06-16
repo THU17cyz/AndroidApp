@@ -268,7 +268,7 @@ public class FocusButton extends androidx.appcompat.widget.AppCompatButton imple
       public void onAnimationStart(Animator animation) {
         // setBackgroundDrawable(context.getResources().getDrawable(R.drawable.button_main_color_selector));
         setEnabled(false);
-        text = getText().toString();
+        // text = getText().toString();
         setText("");
       }
 
@@ -321,7 +321,7 @@ public class FocusButton extends androidx.appcompat.widget.AppCompatButton imple
 
       @Override
       public void onAnimationEnd(Animator animation) {
-        setText(text);
+        // setText(text);
         setEnabled(true);
         if (finishListener != null) {
           finishListener.onFinish();
