@@ -18,6 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme"
         tools:targetApi="n">
+        <activity android:name=".activity.EditInfoActivity"></activity>
         <activity android:name=".activity.TeacherEditIntentionActivity" />
         <activity android:name=".activity.TeacherEditInfoActivity" />
         <activity android:name=".activity.StudentEditIntentionActivity" />

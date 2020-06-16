@@ -1,6 +1,7 @@
 package com.example.androidapp.adapter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,84 +11,47 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.andreabaccega.widget.FormEditText;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.androidapp.R;
+import com.example.androidapp.component.FocusButton;
+import com.example.androidapp.entity.ApplicationInfo;
 import com.example.androidapp.entity.EditApplication;
 import com.example.androidapp.entity.EditEnrollment;
+import com.example.androidapp.entity.ShortProfile;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
-public class EditApplicationListAdapter extends RecyclerView.Adapter<EditApplicationListAdapter.ViewHolder> {
+public class EditApplicationListAdapter<T> extends MyBaseAdapter {
 
-  private final Activity activity;
-  private final LayoutInflater inflater;
-  private final List<EditApplication> applicationList = new ArrayList<>();
+  private FormEditText direction;
+  private FormEditText state;
+  private FormEditText profile;
 
-  public EditApplicationListAdapter(@NonNull Activity activity) {
-    this.activity = activity;
-    this.inflater = LayoutInflater.from(activity);
-  }
 
-  public void clearListAndNotify() {
-    applicationList.clear();
-    notifyDataSetChanged();
-  }
-
-  public void setListAndNotify(@NonNull List<EditApplication> applicationList) {
-    this.applicationList.clear();
-    this.applicationList.addAll(applicationList);
-    notifyDataSetChanged();
-  }
-
-  public void appendListAndNotify(@NonNull List<EditEnrollment> enrollmentList) {
-    int startPosition = this.applicationList.size();
-    this.applicationList.addAll(applicationList);
-    notifyItemRangeInserted(startPosition, enrollmentList.size());
-  }
-
-  @NonNull
-  @Override
-  public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-    return new ViewHolder(inflater.inflate(R.layout.item_activity_student_edit_intention,parent,false));
+  public EditApplicationListAdapter(List<T> data, Context context){
+    super(R.layout.item_activity_student_edit_intention, data, context);
   }
 
   @Override
-  public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-    holder.bind(applicationList.get(position));
+  protected void initView(BaseViewHolder viewHolder, Object o) {
   }
 
   @Override
-  public int getItemCount() {
-    return applicationList.size();
+  protected void initData(BaseViewHolder viewHolder, Object o) {
+    // 在这里链式赋值就可以了
+    ApplicationInfo data = (ApplicationInfo) o;
+    viewHolder.setText(R.id.direction, data.direction)
+            .setText(R.id.state, data.state)
+            .setText(R.id.profile,data.profile);
   }
 
-  class ViewHolder extends RecyclerView.ViewHolder{
-
-    @BindView(R.id.edit_direction)
-    FormEditText edit_direction;
-
-    @BindView(R.id.choose)
-    TextView choose;
-
-    @BindView(R.id.edit_info)
-    FormEditText edit_info;
-
-    private EditApplication editApplication;
-
-    public ViewHolder(@NonNull View itemView) {
-      super(itemView);
-      ButterKnife.bind(this,itemView);
-    }
-
-    void bind(@NonNull EditApplication editApplication){
-      this.editApplication = editApplication;
-//      image.setBackgroundColor(Color.RED);
-    }
-
+  @Override
+  protected void setListener(BaseViewHolder viewHolder, Object o) {
   }
-
 }
-
