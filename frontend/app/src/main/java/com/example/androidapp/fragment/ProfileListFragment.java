@@ -16,6 +16,8 @@ import com.example.androidapp.R;
 import com.example.androidapp.adapter.ShortProfileAdapter;
 import com.example.androidapp.component.FocusButton;
 import com.example.androidapp.entity.ShortProfile;
+import com.kingja.loadsir.core.LoadService;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import java.util.ArrayList;
 
@@ -28,6 +30,10 @@ public class ProfileListFragment extends Fragment {
 
     @BindView(R.id.recycler_view)
     protected RecyclerView mRecyclerView;
+
+    @BindView(R.id.refreshLayout)
+    RefreshLayout refreshLayout;
+
     protected ArrayList<ShortProfile> mProfileList;
     protected ShortProfileAdapter mShortProfileAdapter;
 
@@ -57,6 +63,7 @@ public class ProfileListFragment extends Fragment {
         // 在Adapter里注册（addOnClickListener）
         mShortProfileAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             Toast.makeText(getActivity(), "testItemChildClick" + position, Toast.LENGTH_SHORT).show();
+            // TODO 关注/取关
             ((FocusButton) view).click();
         });
 

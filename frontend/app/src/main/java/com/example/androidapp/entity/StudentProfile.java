@@ -6,7 +6,7 @@ public class StudentProfile extends ShortProfile {
     public StudentProfile(int id, String name, String affiliation, String url, int fanNum) {
         this.id = id;
         this.name = name;
-        this.affiliation = affiliation;
+        this.school = affiliation;
         this.fanNum = fanNum;
         this.url = url;
     }

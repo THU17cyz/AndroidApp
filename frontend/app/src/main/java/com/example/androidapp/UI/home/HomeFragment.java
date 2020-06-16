@@ -20,6 +20,7 @@ import com.example.androidapp.activity.QueryActivity;
 import com.example.androidapp.R;
 import com.example.androidapp.request.recommend.RecommendFitTeacherRequest;
 import com.google.android.material.tabs.TabLayout;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import org.jetbrains.annotations.NotNull;
@@ -46,8 +47,8 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.search_view)
     EditText searchView;
 
-    @BindView(R.id.refreshLayout)
-    RefreshLayout refreshLayout;
+//    @BindView(R.id.refreshLayout)
+//    public RefreshLayout refreshLayout;
 
     private Unbinder unbinder;
 
@@ -90,37 +91,6 @@ public class HomeFragment extends Fragment {
         // btn = root.findViewById(R.id.button);
 
 
-        refreshLayout.setOnRefreshListener(refreshlayout -> {
-            new RecommendFitTeacherRequest(new Callback() {
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    refreshlayout.finishRefresh(false);//传入false表示刷新失败
-                    Log.e("error", e.toString());
-                }
-
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    String resStr = response.body().string();
-                    Log.e("response", resStr);
-                    try {
-                        // 解析json，然后进行自己的内部逻辑处理
-                        JSONObject jsonObject = new JSONObject(resStr);
-                        JSONArray jsonArray = (JSONArray) jsonObject.get("teacher_id_list");
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject jsonObject2 = jsonArray.getJSONObject(i);
-
-                        }
-                        refreshlayout.finishRefresh(true);
-                    } catch (JSONException e) {
-                        Log.e("error", e.toString());
-                        refreshlayout.finishRefresh(false);
-                    }
-                }
-            }).send();
-
-        });
-
-
 
 
         return root;
@@ -148,7 +118,6 @@ public class HomeFragment extends Fragment {
         unbinder.unbind();
     }
 
-    private void getRecommendList() {
 
-    }
+
 }

@@ -2,7 +2,6 @@ package com.example.androidapp.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -42,7 +41,7 @@ public class ShortProfileAdapter<T> extends MyBaseAdapter {
         // 在这里链式赋值就可以了
         ShortProfile data = (ShortProfile) o;
         viewHolder.setText(R.id.name, data.name)
-                .setText(R.id.info, data.affiliation).setText(R.id.fan,  data.fanNum + "人关注");
+                .setText(R.id.info, data.school).setText(R.id.fan,  data.fanNum + "人关注");
 
         try {
             mHead = viewHolder.getView(R.id.profile_image);
