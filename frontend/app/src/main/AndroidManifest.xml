@@ -18,12 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme"
         tools:targetApi="n">
-        <activity android:name=".activity.EditInfoActivity"></activity>
-        <activity android:name=".activity.TeacherEditIntentionActivity" />
-        <activity android:name=".activity.TeacherEditInfoActivity" />
-        <activity android:name=".activity.StudentEditIntentionActivity" />
-        <activity android:name=".activity.StudentEditInfoActivity" />
-        <activity android:name=".activity.StudentHomepageActivity" />
+
         <activity
             android:name=".activity.TeacherHomepageActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"

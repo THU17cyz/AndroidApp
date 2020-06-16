@@ -95,14 +95,17 @@ android:layout_height="wrap_content">
             style="@style/personal_homepage_font_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="6dp"
+            android:layout_marginRight="10dp"
             android:text="性别"></TextView>
-
-        <com.andreabaccega.widget.FormEditText
-            android:id="@+id/edit_gender"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:emptyErrorString="@string/CANNOT_BE_NULL"></com.andreabaccega.widget.FormEditText>
+            style="@style/personal_homepage_font_style"
+            android:textColor="?android:attr/textColorSecondary"
+            android:text="请选择"
+            android:id="@+id/choose_gender"
+            ></TextView>
+
     </LinearLayout>
 
     <LinearLayout
@@ -165,14 +168,17 @@ android:layout_height="wrap_content">
             style="@style/personal_homepage_font_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="6dp"
+            android:layout_marginRight="10dp"
             android:text="职务"></TextView>
 
-        <com.andreabaccega.widget.FormEditText
-            android:id="@+id/edit_title"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:emptyErrorString="@string/CANNOT_BE_NULL"></com.andreabaccega.widget.FormEditText>
+            style="@style/personal_homepage_font_style"
+            android:textColor="?android:attr/textColorSecondary"
+            android:text="请选择"
+            android:id="@+id/choose_title"
+            ></TextView>
     </LinearLayout>
 
     <LinearLayout
@@ -213,14 +219,17 @@ android:layout_height="wrap_content">
             style="@style/personal_homepage_font_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="6dp"
+            android:layout_marginRight="10dp"
             android:text="学位"></TextView>
 
-        <com.andreabaccega.widget.FormEditText
-            android:id="@+id/edit_degree"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:emptyErrorString="@string/CANNOT_BE_NULL"></com.andreabaccega.widget.FormEditText>
+            style="@style/personal_homepage_font_style"
+            android:textColor="?android:attr/textColorSecondary"
+            android:text="请选择"
+            android:id="@+id/choose_degree"
+            ></TextView>
     </LinearLayout>
 
     <LinearLayout

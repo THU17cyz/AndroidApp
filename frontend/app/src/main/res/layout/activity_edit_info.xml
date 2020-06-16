@@ -14,7 +14,9 @@
         android:background="@color/black"
         app:title="修改信息"
         app:titleTextColor="@color/white"
-        app:navigationIcon="@drawable/ic_action_navigation_arrow_back_inverted"></androidx.appcompat.widget.Toolbar>
+        app:navigationIcon="@drawable/ic_action_navigation_arrow_back_inverted"
+        ></androidx.appcompat.widget.Toolbar>
+
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"

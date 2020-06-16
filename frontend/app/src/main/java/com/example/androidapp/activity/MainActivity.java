@@ -2,6 +2,7 @@ package com.example.androidapp.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -187,6 +188,46 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         // do something with the clicked item :D
+                        switch (position){
+                            case 0:
+                            {
+                                // todo 显示某一fragment
+                                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                                startActivity(intent);
+                                break;
+                            }
+                            case 1:
+                            {
+                                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                                startActivity(intent);
+                                break;
+                            }
+                            case 2:
+                            {
+                                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                                startActivity(intent);
+                                break;
+                            }
+                            case 3:
+                            {
+                                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                                startActivity(intent);
+                                break;
+                            }
+                            case 4:
+                            {
+                                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                                startActivity(intent);
+                                break;
+                            }
+                            case 5:{
+                                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                                startActivity(intent);
+                                break;
+                            }
+
+                        }
+
                         return true;
                     }
                 })

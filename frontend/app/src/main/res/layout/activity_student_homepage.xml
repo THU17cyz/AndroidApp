@@ -90,7 +90,6 @@
                     android:id="@+id/btn_chat"
                     android:layout_marginRight="20dp" />
 
-
                 <LinearLayout
                     android:layout_below="@id/head_pic"
                     android:layout_width="match_parent"

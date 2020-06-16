@@ -100,8 +100,8 @@ public class TeacherHomepageActivity extends BaseActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TeacherHomepageActivity.this,TeacherEditInfoActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(TeacherHomepageActivity.this,TeacherEditInfoActivity.class);
+//                startActivity(intent);
             }
         });
 

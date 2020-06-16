@@ -2,8 +2,36 @@
 <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:id="@+id/toolbar"
+        android:background="@color/black"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+        <ImageView
+            android:id="@+id/btn_return"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_action_navigation_arrow_back_inverted"></ImageView>
+
+        <TextView
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="xxx的个人主页"
+            android:id="@+id/title"
+            android:layout_marginLeft="20dp"
+            android:textSize="20sp">
+        </TextView>
+    </LinearLayout>
+
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_below="@id/toolbar"
         android:layout_above="@id/buttons"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -18,15 +46,6 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|enterAlways|snap">
-
-                <Button
-                    android:id="@+id/btn_edit"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:background="@drawable/ic_edit_black_24dp">
-                </Button>
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -133,26 +152,12 @@
                 </LinearLayout>
 
                 <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#01000000"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-
+                    app:layout_collapseMode="pin"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
-<!--                app:navigationIcon="@drawable/ic_action_navigation_arrow_back"-->
-
-                <!--            <com.pnikosis.materialishprogress.ProgressWheel-->
-                <!--                android:id="@+id/progress_wheel"-->
-                <!--                android:layout_width="108dp"-->
-                <!--                android:layout_height="108dp"-->
-                <!--                android:layout_marginTop="18dp"-->
-                <!--                android:layout_centerHorizontal="true"-->
-                <!--                app:matProg_barColor="@color/color_accent"-->
-                <!--                app:matProg_progressIndeterminate="true"-->
-                <!--                app:matProg_barWidth="4dp"-->
-                <!--                app:matProg_fillRadius="true" />-->
 
             </RelativeLayout>
 
@@ -166,10 +171,10 @@
 
 
         <androidx.viewpager.widget.ViewPager
-                android:id="@+id/view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" >
         </androidx.viewpager.widget.ViewPager>
 
 

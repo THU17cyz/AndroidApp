@@ -64,8 +64,8 @@ public class ChatActivity
   @BindView(R.id.name)
   TextView name;
 
-  @BindView(R.id.returnButton)
-  Button btn_return;
+  @BindView(R.id.btn_return)
+  ImageView btn_return;
 
   private MessagesListAdapter messagesAdapter;
   private Date lastLoadedDate;
@@ -124,6 +124,14 @@ public class ChatActivity
     messagesAdapter = new MessagesListAdapter<>("0", imageLoader);
     messagesAdapter.setDateHeadersFormatter(this);
     messagesList.setAdapter(messagesAdapter);
+
+    btn_return.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent intent = new Intent(ChatActivity.this,MainActivity.class);
+        startActivity(intent);
+      }
+    });
   }
 
 

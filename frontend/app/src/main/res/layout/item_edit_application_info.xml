@@ -15,10 +15,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:divider="@drawable/shape_line"
-    android:showDividers="middle">
-
+    android:showDividers="middle"
+    android:orientation="vertical">
 
 
     <LinearLayout
@@ -39,9 +38,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:text="研究方向"
-                android:textSize="20dp"></TextView>
+                android:text="兴趣方向"
+                ></TextView>
             <ImageView
+                android:id="@+id/delete"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -94,77 +94,19 @@
         android:paddingBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <TextView
             style="@style/personal_homepage_font_style"
             android:textColor="?android:attr/textColorPrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="6dp"
-            android:text="招生类型"
-            ></TextView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="点击选择"
-            style="@style/personal_homepage_font_style"
-            android:textColor="?android:attr/textColorSecondary"
-            android:id="@+id/student_type"></TextView>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:paddingLeft="20dp"
-        android:paddingTop="5dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            style="@style/personal_homepage_font_style"
-            android:textColor="?android:attr/textColorPrimary"
-            android:layout_width="wrap_content"
-            android:layout_marginRight="6dp"
-            android:layout_height="wrap_content"
-            android:text="招生数量"
-            ></TextView>
-
-        <com.andreabaccega.widget.FormEditText
-            style="@style/personal_homepage_font_style"
-            android:textColor="?android:attr/textColorSecondary"
-            android:id="@+id/number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:emptyErrorString="@string/CANNOT_BE_NULL"></com.andreabaccega.widget.FormEditText>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:paddingLeft="20dp"
-        android:paddingTop="5dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            style="@style/personal_homepage_font_style"
-            android:textColor="?android:attr/textColorPrimary"
-            android:layout_width="wrap_content"
-            android:layout_marginRight="6dp"
-            android:layout_height="wrap_content"
-            android:text="具体介绍"
-            ></TextView>
+            android:text="个人简历"></TextView>
 
         <com.andreabaccega.widget.FormEditText
             style="@style/personal_homepage_font_style"
             android:textColor="?android:attr/textColorSecondary"
-            android:id="@+id/introduction"
+            android:id="@+id/profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:emptyErrorString="@string/CANNOT_BE_NULL"></com.andreabaccega.widget.FormEditText>

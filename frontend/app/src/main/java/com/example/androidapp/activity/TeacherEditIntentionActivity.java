@@ -25,8 +25,7 @@ import butterknife.ButterKnife;
 
 public class TeacherEditIntentionActivity extends BaseActivity {
 
-  @BindView(R.id.recycler_view)
-  RecyclerView recyclerView;
+
 
   private EditEnrollmentListAdapter adapter;
 
@@ -34,12 +33,6 @@ public class TeacherEditIntentionActivity extends BaseActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_teacher_edit_intention);
-    ButterKnife.bind(this);
-
-
-    recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//    adapter = new EditEnrollmentListAdapter(this);
-    recyclerView.setAdapter(adapter);
 
     List<EditEnrollment> editEnrollments = new ArrayList<>(Arrays.asList(
             new EditEnrollment(),

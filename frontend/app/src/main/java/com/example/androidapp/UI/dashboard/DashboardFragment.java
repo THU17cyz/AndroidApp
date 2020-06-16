@@ -16,6 +16,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.androidapp.R;
 import com.example.androidapp.activity.EditInfoActivity;
+import com.example.androidapp.activity.HomepageActivity;
 import com.example.androidapp.adapter.HomepagePagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
@@ -63,7 +64,7 @@ public class DashboardFragment
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.activity_homepage, container, false);
+        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
         ButterKnife.bind(this,root);
 
@@ -106,7 +107,18 @@ public class DashboardFragment
             }
         });
 
+        imgAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), HomepageActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
         return root;
+
+
     }
 
 //    @Override

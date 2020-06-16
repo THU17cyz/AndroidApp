@@ -1,16 +1,15 @@
 package com.example.androidapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.example.androidapp.R;
-import com.example.androidapp.adapter.EditInfoPagerAdapter;
 import com.example.androidapp.adapter.HomepagePagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
@@ -18,24 +17,27 @@ import com.gyf.immersionbar.ImmersionBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class EditInfoActivity extends AppCompatActivity {
-
-  @BindView(R.id.view_pager)
-  ViewPager viewPager;
+public class HomepageActivity extends AppCompatActivity {
 
   @BindView(R.id.tab_layout)
   TabLayout tabLayout;
 
-  @BindView(R.id.btn_concern)
-  Button btn_concern;
+  @BindView(R.id.view_pager)
+  ViewPager viewPager;
 
-  @BindView(R.id.toolbar)
-  Toolbar toolbar;
+  @BindView(R.id.btn_return)
+  ImageView btn_return;
+
+  @BindView(R.id.btn_focus)
+  Button btn_focus;
+
+  @BindView(R.id.btn_chat)
+  Button btn_chat;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_edit_info);
+    setContentView(R.layout.activity_homepage);
     ButterKnife.bind(this);
 
     ImmersionBar.with(this)
@@ -47,7 +49,8 @@ public class EditInfoActivity extends AppCompatActivity {
     tabLayout.addTab(tabLayout.newTab().setText("招生信息"));
     tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-    EditInfoPagerAdapter pagerAdapter = new EditInfoPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+
+    HomepagePagerAdapter pagerAdapter = new HomepagePagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
     viewPager.setAdapter(pagerAdapter);
     viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
@@ -68,25 +71,21 @@ public class EditInfoActivity extends AppCompatActivity {
       }
     });
 
-    btn_concern.setOnClickListener(new View.OnClickListener() {
+    btn_return.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        // todo 回退到个人主页
-        Intent intent = new Intent(EditInfoActivity.this,MainActivity.class);
+        Intent intent=new Intent(HomepageActivity.this, MainActivity.class);
         startActivity(intent);
       }
     });
 
-    setSupportActionBar(toolbar);
-    // 标题栏返回
-    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+    btn_chat.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Intent intent = new Intent(EditInfoActivity.this,MainActivity.class);
+        Intent intent=new Intent(HomepageActivity.this, ChatActivity.class);
         startActivity(intent);
       }
     });
-
 
   }
 }
