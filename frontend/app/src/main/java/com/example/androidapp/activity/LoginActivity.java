@@ -2,12 +2,16 @@ package com.example.androidapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.andreabaccega.formedittextvalidator.Validator;
+import com.andreabaccega.widget.FormEditText;
 import com.example.androidapp.R;
 import com.example.androidapp.request.user.LoginRequest;
 import com.example.androidapp.util.Http;
@@ -58,6 +62,30 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+        FormEditText formEditText = findViewById(R.id.account);
+        
+        formEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//        Log.d("testdsf", String.valueOf(formEditText.testValidity()));
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.d("testdsf", String.valueOf(formEditText.testValidity()));
+                formEditText.testValidity();
+                formEditText.setError("fuck");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Log.d("testdsf", String.valueOf(formEditText.testValidity()));
+            }
+        });
+
+        formEditText.addValidator(new myValidator(""));
+
 
         SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
             @Override
@@ -137,5 +165,18 @@ public class LoginActivity extends BaseActivity {
             Log.e("HttpError", e.toString());
         }
     };
+
+    class myValidator extends Validator {
+
+
+        public myValidator(String _customErrorMessage) {
+            super("fuck wrong");
+        }
+
+        @Override
+        public boolean isValid(EditText et) {
+            return false;
+        }
+    }
 
 }
