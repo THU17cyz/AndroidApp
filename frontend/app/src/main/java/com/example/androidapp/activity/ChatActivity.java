@@ -1,6 +1,7 @@
 package com.example.androidapp.activity;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,19 +49,19 @@ public class ChatActivity
         implements  DateFormatter.Formatter,
                     DialogInterface.OnClickListener,
                     MessagesListAdapter.OnLoadMoreListener,
-                    MessagesListAdapter.OnMessageClickListener,
-                    MessageInput.InputListener,
-                    MessageInput.AttachmentsListener
+                    MessagesListAdapter.OnMessageClickListener
+//                    MessageInput.InputListener,
+//                    MessageInput.AttachmentsListener
 {
   private static final int REQUEST_CODE_CHOOSE = 10;
 
   @BindView(R.id.messagesList)
   MessagesList messagesList;
 
-  @BindView(R.id.messageInput)
+  @BindView(R.id.input)
   MessageInput messageInput;
 
-  @BindView(R.id.logon1_type)
+  @BindView(R.id.name)
   TextView name;
 
   @BindView(R.id.returnButton)
@@ -78,6 +80,26 @@ public class ChatActivity
     setContentView(R.layout.activity_chat);
     ButterKnife.bind(this);
     initView();
+
+    messageInput.setInputListener(new MessageInput.InputListener() {
+      @Override
+      public boolean onSubmit(CharSequence input) {
+        messagesAdapter.addToStart(
+                new Message("0", new User("0", "ming", null, true), input.toString())
+                , true);
+        return true;
+      }
+    });
+
+    messageInput.setAttachmentsListener(new MessageInput.AttachmentsListener() {
+      @Override
+      public void onAddAttachments() {
+        Toast.makeText(getApplicationContext(), "attachment", Toast.LENGTH_SHORT).show();
+        new AlertDialog.Builder(ChatActivity.this)
+                .setItems(R.array.view_types_dialog, ChatActivity.this)
+                .show();
+      }
+    });
   }
 
   /**
@@ -221,27 +243,27 @@ public class ChatActivity
     Toast.makeText(getApplicationContext(), message.getText() + "clilcked", Toast.LENGTH_SHORT).show();
   }
 
-  /**
-   * 输入提交事件
-   * @param input
-   * @return
-   */
-  @Override
-  public boolean onSubmit(CharSequence input) {
-    messagesAdapter.addToStart(
-            new Message("0", new User("0", "ming", null, true), input.toString())
-            , true);
-    return true;
-  }
-
-  /**
-   * 加号点击事件
-   */
-  @Override
-  public void onAddAttachments() {
-    Toast.makeText(getApplicationContext(), "attachment", Toast.LENGTH_SHORT).show();
-    new AlertDialog.Builder(ChatActivity.this)
-            .setItems(R.array.view_types_dialog, ChatActivity.this)
-            .show();
-  }
+//  /**
+//   * 输入提交事件
+//   * @param input
+//   * @return
+//   */
+//  @Override
+//  public boolean onSubmit(CharSequence input) {
+//    messagesAdapter.addToStart(
+//            new Message("0", new User("0", "ming", null, true), input.toString())
+//            , true);
+//    return true;
+//  }
+//
+//  /**
+//   * 加号点击事件
+//   */
+//  @Override
+//  public void onAddAttachments() {
+//    Toast.makeText(getApplicationContext(), "attachment", Toast.LENGTH_SHORT).show();
+//    new AlertDialog.Builder(ChatActivity.this)
+//            .setItems(R.array.view_types_dialog, ChatActivity.this)
+//            .show();
+//  }
 }

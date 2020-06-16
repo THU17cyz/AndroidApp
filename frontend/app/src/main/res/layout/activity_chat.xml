@@ -21,7 +21,7 @@
             android:background="@drawable/ic_keyboard_arrow_left_white_24dp" />
 
         <TextView
-            android:id="@+id/chat_name"
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -33,11 +33,10 @@
 
 
     <com.stfalcon.chatkit.messages.MessagesList
-
+        android:layout_above="@id/input"
         android:id="@+id/messagesList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/messageInput"
         android:layout_below="@id/title"
 
         app:dateHeaderFormat="dd MMMM yyyy"
@@ -68,17 +67,18 @@
     <!--        android:layout_marginRight="16dp"-->
     <!--        android:background="@color/gray_light"/>-->
 
-    <com.stfalcon.chatkit.messages.MessageInput
-        android:id="@+id/messageInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+<com.stfalcon.chatkit.messages.MessageInput
         app:attachmentButtonDefaultIconColor="@color/green"
         app:attachmentButtonDefaultIconPressedColor="@color/green_dark"
         app:inputButtonDefaultBgColor="@color/green"
         app:inputButtonDefaultBgPressedColor="@color/green_dark"
         app:inputCursorDrawable="@drawable/shape_custom_cursor"
         app:inputHint="enter_a_message"
-        app:showAttachmentButton="true" />
+        app:showAttachmentButton="true"
+    android:layout_alignParentBottom="true"
+    android:id="@+id/input"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"></com.stfalcon.chatkit.messages.MessageInput>
+
 
 </RelativeLayout>

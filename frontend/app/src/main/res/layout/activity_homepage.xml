@@ -21,11 +21,11 @@
 
                 <Button
                     android:id="@+id/btn_edit"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:background="@drawable/ic_drawer_settings_24dp">
+                    android:background="@drawable/ic_edit_black_24dp">
                 </Button>
 
                 <ImageView
@@ -51,7 +51,7 @@
                         android:src="@drawable/bg_login" />
 
                     <TextView
-                        android:id="@+id/logon1_type"
+                        android:id="@+id/name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -176,24 +176,41 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <LinearLayout
+        android:background="@color/white60"
         android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
-        <Button
+        <com.example.androidapp.component.FocusButton
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/white"
             android:id="@+id/btn_focus"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="关注"
             android:layout_weight="1"
-            ></Button>
-        <Button
+            app:radius="5dp"
+            app:text_color="@color/md_light_blue_400"
+            app:border_color="@color/md_light_blue_400"
+            ></com.example.androidapp.component.FocusButton>
+        <com.example.androidapp.component.FocusButton
+            android:layout_marginRight="20dp"
+            android:background="@color/white"
             android:id="@+id/btn_chat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="私聊"></Button>
+            app:text_color="@color/md_light_blue_400"
+            app:text_color_pressed="@color/md_light_blue_400"
+            app:text="私聊"
+            app:text_pressed="私聊"
+            app:bg_color="@color/white"
+            app:bg_color_pressed="@color/white"
+            app:border_color="@color/md_light_blue_400"
+            app:border_color_pressed="@color/md_light_blue_400"
+            app:radius="5dp"></com.example.androidapp.component.FocusButton>
     </LinearLayout>
 
 </RelativeLayout>

@@ -4,7 +4,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingTop="6dp"
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp"
+    android:paddingBottom="6dp"
+    android:background="@color/white">
+
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius="5dp"
+        app:contentPaddingBottom="4dp"
+        app:contentPaddingTop="4dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,7 +48,7 @@
                 android:text="姓名"></TextView>
 
             <TextView
-                android:id="@+id/logon1_type"
+                android:id="@+id/name"
                 android:textColor="?android:attr/textColorSecondary"
                 style="@style/personal_homepage_font_style"
                 android:layout_width="wrap_content"
@@ -57,7 +73,7 @@
                 android:text="性别"></TextView>
 
             <TextView
-                android:id="@+id/logon1_type"
+                android:id="@+id/gender"
                 android:textColor="?android:attr/textColorSecondary"
                 style="@style/personal_homepage_font_style"
                 android:layout_width="wrap_content"
@@ -82,7 +98,7 @@
                 android:text="学校"></TextView>
 
             <TextView
-                android:id="@+id/logon2_name"
+                android:id="@+id/school"
                 android:textColor="?android:attr/textColorSecondary"
                 style="@style/personal_homepage_font_style"
                 android:layout_width="wrap_content"
@@ -107,7 +123,7 @@
                 android:text="院系"></TextView>
 
             <TextView
-                android:id="@+id/logon2_department"
+                android:id="@+id/department"
                 android:textColor="?android:attr/textColorSecondary"
                 style="@style/personal_homepage_font_style"
                 android:layout_width="wrap_content"
@@ -397,7 +413,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="个人介绍"
+                android:layout_marginBottom="3dp"
                 style="@style/personal_homepage_font_style"></TextView>
+
+            <TextView
+                android:id="@+id/introduction"
+                android:textColor="?android:attr/textColorSecondary"
+                style="@style/personal_homepage_font_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="6dp"
+                android:text="个人介绍是xxxxxxxx"></TextView>
 
             <!--        <com.ms.square.android.expandabletextview.ExpandableTextView xmlns:android="http://schemas.android.com/apk/res/android"-->
             <!--            xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"-->
@@ -431,6 +457,7 @@
 
     </LinearLayout>
 
+    </androidx.cardview.widget.CardView>
 
 
 </androidx.core.widget.NestedScrollView>
