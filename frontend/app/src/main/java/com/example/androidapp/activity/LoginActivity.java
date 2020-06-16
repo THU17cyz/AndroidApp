@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -14,12 +13,8 @@ import com.andreabaccega.formedittextvalidator.Validator;
 import com.andreabaccega.widget.FormEditText;
 import com.example.androidapp.R;
 import com.example.androidapp.request.user.LoginRequest;
-import com.example.androidapp.util.Http;
+import com.example.androidapp.util.Hint;
 import com.example.androidapp.util.SoftKeyBoardListener;
-import com.kingja.loadsir.callback.Callback;
-import com.kingja.loadsir.callback.ProgressCallback;
-import com.kingja.loadsir.core.LoadService;
-import com.kingja.loadsir.core.LoadSir;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -110,10 +105,7 @@ public class LoginActivity extends BaseActivity {
      ******************************/
     @OnClick(R.id.login)
     public void onClickLogin() {
-        loadService = LoadSir.getDefault().register(this, new Callback.OnReloadListener() {
-            @Override
-            public void onReload(View v) { }
-        });
+        Hint.startActivityLoad(this);
         new LoginRequest(this.handleLogin, "T", "T1", "T1").send();
 
         // loadService.showSuccess();
@@ -145,7 +137,7 @@ public class LoginActivity extends BaseActivity {
         @Override
         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
             try {
-                loadService.showSuccess();
+                Hint.endActivityLoad(LoginActivity.this);
                 // 打印返回结果
                 Log.e("HttpResponse", response.toString());
                 ResponseBody responseBody = response.body();

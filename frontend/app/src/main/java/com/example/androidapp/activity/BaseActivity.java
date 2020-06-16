@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.kingja.loadsir.core.LoadService;
 
 public class BaseActivity extends AppCompatActivity {
-    LoadService loadService;
+    public LoadService loadService;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
