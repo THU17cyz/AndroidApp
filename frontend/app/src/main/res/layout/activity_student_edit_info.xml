@@ -33,7 +33,7 @@
 
         <include
             layout="@layout/item_activity_edit_info"
-            android:id="@+id/name"></include>
+            android:id="@+id/logon1_type"></include>
 
         <include
             layout="@layout/item_activity_edit_info"
@@ -41,11 +41,11 @@
 
         <include
             layout="@layout/item_activity_edit_info"
-            android:id="@+id/school"></include>
+            android:id="@+id/logon2_name"></include>
 
         <include
             layout="@layout/item_activity_edit_info"
-            android:id="@+id/department"></include>
+            android:id="@+id/logon2_department"></include>
 
         <include
             layout="@layout/item_activity_edit_info"

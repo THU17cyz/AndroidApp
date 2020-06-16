@@ -40,7 +40,7 @@ public class ShortProfileAdapter<T> extends MyBaseAdapter {
     protected void initData(BaseViewHolder viewHolder, Object o) {
         // 在这里链式赋值就可以了
         ShortProfile data = (ShortProfile) o;
-        viewHolder.setText(R.id.name, data.name)
+        viewHolder.setText(R.id.logon1_type, data.name)
                 .setText(R.id.info, data.school).setText(R.id.fan,  data.fanNum + "人关注");
 
         try {
@@ -52,7 +52,7 @@ public class ShortProfileAdapter<T> extends MyBaseAdapter {
         }
 
         if (data.isValidated) {
-            TextView mNameView = viewHolder.getView(R.id.name);
+            TextView mNameView = viewHolder.getView(R.id.logon1_type);
             Drawable drawable = mNameView.getContext().getDrawable(R.drawable.ic_validated);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             mNameView.setCompoundDrawables(null,null, drawable, null);

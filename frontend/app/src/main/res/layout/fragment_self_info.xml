@@ -32,7 +32,7 @@
                 android:text="姓名"></TextView>
 
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/logon1_type"
                 android:textColor="?android:attr/textColorSecondary"
                 style="@style/personal_homepage_font_style"
                 android:layout_width="wrap_content"
@@ -57,7 +57,7 @@
                 android:text="性别"></TextView>
 
             <TextView
-                android:id="@+id/gender"
+                android:id="@+id/logon1_type"
                 android:textColor="?android:attr/textColorSecondary"
                 style="@style/personal_homepage_font_style"
                 android:layout_width="wrap_content"
@@ -82,7 +82,7 @@
                 android:text="学校"></TextView>
 
             <TextView
-                android:id="@+id/school"
+                android:id="@+id/logon2_name"
                 android:textColor="?android:attr/textColorSecondary"
                 style="@style/personal_homepage_font_style"
                 android:layout_width="wrap_content"
@@ -107,7 +107,7 @@
                 android:text="院系"></TextView>
 
             <TextView
-                android:id="@+id/department"
+                android:id="@+id/logon2_department"
                 android:textColor="?android:attr/textColorSecondary"
                 style="@style/personal_homepage_font_style"
                 android:layout_width="wrap_content"

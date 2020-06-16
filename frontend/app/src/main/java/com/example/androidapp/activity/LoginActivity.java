@@ -35,19 +35,19 @@ public class LoginActivity extends BaseActivity {
      ************ 变量 ************
      ******************************/
     @BindView(R.id.login)
-    Button loginBtn;
+    Button loginButton;
 
     @BindView(R.id.logon)
-    Button logonBtn;
+    Button logonButton;
 
     @BindView(R.id.forgetPassword)
     Button forgetPasswordButton;
 
-    @BindView(R.id.account)
-    EditText account;
+    @BindView(R.id.login_account)
+    FormEditText accountEditText;
 
-    @BindView(R.id.password)
-    EditText password;
+    @BindView(R.id.login_password)
+    FormEditText passwordEditText;
 
     /******************************
      ************ 方法 ************
@@ -58,28 +58,22 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        FormEditText formEditText = findViewById(R.id.account);
-        
-        formEditText.addTextChangedListener(new TextWatcher() {
+        accountEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//        Log.d("testdsf", String.valueOf(formEditText.testValidity()));
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.d("testdsf", String.valueOf(formEditText.testValidity()));
-                formEditText.testValidity();
-                formEditText.setError("fuck");
+                Log.d("testdsf", String.valueOf(accountEditText.testValidity()));
+                accountEditText.testValidity();
+                accountEditText.setError("fuck");
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-                Log.d("testdsf", String.valueOf(formEditText.testValidity()));
-            }
+            public void afterTextChanged(Editable s) { }
         });
 
-        formEditText.addValidator(new myValidator(""));
+        // formEditText.addValidator(new myValidator(""));
 
 
         SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
@@ -107,15 +101,6 @@ public class LoginActivity extends BaseActivity {
     public void onClickLogin() {
         Hint.startActivityLoad(this);
         new LoginRequest(this.handleLogin, "T", "T1", "T1").send();
-
-        // loadService.showSuccess();
-//    loadService = LoadSir.getDefault().register(this, (Callback.OnReloadListener) v -> {
-//    });
-        // loadService.showSuccess();
-
-//        new LoginRequest(LoginActivity.this, "T", account.getText().toString(),
-//                password.getText().toString()).send();
-        // this.onJumpToMain();
     }
 
     @OnClick(R.id.logon)
@@ -125,7 +110,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     @OnClick(R.id.forgetPassword)
-    public void resetPassword() {
+    public void onClickForgetPassword() {
         Intent intent = new Intent(this, ResetPasswordActivity.class);
         startActivity(intent);
     }
