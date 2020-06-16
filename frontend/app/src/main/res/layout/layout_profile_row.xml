@@ -66,6 +66,7 @@
 
     </LinearLayout>
 
+
     <com.example.androidapp.component.FocusButton
         android:id="@+id/watch_btn"
         android:layout_width="70dp"

@@ -92,7 +92,7 @@ public class Base extends Fragment {
 
         mShortProfileAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             // TODO 关注
-            ((FocusButton) view).click();
+            ((FocusButton) view).clickSuccess();
         });
 
         mShortProfileAdapter.setOnItemClickListener((adapter, view, position) -> {

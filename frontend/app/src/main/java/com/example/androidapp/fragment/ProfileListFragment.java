@@ -2,6 +2,7 @@ package com.example.androidapp.fragment;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +17,26 @@ import com.example.androidapp.R;
 import com.example.androidapp.adapter.ShortProfileAdapter;
 import com.example.androidapp.component.FocusButton;
 import com.example.androidapp.entity.ShortProfile;
+import com.example.androidapp.request.follow.AddToWatchRequest;
+import com.example.androidapp.request.follow.DeleteFromWatchRequest;
 import com.kingja.loadsir.core.LoadService;
+import com.kingja.loadsir.core.LoadSir;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Optional;
 import butterknife.Unbinder;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class ProfileListFragment extends Fragment {
     protected Unbinder unbinder;
@@ -65,7 +77,59 @@ public class ProfileListFragment extends Fragment {
         mShortProfileAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             Toast.makeText(getActivity(), "testItemChildClick" + position, Toast.LENGTH_SHORT).show();
             // TODO 关注/取关
-            ((FocusButton) view).click();
+            FocusButton btn = ((FocusButton) view);
+            btn.startLoading(() -> {
+                ShortProfile profile = mProfileList.get(position);
+                if (profile.isFan) {
+                    new DeleteFromWatchRequest(new Callback() {
+                        @Override
+                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                            Log.e("error", e.toString());
+                            getActivity().runOnUiThread(btn::clickFail);
+                        }
+
+                        @Override
+                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                            String resStr = response.body().string();
+                            Log.e("response", resStr);
+                            try {
+                                JSONObject jsonObject = new JSONObject(resStr);
+                                getActivity().runOnUiThread(btn::clickSuccess);
+
+//                            loadService.showSuccess();
+                            } catch (JSONException e) {
+                                Log.e("error", e.toString());
+                                getActivity().runOnUiThread(btn::clickFail);
+                            }
+
+                        }
+                    }, String.valueOf(profile.id), profile.isTeacher).send();
+                } else {
+                    new AddToWatchRequest(new Callback() {
+                        @Override
+                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                            Log.e("error", e.toString());
+                            getActivity().runOnUiThread(btn::clickFail);
+                        }
+
+                        @Override
+                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                            String resStr = response.body().string();
+                            Log.e("response", resStr);
+                            try {
+                                JSONObject jsonObject = new JSONObject(resStr);
+                                getActivity().runOnUiThread(btn::clickSuccess);
+                            } catch (JSONException e) {
+                                Log.e("error", e.toString());
+                                getActivity().runOnUiThread(btn::clickFail);
+                            }
+
+                        }
+                    }, String.valueOf(profile.id), profile.isTeacher).send();
+                }
+            });
+
+
         });
 
         // RecycleView 本身的监听事件

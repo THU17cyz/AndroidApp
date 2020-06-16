@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ShortProfile {
+    public boolean isTeacher;
     public int id;
     public String name;
     public String school;
@@ -29,7 +30,7 @@ public class ShortProfile {
     }
 
     public ShortProfile(JSONObject jsonObject, boolean isTeacher) throws JSONException {
-
+        this.isTeacher = isTeacher;
         this.name = jsonObject.getString("name");
         this.isMale = jsonObject.getString("gender").equalsIgnoreCase("M");
         this.school = jsonObject.getString("school");
