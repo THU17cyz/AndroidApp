@@ -25,7 +25,8 @@
         android:textColor="@color/white"
         android:textColorHighlight="@color/white"
         android:textColorHint="@color/white"
-        android:autofillHints="" />
+        android:autofillHints=""
+        app:emptyErrorString="@string/CANNOT_BE_NULL"/>
 
 
 
