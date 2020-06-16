@@ -1,5 +1,6 @@
 package com.example.androidapp.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,8 @@ import com.example.androidapp.request.recommend.RecommendFitStudentRequest;
 import com.example.androidapp.request.recommend.RecommendFitTeacherRequest;
 import com.example.androidapp.request.recommend.RecommendHotRequest;
 import com.example.androidapp.request.recommend.RecommendRandomRequest;
+import com.kingja.loadsir.core.LoadService;
+import com.kingja.loadsir.core.LoadSir;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import org.jetbrains.annotations.NotNull;
@@ -35,7 +38,9 @@ import okhttp3.Response;
 public class RecommendFragment extends ProfileListFragment {
 
     boolean isTeacher;
-
+    LoadService loadService;
+    Activity activity;
+    int fixed_num;
 
 
     public RecommendFragment(int num) {
@@ -49,21 +54,34 @@ public class RecommendFragment extends ProfileListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = super.onCreateView(inflater, container, savedInstanceState);
 //        refreshLayout = ((HomeFragment) getParentFragment()).refreshLayout;
+        activity = getActivity();
+        getRecommendList(false);
+
         refreshLayout.setOnRefreshListener(refreshlayout -> {
             getRecommendList(true);
-
         });
         return root;
 
     }
 
     private void getRecommendList(boolean isRefresh) {
+        if (!isRefresh) {
+            loadService = LoadSir.getDefault().register(mRecyclerView, (com.kingja.loadsir.callback.Callback.OnReloadListener) v -> {
+
+            });
+        }
         final int[] receiveCount = {0};
 
         new RecommendRandomRequest(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                if (receiveCount[0] == 2) refreshLayout.finishRefresh(false);
+                if (receiveCount[0] == 2) {
+                    if (isRefresh) {
+                        refreshLayout.finishRefresh(false);
+                    } else {
+                        activity.runOnUiThread(loadService::showSuccess);
+                    }
+                }
                 receiveCount[0]++;
                 Log.e("error", e.toString());
             }
@@ -78,12 +96,25 @@ public class RecommendFragment extends ProfileListFragment {
                     if (isTeacher) jsonArray = (JSONArray) jsonObject.get("teacher_info_list");
                     else jsonArray = (JSONArray) jsonObject.get("student_info_list");
                     for (int i = 0; i < jsonArray.length(); i++) {
-                        new ShortProfile(jsonArray.getJSONObject(i), isTeacher);
+                        if (isRefresh) mProfileList.remove(0);
+                        mProfileList.add(new ShortProfile(jsonArray.getJSONObject(i), isTeacher));
                     }
-                    if (receiveCount[0] == 2) refreshLayout.finishRefresh(true);
+                    if (receiveCount[0] == 2) {
+                        if (isRefresh) {
+                            refreshLayout.finishRefresh(true);
+                        } else {
+                            activity.runOnUiThread(loadService::showSuccess);
+                        }
+                    }
                     receiveCount[0]++;
                 } catch (JSONException e) {
-                    if (receiveCount[0] == 2) refreshLayout.finishRefresh(false);
+                    if (receiveCount[0] == 2) {
+                        if (isRefresh) {
+                            refreshLayout.finishRefresh(false);
+                        } else {
+                            activity.runOnUiThread(loadService::showSuccess);
+                        }
+                    }
                     receiveCount[0]++;
                     Log.e("error", e.toString());
                 }
@@ -94,7 +125,13 @@ public class RecommendFragment extends ProfileListFragment {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Log.e("error", e.toString());
-                if (receiveCount[0] == 2) refreshLayout.finishRefresh(false);
+                if (receiveCount[0] == 2) {
+                    if (isRefresh) {
+                        refreshLayout.finishRefresh(false);
+                    } else {
+                        activity.runOnUiThread(loadService::showSuccess);
+                    }
+                }
                 receiveCount[0]++;
             }
 
@@ -108,13 +145,26 @@ public class RecommendFragment extends ProfileListFragment {
                     if (isTeacher) jsonArray = (JSONArray) jsonObject.get("teacher_info_list");
                     else jsonArray = (JSONArray) jsonObject.get("student_info_list");
                     for (int i = 0; i < jsonArray.length(); i++) {
-                        new ShortProfile(jsonArray.getJSONObject(i), isTeacher);
+                        if (isRefresh) mProfileList.remove(0);
+                        mProfileList.add(new ShortProfile(jsonArray.getJSONObject(i), isTeacher));
                     }
-                    if (receiveCount[0] == 2) refreshLayout.finishRefresh(true);
+                    if (receiveCount[0] == 2) {
+                        if (isRefresh) {
+                            refreshLayout.finishRefresh(true);
+                        } else {
+                            activity.runOnUiThread(loadService::showSuccess);
+                        }
+                    }
                     receiveCount[0]++;
                 } catch (JSONException e) {
                     Log.e("error", e.toString());
-                    if (receiveCount[0] == 2) refreshLayout.finishRefresh(false);
+                    if (receiveCount[0] == 2) {
+                        if (isRefresh) {
+                            refreshLayout.finishRefresh(false);
+                        } else {
+                            activity.runOnUiThread(loadService::showSuccess);
+                        }
+                    }
                     receiveCount[0]++;
                 }
             }
@@ -123,7 +173,13 @@ public class RecommendFragment extends ProfileListFragment {
         new RecommendFitRequest(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                if (receiveCount[0] == 2) refreshLayout.finishRefresh(false);
+                if (receiveCount[0] == 2) {
+                    if (isRefresh) {
+                        refreshLayout.finishRefresh(false);
+                    } else {
+                        activity.runOnUiThread(loadService::showSuccess);
+                    }
+                }
                 receiveCount[0]++;
                 Log.e("error", e.toString());
             }
@@ -138,13 +194,29 @@ public class RecommendFragment extends ProfileListFragment {
                     if (isTeacher) jsonArray = (JSONArray) jsonObject.get("teacher_info_list");
                     else jsonArray = (JSONArray) jsonObject.get("student_info_list");
                     for (int i = 0; i < jsonArray.length(); i++) {
-                        new ShortProfile(jsonArray.getJSONObject(i), isTeacher);
+                        if (isRefresh) {
+                            mProfileList.remove(0);
+                            mShortProfileAdapter.notifyItemRemoved(0);
+                        }
+                        mProfileList.add(new ShortProfile(jsonArray.getJSONObject(i), isTeacher));
                     }
-                    if (receiveCount[0] == 2) refreshLayout.finishRefresh(true);
+                    if (receiveCount[0] == 2) {
+                        if (isRefresh) {
+                            refreshLayout.finishRefresh(true);
+                        } else {
+                            activity.runOnUiThread(loadService::showSuccess);
+                        }
+                    }
                     receiveCount[0]++;
                 } catch (JSONException e) {
                     Log.e("error", e.toString());
-                    if (receiveCount[0] == 2) refreshLayout.finishRefresh(false);
+                    if (receiveCount[0] == 2) {
+                        if (isRefresh) {
+                            refreshLayout.finishRefresh(false);
+                        } else {
+                            activity.runOnUiThread(loadService::showSuccess);
+                        }
+                    }
                     receiveCount[0]++;
                 }
             }

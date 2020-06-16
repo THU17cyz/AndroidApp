@@ -34,7 +34,7 @@ public abstract class MyBaseAdapter<T> extends BaseQuickAdapter<T, BaseViewHolde
         super(itemViewId, data);
         this.mItemViewId=itemViewId;
         this.mContext=context;
-        this.mData=data;
+        this.mData =data;
     }
 
     @Override
