@@ -10,11 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.androidapp.R;
@@ -40,7 +37,7 @@ public class DashboardFragment
     @BindView(R.id.img_avatar)
     ImageView imgAvatar;
 
-    @BindView(R.id.name)
+    @BindView(R.id.logon1_type)
     TextView name;
 
     @BindView(R.id.signature)

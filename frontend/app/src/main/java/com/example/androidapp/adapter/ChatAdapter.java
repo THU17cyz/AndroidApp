@@ -24,7 +24,7 @@ public class ChatAdapter<T> extends MyBaseAdapter {
 
     @Override
     protected void initView(BaseViewHolder viewHolder, Object o) {
-        mName = viewHolder.getView(R.id.name);
+        mName = viewHolder.getView(R.id.logon1_type);
         mHead = viewHolder.getView(R.id.head);
     }
 

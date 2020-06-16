@@ -1,6 +1,5 @@
 package com.example.androidapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
@@ -34,7 +33,7 @@ public class StudentEditInfoActivity extends BaseActivity {
     setSupportActionBar(toolbar);
 
 
-    TextView textView = findViewById(R.id.name).findViewById(R.id.text);
+    TextView textView = findViewById(R.id.logon1_type).findViewById(R.id.text);
     textView.setText("个人姓名");
 
     formEditText = findViewById(R.id.test_edit);
@@ -72,7 +71,7 @@ public class StudentEditInfoActivity extends BaseActivity {
 
 
   public void onClickNext(View v) {
-    FormEditText formEditText = findViewById(R.id.name).findViewById(R.id.edit);
+    FormEditText formEditText = findViewById(R.id.logon1_type).findViewById(R.id.edit);
     formEditText.testValidity();
   }
 

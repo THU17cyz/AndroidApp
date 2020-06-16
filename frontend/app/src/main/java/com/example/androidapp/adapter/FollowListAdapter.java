@@ -1,9 +1,6 @@
 package com.example.androidapp.adapter;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Color;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +10,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.androidapp.R;
 import com.example.androidapp.component.FocusButton;
 import com.example.androidapp.entity.Follower;
@@ -76,7 +72,7 @@ public class FollowListAdapter extends RecyclerView.Adapter<FollowListAdapter.Vi
     @BindView(R.id.image)
     CircleImageView image;
 
-    @BindView(R.id.name)
+    @BindView(R.id.logon1_type)
     TextView name;
 
     @BindView(R.id.button)
@@ -101,7 +97,7 @@ public class FollowListAdapter extends RecyclerView.Adapter<FollowListAdapter.Vi
 
     }
 
-    @OnClick(R.id.name)
+    @OnClick(R.id.logon1_type)
     void onNameClick(){
       Toast.makeText(activity,"ok",Toast.LENGTH_LONG).show();
     }
