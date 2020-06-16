@@ -70,5 +70,4 @@ public class LogonFragment1 extends Fragment {
         LogonActivity activity = (LogonActivity) getActivity();
         activity.onNextPage();
     }
-
 }
