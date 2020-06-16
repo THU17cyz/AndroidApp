@@ -34,8 +34,8 @@ public class LogonActivity extends BaseActivity {
         setContentView(R.layout.activity_logon);
         ButterKnife.bind(this);
 
-        tabLayout.addTab(tabLayout.newTab().setText("手机验证"));
-        tabLayout.addTab(tabLayout.newTab().setText("基本信息"));
+        tabLayout.addTab(tabLayout.newTab().setText("用户注册"));
+        tabLayout.addTab(tabLayout.newTab().setText("信息完善"));
         tabLayout.addTab(tabLayout.newTab().setText("身份验证"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 //        tabLayout.setTabMode(TabLayout.MODE_FIXED);
@@ -43,24 +43,15 @@ public class LogonActivity extends BaseActivity {
         LogonPagerAdapter pagerAdapter = new LogonPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        // viewPager.set
-
-
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
+            public void onTabSelected(TabLayout.Tab tab) { viewPager.setCurrentItem(tab.getPosition()); }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabUnselected(TabLayout.Tab tab) { }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabReselected(TabLayout.Tab tab) { }
         });
 
     }
