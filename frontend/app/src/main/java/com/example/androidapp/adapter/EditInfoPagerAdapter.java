@@ -31,7 +31,7 @@ public class EditInfoPagerAdapter extends FragmentStatePagerAdapter {
     switch (position) {
       case 0: return new EditSelfInfoFragment();
       case 1: return new EditStudyInfoFragment();
-      case 2:return new EditApplicationInfoFragment();
+      case 2:return new EditEnrollmentInfoFragment();
       case 3:return new EditEnrollmentInfoFragment();
       default: return null;
     }

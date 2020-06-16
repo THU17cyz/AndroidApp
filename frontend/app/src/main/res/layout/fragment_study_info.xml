@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingTop="6dp"
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp"
+    android:paddingBottom="6dp"
+    android:background="@color/white">
+
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius="5dp"
+        app:contentPaddingBottom="4dp"
+        app:contentPaddingTop="4dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,6 +42,7 @@
             android:paddingBottom="5dp">
 
             <TextView
+                android:layout_marginBottom="3dp"
                 android:id="@+id/text_direction_or_interest"
                 style="@style/personal_homepage_font_style"
                 android:layout_width="wrap_content"
@@ -33,6 +51,7 @@
                 android:text="研究方向/兴趣"></TextView>
 
             <TextView
+                style="@style/personal_homepage_font_style"
                 android:id="@+id/direction_or_interest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,6 +76,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
                 android:text="研究经历"></TextView>
+
+            <TextView
+                style="@style/personal_homepage_font_style"
+                android:id="@+id/result_or_experience"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="?android:attr/textColorSecondary"
+                android:text="我的研究经历是是巴拉巴拉"></TextView>
+
             <!-- sample xml -->
 <!--            <com.ms.square.android.expandabletextview.ExpandableTextView xmlns:android="http://schemas.android.com/apk/res/android"-->
 <!--                xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"-->
@@ -113,6 +141,9 @@
 
 
     </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
 
 </androidx.core.widget.NestedScrollView>
 

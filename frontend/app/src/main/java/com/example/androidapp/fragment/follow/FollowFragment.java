@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidapp.R;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FollowFragment extends ProfileListFragment {
+public class FollowFragment extends Fragment {
 
   @BindView(R.id.t_recycler_view)
   RecyclerView tRecyclerView;
@@ -51,7 +52,7 @@ public class FollowFragment extends ProfileListFragment {
     View root = inflater.inflate(R.layout.fragment_follow_list, container, false);
     ButterKnife.bind(this, root);
 
-    mProfileList = new ArrayList<>();
+    ArrayList<ShortProfile> mProfileList = new ArrayList<>();
     mProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
             test_url,999, true, false));
     mProfileList.add(new ShortProfile(1, "黄翔", "清华大学",

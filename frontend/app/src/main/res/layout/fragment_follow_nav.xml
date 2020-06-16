@@ -51,8 +51,7 @@
         android:background="@color/transparent"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/Theme.AppCompat.Light"
-        app:tabTextAppearance="@style/TabLayoutTextStyle"
-        app:tabTextColor="@color/black" />
+        />
 
 
     <androidx.viewpager.widget.ViewPager

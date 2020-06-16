@@ -11,11 +11,10 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@color/black"
         app:title="修改信息"
         app:titleTextColor="@color/white"
-        app:subtitleTextAppearance="@style/TabLayoutTextStyle"
-        app:navigationIcon="@drawable/jz_back_normal"></androidx.appcompat.widget.Toolbar>
+        app:navigationIcon="@drawable/ic_action_navigation_arrow_back_inverted"></androidx.appcompat.widget.Toolbar>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
@@ -25,6 +24,7 @@
         android:layout_below="@id/toolbar"/>
 
     <androidx.viewpager.widget.ViewPager
+        android:background="@color/white60"
         android:layout_above="@id/btn_concern"
         android:layout_below="@id/tab_layout"
         android:id="@+id/view_pager"
@@ -33,6 +33,7 @@
     </androidx.viewpager.widget.ViewPager>
 
     <Button
+        android:background="@color/white"
         android:id="@+id/btn_concern"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

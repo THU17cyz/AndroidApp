@@ -22,7 +22,7 @@
 
     <style name="personal_homepage_font_style" parent="android:Widget">
 
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">18dp</item>
 
     </style>
 

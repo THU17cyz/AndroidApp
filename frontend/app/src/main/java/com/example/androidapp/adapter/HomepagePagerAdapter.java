@@ -33,7 +33,7 @@ public class HomepagePagerAdapter extends FragmentStatePagerAdapter {
     switch (position) {
       case 0: return new SelfInfoFragment();
       case 1: return new StudyInfoFragment();
-      case 2:return new EnrollmentInfoFragment();
+      case 2:return new ApplicationInfoFragment();
       case 3:return new FollowFragment();
       default: return null;
     }

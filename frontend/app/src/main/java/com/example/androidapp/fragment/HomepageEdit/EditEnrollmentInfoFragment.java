@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class EditEnrollmentInfoFragment extends Fragment {
 
   RecyclerView recyclerView;
-  EnrollmentListAdapter adapter;
+  EditEnrollmentListAdapter adapter;
   //To do
   public EditEnrollmentInfoFragment() {
 
@@ -37,7 +37,7 @@ public class EditEnrollmentInfoFragment extends Fragment {
     ArrayList<EnrollmentInfo> mEnrollmentList = new ArrayList<>();
     mEnrollmentList.add(new EnrollmentInfo("计算机图形学", "本科生", "100","进行中","介绍就是xxx"));
     mEnrollmentList.add(new EnrollmentInfo("物联网", "进行中", "我是xxx","进行中","介绍是xxx"));
-    adapter = new EnrollmentListAdapter(mEnrollmentList, getContext());//初始化NameAdapter
+    adapter = new EditEnrollmentListAdapter(mEnrollmentList, getContext());//初始化NameAdapter
     adapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
 
     return view;

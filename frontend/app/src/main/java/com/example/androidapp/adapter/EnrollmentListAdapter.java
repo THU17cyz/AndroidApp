@@ -20,7 +20,7 @@ public class EnrollmentListAdapter<T> extends MyBaseAdapter {
   private TextView introduction;
 
   public EnrollmentListAdapter(List<T> data, Context context){
-    super(R.layout.item_activity_teacher_edit_intention, data, context);
+    super(R.layout.item_enrollment_info, data, context);
   }
 
   @Override

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidapp.R;
 import com.example.androidapp.adapter.ApplicationListAdapter;
+import com.example.androidapp.adapter.EditApplicationListAdapter;
 import com.example.androidapp.entity.ApplicationInfo;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 public class EditApplicationInfoFragment extends Fragment {
 
   RecyclerView recyclerView;
-  ApplicationListAdapter adapter;
+  EditApplicationListAdapter adapter;
   //To do
   public EditApplicationInfoFragment() {
 
@@ -34,7 +35,7 @@ public class EditApplicationInfoFragment extends Fragment {
     ArrayList<ApplicationInfo> mApplicationList = new ArrayList<>();
     mApplicationList.add(new ApplicationInfo("计算机图形学", "进行中", "我是xxx"));
     mApplicationList.add(new ApplicationInfo("物联网", "进行中", "我是xxx"));
-    adapter = new ApplicationListAdapter(mApplicationList, getContext());//初始化NameAdapter
+    adapter = new EditApplicationListAdapter(mApplicationList, getContext());//初始化NameAdapter
     adapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
 
     return view;

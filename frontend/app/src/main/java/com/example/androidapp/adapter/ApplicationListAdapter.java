@@ -36,7 +36,7 @@ public class ApplicationListAdapter<T> extends MyBaseAdapter {
   private TextView profile;
 
   public ApplicationListAdapter(List<T> data, Context context){
-    super(R.layout.item_activity_student_edit_intention, data, context);
+    super(R.layout.item_application_info, data, context);
   }
 
   @Override

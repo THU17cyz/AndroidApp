@@ -1,21 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    app:cardCornerRadius="5dp"
+    app:contentPaddingBottom="4dp"
+    app:contentPaddingTop="4dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
 <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:divider="@drawable/shape_line"
+    android:showDividers="middle"
     android:orientation="vertical">
 
+
     <LinearLayout
+        android:paddingLeft="20dp"
+        android:paddingTop="5dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
+        android:orientation="vertical">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="8"
-            android:text="兴趣方向"
-            android:textSize="20dp"></TextView>
+            android:layout_height="wrap_content">
+            <TextView
+                style="@style/personal_homepage_font_style"
+                android:textColor="?android:attr/textColorPrimary"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"
+                android:text="兴趣方向"
+                ></TextView>
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_clear_black_24dp"
+                ></ImageView>
+
+        </RelativeLayout>
+
+
 
         <com.andreabaccega.widget.FormEditText
             android:id="@+id/direction"
@@ -26,41 +60,52 @@
     </LinearLayout>
 
     <LinearLayout
+        android:paddingLeft="20dp"
+        android:paddingTop="5dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
+            style="@style/personal_homepage_font_style"
+            android:textColor="?android:attr/textColorPrimary"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="8"
+            android:layout_marginRight="6dp"
             android:text="意向状态"
-            android:textSize="20dp"></TextView>
+            ></TextView>
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
             android:text="点击选择"
-            android:textSize="20dp"
+            style="@style/personal_homepage_font_style"
+            android:textColor="?android:attr/textColorSecondary"
             android:id="@+id/state"></TextView>
     </LinearLayout>
 
     <LinearLayout
+        android:paddingLeft="20dp"
+        android:paddingTop="5dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <TextView
+            style="@style/personal_homepage_font_style"
+            android:textColor="?android:attr/textColorPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="8"
-            android:text="个人简历"
-            android:textSize="20dp"></TextView>
+            android:text="个人简历"></TextView>
 
         <com.andreabaccega.widget.FormEditText
+            style="@style/personal_homepage_font_style"
+            android:textColor="?android:attr/textColorSecondary"
             android:id="@+id/profile"
-            android:layout_weight="2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:emptyErrorString="@string/CANNOT_BE_NULL"></com.andreabaccega.widget.FormEditText>
@@ -68,3 +113,5 @@
 
 
 </LinearLayout>
+
+</androidx.cardview.widget.CardView>
