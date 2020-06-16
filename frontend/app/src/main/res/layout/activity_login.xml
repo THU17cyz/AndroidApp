@@ -12,7 +12,7 @@
     <com.andreabaccega.widget.FormEditText
         app:testType="regexp"
         app:customRegexp="^[0-9]*$"
-        android:id="@+id/account"
+        android:id="@+id/login_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -33,7 +33,7 @@
     <com.andreabaccega.widget.FormEditText
         app:testType="regexp"
         app:customRegexp="^[0-9]*$"
-        android:id="@+id/password"
+        android:id="@+id/login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"

@@ -33,11 +33,10 @@ public class DashboardFragment
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
 
-
     @BindView(R.id.img_avatar)
     ImageView imgAvatar;
 
-    @BindView(R.id.logon1_type)
+    @BindView(R.id.homepage_name)
     TextView name;
 
     @BindView(R.id.signature)
