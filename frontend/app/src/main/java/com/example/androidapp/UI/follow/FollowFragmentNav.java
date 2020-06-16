@@ -36,10 +36,6 @@ public class FollowFragmentNav extends Fragment {
     tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.FOLLOWER)));
     tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-    TabLayout tabLayout_2 = root.findViewById(R.id.tab_layout_2);
-    tabLayout_2.addTab(tabLayout_2.newTab().setText(getString(R.string.TUTOR)));
-    tabLayout_2.addTab(tabLayout_2.newTab().setText(getString(R.string.STUDENT)));
-    tabLayout_2.setTabGravity(TabLayout.GRAVITY_FILL);
 
     final ViewPager viewPager = root.findViewById(R.id.pager);
     FollowPagerAdapter pagerAdapter = new FollowPagerAdapter(getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
@@ -49,7 +45,6 @@ public class FollowFragmentNav extends Fragment {
     tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
       @Override
       public void onTabSelected(TabLayout.Tab tab) {
-//                if(tab.getPosition()==0){
         viewPager.setCurrentItem(tab.getPosition());
       }
 
