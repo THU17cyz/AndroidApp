@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.androidapp.R;
@@ -57,11 +58,17 @@ public class QueryResultActivity extends BaseActivity {
     List<Integer> studentIdList;
     List<Integer> applyIdList;
     List<Integer> recruitIdList;
+
+
     List<TeacherQueryInfo> teacherQueryInfoList;
     List<StudentQueryInfo> studentQueryInfoList;
     List<ApplyQueryInfo> applyQueryInfoList;
     List<RecruitQueryInfo> recruitQueryInfoList;
-    LoadService loadService;
+
+    boolean teacherInfo;
+    boolean studentInfo;
+    boolean applyInfo;
+    boolean recruitInfo;
 
     private String query;
 
@@ -85,6 +92,9 @@ public class QueryResultActivity extends BaseActivity {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 // TODO
+                query = searchView.getQuery().toString();
+                queryReset();
+                loadQueryInfo(viewPager.getCurrentItem());
                 return false;
             }
 
@@ -111,7 +121,6 @@ public class QueryResultActivity extends BaseActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
                 viewPager.setCurrentItem(position);
-//                loadQueryInfo(position);
             }
 
             @Override
@@ -131,65 +140,35 @@ public class QueryResultActivity extends BaseActivity {
             }
             @Override
             public void onPageSelected(int position) {
+                Log.e("1", "wtf");
                 loadQueryInfo(position);
             }
             @Override
             public void onPageScrollStateChanged(int state) {
             }
         });
+    }
 
-//        loadService = LoadSir.getDefault().register(viewPager, (Callback.OnReloadListener) v -> {
-//
-//        });
+    private void queryReset() {
+//        teacherQueryInfoList = null;
+//        studentQueryInfoList = null;
+//        applyQueryInfoList = null;
+//        recruitQueryInfoList = null;
+        ((Teacher) pagerAdapter.getRegisteredFragment(0)).clearQueryResult();
+        ((Student) pagerAdapter.getRegisteredFragment(1)).clearQueryResult();
+        teacherInfo = false;
+        studentInfo = false;
+        applyInfo = false;
+        recruitInfo = false;
+    }
 
-
-//        new SearchTeacherRequest(new okhttp3.Callback() {
-//            @Override
-//            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-//                Log.e("error", e.toString());
-//            }
-//
-//            @Override
-//            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-//                String resStr = response.body().string();
-//                runOnUiThread(() -> Toast.makeText(QueryResultActivity.this, resStr, Toast.LENGTH_LONG).show());
-//                Log.e("response", resStr);
-//                try {
-//                    // 解析json，然后进行自己的内部逻辑处理
-//                    JSONObject jsonObject = new JSONObject(resStr);
-//                    JSONArray jsonArray = (JSONArray) jsonObject.get("teacher_id_list");
-//                    teacherIdList = new ArrayList<>();
-//                    for (int i = 0; i < jsonArray.length(); i++) {
-//                        JSONObject jsonObject2 = jsonArray.getJSONObject(i);
-//                        teacherIdList.add(jsonObject2.getInt("id"));
-//
-//                    }
-//                    // loadService.showSuccess();
-//                } catch (JSONException e) {
-//
-//                }
-//            }
-//        }, "烦").send();
-//        new SearchStudentRequest(new okhttp3.Callback() {
-//            @Override
-//            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-//                Log.e("error", e.toString());
-//            }
-//
-//            @Override
-//            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-//                String resStr = response.body().string();
-//                runOnUiThread(() -> Toast.makeText(QueryResultActivity.this, resStr, Toast.LENGTH_LONG).show());
-//                Log.e("response", resStr);
-//                try {
-//                    // 解析json，然后进行自己的内部逻辑处理
-//                    JSONObject jsonObject = new JSONObject(resStr);
-//                    loadService.showSuccess();
-//                } catch (JSONException e) {
-//
-//                }
-//            }
-//        }, "烦").send();
+    public void querySet(int position) {
+        switch (position) {
+            case 0: teacherInfo = true;
+            case 1: studentInfo = true;
+            case 2: applyInfo = true;
+            default: recruitInfo = true;
+        }
     }
 
     public void filterResult(List<Boolean> filters) {
@@ -210,15 +189,16 @@ public class QueryResultActivity extends BaseActivity {
         System.out.println(position);
         switch (position) {
             case 0: {
-                if (teacherQueryInfoList != null) return;
+                if (teacherInfo) return;
                 Teacher teacher = (Teacher) pagerAdapter.getRegisteredFragment(0);
-                teacherQueryInfoList = teacher.loadQueryInfo();
+                teacher.loadQueryInfo(query);
                 break;
             }
             case 1: {
-                if (studentQueryInfoList != null) return;
+                Log.e("1", "fuck" + studentInfo);
+                if (studentInfo) return;
                 Student student = (Student) pagerAdapter.getRegisteredFragment(1);
-                studentQueryInfoList = student.loadQueryInfo();
+                student.loadQueryInfo(query);
                 break;
             }
             case 2: {
@@ -250,6 +230,10 @@ public class QueryResultActivity extends BaseActivity {
 
     public List<Integer> getTeacherIdList() {
         return teacherIdList;
+    }
+
+    public String getQuery() {
+        return query;
     }
 
     @OnClick(R.id.returnButton)

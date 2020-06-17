@@ -59,6 +59,7 @@ public class Base extends Fragment {
 
     @BindView(R.id.recycleView)
     protected RecyclerView recyclerView;
+
     protected ShortProfileAdapter mShortProfileAdapter;
 
     SelectList selectList;
@@ -102,32 +103,6 @@ public class Base extends Fragment {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(new ColorDrawable(ContextCompat.getColor(getContext(), android.R.color.darker_gray)));
         recyclerView.addItemDecoration(dividerItemDecoration);
-
-
-//        loadService = LoadSir.getDefault().register(recyclerView, (Callback.OnReloadListener) v -> {
-//
-//        });
-//
-//        new SearchTeacherRequest(new okhttp3.Callback() {
-//            @Override
-//            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-//                Log.e("error", e.toString());
-//            }
-//
-//            @Override
-//            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-//                String resStr = response.body().string();
-//                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-//                Log.e("response", resStr);
-//                try {
-//                    // 解析json，然后进行自己的内部逻辑处理
-//                    JSONObject jsonObject = new JSONObject(resStr);
-//                    loadService.showSuccess();
-//                } catch (JSONException e) {
-//
-//                }
-//            }
-//        }, "烦").send();
 
         return root;
 
@@ -177,6 +152,35 @@ public class Base extends Fragment {
         // orderList.setBackground(0);
 
     }
+
+    void addProfileItem(boolean isRefresh, ShortProfile shortProfile) {
+        if (recyclerView.isComputingLayout()) {
+            Log.e("errorrecyclerview", "ohno");
+            recyclerView.post(() -> {
+                if (isRefresh) {
+                    for (ShortProfile tmp: mProfileList) {
+                        if (tmp.id == shortProfile.id) return;
+                    }
+                    mProfileList.remove(0);
+                    mShortProfileAdapter.notifyItemRemoved(0);
+                }
+                mProfileList.add(shortProfile);
+            });
+
+
+        } else {
+            if (isRefresh) {
+                for (ShortProfile tmp: mProfileList) {
+                    if (tmp.id == shortProfile.id) return;
+                }
+                mProfileList.remove(0);
+                mShortProfileAdapter.notifyItemRemoved(0);
+            }
+            mProfileList.add(shortProfile);
+        }
+    }
+
+
 
     private void addButtonListener(ShortProfileAdapter shortProfileAdapter, ArrayList<ShortProfile> shortProfileArrayList) {
         shortProfileAdapter.setOnItemChildClickListener((adapter, view, position) -> {

@@ -1,14 +1,32 @@
 package com.example.androidapp.fragment.QueryResult;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.androidapp.activity.QueryResultActivity;
+import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.entity.queryInfo.StudentQueryInfo;
+import com.example.androidapp.entity.queryInfo.TeacherQueryInfo;
+import com.example.androidapp.request.search.SearchStudentRequest;
+import com.example.androidapp.request.search.SearchTeacherRequest;
+import com.kingja.loadsir.callback.Callback;
+import com.kingja.loadsir.core.LoadSir;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Response;
 
 public class Student extends Base {
 
@@ -24,8 +42,43 @@ public class Student extends Base {
     }
 
 
-    public List<StudentQueryInfo> loadQueryInfo() {
-        return new ArrayList<>();
+    public void loadQueryInfo(String query) {
+        loadService = LoadSir.getDefault().register(recyclerView, (Callback.OnReloadListener) v -> {
+
+        });
+        new SearchStudentRequest(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.e("error", e.toString());
+                loadService.showSuccess();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String resStr = response.body().string();
+                getActivity().runOnUiThread(() -> Toast.makeText(getContext(), resStr, Toast.LENGTH_LONG).show());
+                Log.e("response", resStr);
+                try {
+                    JSONObject jsonObject = new JSONObject(resStr);
+                    JSONArray jsonArray;
+                    jsonArray = (JSONArray) jsonObject.get("student_info_list");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        ShortProfile shortProfile = new ShortProfile(jsonArray.getJSONObject(i), false);
+                        Log.e("..", "! " + shortProfile.isFan + shortProfile.id + " " + shortProfile.name);
+                        addProfileItem(false, shortProfile);
+                    }
+                    loadService.showSuccess();
+                    ((QueryResultActivity) getActivity()).querySet(1);
+                } catch (JSONException e) {
+                    loadService.showSuccess();
+                }
+            }
+        }, query).send();
     }
 
+    public void clearQueryResult() {
+        int size = mProfileList.size();
+        mProfileList.clear();
+        mShortProfileAdapter.notifyItemRangeRemoved(0, size);
+    }
 }

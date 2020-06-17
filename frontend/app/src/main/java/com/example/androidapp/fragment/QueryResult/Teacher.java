@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.androidapp.activity.QueryResultActivity;
+import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.entity.queryInfo.TeacherQueryInfo;
 import com.example.androidapp.request.information.GetInformationRequest;
 import com.example.androidapp.request.search.SearchTeacherRequest;
@@ -15,6 +16,7 @@ import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadSir;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,38 +37,20 @@ public class Teacher extends Base {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = super.onCreateView(inflater, container, savedInstanceState); //inflater.inflate(R.layout.fragment_teacher_result, container, false);
-
         return root;
-
     }
 
-    public List<TeacherQueryInfo> loadQueryInfo() {
+    @Override
+    public void onActivityCreated (Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        loadQueryInfo(((QueryResultActivity) getActivity()).getQuery());
+    }
+
+    public void loadQueryInfo(String query) {
         loadService = LoadSir.getDefault().register(recyclerView, (Callback.OnReloadListener) v -> {
 
         });
-////        for (Integer id: ((QueryResultActivity) getActivity()).getTeacherIdList()) {
-////            new GetInformationRequest(new okhttp3.Callback() {
-////                @Override
-////                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-////                    Log.e("error", e.toString());
-////                }
-////
-////                @Override
-////                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-////                    String resStr = response.body().string();
-////                    getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-////                    Log.e("response", resStr);
-////                    try {
-////                        // 解析json，然后进行自己的内部逻辑处理
-////                        JSONObject jsonObject = new JSONObject(resStr);
-////
-////                    } catch (JSONException e) {
-////
-////                    }
-////                }
-////            }).send();
-////        }
-////        loadService.showSuccess();
+        Log.e("query", query);
         new SearchTeacherRequest(new okhttp3.Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -80,23 +64,28 @@ public class Teacher extends Base {
                 getActivity().runOnUiThread(() -> Toast.makeText(getContext(), resStr, Toast.LENGTH_LONG).show());
                 Log.e("response", resStr);
                 try {
-                    // 解析json，然后进行自己的内部逻辑处理
                     JSONObject jsonObject = new JSONObject(resStr);
-//                    JSONArray jsonArray = (JSONArray) jsonObject.get("teacher_id_list");
-//                    teacherIdList = new ArrayList<>();
-//                    for (int i = 0; i < jsonArray.length(); i++) {
-//                        JSONObject jsonObject2 = jsonArray.getJSONObject(i);
-//                        teacherIdList.add(jsonObject2.getInt("id"));
-//
-//                    }
+                    JSONArray jsonArray;
+                    jsonArray = (JSONArray) jsonObject.get("teacher_info_list");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        ShortProfile shortProfile = new ShortProfile(jsonArray.getJSONObject(i), true);
+                        Log.e("..", "! " + shortProfile.isFan + shortProfile.id + " " + shortProfile.name);
+                        addProfileItem(false, shortProfile);
+                    }
                     loadService.showSuccess();
+                    ((QueryResultActivity) getActivity()).querySet(0);
                 } catch (JSONException e) {
                     loadService.showSuccess();
                 }
             }
-        }, "烦").send();
-        return new ArrayList<>();
+        }, query).send();
     }
 
+
+    public void clearQueryResult() {
+        int size = mProfileList.size();
+        mProfileList.clear();
+        mShortProfileAdapter.notifyItemRangeRemoved(0, size);
+    }
 
 }
