@@ -99,8 +99,12 @@ public class LoginActivity extends BaseActivity {
      ******************************/
     @OnClick(R.id.login)
     public void onClickLogin() {
-        Hint.startActivityLoad(this);
-        new LoginRequest(this.handleLogin, "T", "T1", "T1").send();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+
+//        Hint.startActivityLoad(this);
+//        new LoginRequest(this.handleLogin, "T", "T1", "T1").send();
     }
 
     @OnClick(R.id.logon)

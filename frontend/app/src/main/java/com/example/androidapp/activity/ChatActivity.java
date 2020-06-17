@@ -2,6 +2,9 @@ package com.example.androidapp.activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -12,6 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +26,8 @@ import com.example.androidapp.chatTest.fixtures.MessagesFixtures;
 import com.example.androidapp.chatTest.model.Message;
 import com.example.androidapp.chatTest.model.User;
 import com.example.androidapp.R;
+import com.example.androidapp.repository.ChatHistory;
+import com.example.androidapp.viewmodel.ChatHistoryViewModel;
 import com.gyf.immersionbar.ImmersionBar;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.chatkit.commons.ImageLoader;
@@ -36,6 +42,7 @@ import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
+import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -49,9 +56,9 @@ public class ChatActivity
         implements  DateFormatter.Formatter,
                     DialogInterface.OnClickListener,
                     MessagesListAdapter.OnLoadMoreListener,
-                    MessagesListAdapter.OnMessageClickListener
-//                    MessageInput.InputListener,
-//                    MessageInput.AttachmentsListener
+                    MessagesListAdapter.OnMessageClickListener,
+                    MessageInput.InputListener,
+                    MessageInput.AttachmentsListener
 {
   private static final int REQUEST_CODE_CHOOSE = 10;
 
@@ -73,33 +80,42 @@ public class ChatActivity
 
   private List<Uri> mUris;
   private List<String> mPaths;
+  private ChatHistoryViewModel chatHistoryViewModel;
+  private String user;
+  private String contact;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_chat);
     ButterKnife.bind(this);
+
+    getWindow().setSoftInputMode (WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
     initView();
 
-    messageInput.setInputListener(new MessageInput.InputListener() {
+    messageInput.setInputListener(this);
+    messageInput.setAttachmentsListener(this);
+
+    user = "我";
+    contact = "你";
+
+
+    // 聊天记录
+    chatHistoryViewModel = ViewModelProviders.of(this).get(ChatHistoryViewModel.class);
+    chatHistoryViewModel.initData(user,contact);
+    chatHistoryViewModel.getChatHistory().observe(this, new Observer<List<ChatHistory>>() {
       @Override
-      public boolean onSubmit(CharSequence input) {
-        messagesAdapter.addToStart(
-                new Message("0", new User("0", "ming", null, true), input.toString())
-                , true);
-        return true;
+      public void onChanged(@Nullable final List<ChatHistory> words) {
+        // Update the cached copy of the words in the adapter.
+        // Todo
+        // Set words
+        Toast.makeText(ChatActivity.this,"changed",Toast.LENGTH_SHORT).show();
+        // To do end
+
       }
     });
 
-    messageInput.setAttachmentsListener(new MessageInput.AttachmentsListener() {
-      @Override
-      public void onAddAttachments() {
-        Toast.makeText(getApplicationContext(), "attachment", Toast.LENGTH_SHORT).show();
-        new AlertDialog.Builder(ChatActivity.this)
-                .setItems(R.array.view_types_dialog, ChatActivity.this)
-                .show();
-      }
-    });
   }
 
   /**
@@ -124,6 +140,9 @@ public class ChatActivity
     messagesAdapter = new MessagesListAdapter<>("0", imageLoader);
     messagesAdapter.setDateHeadersFormatter(this);
     messagesList.setAdapter(messagesAdapter);
+
+
+
 
     btn_return.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -155,9 +174,15 @@ public class ChatActivity
     new Handler().postDelayed(new Runnable() { //imitation of internet connection
       @Override
       public void run() {
-        ArrayList<Message> messages = MessagesFixtures.getMessages(lastLoadedDate);
-        lastLoadedDate = messages.get(messages.size() - 1).getCreatedAt();
-        messagesAdapter.addToEnd(messages, false);
+//        ArrayList<Message> messages = MessagesFixtures.getMessages(lastLoadedDate);
+//        lastLoadedDate = messages.get(messages.size() - 1).getCreatedAt();
+        LiveData<List<ChatHistory>> list = chatHistoryViewModel.getChatHistory();
+        ChatHistory aHistory = list.getValue().get(-1);
+        User user = new User("1","fd",null,false);
+        List<Message> messagesList = new ArrayList<>();
+        Message message = new Message("1",user,aHistory.getContact(),aHistory.getTime());
+        messagesList.add(message);
+        messagesAdapter.addToEnd(messagesList, false);
       }
     }, 1000);
   }
@@ -251,27 +276,37 @@ public class ChatActivity
     Toast.makeText(getApplicationContext(), message.getText() + "clilcked", Toast.LENGTH_SHORT).show();
   }
 
-//  /**
-//   * 输入提交事件
-//   * @param input
-//   * @return
-//   */
-//  @Override
-//  public boolean onSubmit(CharSequence input) {
-//    messagesAdapter.addToStart(
-//            new Message("0", new User("0", "ming", null, true), input.toString())
-//            , true);
-//    return true;
-//  }
-//
-//  /**
-//   * 加号点击事件
-//   */
-//  @Override
-//  public void onAddAttachments() {
-//    Toast.makeText(getApplicationContext(), "attachment", Toast.LENGTH_SHORT).show();
-//    new AlertDialog.Builder(ChatActivity.this)
-//            .setItems(R.array.view_types_dialog, ChatActivity.this)
-//            .show();
-//  }
+  /**
+   * 输入提交事件
+   * @param input
+   * @return
+   */
+  @Override
+  public boolean onSubmit(CharSequence input) {
+    messagesAdapter.addToStart(
+            new Message("0", new User("0", "ming", null, true), input.toString())
+            , true);
+    chatHistoryViewModel.insert(new ChatHistory(new Date(),input.toString(),1,true,user,contact));
+
+    LiveData<List<ChatHistory>> list = chatHistoryViewModel.getChatHistory();
+    List<ChatHistory> historyList = list.getValue();
+    ChatHistory aHistory = historyList.get(1);
+    User user = new User("1","fd",null,false);
+    List<Message> messagesList = new ArrayList<>();
+    Message message = new Message("1",user,aHistory.getContact(),aHistory.getTime());
+    messagesList.add(message);
+    messagesAdapter.addToEnd(messagesList, false);
+    return true;
+  }
+
+  /**
+   * 加号点击事件
+   */
+  @Override
+  public void onAddAttachments() {
+    Toast.makeText(getApplicationContext(), "attachment", Toast.LENGTH_SHORT).show();
+    new AlertDialog.Builder(ChatActivity.this)
+            .setItems(R.array.view_types_dialog, ChatActivity.this)
+            .show();
+  }
 }

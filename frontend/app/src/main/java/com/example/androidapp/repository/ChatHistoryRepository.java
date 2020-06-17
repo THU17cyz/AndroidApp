@@ -10,15 +10,26 @@ import java.util.List;
 public class ChatHistoryRepository {
     private ChatHistoryDao mChatHistoryDao;
     private LiveData<List<ChatHistory>> mAllHistory;
+    private LiveData<List<ChatHistory>> mChatHistory;
 
-    public ChatHistoryRepository(Application application) {
+    public ChatHistoryRepository(Application application, String user) {
         ChatHistoryDb db = ChatHistoryDb.getDatabase(application);
         mChatHistoryDao = db.chatHistoryDao();
-        mAllHistory = mChatHistoryDao.fetchAll();
+        mAllHistory = mChatHistoryDao.fetchAllHistory(user);// todo
+    }
+
+    public ChatHistoryRepository(Application application, String user, String contact) {
+        ChatHistoryDb db = ChatHistoryDb.getDatabase(application);
+        mChatHistoryDao = db.chatHistoryDao();
+        mChatHistory = mChatHistoryDao.fetchChatHistory(user,contact);// todo
     }
 
     public LiveData<List<ChatHistory>> getAllHistory() {
         return mAllHistory;
+    }
+
+    public LiveData<List<ChatHistory>> getChatHistory() {
+        return mChatHistory;
     }
 
     public void insert (ChatHistory chatHistory) {
@@ -26,12 +37,10 @@ public class ChatHistoryRepository {
     }
 
     public void deleteAll()  {
-        new deleteAllWordsAsyncTask(mChatHistoryDao).execute();
+        new deleteAllAsyncTask(mChatHistoryDao).execute();
     }
 
-//    public void deleteWord(Word word)  {
-//        new deleteWordAsyncTask(mWordDao).execute(word);
-//    }
+    public void delete(ChatHistory chatHistory)  { new deleteAsyncTask(mChatHistoryDao).execute(chatHistory); }
 
     private static class insertAsyncTask extends AsyncTask<ChatHistory, Void, Void> {
 
@@ -48,10 +57,10 @@ public class ChatHistoryRepository {
         }
     }
 
-    private static class deleteAllWordsAsyncTask extends AsyncTask<Void, Void, Void> {
+    private static class deleteAllAsyncTask extends AsyncTask<Void, Void, Void> {
         private ChatHistoryDao mAsyncTaskDao;
 
-        deleteAllWordsAsyncTask(ChatHistoryDao dao) {
+        deleteAllAsyncTask(ChatHistoryDao dao) {
             mAsyncTaskDao = dao;
         }
 
@@ -62,18 +71,18 @@ public class ChatHistoryRepository {
         }
     }
 
+    private static class deleteAsyncTask extends AsyncTask<ChatHistory, Void, Void> {
+        private ChatHistoryDao mAsyncTaskDao;
 
-//    private static class deleteWordAsyncTask extends AsyncTask<Word, Void, Void> {
-//        private WordDao mAsyncTaskDao;
-//
-//        deleteWordAsyncTask(WordDao dao) {
-//            mAsyncTaskDao = dao;
-//        }
-//
-//        @Override
-//        protected Void doInBackground(final Word... params) {
-//            mAsyncTaskDao.deleteWord(params[0]);
-//            return null;
-//        }
-//    }
+        deleteAsyncTask(ChatHistoryDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final ChatHistory... params) {
+            mAsyncTaskDao.delete(params[0]);
+            return null;
+        }
+    }
+
 }

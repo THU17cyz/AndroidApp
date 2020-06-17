@@ -11,7 +11,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 @Database(entities = {ChatHistory.class}, version = 1, exportSchema = false)
 public abstract class ChatHistoryDb extends RoomDatabase {
+
     public abstract ChatHistoryDao chatHistoryDao();
+
     private static ChatHistoryDb INSTANCE;
 
     static ChatHistoryDb getDatabase(final Context context) {
@@ -20,9 +22,6 @@ public abstract class ChatHistoryDb extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             ChatHistoryDb.class, "chat_history")
-                            // Wipes and rebuilds instead of migrating
-                            // if no Migration object.
-                            // Migration is not part of this practical.
                             .fallbackToDestructiveMigration()
                             .addCallback(sRoomDatabaseCallback)
                             .build();

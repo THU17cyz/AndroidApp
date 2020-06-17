@@ -37,7 +37,8 @@ public class Message implements IMessage,
         this.createdAt = createdAt;
     }
 
-    @Override
+
+  @Override
     public String getId() {
         return id;
     }
