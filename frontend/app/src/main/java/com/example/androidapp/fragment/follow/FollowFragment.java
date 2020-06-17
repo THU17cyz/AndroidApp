@@ -51,8 +51,14 @@ import okhttp3.Response;
 
 public class FollowFragment extends Fragment {
 
-    @BindView(R.id.follow_list_layout)
-    ConstraintLayout constraintLayout;
+//    @BindView(R.id.follow_list_layout)
+//    ConstraintLayout constraintLayout;
+
+    @BindView(R.id.linearLayout2)
+    LinearLayout linearLayout2;
+
+    @BindView(R.id.linearLayout3)
+    LinearLayout linearLayout3;
 
     @BindView(R.id.t_recycler_view)
     RecyclerView tRecyclerView;
@@ -136,20 +142,36 @@ public class FollowFragment extends Fragment {
         getFanList();
         getWatchList();
 
-        sRecyclerView.setVisibility(View.GONE);
-        teacherTextView.setOnClickListener(v -> {
-//           ViewFolder.foldView(tRecyclerView, tRecyclerView.getLayoutParams().height, 0);
-            if (tRecyclerView.getVisibility() == View.VISIBLE) {
-                tRecyclerView.setVisibility(View.GONE);
-                sRecyclerView.setVisibility(View.VISIBLE);
-            }
-
-            else {
-                tRecyclerView.setVisibility(View.VISIBLE);
-                sRecyclerView.setVisibility(View.GONE);
-            }
-
-        });
+//        sRecyclerView.setVisibility(View.GONE);
+//        teacherTextView.setOnClickListener(v -> {
+////           ViewFolder.foldView(tRecyclerView, tRecyclerView.getLayoutParams().height, 0);
+//            if (tRecyclerView.getVisibility() == View.VISIBLE) {
+//                tRecyclerView.setVisibility(View.GONE);
+//                sRecyclerView.setVisibility(View.VISIBLE);
+//                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+//                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//                lp.weight = 0;
+//                linearLayout2.setLayoutParams(lp);
+////                LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(
+////                        LinearLayout.LayoutParams.MATCH_PARENT, 0);
+////                lp.weight = 1;
+////                linearLayout3.setLayoutParams(lp2);
+//            }
+//
+//            else {
+//                tRecyclerView.setVisibility(View.VISIBLE);
+//                sRecyclerView.setVisibility(View.GONE);
+//                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+//                        LinearLayout.LayoutParams.MATCH_PARENT, 0);
+//                lp.weight = 1;
+//                linearLayout2.setLayoutParams(lp);
+//                LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(
+//                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//                lp.weight = 0;
+//                linearLayout3.setLayoutParams(lp2);
+//            }
+//
+//        });
 
         addDivider();
 

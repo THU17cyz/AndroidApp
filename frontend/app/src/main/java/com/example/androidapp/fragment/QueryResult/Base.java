@@ -39,6 +39,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -274,19 +275,24 @@ public class Base extends Fragment {
             mProfileList.remove(idx);
             mShortProfileAdapter.notifyItemRemoved(idx);
         }
+
+        if (current_order == 0) {
+            Collections.sort(mProfileList, (p1, p2) -> Integer.valueOf(p2.fanNum).compareTo(Integer.valueOf(p1.fanNum)));
+        }
+
     }
 
     public void filterResult(boolean[] filters) {
-        loadService = LoadSir.getDefault().register(recyclerView, (com.kingja.loadsir.callback.Callback.OnReloadListener) v -> {
-
-        });
+//        loadService = LoadSir.getDefault().register(recyclerView, (com.kingja.loadsir.callback.Callback.OnReloadListener) v -> {
+//
+//        });
         int i = 0;
         for (Boolean filter : filters) {
             this.filters[i] = filter;
             i++;
         }
         adjustList();
-        loadService.showSuccess();
+//        loadService.showSuccess();
     }
 
     public boolean[] getFilters() {
