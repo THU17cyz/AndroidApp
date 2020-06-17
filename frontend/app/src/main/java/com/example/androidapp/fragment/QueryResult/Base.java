@@ -1,5 +1,6 @@
 package com.example.androidapp.fragment.QueryResult;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidapp.R;
+import com.example.androidapp.activity.VisitHomePageActivity;
 import com.example.androidapp.adapter.MyBaseAdapter;
 import com.example.androidapp.adapter.ShortProfileAdapter;
 import com.example.androidapp.component.FocusButton;
@@ -65,12 +67,15 @@ public class Base extends Fragment {
     SelectList selectList;
     protected ArrayList<ShortProfile> mProfileList;
 
+    protected ArrayList<ShortProfile> filteredProfileList;
+
 
     protected Unbinder unbinder;
 
     LoadService loadService;
 
     protected String[] order;
+    boolean[] filters = {false, false, false, false};
     protected int current_order = 0;
 
     private String test_url = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1592237104788&di=da06c7ee8d8256243940b53531bdeba7&imgtype=0&src=http%3A%2F%2Ftupian.qqjay.com%2Ftou2%2F2018%2F1106%2F60bdf5b88754650e51ccee32bb6ac8ae.jpg";
@@ -87,6 +92,7 @@ public class Base extends Fragment {
         initViews();
 
         mProfileList = new ArrayList<>();
+        filteredProfileList = new ArrayList<>();
         mProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
                 test_url,999, true, false));
         mShortProfileAdapter = new ShortProfileAdapter(mProfileList, getContext());//初始化NameAdapter
@@ -96,7 +102,7 @@ public class Base extends Fragment {
         addButtonListener(mShortProfileAdapter, mProfileList);
 
         mShortProfileAdapter.setOnItemClickListener((adapter, view, position) -> {
-            // TODO 进入其主页
+            visitHomePage(position);
         });
 
 
@@ -135,14 +141,15 @@ public class Base extends Fragment {
     @OnClick(R.id.selectText)
     public void openSelectWindow() {
         if (isFilterOpen) {
-            isFilterOpen = false;
+            // isFilterOpen = false;
             if (selectList != null) selectList.dismiss();
             // selectText.setTextColor(Color.BLACK);
         } else {
             isFilterOpen = true;
             // selectText.setTextColor(Color.BLUE);
-            selectList = new SelectList(getContext());
+            selectList = new SelectList(getContext(), filters);
             selectList.showPopupWindow(orderSpinner);
+
         }
 
 //        orderList.setOutSideTouchable(true);
@@ -151,6 +158,10 @@ public class Base extends Fragment {
 //        orderList.setAlignBackgroundGravity(Gravity.TOP);
         // orderList.setBackground(0);
 
+    }
+
+    public void setFilterClosed() {
+        this.isFilterOpen = false;
     }
 
     void addProfileItem(boolean isRefresh, ShortProfile shortProfile) {
@@ -180,7 +191,11 @@ public class Base extends Fragment {
         }
     }
 
-
+    private void visitHomePage(int position) {
+        Intent intent = new Intent(getContext(), VisitHomePageActivity.class);
+        intent.putExtra("profile", mProfileList.get(position));
+        startActivity(intent);
+    }
 
     private void addButtonListener(ShortProfileAdapter shortProfileAdapter, ArrayList<ShortProfile> shortProfileArrayList) {
         shortProfileAdapter.setOnItemChildClickListener((adapter, view, position) -> {

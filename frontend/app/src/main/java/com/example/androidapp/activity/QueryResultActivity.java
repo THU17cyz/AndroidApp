@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -104,6 +105,7 @@ public class QueryResultActivity extends BaseActivity {
             }
         });
 
+
         for (String tab: tabs) {
             tabLayout.addTab(tabLayout.newTab().setText(tab));
         }
@@ -164,26 +166,27 @@ public class QueryResultActivity extends BaseActivity {
 
     public void querySet(int position) {
         switch (position) {
-            case 0: teacherInfo = true;
-            case 1: studentInfo = true;
-            case 2: applyInfo = true;
-            default: recruitInfo = true;
-        }
-    }
-
-    public void filterResult(List<Boolean> filters) {
-        Toast.makeText(this, "66666", Toast.LENGTH_SHORT).show();
-        int pos = viewPager.getCurrentItem();
-        if (pos == 0) {
-            Teacher teacher = (Teacher) pagerAdapter.getRegisteredFragment(0);
-            teacher.isFilterOpen = false;
-            for (Boolean item: filters) {
-                Toast.makeText(this, String.valueOf(item), Toast.LENGTH_SHORT).show();
+            case 0: {
+                teacherInfo = true;
+                break;
+            }
+            case 1: {
+                studentInfo = true;
+                break;
+            }
+            case 2: {
+                applyInfo = true;
+                break;
             }
 
+            default: {
+                recruitInfo = true;
+                break;
+            }
         }
-
     }
+
+
 
     public void loadQueryInfo(int position) {
         System.out.println(position);
@@ -234,6 +237,10 @@ public class QueryResultActivity extends BaseActivity {
 
     public String getQuery() {
         return query;
+    }
+
+    public Fragment getCurrentFragment() {
+        return pagerAdapter.getRegisteredFragment(viewPager.getCurrentItem());
     }
 
     @OnClick(R.id.returnButton)

@@ -1,5 +1,6 @@
 package com.example.androidapp.fragment.follow;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidapp.R;
+import com.example.androidapp.activity.VisitHomePageActivity;
 import com.example.androidapp.adapter.ShortProfileAdapter;
 import com.example.androidapp.component.FocusButton;
 import com.example.androidapp.entity.ShortProfile;
@@ -118,7 +120,15 @@ public class FollowFragment extends Fragment {
         sShortProfileAdapter = new ShortProfileAdapter(tProfileList, getContext());//初始化NameAdapter
         sShortProfileAdapter.setRecyclerManager(sRecyclerView);//设置RecyclerView特性
 
+        // RecycleView 本身的监听事件
+        tShortProfileAdapter.setOnItemClickListener((adapter, view, position) -> {
+            visitHomePage(true, position);
+        });
 
+        // RecycleView 本身的监听事件
+        sShortProfileAdapter.setOnItemClickListener((adapter, view, position) -> {
+            visitHomePage(false, position);
+        });
 
         addButtonListener(tShortProfileAdapter, tProfileList);
         addButtonListener(sShortProfileAdapter, sProfileList);
@@ -144,6 +154,13 @@ public class FollowFragment extends Fragment {
         addDivider();
 
         return root;
+    }
+
+    private void visitHomePage(boolean isTop,  int position) {
+        Intent intent = new Intent(getContext(), VisitHomePageActivity.class);
+        if (isTop) intent.putExtra("profile", tProfileList.get(position));
+        else intent.putExtra("profile", sProfileList.get(position));
+        startActivity(intent);
     }
 
     private void addDivider() {

@@ -1,7 +1,9 @@
 package com.example.androidapp.fragment;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidapp.R;
+import com.example.androidapp.activity.LogonActivity;
+import com.example.androidapp.activity.MainActivity;
+import com.example.androidapp.activity.VisitHomePageActivity;
 import com.example.androidapp.adapter.ShortProfileAdapter;
 import com.example.androidapp.component.FocusButton;
 import com.example.androidapp.entity.ShortProfile;
@@ -136,7 +141,7 @@ public class ProfileListFragment extends Fragment {
 
         // RecycleView 本身的监听事件
         mShortProfileAdapter.setOnItemClickListener((adapter, view, position) -> {
-            Toast.makeText(getActivity(), "testItemClick" + position, Toast.LENGTH_SHORT).show();
+            visitHomePage(position);
         });
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
@@ -150,5 +155,11 @@ public class ProfileListFragment extends Fragment {
     @Override public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    private void visitHomePage(int position) {
+        Intent intent = new Intent(getContext(), VisitHomePageActivity.class);
+        intent.putExtra("profile", mProfileList.get(position));
+        startActivity(intent);
     }
 }

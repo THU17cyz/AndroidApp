@@ -11,9 +11,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 
 import com.example.androidapp.activity.QueryResultActivity;
 import com.example.androidapp.R;
+import com.example.androidapp.fragment.QueryResult.Base;
+import com.example.androidapp.fragment.QueryResult.Student;
+import com.example.androidapp.fragment.QueryResult.Teacher;
 import com.google.android.flexbox.FlexboxLayout;
 
 import java.util.Arrays;
@@ -27,8 +31,13 @@ public class SelectList extends BasePopupWindow {
     private static final Boolean[] selected = {false, false, false, false};
     FlexboxLayout flexboxLayout;
 
-    public SelectList(Context context) {
+    public SelectList(Context context, boolean[] filters) {
         super(context);
+        int i = 0;
+        for (boolean filter: filters) {
+            selected[i] = filter;
+            i++;
+        }
     }
 
     @Override
@@ -51,7 +60,13 @@ public class SelectList extends BasePopupWindow {
         enterBtn.setOnClickListener(v -> {
             dismiss();
             QueryResultActivity activity = (QueryResultActivity) getContext();
-            activity.filterResult(Arrays.asList(selected));
+            Fragment fragment = activity.getCurrentFragment();
+            if (fragment instanceof Teacher) {
+                ((Teacher) fragment).filterResult(Arrays.asList(selected));
+            } else if (fragment instanceof Student) {
+                ((Student) fragment).filterResult(Arrays.asList(selected));
+            }
+
         });
 
         Button clearBtn = (Button) btns.getViewById(R.id.clearBtn);
@@ -80,17 +95,28 @@ public class SelectList extends BasePopupWindow {
 //        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
 //                (int) (40 * factor));
 
+        int i = 0;
         for (String query: queries) {
             TextView textView = new TextView(getContext());
-            textView.setWidth((int) (60 * factor));
+//            textView.setWidth((int) (60 * factor));
             // textView.setLayoutParams(params);
             textView.setClickable(true);
-            textView.setBackground(getContext().getDrawable(R.drawable.shape_label));
+//            textView.setBackground(getContext().getDrawable(R.drawable.shape_label));
             textView.setText(query);
             textView.setGravity(Gravity.CENTER);
-            textView.setPadding(20, 20, 20, 20);
-            textView.setTextColor(getContext().getColor(R.color.text_color));
-
+//            textView.setPadding(20, 20, 20, 20);
+//            textView.setTextColor(getContext().getColor(R.color.text_color));
+            if (!selected[i]) {
+                textView.setBackground(getContext().getDrawable(R.drawable.shape_label));
+                textView.setTextColor(getContext().getColor(R.color.text_color));
+                textView.setPadding(20, 20, 20, 20);
+                textView.setWidth((int) (60 * factor));
+            } else {
+                textView.setBackground(getContext().getDrawable(R.drawable.shape_label_pressed));
+                textView.setTextColor(getContext().getColor(R.color.label_pressed_text));
+                textView.setPadding(20, 20, 20, 20);
+                textView.setWidth((int) (60 * factor));
+            }
             textView.setOnClickListener(viewIn -> {
                 int idx = Arrays.asList(options).indexOf(query);
                 if (selected[idx]) {
@@ -109,6 +135,7 @@ public class SelectList extends BasePopupWindow {
 
             });
             flexboxLayout.addView(textView);
+            i++;
         }
     }
 
@@ -125,6 +152,15 @@ public class SelectList extends BasePopupWindow {
 
         }
 
+    }
+
+    @Override
+    public void onDismiss() {
+        QueryResultActivity activity = (QueryResultActivity) getContext();
+        Fragment fragment = activity.getCurrentFragment();
+        if (fragment instanceof Base) {
+            ((Base) fragment).setFilterClosed();
+        }
     }
 
 }

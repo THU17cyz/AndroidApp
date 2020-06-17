@@ -8,9 +8,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.androidapp.R;
 import com.example.androidapp.adapter.HomepagePagerAdapter;
+import com.example.androidapp.entity.ShortProfile;
+import com.example.androidapp.entity.WholeProfile;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
 
@@ -34,11 +37,24 @@ public class VisitHomePageActivity extends AppCompatActivity {
     @BindView(R.id.btn_chat)
     Button btn_chat;
 
+    @BindView(R.id.homepage_name)
+    TextView homepageName;
+
+    ShortProfile shortProfile;
+    WholeProfile wholeProfile;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
         ButterKnife.bind(this);
+
+        Intent intent = getIntent();
+        shortProfile = intent.getParcelableExtra("profile");
+        homepageName.setText(shortProfile.name);
+
+
 
         ImmersionBar.with(this)
                 .statusBarColor(R.color.colorPrimary)

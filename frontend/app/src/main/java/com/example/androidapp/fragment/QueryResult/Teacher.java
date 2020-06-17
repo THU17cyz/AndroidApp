@@ -29,10 +29,13 @@ import okhttp3.Response;
 
 public class Teacher extends Base {
 
+
+
     public Teacher() {
         order = new String[]{"最相关（默认）", "关注人数最多"};
-
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,6 +75,7 @@ public class Teacher extends Base {
                         Log.e("..", "! " + shortProfile.isFan + shortProfile.id + " " + shortProfile.name);
                         addProfileItem(false, shortProfile);
                     }
+                    adjustList();
                     loadService.showSuccess();
                     ((QueryResultActivity) getActivity()).querySet(0);
                 } catch (JSONException e) {
@@ -86,6 +90,48 @@ public class Teacher extends Base {
         int size = mProfileList.size();
         mProfileList.clear();
         mShortProfileAdapter.notifyItemRangeRemoved(0, size);
+    }
+
+    public void adjustList() {
+        int i = 0;
+        ArrayList<Integer> removed = new ArrayList<>();
+        mProfileList.addAll(filteredProfileList);
+        filteredProfileList.clear();
+        for (ShortProfile shortProfile: mProfileList) {
+            if (filters[0] && !shortProfile.isMale) {
+                removed.add(i);
+            }
+            if (filters[1] && shortProfile.isMale) {
+                removed.add(i);
+            }
+            i++;
+        }
+        for (int j = removed.size() - 1; j >= 0; j--) {
+            int idx = removed.get(j);
+            filteredProfileList.add(mProfileList.get(idx));
+            mProfileList.remove(idx);
+            mShortProfileAdapter.notifyItemRemoved(idx);
+        }
+//        for (ShortProfile shortProfile: filteredProfileList) {
+//            if (filters[0] && !shortProfile.isMale) {
+//                filteredProfileList.remove(shortProfile);
+//                mProfileList.add(shortProfile);
+//            }
+//            if (filters[1] && shortProfile.isMale) {
+//                filteredProfileList.remove(shortProfile);
+//                mProfileList.add(shortProfile);
+//            }
+//            i++;
+//        }
+    }
+
+    public void filterResult(List<Boolean> filters) {
+        int i = 0;
+        for (Boolean filter: filters) {
+            this.filters[i] = filter;
+            i++;
+        }
+        adjustList();
     }
 
 }

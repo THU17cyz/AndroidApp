@@ -67,6 +67,7 @@ public class Student extends Base {
                         Log.e("..", "! " + shortProfile.isFan + shortProfile.id + " " + shortProfile.name);
                         addProfileItem(false, shortProfile);
                     }
+                    adjustList();
                     loadService.showSuccess();
                     ((QueryResultActivity) getActivity()).querySet(1);
                 } catch (JSONException e) {
@@ -80,5 +81,31 @@ public class Student extends Base {
         int size = mProfileList.size();
         mProfileList.clear();
         mShortProfileAdapter.notifyItemRangeRemoved(0, size);
+    }
+
+    public void adjustList() {
+        int i = 0;
+        for (ShortProfile shortProfile: mProfileList) {
+            if (filters[0] && !shortProfile.isMale) {
+                mProfileList.remove(shortProfile);
+                filteredProfileList.add(shortProfile);
+                mShortProfileAdapter.notifyItemRemoved(i);
+            }
+            if (filters[1] && shortProfile.isMale) {
+                mProfileList.remove(shortProfile);
+                filteredProfileList.add(shortProfile);
+                mShortProfileAdapter.notifyItemRemoved(i);
+            }
+            i++;
+        }
+    }
+
+    public void filterResult(List<Boolean> filters) {
+        int i = 0;
+        for (Boolean filter : filters) {
+            this.filters[i] = filter;
+            i++;
+        }
+        adjustList();
     }
 }
