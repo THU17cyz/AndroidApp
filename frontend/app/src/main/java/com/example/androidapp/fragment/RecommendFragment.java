@@ -2,6 +2,7 @@ package com.example.androidapp.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,13 +93,10 @@ public class RecommendFragment extends ProfileListFragment {
                 Log.e("response", resStr);
                 try {
                     JSONObject jsonObject = new JSONObject(resStr);
-                    JSONArray jsonArray;
-                    if (isTeacher) jsonArray = (JSONArray) jsonObject.get("teacher_info_list");
-                    else jsonArray = (JSONArray) jsonObject.get("student_info_list");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        if (isRefresh) mProfileList.remove(0);
-                        mProfileList.add(new ShortProfile(jsonArray.getJSONObject(i), isTeacher));
-                    }
+                    JSONObject jsonObject1;
+                    if (isTeacher) jsonObject1 = (JSONObject) jsonObject.get("teacher_info");
+                    else jsonObject1 = (JSONObject) jsonObject.get("student_info");
+                    addProfileItem(isRefresh, new ShortProfile(jsonObject1, isTeacher));
                     if (receiveCount[0] == 2) {
                         if (isRefresh) {
                             refreshLayout.finishRefresh(true);
@@ -141,13 +139,10 @@ public class RecommendFragment extends ProfileListFragment {
                 Log.e("response", resStr);
                 try {
                     JSONObject jsonObject = new JSONObject(resStr);
-                    JSONArray jsonArray;
-                    if (isTeacher) jsonArray = (JSONArray) jsonObject.get("teacher_info_list");
-                    else jsonArray = (JSONArray) jsonObject.get("student_info_list");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        if (isRefresh) mProfileList.remove(0);
-                        mProfileList.add(new ShortProfile(jsonArray.getJSONObject(i), isTeacher));
-                    }
+                    JSONObject jsonObject1;
+                    if (isTeacher) jsonObject1 = (JSONObject) jsonObject.get("teacher_info");
+                    else jsonObject1 = (JSONObject) jsonObject.get("student_info");
+                    addProfileItem(isRefresh, new ShortProfile(jsonObject1, isTeacher));
                     if (receiveCount[0] == 2) {
                         if (isRefresh) {
                             refreshLayout.finishRefresh(true);
@@ -194,11 +189,9 @@ public class RecommendFragment extends ProfileListFragment {
                     if (isTeacher) jsonArray = (JSONArray) jsonObject.get("teacher_info_list");
                     else jsonArray = (JSONArray) jsonObject.get("student_info_list");
                     for (int i = 0; i < jsonArray.length(); i++) {
-                        if (isRefresh) {
-                            mProfileList.remove(0);
-                            mShortProfileAdapter.notifyItemRemoved(0);
-                        }
-                        mProfileList.add(new ShortProfile(jsonArray.getJSONObject(i), isTeacher));
+                        ShortProfile shortProfile = new ShortProfile(jsonArray.getJSONObject(i), isTeacher);
+                        Log.e("..", "! " + shortProfile.isFan + shortProfile.id + " " + shortProfile.name);
+                        addProfileItem(isRefresh, shortProfile);
                     }
                     if (receiveCount[0] == 2) {
                         if (isRefresh) {
@@ -221,5 +214,32 @@ public class RecommendFragment extends ProfileListFragment {
                 }
             }
         }, isTeacher).send();
+    }
+
+    void addProfileItem(boolean isRefresh, ShortProfile shortProfile) {
+        if (mRecyclerView.isComputingLayout()) {
+            Log.e("errorrecyclerview", "ohno");
+            mRecyclerView.post(() -> {
+                if (isRefresh) {
+                    for (ShortProfile tmp: mProfileList) {
+                        if (tmp.id == shortProfile.id) return;
+                    }
+                    mProfileList.remove(0);
+                    mShortProfileAdapter.notifyItemRemoved(0);
+                }
+                mProfileList.add(shortProfile);
+            });
+
+
+        } else {
+            if (isRefresh) {
+                for (ShortProfile tmp: mProfileList) {
+                    if (tmp.id == shortProfile.id) return;
+                }
+                mProfileList.remove(0);
+                mShortProfileAdapter.notifyItemRemoved(0);
+            }
+            mProfileList.add(shortProfile);
+        }
     }
 }

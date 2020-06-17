@@ -58,14 +58,8 @@ public class ShortProfileAdapter<T> extends MyBaseAdapter {
             mNameView.setCompoundDrawables(null,null, drawable, null);
         }
 
-
-
-
         mWatchBtn = viewHolder.getView(R.id.watch_btn);
-        if (data.isFan) {
-            mWatchBtn.setPressed_(true);
-        }
-
+        mWatchBtn.setPressed_(data.isFan);
     }
 
     @Override

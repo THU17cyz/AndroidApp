@@ -25,8 +25,9 @@ import com.example.androidapp.component.FocusButton;
 import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.entity.TeacherProfile;
 import com.example.androidapp.popup.SelectList;
+import com.example.androidapp.request.follow.AddToWatchRequest;
+import com.example.androidapp.request.follow.DeleteFromWatchRequest;
 import com.example.androidapp.request.search.SearchTeacherRequest;
-import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
 
@@ -42,6 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.Response;
 
 public class Base extends Fragment {
@@ -90,10 +92,7 @@ public class Base extends Fragment {
         mShortProfileAdapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
         mShortProfileAdapter.openLeftAnimation();//设置加载动画
 
-        mShortProfileAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            // TODO 关注
-            ((FocusButton) view).clickSuccess();
-        });
+        addButtonListener(mShortProfileAdapter, mProfileList);
 
         mShortProfileAdapter.setOnItemClickListener((adapter, view, position) -> {
             // TODO 进入其主页
@@ -105,30 +104,30 @@ public class Base extends Fragment {
         recyclerView.addItemDecoration(dividerItemDecoration);
 
 
-        loadService = LoadSir.getDefault().register(recyclerView, (Callback.OnReloadListener) v -> {
-
-        });
-
-        new SearchTeacherRequest(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.e("error", e.toString());
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String resStr = response.body().string();
-                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-                Log.e("response", resStr);
-                try {
-                    // 解析json，然后进行自己的内部逻辑处理
-                    JSONObject jsonObject = new JSONObject(resStr);
-                    loadService.showSuccess();
-                } catch (JSONException e) {
-
-                }
-            }
-        }, "烦").send();
+//        loadService = LoadSir.getDefault().register(recyclerView, (Callback.OnReloadListener) v -> {
+//
+//        });
+//
+//        new SearchTeacherRequest(new okhttp3.Callback() {
+//            @Override
+//            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//                Log.e("error", e.toString());
+//            }
+//
+//            @Override
+//            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//                String resStr = response.body().string();
+//                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+//                Log.e("response", resStr);
+//                try {
+//                    // 解析json，然后进行自己的内部逻辑处理
+//                    JSONObject jsonObject = new JSONObject(resStr);
+//                    loadService.showSuccess();
+//                } catch (JSONException e) {
+//
+//                }
+//            }
+//        }, "烦").send();
 
         return root;
 
@@ -177,5 +176,62 @@ public class Base extends Fragment {
 //        orderList.setAlignBackgroundGravity(Gravity.TOP);
         // orderList.setBackground(0);
 
+    }
+
+    private void addButtonListener(ShortProfileAdapter shortProfileAdapter, ArrayList<ShortProfile> shortProfileArrayList) {
+        shortProfileAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            Toast.makeText(getActivity(), "testItemChildClick" + position, Toast.LENGTH_SHORT).show();
+            FocusButton btn = ((FocusButton) view);
+            btn.startLoading(() -> {
+                ShortProfile profile = shortProfileArrayList.get(position);
+                if (profile.isFan) {
+                    new DeleteFromWatchRequest(new okhttp3.Callback() {
+                        @Override
+                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                            Log.e("error1", e.toString());
+                            getActivity().runOnUiThread(btn::clickFail);
+                        }
+
+                        @Override
+                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                            String resStr = response.body().string();
+                            Log.e("response", resStr);
+                            try {
+                                JSONObject jsonObject = new JSONObject(resStr);
+                                profile.isFan = false;
+                                getActivity().runOnUiThread(btn::clickSuccess);
+                            } catch (JSONException e) {
+                                Log.e("error2", e.toString());
+                                getActivity().runOnUiThread(btn::clickFail);
+                            }
+
+                        }
+                    }, String.valueOf(profile.id), profile.isTeacher).send();
+                } else {
+                    new AddToWatchRequest(new Callback() {
+                        @Override
+                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                            Log.e("error1", e.toString());
+                            getActivity().runOnUiThread(btn::clickFail);
+                        }
+
+                        @Override
+                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                            String resStr = response.body().string();
+                            Log.e("response", resStr);
+                            try {
+                                JSONObject jsonObject = new JSONObject(resStr);
+                                profile.isFan = true;
+                                getActivity().runOnUiThread(btn::clickSuccess);
+                            } catch (JSONException e) {
+                                Log.e("error2", e.toString());
+                                getActivity().runOnUiThread(btn::clickFail);
+                            }
+
+                        }
+                    }, String.valueOf(profile.id), profile.isTeacher).send();
+                }
+            });
+        });
     }
 }

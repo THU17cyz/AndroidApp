@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.example.androidapp.activity.QueryResultActivity;
 import com.example.androidapp.entity.queryInfo.TeacherQueryInfo;
 import com.example.androidapp.request.information.GetInformationRequest;
+import com.example.androidapp.request.search.SearchTeacherRequest;
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadSir;
 
@@ -43,29 +44,57 @@ public class Teacher extends Base {
         loadService = LoadSir.getDefault().register(recyclerView, (Callback.OnReloadListener) v -> {
 
         });
-        for (Integer id: ((QueryResultActivity) getActivity()).getTeacherIdList()) {
-            new GetInformationRequest(new okhttp3.Callback() {
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    Log.e("error", e.toString());
+////        for (Integer id: ((QueryResultActivity) getActivity()).getTeacherIdList()) {
+////            new GetInformationRequest(new okhttp3.Callback() {
+////                @Override
+////                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+////                    Log.e("error", e.toString());
+////                }
+////
+////                @Override
+////                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+////                    String resStr = response.body().string();
+////                    getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+////                    Log.e("response", resStr);
+////                    try {
+////                        // 解析json，然后进行自己的内部逻辑处理
+////                        JSONObject jsonObject = new JSONObject(resStr);
+////
+////                    } catch (JSONException e) {
+////
+////                    }
+////                }
+////            }).send();
+////        }
+////        loadService.showSuccess();
+        new SearchTeacherRequest(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.e("error", e.toString());
+                loadService.showSuccess();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String resStr = response.body().string();
+                getActivity().runOnUiThread(() -> Toast.makeText(getContext(), resStr, Toast.LENGTH_LONG).show());
+                Log.e("response", resStr);
+                try {
+                    // 解析json，然后进行自己的内部逻辑处理
+                    JSONObject jsonObject = new JSONObject(resStr);
+//                    JSONArray jsonArray = (JSONArray) jsonObject.get("teacher_id_list");
+//                    teacherIdList = new ArrayList<>();
+//                    for (int i = 0; i < jsonArray.length(); i++) {
+//                        JSONObject jsonObject2 = jsonArray.getJSONObject(i);
+//                        teacherIdList.add(jsonObject2.getInt("id"));
+//
+//                    }
+                    loadService.showSuccess();
+                } catch (JSONException e) {
+                    loadService.showSuccess();
                 }
-
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    String resStr = response.body().string();
-                    getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-                    Log.e("response", resStr);
-                    try {
-                        // 解析json，然后进行自己的内部逻辑处理
-                        JSONObject jsonObject = new JSONObject(resStr);
-
-                    } catch (JSONException e) {
-
-                    }
-                }
-            }).send();
-        }
-        loadService.showSuccess();
+            }
+        }, "烦").send();
         return new ArrayList<>();
     }
 

@@ -30,10 +30,10 @@
             android:layout_height="1dp"
             android:background="@color/gray"></View>
 
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:id="@+id/t_refresh_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+<!--        <com.scwang.smartrefresh.layout.SmartRefreshLayout-->
+<!--            android:id="@+id/t_refresh_layout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/t_recycler_view"
@@ -42,7 +42,7 @@
 
             </androidx.recyclerview.widget.RecyclerView>
 
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+<!--        </com.scwang.smartrefresh.layout.SmartRefreshLayout>-->
 
     </LinearLayout>
 
@@ -69,10 +69,10 @@
             android:layout_height="1dp"
             android:background="@color/gray"></View>
 
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:id="@+id/s_refresh_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+<!--        <com.scwang.smartrefresh.layout.SmartRefreshLayout-->
+<!--            android:id="@+id/s_refresh_layout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/s_recycler_view"
@@ -81,7 +81,7 @@
 
             </androidx.recyclerview.widget.RecyclerView>
 
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+<!--        </com.scwang.smartrefresh.layout.SmartRefreshLayout>-->
 
     </LinearLayout>
 

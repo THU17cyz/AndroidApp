@@ -111,7 +111,7 @@ public class QueryResultActivity extends BaseActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
                 viewPager.setCurrentItem(position);
-                loadQueryInfo(position);
+//                loadQueryInfo(position);
             }
 
             @Override
@@ -125,57 +125,71 @@ public class QueryResultActivity extends BaseActivity {
             }
         });
 
-        loadService = LoadSir.getDefault().register(viewPager, (Callback.OnReloadListener) v -> {
-
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+            @Override
+            public void onPageSelected(int position) {
+                loadQueryInfo(position);
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
         });
 
-        new SearchTeacherRequest(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.e("error", e.toString());
-            }
+//        loadService = LoadSir.getDefault().register(viewPager, (Callback.OnReloadListener) v -> {
+//
+//        });
 
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String resStr = response.body().string();
-                runOnUiThread(() -> Toast.makeText(QueryResultActivity.this, resStr, Toast.LENGTH_LONG).show());
-                Log.e("response", resStr);
-                try {
-                    // 解析json，然后进行自己的内部逻辑处理
-                    JSONObject jsonObject = new JSONObject(resStr);
-                    JSONArray jsonArray = (JSONArray) jsonObject.get("teacher_id_list");
-                    teacherIdList = new ArrayList<>();
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject2 = jsonArray.getJSONObject(i);
-                        teacherIdList.add(jsonObject2.getInt("id"));
 
-                    }
-                    // loadService.showSuccess();
-                } catch (JSONException e) {
-
-                }
-            }
-        }, "烦").send();
-        new SearchStudentRequest(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.e("error", e.toString());
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String resStr = response.body().string();
-                runOnUiThread(() -> Toast.makeText(QueryResultActivity.this, resStr, Toast.LENGTH_LONG).show());
-                Log.e("response", resStr);
-                try {
-                    // 解析json，然后进行自己的内部逻辑处理
-                    JSONObject jsonObject = new JSONObject(resStr);
-                    loadService.showSuccess();
-                } catch (JSONException e) {
-
-                }
-            }
-        }, "烦").send();
+//        new SearchTeacherRequest(new okhttp3.Callback() {
+//            @Override
+//            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//                Log.e("error", e.toString());
+//            }
+//
+//            @Override
+//            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//                String resStr = response.body().string();
+//                runOnUiThread(() -> Toast.makeText(QueryResultActivity.this, resStr, Toast.LENGTH_LONG).show());
+//                Log.e("response", resStr);
+//                try {
+//                    // 解析json，然后进行自己的内部逻辑处理
+//                    JSONObject jsonObject = new JSONObject(resStr);
+//                    JSONArray jsonArray = (JSONArray) jsonObject.get("teacher_id_list");
+//                    teacherIdList = new ArrayList<>();
+//                    for (int i = 0; i < jsonArray.length(); i++) {
+//                        JSONObject jsonObject2 = jsonArray.getJSONObject(i);
+//                        teacherIdList.add(jsonObject2.getInt("id"));
+//
+//                    }
+//                    // loadService.showSuccess();
+//                } catch (JSONException e) {
+//
+//                }
+//            }
+//        }, "烦").send();
+//        new SearchStudentRequest(new okhttp3.Callback() {
+//            @Override
+//            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//                Log.e("error", e.toString());
+//            }
+//
+//            @Override
+//            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//                String resStr = response.body().string();
+//                runOnUiThread(() -> Toast.makeText(QueryResultActivity.this, resStr, Toast.LENGTH_LONG).show());
+//                Log.e("response", resStr);
+//                try {
+//                    // 解析json，然后进行自己的内部逻辑处理
+//                    JSONObject jsonObject = new JSONObject(resStr);
+//                    loadService.showSuccess();
+//                } catch (JSONException e) {
+//
+//                }
+//            }
+//        }, "烦").send();
     }
 
     public void filterResult(List<Boolean> filters) {
@@ -193,6 +207,7 @@ public class QueryResultActivity extends BaseActivity {
     }
 
     public void loadQueryInfo(int position) {
+        System.out.println(position);
         switch (position) {
             case 0: {
                 if (teacherQueryInfoList != null) return;

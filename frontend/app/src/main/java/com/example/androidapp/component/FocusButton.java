@@ -244,9 +244,16 @@ public class FocusButton extends androidx.appcompat.widget.AppCompatButton imple
 
   public void setPressed_(boolean pressed) {
     this.pressed = pressed;
-    setBackgroundDrawable(drawable_pressed);
-    setText(text_pressed);
-    setTextColor(text_color_pressed);
+    if (pressed) {
+      setBackgroundDrawable(drawable_pressed);
+      setText(text_pressed);
+      setTextColor(text_color_pressed);
+    } else {
+      setBackgroundDrawable(drawable);
+      setText(text);
+      setTextColor(text_color);
+    }
+
   }
 
   /**
