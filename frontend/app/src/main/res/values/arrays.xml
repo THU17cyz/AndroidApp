@@ -9,4 +9,9 @@
         <item name="voice">Voice message (custom)</item>
     </string-array>
 
+    <string-array name="t_s_type">
+        <item name="teacher">导师</item>
+        <item name="student">学生</item>
+    </string-array>
+
 </resources>
