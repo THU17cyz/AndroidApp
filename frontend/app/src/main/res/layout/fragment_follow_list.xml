@@ -1,90 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/follow_list_layout"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:id="@+id/recycler_view"></androidx.recyclerview.widget.RecyclerView>
 
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:minHeight="100dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <TextView
-            android:layout_marginBottom="3dp"
+            android:id="@+id/follow_list_teacher"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="3dp"
+            android:clickable="true"
             android:text="导师"
-            android:textSize="18sp"
-            android:textStyle="bold"
             android:textColor="?android:attr/textColorSecondary"
-            android:layout_marginLeft="10dp"></TextView>
+            android:textSize="18sp"
+            android:textStyle="bold"></TextView>
 
         <View
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="@color/gray"></View>
 
-<!--        <com.scwang.smartrefresh.layout.SmartRefreshLayout-->
-<!--            android:id="@+id/t_refresh_layout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent">-->
+        <!--        <com.scwang.smartrefresh.layout.SmartRefreshLayout-->
+        <!--            android:id="@+id/t_refresh_layout"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent">-->
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/t_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/t_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            </androidx.recyclerview.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
 
-<!--        </com.scwang.smartrefresh.layout.SmartRefreshLayout>-->
+        <!--        </com.scwang.smartrefresh.layout.SmartRefreshLayout>-->
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:animateLayoutChanges="true"
+        android:minHeight="100dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
         <TextView
-            android:layout_marginBottom="3dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="3dp"
             android:text="学生"
-            android:textSize="18sp"
-            android:textStyle="bold"
             android:textColor="?android:attr/textColorSecondary"
-            android:layout_marginLeft="10dp"></TextView>
+            android:textSize="18sp"
+            android:textStyle="bold"></TextView>
 
         <View
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="@color/gray"></View>
 
-<!--        <com.scwang.smartrefresh.layout.SmartRefreshLayout-->
-<!--            android:id="@+id/s_refresh_layout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent">-->
+        <!--        <com.scwang.smartrefresh.layout.SmartRefreshLayout-->
+        <!--            android:id="@+id/s_refresh_layout"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent">-->
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/s_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/s_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            </androidx.recyclerview.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
 
-<!--        </com.scwang.smartrefresh.layout.SmartRefreshLayout>-->
+        <!--        </com.scwang.smartrefresh.layout.SmartRefreshLayout>-->
 
     </LinearLayout>
 
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
