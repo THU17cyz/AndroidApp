@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.andreabaccega.formedittextvalidator.Validator;
@@ -43,6 +44,9 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.forgetPassword)
     Button forgetPasswordButton;
 
+    @BindView(R.id.login_type)
+    Spinner typeSpinner;
+
     @BindView(R.id.login_account)
     FormEditText accountEditText;
 
@@ -58,20 +62,20 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        accountEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.d("testdsf", String.valueOf(accountEditText.testValidity()));
-                accountEditText.testValidity();
-                accountEditText.setError("fuck");
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) { }
-        });
+//        accountEditText.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                Log.d("testdsf", String.valueOf(accountEditText.testValidity()));
+//                accountEditText.testValidity();
+//                accountEditText.setError("fuck");
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) { }
+//        });
 
         // formEditText.addValidator(new myValidator(""));
 
@@ -99,12 +103,11 @@ public class LoginActivity extends BaseActivity {
      ******************************/
     @OnClick(R.id.login)
     public void onClickLogin() {
-
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-
+        String type = typeSpinner.getSelectedItem().toString().equals(getResources().getStringArray(R.array.t_s_type)[0]) ? "T" : "S";
+        String account = accountEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
         Hint.startActivityLoad(this);
-        new LoginRequest(this.handleLogin, "T", "T1", "T1").send();
+        new LoginRequest(this.handleLogin, type, account, password).send();
     }
 
     @OnClick(R.id.logon)
@@ -125,18 +128,26 @@ public class LoginActivity extends BaseActivity {
     public okhttp3.Callback handleLogin = new okhttp3.Callback() {
         @Override
         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-            try {
-                Hint.endActivityLoad(LoginActivity.this);
-                // 打印返回结果
-                Log.e("HttpResponse", response.toString());
-                ResponseBody responseBody = response.body();
-                String responseBodyString = responseBody != null ? responseBody.string() : "";
-                Log.e("HttpResponse", responseBodyString);
-                JSONObject jsonObject = new JSONObject(responseBodyString);
-                boolean status = (Boolean) jsonObject.get("status");
-                Log.e("HttpResponse", status ? "√√√√√√√√√√√√√√√√√√√√√√√√√√" : "××××××××××××××××××××××××××");
-                LoginActivity.this.onJumpToMain();
+            Hint.endActivityLoad(LoginActivity.this);
+                try {
+                if (response.code() != 200) {
+                    LoginActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(LoginActivity.this, "登录失败..."));
+                } else {
+                    ResponseBody responseBody = response.body();
+                    String responseBodyString = responseBody != null ? responseBody.string() : "";
+                    Log.e("HttpResponse", responseBodyString);
+                    JSONObject jsonObject = new JSONObject(responseBodyString);
+                    boolean status = (Boolean) jsonObject.get("status");
+                    String info = (String) jsonObject.get("info");
+                    if (status) {
+                        LoginActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(LoginActivity.this, info));
+                        LoginActivity.this.runOnUiThread(LoginActivity.this::onJumpToMain);
+                    } else {
+                        LoginActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(LoginActivity.this, info));
+                    }
+                }
             } catch (JSONException e) {
+                LoginActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(LoginActivity.this, "登录失败..."));
                 Log.e("HttpResponse", e.toString());
             }
         }
