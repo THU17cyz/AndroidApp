@@ -24,6 +24,9 @@ public class ChatHistoryRepository {
         mChatHistory = mChatHistoryDao.fetchChatHistory(user,contact);// todo
     }
 
+    public ChatHistoryRepository(Application application) {
+    }
+
     public LiveData<List<ChatHistory>> getAllHistory() {
         return mAllHistory;
     }

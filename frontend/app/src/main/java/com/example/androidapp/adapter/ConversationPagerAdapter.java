@@ -18,12 +18,11 @@ public class ConversationPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return new ChatFragment();
-//        switch (position) {
-//            case 0: return new ChatFragment();
-//            case 1: return new ChatFragment();
-//            default: return null;
-//        }
+        switch (position) {
+            case 0: return new ChatFragment(0);
+            case 1: return new ChatFragment(1);
+            default: return null;
+        }
     }
 
     @Override

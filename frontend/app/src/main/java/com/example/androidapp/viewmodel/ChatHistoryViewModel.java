@@ -18,6 +18,7 @@ public class ChatHistoryViewModel extends AndroidViewModel  {
 
     private LiveData<List<ChatHistory>> mChatHistory;
 
+
     private String user;
     private String contact;
     private Application application;
@@ -26,6 +27,7 @@ public class ChatHistoryViewModel extends AndroidViewModel  {
         super(application);
         this.application=application;
     }
+
 
     public void initData(String user, String contact){
         this.user=user;

@@ -18,6 +18,7 @@ public class Message implements IMessage,
     private User user;
     private Image image;
     private Voice voice;
+    private Boolean read=false;
 
     public Message(String id, User user, String text) {
 
@@ -36,6 +37,18 @@ public class Message implements IMessage,
         this.user = user;
         this.createdAt = createdAt;
     }
+
+  public Message(String id, User user, String text, Date createdAt,Boolean read) {
+    this.id = id;
+    this.text = text;
+    this.user = user;
+    this.createdAt = createdAt;
+    this.read = read;
+  }
+
+  public Boolean isRead(){
+      return this.read;
+  }
 
 
   @Override

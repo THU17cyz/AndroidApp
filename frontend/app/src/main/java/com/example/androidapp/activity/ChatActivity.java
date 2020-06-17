@@ -286,7 +286,7 @@ public class ChatActivity
     messagesAdapter.addToStart(
             new Message("0", new User("0", "ming", null, true), input.toString())
             , true);
-    chatHistoryViewModel.insert(new ChatHistory(new Date(),input.toString(),1,true,user,contact));
+    chatHistoryViewModel.insert(new ChatHistory(new Date(),input.toString(),"T","S",user,contact));
 
     LiveData<List<ChatHistory>> list = chatHistoryViewModel.getChatHistory();
     List<ChatHistory> historyList = list.getValue();

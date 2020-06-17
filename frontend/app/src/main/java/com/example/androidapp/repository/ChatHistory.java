@@ -24,11 +24,11 @@ public class ChatHistory {
     private String content;
 
     @ColumnInfo(name = "type")
-    private int type;
+    private String type;
 
     // 是否为当前用户发送
     @ColumnInfo(name = "send")
-    private boolean send;
+    private String send;
 
     // 当前用户用户名
     @ColumnInfo(name = "user")
@@ -38,7 +38,7 @@ public class ChatHistory {
     @ColumnInfo(name = "contact")
     private String contact;
 
-    public ChatHistory(Date time, String content, int type, boolean send, String user, String contact) {
+    public ChatHistory(Date time, String content, String type, String send, String user, String contact) {
         this.time = time;
         this.content = content;
         this.type = type;
@@ -55,19 +55,19 @@ public class ChatHistory {
         this.id = id;
     }
 
-    public boolean isSend() {
+    public String getSend() {
         return send;
     }
 
-    public void setSend(boolean send) {
+    public void setSend(String send) {
         this.send = send;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
