@@ -28,16 +28,16 @@ import razerdp.basepopup.BasePopupWindow;
 public class SelectList extends BasePopupWindow {
     private final int num = 4;
     private static final String[] options = {"男 ", "女 ", "一本", "二本"};
-    private static final Boolean[] selected = {false, false, false, false};
+    private boolean[] selected;
     FlexboxLayout flexboxLayout;
 
     public SelectList(Context context, boolean[] filters) {
         super(context);
-        int i = 0;
-        for (boolean filter: filters) {
-            selected[i] = filter;
-            i++;
-        }
+//        int i = 0;
+//        for (boolean filter: filters) {
+//            selected[i] = filter;
+//            i++;
+//        }
     }
 
     @Override
@@ -50,6 +50,13 @@ public class SelectList extends BasePopupWindow {
         setAlignBackground(true);
         setAlignBackgroundGravity(Gravity.TOP);
 
+        selected = new boolean[]{false, false, false, false};
+        boolean[] filters = ((Base)((QueryResultActivity) getContext()).getCurrentFragment()).getFilters();
+        int i = 0;
+        for (boolean filter: filters) {
+            selected[i] = filter;
+            i++;
+        }
 
         ConstraintLayout view = (ConstraintLayout) createPopupById(R.layout.popup_orderlist);
         flexboxLayout = (FlexboxLayout) view.getViewById(R.id.flexbox_layout);
@@ -62,9 +69,9 @@ public class SelectList extends BasePopupWindow {
             QueryResultActivity activity = (QueryResultActivity) getContext();
             Fragment fragment = activity.getCurrentFragment();
             if (fragment instanceof Teacher) {
-                ((Teacher) fragment).filterResult(Arrays.asList(selected));
+                ((Teacher) fragment).filterResult(selected);
             } else if (fragment instanceof Student) {
-                ((Student) fragment).filterResult(Arrays.asList(selected));
+                ((Student) fragment).filterResult(selected);
             }
 
         });
@@ -95,6 +102,9 @@ public class SelectList extends BasePopupWindow {
 //        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
 //                (int) (40 * factor));
 
+//        if (selected == null) {
+//            selected = new boolean[]{false, false, false, false};
+//        }
         int i = 0;
         for (String query: queries) {
             TextView textView = new TextView(getContext());

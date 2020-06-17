@@ -75,7 +75,7 @@ public class Base extends Fragment {
     LoadService loadService;
 
     protected String[] order;
-    boolean[] filters = {false, false, false, false};
+    boolean[] filters = new boolean[]{false, false, false, false};
     protected int current_order = 0;
 
     private String test_url = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1592237104788&di=da06c7ee8d8256243940b53531bdeba7&imgtype=0&src=http%3A%2F%2Ftupian.qqjay.com%2Ftou2%2F2018%2F1106%2F60bdf5b88754650e51ccee32bb6ac8ae.jpg";
@@ -252,5 +252,44 @@ public class Base extends Fragment {
                 }
             });
         });
+    }
+
+    public void adjustList() {
+        int i = 0;
+        ArrayList<Integer> removed = new ArrayList<>();
+        mProfileList.addAll(filteredProfileList);
+        filteredProfileList.clear();
+        for (ShortProfile shortProfile: mProfileList) {
+            if (filters[0] && !shortProfile.isMale) {
+                removed.add(i);
+            }
+            if (filters[1] && shortProfile.isMale) {
+                removed.add(i);
+            }
+            i++;
+        }
+        for (int j = removed.size() - 1; j >= 0; j--) {
+            int idx = removed.get(j);
+            filteredProfileList.add(mProfileList.get(idx));
+            mProfileList.remove(idx);
+            mShortProfileAdapter.notifyItemRemoved(idx);
+        }
+    }
+
+    public void filterResult(boolean[] filters) {
+        loadService = LoadSir.getDefault().register(recyclerView, (com.kingja.loadsir.callback.Callback.OnReloadListener) v -> {
+
+        });
+        int i = 0;
+        for (Boolean filter : filters) {
+            this.filters[i] = filter;
+            i++;
+        }
+        adjustList();
+        loadService.showSuccess();
+    }
+
+    public boolean[] getFilters() {
+        return filters;
     }
 }

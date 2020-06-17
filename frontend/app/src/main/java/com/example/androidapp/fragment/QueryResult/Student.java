@@ -83,29 +83,5 @@ public class Student extends Base {
         mShortProfileAdapter.notifyItemRangeRemoved(0, size);
     }
 
-    public void adjustList() {
-        int i = 0;
-        for (ShortProfile shortProfile: mProfileList) {
-            if (filters[0] && !shortProfile.isMale) {
-                mProfileList.remove(shortProfile);
-                filteredProfileList.add(shortProfile);
-                mShortProfileAdapter.notifyItemRemoved(i);
-            }
-            if (filters[1] && shortProfile.isMale) {
-                mProfileList.remove(shortProfile);
-                filteredProfileList.add(shortProfile);
-                mShortProfileAdapter.notifyItemRemoved(i);
-            }
-            i++;
-        }
-    }
 
-    public void filterResult(List<Boolean> filters) {
-        int i = 0;
-        for (Boolean filter : filters) {
-            this.filters[i] = filter;
-            i++;
-        }
-        adjustList();
-    }
 }
