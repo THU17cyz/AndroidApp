@@ -19,6 +19,6 @@ public class OptionItems {
 
   public static final ArrayList<String> optionsDegree = new ArrayList<>(Arrays.asList("本科生","硕士生","博士生"));
 
-  public static final ArrayList<String> optionsState = new ArrayList<>(Arrays.asList("进行中","成功","失败"));
+  public static final ArrayList<String> optionsState = new ArrayList<>(Arrays.asList("进行","成功","失败"));
 
 }

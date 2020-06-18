@@ -3,6 +3,8 @@ package com.example.androidapp.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.opengl.Visibility;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -53,16 +55,43 @@ public class EditApplicationListAdapter<T> extends MyBaseAdapter {
     viewHolder.addOnClickListener(R.id.state);
     viewHolder.addOnClickListener(R.id.delete);
     ApplicationInfo data = (ApplicationInfo) o;
-    // 删除按钮
-//    ImageView delete = viewHolder.getView(R.id.delete);
-//    delete.setOnClickListener(new View.OnClickListener() {
-//      @Override
-//      public void onClick(View v) {
-//        // todo 删除该栏
-//        data.setType(ApplicationInfo.Type.DELETE);
-//        viewHolder.setVisible(R.id.card,false);
-//      }
-//    });
+
+
+    FormEditText direction = viewHolder.getView(R.id.direction);
+    direction.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+        data.direction = s.toString();
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+
+      }
+    });
+
+    FormEditText profile = viewHolder.getView(R.id.profile);
+    profile.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+        data.profile = s.toString();
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+
+      }
+    });
 
     // 选择器
     TextView state = viewHolder.getView(R.id.state);
@@ -74,6 +103,13 @@ public class EditApplicationListAdapter<T> extends MyBaseAdapter {
           public void onOptionsSelect(int options1, int option2, int options3 ,View v) {
             String s = OptionItems.optionsState.get(options1);
             state.setText(s);
+            if(s.equals("进行")){
+              data.state = "O";
+            } else if(s.equals("成功")){
+              data.state = "S";
+            } else if(s.equals("失败")) {
+              data.state = "F";
+            }
           }
         })
                 .setTitleText("选择状态")

@@ -111,19 +111,6 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
       @Override
       public void onDialogClick(IDialog dialog) {
         // todo
-
-//        new SetInformationStateRequest(new okhttp3.Callback() {
-//          @Override
-//          public void onFailure(@NotNull Call call, @NotNull IOException e) {
-//
-//          }
-//
-//          @Override
-//          public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-//
-//          }
-//        },String.valueOf(informationIdList.get(Integer.valueOf(dialog.getId()))),"R");
-
         Intent intent = new Intent(getActivity(), InfoActivity.class);
         intent.putExtra("text", "ok");
 //        intent.putExtra("text", messages.get(Integer.parseInt(dialog.getId())).getText());
@@ -144,8 +131,6 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
         refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
       }
     });
-
-
 
     return root;
   }
