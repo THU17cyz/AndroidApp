@@ -29,17 +29,16 @@ public class EditInfoPagerAdapter extends FragmentStatePagerAdapter {
   public Fragment getItem(int position) {
 //    return new SelfInfoFragment();
 //    return new FollowFragment();
-    return new EditEnrollmentInfoFragment();
-//    switch (position) {
-//      case 0: return new EditSelfInfoFragment();
-//      case 1: return new EditStudyInfoFragment();
-//      case 2:
-//        if(BasicInfo.TYPE.equals("S"))
-//          return new EditApplicationInfoFragment();
-//        else
-//          return new EditEnrollmentInfoFragment();
-//      default: return null;
-//  }
+    switch (position) {
+      case 0: return new EditSelfInfoFragment();
+      case 1: return new EditStudyInfoFragment();
+      case 2:
+        if(BasicInfo.TYPE.equals("S"))
+          return new EditApplicationInfoFragment();
+        else
+          return new EditEnrollmentInfoFragment();
+      default: return null;
+  }
   }
 
   @Override

@@ -32,10 +32,22 @@ public class EditEnrollmentListAdapter<T> extends MyBaseAdapter {
     // 在这里链式赋值就可以了
     EnrollmentInfo data = (EnrollmentInfo) o;
     viewHolder.setText(R.id.direction, data.direction)
-            .setText(R.id.student_type, data.studentType)
             .setText(R.id.number, data.number)
-            .setText(R.id.state, data.state)
             .setText(R.id.introduction,data.introduction);
+    if(data.studentType.equals("UG")){
+      viewHolder.setText(R.id.student_type,"本科生");
+    } else if(data.studentType.equals("MT")){
+      viewHolder.setText(R.id.student_type,"硕士生");
+    } else if(data.studentType.equals("DT")) {
+      viewHolder.setText(R.id.student_type,"博士生");
+    }
+    if(data.state.equals("O")){
+      viewHolder.setText(R.id.state,"进行");
+    } else if(data.state.equals("S")){
+      viewHolder.setText(R.id.state,"成功");
+    } else if(data.state.equals("F")) {
+      viewHolder.setText(R.id.state,"失败");
+    }
   }
 
   @Override
@@ -45,17 +57,19 @@ public class EditEnrollmentListAdapter<T> extends MyBaseAdapter {
     viewHolder.addOnClickListener(R.id.student_type);
 
     // 删除按钮
-    ImageView delete = viewHolder.getView(R.id.delete);
-    EnrollmentInfo data = (EnrollmentInfo) o;
-    delete.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        // todo 删除该栏
-        Toast.makeText(mContext,"删除",Toast.LENGTH_SHORT).show();
-        data.setType(EnrollmentInfo.Type.DELETE);
-        viewHolder.setVisible(R.id.card,false);
-      }
-    });
+//    ImageView delete = viewHolder.getView(R.id.delete);
+//    EnrollmentInfo data = (EnrollmentInfo) o;
+//    delete.setOnClickListener(new View.OnClickListener() {
+//      @Override
+//      public void onClick(View v) {
+//        // todo 删除该栏
+//        Toast.makeText(mContext,"删除",Toast.LENGTH_SHORT).show();
+//        data.setType(EnrollmentInfo.Type.DELETE);
+//        // viewHolder.setVisible(R.id.card,false);
+//        // viewHolder.getView(R.id.card).setVisibility(View.GONE);
+//
+//      }
+//    });
 
     // 选择器
     TextView state = viewHolder.getView(R.id.state);

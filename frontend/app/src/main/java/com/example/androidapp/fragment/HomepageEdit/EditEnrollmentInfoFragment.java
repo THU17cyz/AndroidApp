@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -19,6 +20,7 @@ import com.example.androidapp.adapter.EditEnrollmentListAdapter;
 import com.example.androidapp.adapter.EnrollmentListAdapter;
 import com.example.androidapp.entity.ApplicationInfo;
 import com.example.androidapp.entity.EnrollmentInfo;
+import com.example.androidapp.request.intention.ClearAllIntentionRequest;
 import com.example.androidapp.request.intention.CreateRecruitIntentionRequest;
 import com.example.androidapp.request.intention.DeleteRecruitIntentionRequest;
 import com.example.androidapp.request.intention.GetRecruitIntentionDetailRequest;
@@ -42,7 +44,8 @@ import butterknife.Unbinder;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class EditEnrollmentInfoFragment extends Fragment {
+public class EditEnrollmentInfoFragment extends Fragment
+implements View.OnClickListener{
 
   @BindView(R.id.btn_add)
   FloatingActionButton btn_add;
@@ -51,10 +54,11 @@ public class EditEnrollmentInfoFragment extends Fragment {
   Button btn_concern;
 
   RecyclerView recyclerView;
+
   EditEnrollmentListAdapter adapter;
 
-  ArrayList<EnrollmentInfo> mEnrollmentList;
-  private int teacherId;
+  private ArrayList<EnrollmentInfo> mEnrollmentList;
+
   private List<Integer> enrollmentIdList;
 
   private Unbinder unbinder;
@@ -70,21 +74,16 @@ public class EditEnrollmentInfoFragment extends Fragment {
     unbinder = ButterKnife.bind(this,view);
 
     recyclerView = view.findViewById(R.id.recycler_view);
-    recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
     mEnrollmentList = new ArrayList<>();
     adapter = new EditEnrollmentListAdapter(mEnrollmentList, getContext());//初始化NameAdapter
     adapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
 
-    // 显示目前申请意向
-
-    // 获取申请意向id列表
+    // 获取招收意向id列表
     new GetRecruitIntentionRequest(new okhttp3.Callback() {
-
       @Override
       public void onFailure(@NotNull Call call, @NotNull IOException e) {
         Log.e("error", e.toString());
       }
-
       @Override
       public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
         String resStr = response.body().string();
@@ -102,8 +101,8 @@ public class EditEnrollmentInfoFragment extends Fragment {
               enrollmentIdList.add(array.getInt(i));
             }
 
-            // 按id获取申请意向
-            mEnrollmentList = new ArrayList<>();
+            // 按id获取招收意向
+
             if(enrollmentIdList!=null){
               for(int i=0;i<enrollmentIdList.size();i++){
                 new GetRecruitIntentionDetailRequest(new okhttp3.Callback() {
@@ -128,8 +127,7 @@ public class EditEnrollmentInfoFragment extends Fragment {
                                 jsonObject.getString("recruitment_type"),
                                 String.valueOf(jsonObject.getInt("recruitment_number")),
                                 jsonObject.getString("intention_state"),
-                                jsonObject.getString("introduction")
-                        );
+                                jsonObject.getString("introduction"));
                         enrollmentInfo.setType(EnrollmentInfo.Type.UPDATE);
 
                         getActivity().runOnUiThread(new Runnable() {
@@ -153,7 +151,6 @@ public class EditEnrollmentInfoFragment extends Fragment {
               }
             }
 
-
           }else{
             String info = jsonObject.getString("info");
             getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
@@ -166,23 +163,20 @@ public class EditEnrollmentInfoFragment extends Fragment {
 
 
 
-
-//    ArrayList<EnrollmentInfo> mEnrollmentList = new ArrayList<>();
-//    mEnrollmentList.add(new EnrollmentInfo("计算机图形学", "本科生", "100","进行中","介绍就是xxx"));
-//    mEnrollmentList.add(new EnrollmentInfo("物联网", "进行中", "我是xxx","进行中","介绍是xxx"));
-
-
-    adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-      @Override
-      public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-
-      }
-    });
-
     adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
       @Override
       public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
         Toast.makeText(getActivity(), "testItemClick " + i, Toast.LENGTH_SHORT).show();
+      }
+    });
+
+    adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+      @Override
+      public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+        Log.d("index",String.valueOf(i));
+        ImageView imageView = (ImageView)view;
+        mEnrollmentList.remove(i);
+        adapter.notifyDataSetChanged();
       }
     });
 
@@ -193,70 +187,11 @@ public class EditEnrollmentInfoFragment extends Fragment {
         Toast.makeText(getActivity(),"添加",Toast.LENGTH_SHORT).show();
         EnrollmentInfo enrollmentInfo = new EnrollmentInfo("","","","","",-1,EnrollmentInfo.Type.ADD);
         mEnrollmentList.add(enrollmentInfo);
-        adapter = new EditEnrollmentListAdapter(mEnrollmentList,getContext());
+        adapter.notifyDataSetChanged();
       }
     });
 
-    btn_concern.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        for(int i=0;i<mEnrollmentList.size();i++){
-          EnrollmentInfo enrollmentInfo = mEnrollmentList.get(i);
-          if(enrollmentInfo.type==EnrollmentInfo.Type.ADD){
-            new CreateRecruitIntentionRequest(new okhttp3.Callback() {
-              @Override
-              public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
-              }
-
-              @Override
-              public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-
-              }
-            },
-                    enrollmentInfo.studentType,
-                    enrollmentInfo.number,
-                    enrollmentInfo.direction,
-                    enrollmentInfo.introduction,
-                    enrollmentInfo.state,
-                    null);
-          }
-          else if(enrollmentInfo.type==EnrollmentInfo.Type.DELETE){
-            new DeleteRecruitIntentionRequest(new okhttp3.Callback() {
-              @Override
-              public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
-              }
-
-              @Override
-              public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-
-              }
-            },String.valueOf(enrollmentInfo.enrollmentId));
-          } else {
-            new UpdateRecruitIntentionRequest(new okhttp3.Callback() {
-              @Override
-              public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
-              }
-
-              @Override
-              public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-
-              }
-            },
-                    String.valueOf(enrollmentInfo.enrollmentId),
-                    enrollmentInfo.studentType,
-                    enrollmentInfo.number,
-                    enrollmentInfo.direction,
-                    enrollmentInfo.introduction,
-                    enrollmentInfo.state,
-                    null);
-          }
-        }
-      }
-    });
-
+    btn_concern.setOnClickListener(this);
 
     return view;
   }
@@ -267,4 +202,66 @@ public class EditEnrollmentInfoFragment extends Fragment {
     unbinder.unbind();
   }
 
+  @Override
+  public void onClick(View v) {
+    switch (v.getId()){
+      case R.id.btn_concern:
+      {
+        new ClearAllIntentionRequest(new okhttp3.Callback() {
+          @Override
+          public void onFailure(@NotNull Call call, @NotNull IOException e) {
+            Log.e("response", "FA");
+          }
+
+          @Override
+          public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+            String resStr = response.body().string();
+            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+            Log.e("response", resStr);
+            try {
+              // 解析json，然后进行自己的内部逻辑处理
+              JSONObject jsonObject = new JSONObject(resStr);
+              Boolean status = jsonObject.getBoolean("status");
+                String info = jsonObject.getString("info");
+                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
+            } catch (JSONException e) {
+            }
+          }
+        }).send();
+
+        for(int i=0;i<mEnrollmentList.size();i++){
+          EnrollmentInfo enrollmentInfo = mEnrollmentList.get(i);
+          new CreateRecruitIntentionRequest(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+              Log.e("response", "res");
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+
+              String resStr = response.body().string();
+              getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+              Log.e("response", resStr);
+              try {
+                // 解析json，然后进行自己的内部逻辑处理
+                JSONObject jsonObject = new JSONObject(resStr);
+                Boolean status = jsonObject.getBoolean("status");
+                String info = jsonObject.getString("info");
+                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
+              } catch (JSONException e) {
+              }
+            }
+          },
+                  enrollmentInfo.studentType,
+                  enrollmentInfo.number,
+                  enrollmentInfo.direction,
+                  enrollmentInfo.introduction,
+                  enrollmentInfo.state,
+                  null).send();
+        }
+      }
+    }
+
+  }
 }

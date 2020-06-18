@@ -38,8 +38,13 @@ public class EditApplicationListAdapter<T> extends MyBaseAdapter {
     viewHolder.setText(R.id.direction, data.direction)
             .setText(R.id.state, data.state)
             .setText(R.id.profile,data.profile);
-
-
+    if(data.state.equals("O")){
+      viewHolder.setText(R.id.state,"进行");
+    } else if(data.state.equals("S")){
+      viewHolder.setText(R.id.state,"成功");
+    } else if(data.state.equals("F")) {
+      viewHolder.setText(R.id.state,"失败");
+    }
 
   }
 
@@ -49,15 +54,15 @@ public class EditApplicationListAdapter<T> extends MyBaseAdapter {
     viewHolder.addOnClickListener(R.id.delete);
     ApplicationInfo data = (ApplicationInfo) o;
     // 删除按钮
-    ImageView delete = viewHolder.getView(R.id.delete);
-    delete.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        // todo 删除该栏
-        data.setType(ApplicationInfo.Type.DELETE);
-        viewHolder.setVisible(R.id.card,false);
-      }
-    });
+//    ImageView delete = viewHolder.getView(R.id.delete);
+//    delete.setOnClickListener(new View.OnClickListener() {
+//      @Override
+//      public void onClick(View v) {
+//        // todo 删除该栏
+//        data.setType(ApplicationInfo.Type.DELETE);
+//        viewHolder.setVisible(R.id.card,false);
+//      }
+//    });
 
     // 选择器
     TextView state = viewHolder.getView(R.id.state);
