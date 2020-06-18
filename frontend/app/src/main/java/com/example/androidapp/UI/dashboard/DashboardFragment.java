@@ -396,13 +396,16 @@ public class DashboardFragment
                             mResult = jsonObject.getString("research_achievements");
                             mUrl = jsonObject.getString("promotional_video_url");
                         }
-                        signature.setText(mSignature);
+
                         count[0]++;
                         while (count[0] != 2) {
 
                         }
+                        getActivity().runOnUiThread(() -> {
+                            signature.setText(mSignature);
+                            ((SelfInfoFragment) pagerAdapter.getRegisteredFragment(0)).setInfo();
+                        });
 
-                        ((SelfInfoFragment) pagerAdapter.getRegisteredFragment(0)).setInfo();
                         // ((StudyInfoFragment) pagerAdapter.getRegisteredFragment(1)).setInfo();
                     } else {
                         String info = jsonObject.getString("info");
