@@ -24,6 +24,8 @@ import com.example.androidapp.chatTest.model.Message;
 import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.entity.WholeProfile;
 import com.example.androidapp.fragment.QueryResult.Base;
+import com.example.androidapp.fragment.homepage.SelfInfoFragment;
+import com.example.androidapp.fragment.homepage.StudyInfoFragment;
 import com.example.androidapp.request.follow.GetFanlistRequest;
 import com.example.androidapp.request.follow.GetWatchlistRequest;
 import com.example.androidapp.request.user.GetInfoPlusRequest;
@@ -82,10 +84,33 @@ public class DashboardFragment
     private HomepagePagerAdapter pagerAdapter;
 
     private String mAccount;
-    private String mSignature;
     private int mNumFocus;
     private int mNumFocused;
     private String type;
+
+    public String mTitle;
+    public String mMajor;
+    public String mDegree;
+    public String mTeacherNumber;
+    public String mStudentNumber;
+    public String mIdNumber;
+    public String mGender;
+
+    public String mName;
+    public String mSchool;
+    public String mDepartment;
+
+    public String mSignature;
+    public String mPhone;
+    public String mEmail;
+    public String mHomepage;
+    public String mAddress;
+    public String mIntroduction;
+    public String mUrl;
+    public String mDirection;
+    public String mInterest;
+    public String mResult;
+    public String mExperience;
 
     private DashboardViewModel dashboardViewModel;
 
@@ -104,9 +129,12 @@ public class DashboardFragment
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
-        pagerAdapter = new HomepagePagerAdapter(getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
+        type = BasicInfo.TYPE;
+
+        pagerAdapter = new HomepagePagerAdapter(getChildFragmentManager(), tabLayout.getTabCount(), type, -1);
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        viewPager.setOffscreenPageLimit(3);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -125,6 +153,32 @@ public class DashboardFragment
             }
         });
 
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0: {
+                        ((SelfInfoFragment) pagerAdapter.getRegisteredFragment(0)).setInfo();
+                        break;
+                    }
+                    case 1: {
+                        ((StudyInfoFragment) pagerAdapter.getRegisteredFragment(1)).setInfo();
+                        break;
+                    }
+                    default: {
+//                        ((SelfInfoFragment) pagerAdapter.getRegisteredFragment(0)).setInfo();
+                        break;
+                    }
+                }
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+
         // 编辑信息按钮点击事件
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,40 +189,39 @@ public class DashboardFragment
         });
 
 
-        // 获取个性签名
-        new GetInfoPlusRequest(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.e("error", e.toString());
-                Toast.makeText(getContext(),"获取个性签名失败",Toast.LENGTH_SHORT).show();
-            }
 
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String resStr = response.body().string();
-                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-                Log.e("response", resStr);
-                try {
-                    // 解析json，然后进行自己的内部逻辑处理
-                    JSONObject jsonObject = new JSONObject(resStr);
-                    Boolean status = jsonObject.getBoolean("status");
-                    if(status){
-                        mSignature = jsonObject.getString("signature");
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                signature.setText(mSignature);
-                            }
-                        });
-                    }else{
-                        String info = jsonObject.getString("info");
-                        getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
-                    }
-                } catch (JSONException e) {
 
-                }
-            }
-        },"I","","").send();
+//        // 获取个性签名
+//        new GetInfoPlusRequest(new okhttp3.Callback() {
+//            @Override
+//            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//                Log.e("error", e.toString());
+//            }
+//
+//            @Override
+//            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//                String resStr = response.body().string();
+//                Log.e("response", resStr);
+//                try {
+//                    // 解析json，然后进行自己的内部逻辑处理
+//                    JSONObject jsonObject = new JSONObject(resStr);
+//                    Boolean status = jsonObject.getBoolean("status");
+//                    if(status){
+//                        mSignature = jsonObject.getString("signature");
+//                        getActivity().runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                signature.setText(mSignature);
+//                            }
+//                        });
+//                    }else{
+//                        String info = jsonObject.getString("info");
+//                    }
+//                } catch (JSONException e) {
+//
+//                }
+//            }
+//        },"I","","").send();
 
         // 获取头像
 
@@ -182,7 +235,6 @@ public class DashboardFragment
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String resStr = response.body().string();
-                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
                 Log.e("response", resStr);
                 try {
                     // 解析json，然后进行自己的内部逻辑处理
@@ -201,7 +253,6 @@ public class DashboardFragment
                         });
                     }else{
                         String info = jsonObject.getString("info");
-                        getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
                     }
                 } catch (JSONException e) {
 
@@ -219,7 +270,6 @@ public class DashboardFragment
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String resStr = response.body().string();
-                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
                 Log.e("response", resStr);
                 try {
                     // 解析json，然后进行自己的内部逻辑处理
@@ -238,7 +288,6 @@ public class DashboardFragment
                         });
                     }else{
                         String info = jsonObject.getString("info");
-                        getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
                     }
                 } catch (JSONException e) {
 
@@ -255,6 +304,115 @@ public class DashboardFragment
         return root;
 
 
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+//    setInfo();
+        getInfo();
+    }
+
+    private void setFragmentInfo() {
+
+    }
+
+    protected void getInfo() {
+        final int[] count = {0};
+
+        // 获取用户名和类型
+        new GetInfoRequest(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.e("error", e.toString());
+                count[0]++;
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String resStr = response.body().string();
+                Log.e("response", resStr);
+                try {
+                    // 解析json，然后进行自己的内部逻辑处理
+                    JSONObject jsonObject = new JSONObject(resStr);
+
+                    Boolean status = jsonObject.getBoolean("status");
+                    if (status) {
+                        mName = jsonObject.getString("name");
+                        mGender = jsonObject.getString("gender");
+                        mSchool = jsonObject.getString("school");
+                        mDepartment = jsonObject.getString("department");
+                        if (type.equals("S")) {
+                            mMajor = jsonObject.getString("major");
+                            mDegree = jsonObject.getString("degree");
+                        }else {
+                            mTitle = jsonObject.getString("title");
+                        }
+
+                        count[0]++;
+                    } else {
+                        String info = jsonObject.getString("info");
+                        count[0]++;
+                    }
+                } catch (JSONException e) {
+                    count[0]++;
+                }
+            }
+        }, "I", null, null).send();
+
+// 获取个性签名
+        new GetInfoPlusRequest(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.e("error", e.toString());
+                count[0]++;
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String resStr = response.body().string();
+                Log.e("response", resStr);
+                try {
+                    // 解析json，然后进行自己的内部逻辑处理
+                    JSONObject jsonObject = new JSONObject(resStr);
+
+                    Boolean status = jsonObject.getBoolean("status");
+                    if (status) {
+                        mSignature = jsonObject.getString("signature");
+                        mPhone = jsonObject.getString("phone");
+                        mEmail = jsonObject.getString("email");
+                        mHomepage = jsonObject.getString("homepage");
+                        mAddress = jsonObject.getString("address");
+                        mIntroduction = jsonObject.getString("introduction");
+                        mIdNumber = jsonObject.getString("id_number");
+                        if (type.equals("S")) {
+                            mStudentNumber = jsonObject.getString("student_number");
+                            mInterest = jsonObject.getString("research_interest");
+                            mExperience = jsonObject.getString("research_experience");
+                            mUrl = jsonObject.getString("promotional_video_url");
+                        } else {
+                            mTeacherNumber = jsonObject.getString("teacher_number");
+                            mDirection = jsonObject.getString("research_fields");
+                            mResult = jsonObject.getString("research_achievements");
+                            mUrl = jsonObject.getString("promotional_video_url");
+                        }
+                        signature.setText(mSignature);
+                        count[0]++;
+                        while (count[0] != 2) {
+
+                        }
+
+                        ((SelfInfoFragment) pagerAdapter.getRegisteredFragment(0)).setInfo();
+                        // ((StudyInfoFragment) pagerAdapter.getRegisteredFragment(1)).setInfo();
+                    } else {
+                        String info = jsonObject.getString("info");
+                        count[0]++;
+                    }
+                } catch (JSONException e) {
+                    count[0]++;
+                }
+            }
+        }, "I", null, null).send();
     }
 
 }

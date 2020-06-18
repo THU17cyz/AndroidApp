@@ -34,9 +34,7 @@ public class ShortIntentAdapter<T> extends MyBaseAdapter {
         viewHolder.setText(R.id.intent_user_name, data.name)
                 .setText(R.id.intent_user_affiliation, StringCutter.cutter(data.school + data.department, 20));
 
-        if (data.isTeacher) {
-            viewHolder.setText(R.id.intent_info,  data.target);
-        }
+        viewHolder.setText(R.id.intent_info,  data.target);
 
 
 

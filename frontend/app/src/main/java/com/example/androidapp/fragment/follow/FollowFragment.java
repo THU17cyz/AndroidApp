@@ -301,7 +301,6 @@ public class FollowFragment extends Fragment {
 
     private void addButtonListener(ShortProfileAdapter shortProfileAdapter, ArrayList<ShortProfile> shortProfileArrayList) {
         shortProfileAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            Toast.makeText(getActivity(), "testItemChildClick" + position, Toast.LENGTH_SHORT).show();
             FocusButton btn = ((FocusButton) view);
             btn.startLoading(() -> {
                 ShortProfile profile = shortProfileArrayList.get(position);

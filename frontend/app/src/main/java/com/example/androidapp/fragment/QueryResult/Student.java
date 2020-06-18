@@ -14,6 +14,7 @@ import com.example.androidapp.entity.queryInfo.TeacherQueryInfo;
 import com.example.androidapp.request.search.SearchStudentRequest;
 import com.example.androidapp.request.search.SearchTeacherRequest;
 import com.kingja.loadsir.callback.Callback;
+import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
 
 import org.jetbrains.annotations.NotNull;
@@ -43,7 +44,7 @@ public class Student extends ProfileFragment {
 
 
     public void loadQueryInfo(String query) {
-        loadService = LoadSir.getDefault().register(recyclerView, (Callback.OnReloadListener) v -> {
+        LoadService loadService = LoadSir.getDefault().register(recyclerView, (Callback.OnReloadListener) v -> {
 
         });
         new SearchStudentRequest(new okhttp3.Callback() {
@@ -56,7 +57,6 @@ public class Student extends ProfileFragment {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String resStr = response.body().string();
-                getActivity().runOnUiThread(() -> Toast.makeText(getContext(), resStr, Toast.LENGTH_LONG).show());
                 Log.e("response", resStr);
                 try {
                     JSONObject jsonObject = new JSONObject(resStr);
