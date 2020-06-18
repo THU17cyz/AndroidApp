@@ -2,6 +2,7 @@ package com.example.androidapp.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.opengl.Visibility;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,13 +47,15 @@ public class EditApplicationListAdapter<T> extends MyBaseAdapter {
   protected void setListener(BaseViewHolder viewHolder, Object o) {
     viewHolder.addOnClickListener(R.id.state);
     viewHolder.addOnClickListener(R.id.delete);
-
+    ApplicationInfo data = (ApplicationInfo) o;
     // 删除按钮
     ImageView delete = viewHolder.getView(R.id.delete);
     delete.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         // todo 删除该栏
+        data.setType(ApplicationInfo.Type.DELETE);
+        viewHolder.setVisible(R.id.card,false);
       }
     });
 

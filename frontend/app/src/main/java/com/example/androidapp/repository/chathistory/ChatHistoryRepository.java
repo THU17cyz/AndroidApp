@@ -1,9 +1,13 @@
-package com.example.androidapp.repository;
+package com.example.androidapp.repository.chathistory;
 
 import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
+
+import com.example.androidapp.repository.chathistory.ChatHistory;
+import com.example.androidapp.repository.chathistory.ChatHistoryDao;
+import com.example.androidapp.repository.chathistory.ChatHistoryDb;
 
 import java.util.List;
 

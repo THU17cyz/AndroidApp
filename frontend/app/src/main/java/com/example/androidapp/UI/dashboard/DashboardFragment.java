@@ -23,6 +23,8 @@ import com.example.androidapp.adapter.HomepagePagerAdapter;
 import com.example.androidapp.chatTest.model.Message;
 import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.entity.WholeProfile;
+import com.example.androidapp.request.follow.GetFanlistRequest;
+import com.example.androidapp.request.follow.GetWatchlistRequest;
 import com.example.androidapp.request.user.GetInfoPlusRequest;
 import com.example.androidapp.request.user.GetInfoRequest;
 import com.google.android.material.tabs.TabLayout;
@@ -75,8 +77,13 @@ public class DashboardFragment
     private WholeProfile wholeProfile;
     private ShortProfile shortProfile;
 
-//    private HomepagePagerAdapter pagerAdapter;
+    private HomepagePagerAdapter pagerAdapter;
 
+    private String mAccount;
+    private String mSignature;
+    private int mNumFocus;
+    private int mNumFocused;
+    private String type;
 
     private DashboardViewModel dashboardViewModel;
 
@@ -87,9 +94,7 @@ public class DashboardFragment
 
         ButterKnife.bind(this,root);
 
-        ImmersionBar.with(this)
-                .statusBarColor(R.color.colorPrimary)
-                .init();
+        ImmersionBar.with(this).statusBarColor(R.color.colorPrimary).init();
 
         tabLayout.addTab(tabLayout.newTab().setText("个人信息"));
         tabLayout.addTab(tabLayout.newTab().setText("科研信息"));
@@ -97,7 +102,40 @@ public class DashboardFragment
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
-        HomepagePagerAdapter pagerAdapter = new HomepagePagerAdapter(getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
+//        // 获取用户名和类型
+//        new GetInfoRequest(new okhttp3.Callback() {
+//            @Override
+//            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//                Log.e("error", e.toString());
+//            }
+//
+//            @Override
+//            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//                String resStr = response.body().string();
+//                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+//                Log.e("response", resStr);
+//                try {
+//                    // 解析json，然后进行自己的内部逻辑处理
+//                    JSONObject jsonObject = new JSONObject(resStr);
+//
+//                    Boolean status = jsonObject.getBoolean("status");
+//                    if(status){
+//                        mAccount = jsonObject.getString("account");
+//                        type = jsonObject.getJSONObject("teacher_id")==null?"S":"T";
+//                    }else{
+//                        String info = jsonObject.getString("info");
+//                        getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
+//                    }
+//                } catch (JSONException e) {
+//
+//                }
+//            }
+//        },"I",null,null);
+
+        pagerAdapter.setType(type);
+
+
+        pagerAdapter = new HomepagePagerAdapter(getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
@@ -135,7 +173,8 @@ public class DashboardFragment
         });
 
 
-        // 获取头像昵称个性签名并展示
+
+        // 获取个性签名
         new GetInfoPlusRequest(new okhttp3.Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -153,11 +192,7 @@ public class DashboardFragment
 
                     Boolean status = jsonObject.getBoolean("status");
                     if(status){
-                        //int id = jsonObject.getInt("teacher_id");
-
-
-                        //ShortProfile shortProfile = new ShortProfile()
-
+                        mSignature = jsonObject.getString("signature");
                     }else{
                         String info = jsonObject.getString("info");
                         getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
@@ -168,7 +203,75 @@ public class DashboardFragment
             }
         },"I",null,null);
 
+        // 获取头像
 
+        // 获取关注人数
+        new GetWatchlistRequest(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.e("error", e.toString());
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String resStr = response.body().string();
+                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+                Log.e("response", resStr);
+                try {
+                    // 解析json，然后进行自己的内部逻辑处理
+                    JSONObject jsonObject = new JSONObject(resStr);
+
+                    Boolean status = jsonObject.getBoolean("status");
+                    if(status){
+                        JSONArray jsonArray = (JSONArray) jsonObject.get("watchlist_teachers");
+                        JSONArray jsonArray1 = (JSONArray) jsonObject.get("watchlist_students");
+                        mNumFocus = jsonArray.length()+jsonArray1.length();
+                    }else{
+                        String info = jsonObject.getString("info");
+                        getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
+                    }
+                } catch (JSONException e) {
+
+                }
+            }
+        });
+
+        // 获取被关注人数
+        new GetFanlistRequest(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.e("error", e.toString());
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String resStr = response.body().string();
+                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+                Log.e("response", resStr);
+                try {
+                    // 解析json，然后进行自己的内部逻辑处理
+                    JSONObject jsonObject = new JSONObject(resStr);
+
+                    Boolean status = jsonObject.getBoolean("status");
+                    if(status){
+                        JSONArray jsonArray = (JSONArray) jsonObject.get("fanlist_teachers");
+                        JSONArray jsonArray1 = (JSONArray) jsonObject.get("fanlist_students");
+                        mNumFocused = jsonArray.length()+jsonArray1.length();
+                    }else{
+                        String info = jsonObject.getString("info");
+                        getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
+                    }
+                } catch (JSONException e) {
+
+                }
+            }
+        });
+
+        //显示
+        name.setText(mAccount);
+        signature.setText(mSignature);
+        numFocus.setText(mNumFocus);
+        numFocused.setText(mNumFocused);
 
         return root;
 

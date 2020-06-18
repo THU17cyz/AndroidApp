@@ -1,4 +1,4 @@
-package com.example.androidapp.repository;
+package com.example.androidapp.repository.chathistory;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;

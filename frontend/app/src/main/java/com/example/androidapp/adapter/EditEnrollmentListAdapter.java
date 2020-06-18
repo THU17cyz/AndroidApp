@@ -46,11 +46,14 @@ public class EditEnrollmentListAdapter<T> extends MyBaseAdapter {
 
     // 删除按钮
     ImageView delete = viewHolder.getView(R.id.delete);
+    EnrollmentInfo data = (EnrollmentInfo) o;
     delete.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         // todo 删除该栏
         Toast.makeText(mContext,"删除",Toast.LENGTH_SHORT).show();
+        data.setType(EnrollmentInfo.Type.DELETE);
+        viewHolder.setVisible(R.id.card,false);
       }
     });
 

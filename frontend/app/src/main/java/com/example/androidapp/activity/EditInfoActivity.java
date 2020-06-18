@@ -26,8 +26,6 @@ public class EditInfoActivity extends AppCompatActivity {
   @BindView(R.id.tab_layout)
   TabLayout tabLayout;
 
-  @BindView(R.id.btn_concern)
-  Button btn_concern;
 
   @BindView(R.id.toolbar)
   Toolbar toolbar;
@@ -68,14 +66,6 @@ public class EditInfoActivity extends AppCompatActivity {
       }
     });
 
-    btn_concern.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        // todo 回退到个人主页
-        Intent intent = new Intent(EditInfoActivity.this,MainActivity.class);
-        startActivity(intent);
-      }
-    });
 
     setSupportActionBar(toolbar);
     // 标题栏返回

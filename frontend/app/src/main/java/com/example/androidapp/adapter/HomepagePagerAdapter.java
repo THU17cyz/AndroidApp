@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.example.androidapp.entity.WholeProfile;
 import com.example.androidapp.fragment.follow.FollowFragment;
 import com.example.androidapp.fragment.homepage.ApplicationInfoFragment;
 import com.example.androidapp.fragment.homepage.EnrollmentInfoFragment;
@@ -19,10 +20,15 @@ import org.jetbrains.annotations.NotNull;
 public class HomepagePagerAdapter extends FragmentStatePagerAdapter {
   int mNumOfTabs;
   SparseArray<Fragment> registeredFragments = new SparseArray<>();
+  String type;
 
   public HomepagePagerAdapter(@NonNull FragmentManager fm, int NumOfTabs) {
     super(fm);
     this.mNumOfTabs = NumOfTabs;
+  }
+
+  public void setType(String type){
+    this.type = type;
   }
 
   @NonNull
@@ -33,7 +39,12 @@ public class HomepagePagerAdapter extends FragmentStatePagerAdapter {
     switch (position) {
       case 0: return new SelfInfoFragment();
       case 1: return new StudyInfoFragment();
-      case 2:return new ApplicationInfoFragment();
+      case 2:
+        if (type.equals("S")){
+          return new ApplicationInfoFragment();
+        } else {
+          return new EnrollmentInfoFragment();
+        }
       case 3:return new FollowFragment();
       default: return null;
     }

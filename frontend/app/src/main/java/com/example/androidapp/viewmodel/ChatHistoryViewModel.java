@@ -2,13 +2,12 @@ package com.example.androidapp.viewmodel;
 
 import android.app.Application;
 
-import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.androidapp.repository.ChatHistory;
-import com.example.androidapp.repository.ChatHistoryRepository;
+import com.example.androidapp.repository.chathistory.ChatHistory;
+import com.example.androidapp.repository.chathistory.ChatHistoryRepository;
 
 import java.util.List;
 

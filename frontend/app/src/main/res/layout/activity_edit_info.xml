@@ -27,20 +27,11 @@
 
     <androidx.viewpager.widget.ViewPager
         android:background="@color/white60"
-        android:layout_above="@id/btn_concern"
         android:layout_below="@id/tab_layout"
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </androidx.viewpager.widget.ViewPager>
-
-    <Button
-        android:background="@color/white"
-        android:id="@+id/btn_concern"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="确定"></Button>
 
 
 </RelativeLayout>

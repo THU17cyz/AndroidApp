@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
 
 <ScrollView
+    android:layout_alignParentTop="true"
+    android:layout_above="@id/btn_concern"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -114,5 +120,13 @@
     </androidx.cardview.widget.CardView>
 </ScrollView>
 
+    <Button
+        android:id="@+id/btn_concern"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="确定"></Button>
 
+
+</RelativeLayout>
 

@@ -1,7 +1,6 @@
 package com.example.androidapp.activity;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -16,17 +15,16 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.androidapp.chatTest.GifSizeFilter;
-import com.example.androidapp.chatTest.fixtures.MessagesFixtures;
 import com.example.androidapp.chatTest.model.Message;
 import com.example.androidapp.chatTest.model.User;
 import com.example.androidapp.R;
-import com.example.androidapp.repository.ChatHistory;
+import com.example.androidapp.repository.chathistory.ChatHistory;
+import com.example.androidapp.request.conversation.SendMessageRequest;
 import com.example.androidapp.viewmodel.ChatHistoryViewModel;
 import com.gyf.immersionbar.ImmersionBar;
 import com.squareup.picasso.Picasso;
@@ -42,13 +40,17 @@ import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
-import java.security.PrivateKey;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Response;
 
 
 public class ChatActivity
@@ -83,6 +85,8 @@ public class ChatActivity
   private ChatHistoryViewModel chatHistoryViewModel;
   private String user;
   private String contact;
+  private User mUser;
+  private User contactUser;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +95,9 @@ public class ChatActivity
     ButterKnife.bind(this);
 
     getWindow().setSoftInputMode (WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+    user = getIntent().getStringExtra("user");
+    contact = getIntent().getStringExtra("contact");
 
     initView();
 
@@ -104,17 +111,26 @@ public class ChatActivity
     // 聊天记录
     chatHistoryViewModel = ViewModelProviders.of(this).get(ChatHistoryViewModel.class);
     chatHistoryViewModel.initData(user,contact);
-    chatHistoryViewModel.getChatHistory().observe(this, new Observer<List<ChatHistory>>() {
-      @Override
-      public void onChanged(@Nullable final List<ChatHistory> words) {
-        // Update the cached copy of the words in the adapter.
-        // Todo
-        // Set words
-        Toast.makeText(ChatActivity.this,"changed",Toast.LENGTH_SHORT).show();
-        // To do end
 
+    mUser = new User("1",user,null,false);
+    contactUser = new User("0",contact,null,false);
+
+    LiveData<List<ChatHistory>> list = chatHistoryViewModel.getChatHistory();
+    List<ChatHistory> historyList = list.getValue();
+
+
+    if(historyList!=null){
+      List<Message> messagesList = new ArrayList<>();
+      for(int i=0;i<historyList.size();i++){
+        ChatHistory aHistory = historyList.get(i);
+        Message message = new Message(String.valueOf(i),mUser,aHistory.getContact(),aHistory.getTime());
+        messagesList.add(message);
       }
-    });
+      messagesAdapter.addToEnd(messagesList, false);
+    }
+
+
+
 
   }
 
@@ -142,13 +158,10 @@ public class ChatActivity
     messagesList.setAdapter(messagesAdapter);
 
 
-
-
     btn_return.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Intent intent = new Intent(ChatActivity.this,MainActivity.class);
-        startActivity(intent);
+        finish();
       }
     });
   }
@@ -287,6 +300,21 @@ public class ChatActivity
             new Message("0", new User("0", "ming", null, true), input.toString())
             , true);
     chatHistoryViewModel.insert(new ChatHistory(new Date(),input.toString(),"T","S",user,contact));
+
+    new SendMessageRequest(new okhttp3.Callback() {
+      @Override
+      public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+      }
+
+      @Override
+      public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+
+      }
+    },getIntent().getStringExtra("contact_id"),
+            getIntent().getStringExtra("contact_type"),"T",input.toString(),null);
+
+
 
     LiveData<List<ChatHistory>> list = chatHistoryViewModel.getChatHistory();
     List<ChatHistory> historyList = list.getValue();

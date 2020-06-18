@@ -14,6 +14,7 @@ import com.example.androidapp.fragment.homepage.ApplicationInfoFragment;
 import com.example.androidapp.fragment.homepage.EnrollmentInfoFragment;
 import com.example.androidapp.fragment.homepage.SelfInfoFragment;
 import com.example.androidapp.fragment.homepage.StudyInfoFragment;
+import com.example.androidapp.util.BasicInfo;
 
 public class EditInfoPagerAdapter extends FragmentStatePagerAdapter {
   int mNumOfTabs;
@@ -31,8 +32,11 @@ public class EditInfoPagerAdapter extends FragmentStatePagerAdapter {
     switch (position) {
       case 0: return new EditSelfInfoFragment();
       case 1: return new EditStudyInfoFragment();
-      case 2:return new EditApplicationInfoFragment();
-      case 3:return new EditEnrollmentInfoFragment();
+      case 2:
+        if(BasicInfo.TYPE.equals("S"))
+          return new EditApplicationInfoFragment();
+        else
+          return new EditEnrollmentInfoFragment();
       default: return null;
     }
   }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.cardview.widget.CardView
+    android:id="@+id/card"
     app:cardCornerRadius="5dp"
     app:contentPaddingBottom="4dp"
     app:contentPaddingTop="4dp"

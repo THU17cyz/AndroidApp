@@ -1,6 +1,8 @@
 package com.example.androidapp.fragment.Conversation;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,12 +21,14 @@ import com.example.androidapp.chatTest.model.Dialog;
 import com.example.androidapp.chatTest.model.Message;
 import com.example.androidapp.chatTest.model.User;
 import com.example.androidapp.R;
-import com.example.androidapp.repository.ChatHistory;
+import com.example.androidapp.repository.chathistory.ChatHistory;
+import com.example.androidapp.repository.chathistoryhasread.ChatHistoryHasRead;
 import com.example.androidapp.request.conversation.GetContactListRequest;
 import com.example.androidapp.request.conversation.GetMessageDetailRequest;
 import com.example.androidapp.request.conversation.GetMessageRequest;
 import com.example.androidapp.request.conversation.GetNewMessagesRequest;
 import com.example.androidapp.request.user.GetInfoRequest;
+import com.example.androidapp.viewmodel.ChatHistoryHasReadViewModel;
 import com.example.androidapp.viewmodel.ChatHistoryViewModel;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -42,7 +46,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.UnknownServiceException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -50,7 +53,6 @@ import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
 public class ChatFragment extends Fragment implements DateFormatter.Formatter{
@@ -66,6 +68,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
     private int messageId;
     private List<Integer> messageIdList;
     private ChatHistoryViewModel chatHistoryViewModel;
+    private ChatHistoryHasReadViewModel chatHistoryHasReadViewModel;
     private String userAccount;
 
 
@@ -106,7 +109,14 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
             @Override
             public void onDialogClick(IDialog dialog) {
                 // todo
+                User contact = (User)dialog.getUsers().get(0);
+                String s = contact.getName();
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
+                intent.putExtra("user",userAccount);
+                intent.putExtra("contact",contact.getName());
+                intent.putExtra("contact_id",contact.getId());
+                String contactType = type==0?"T":"s";
+                intent.putExtra("contact_type",contactType);
                 startActivity(intent);
             }
         });
@@ -132,6 +142,8 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
         chatHistoryViewModel = ViewModelProviders.of(this).get(ChatHistoryViewModel.class);
         chatHistoryViewModel.initData("","");
 
+        chatHistoryHasReadViewModel = ViewModelProviders.of(this).get(ChatHistoryHasReadViewModel.class);
+        chatHistoryHasReadViewModel.initData(userAccount);
         return root;
 
     }
@@ -306,8 +318,22 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
                                 String content = jsonObject.getString("message_content");
                                 String messageWay = jsonObject.getString("message_way");
                                 String objectAccount = jsonObject.getString("object_account");
+                                int objectId = jsonObject.getInt("object_id");
                                 String messageType = jsonObject.getString("message_type");
                                 chatHistoryViewModel.insert(new ChatHistory(new Date(time),content,messageType,messageWay,userAccount,objectAccount));
+
+                                // 添加新联系人
+                                if(!contactList.contains(objectAccount)){
+                                    contactList.add(objectAccount);
+                                    contactIdList.add(objectId);
+                                }
+
+                                // 添加未读标记
+                                SharedPreferences.Editor editor =  getContext().getSharedPreferences("data", Context.MODE_PRIVATE).edit();
+                                editor.putBoolean(userAccount+"_"+objectAccount,false);
+                                editor.commit();
+
+
                             }else{
                                 String info = jsonObject.getString("info");
                                 getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
@@ -330,12 +356,18 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
         dialogList = new ArrayList<>();
 
         for(int i=0;i<contactList.size();i++){
-            User user = new User("1",contactList.get(i),"todo",false);
-
-
+            User user = new User(String.valueOf(contactIdList.get(i)),contactList.get(i),"todo",false);
+            Boolean hasRead = getContext().getSharedPreferences("data",Context.MODE_PRIVATE).getBoolean(userAccount+"_"+contactList.get(i),true);
             Message message = new Message("0",user,"message",new Date());
-            Dialog dialog = new Dialog(String.valueOf(i),contactList.get(i),"todo",
-                    new ArrayList<User>(Arrays.asList(user)),message, 1);
+            Dialog dialog;
+            if(hasRead){
+                dialog = new Dialog(String.valueOf(i),contactList.get(i),"todo",
+                        new ArrayList<User>(Arrays.asList(user)),message, 0);
+            } else {
+                dialog = new Dialog(String.valueOf(i),contactList.get(i),"todo",
+                        new ArrayList<User>(Arrays.asList(user)),message,1);
+            }
+
             dialogList.add(dialog);
         }
 

@@ -12,7 +12,7 @@ public class Dialog implements IDialog<Message> {
     private String id;
     private String dialogPhoto;
     private String dialogName;
-    private ArrayList<User> users;
+    public ArrayList<User> users;
     private Message lastMessage;
 
     private int unreadCount;
