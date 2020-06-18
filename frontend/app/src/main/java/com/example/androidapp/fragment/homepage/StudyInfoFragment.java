@@ -57,6 +57,8 @@ public class StudyInfoFragment extends Fragment {
   private String result;
   private String experience;
 
+  private Unbinder unbinder;
+
 
   //To do
   public StudyInfoFragment() {
@@ -66,7 +68,7 @@ public class StudyInfoFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_study_info, container, false);
-    ButterKnife.bind(this,view);
+    unbinder = ButterKnife.bind(this,view);
 
     // 获取信息
     new GetInfoPlusRequest(new okhttp3.Callback() {
@@ -142,6 +144,13 @@ public class StudyInfoFragment extends Fragment {
 //    videoPlayer.setUp(url, JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "宣传视频");
 
     return view;
+  }
+
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    unbinder.unbind();
   }
 
 }

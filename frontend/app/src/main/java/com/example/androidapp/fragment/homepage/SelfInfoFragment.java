@@ -25,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.security.Signature;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -117,6 +118,8 @@ public class SelfInfoFragment extends Fragment {
   private String mAddress;
   private String mIntroduction;
 
+  private Unbinder unbinder;
+
 
 
   //To do
@@ -127,7 +130,7 @@ public class SelfInfoFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_self_info, container, false);
-    ButterKnife.bind(this,view);
+    unbinder = ButterKnife.bind(this,view);
 
     // 获取用户名和类型
     new GetInfoRequest(new okhttp3.Callback() {
@@ -234,6 +237,7 @@ public class SelfInfoFragment extends Fragment {
                 } else {
                   studentNumber.setText(mStudentNumber);
                 }
+
                 idNumber.setText(mIdNumber);
                 phone.setText(mPhone);
                 email.setText(mEmail);
@@ -292,5 +296,10 @@ public class SelfInfoFragment extends Fragment {
     return view;
   }
 
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    unbinder.unbind();
+  }
 }
 

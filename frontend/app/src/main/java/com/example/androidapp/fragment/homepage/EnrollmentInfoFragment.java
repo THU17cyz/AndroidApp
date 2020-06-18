@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Unbinder;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -40,6 +41,8 @@ public class EnrollmentInfoFragment extends Fragment {
   RecyclerView recyclerView;
   EnrollmentListAdapter adapter;
   ArrayList<EnrollmentInfo> mEnrollmentList;
+
+
   private List<Integer> enrollmentIdList;
 
   public EnrollmentInfoFragment() {

@@ -38,6 +38,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -56,6 +57,8 @@ public class EditEnrollmentInfoFragment extends Fragment {
   private int teacherId;
   private List<Integer> enrollmentIdList;
 
+  private Unbinder unbinder;
+
   //To do
   public EditEnrollmentInfoFragment() {
 
@@ -64,10 +67,13 @@ public class EditEnrollmentInfoFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.activity_edit_intention_info, container, false);
-    ButterKnife.bind(this,view);
+    unbinder = ButterKnife.bind(this,view);
 
     recyclerView = view.findViewById(R.id.recycler_view);
     recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+    mEnrollmentList = new ArrayList<>();
+    adapter = new EditEnrollmentListAdapter(mEnrollmentList, getContext());//初始化NameAdapter
+    adapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
 
     // 显示目前申请意向
 
@@ -95,6 +101,59 @@ public class EditEnrollmentInfoFragment extends Fragment {
             for (int i=0;i<array.length();i++){
               enrollmentIdList.add(array.getInt(i));
             }
+
+            // 按id获取申请意向
+            mEnrollmentList = new ArrayList<>();
+            if(enrollmentIdList!=null){
+              for(int i=0;i<enrollmentIdList.size();i++){
+                new GetRecruitIntentionDetailRequest(new okhttp3.Callback() {
+                  @Override
+                  public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    Log.e("error", e.toString());
+                  }
+
+                  @Override
+                  public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    String resStr = response.body().string();
+                    getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+                    Log.e("response", resStr);
+                    try {
+                      // 解析json，然后进行自己的内部逻辑处理
+                      JSONObject jsonObject = new JSONObject(resStr);
+
+                      Boolean status = jsonObject.getBoolean("status");
+                      if(status){
+                        EnrollmentInfo enrollmentInfo = new EnrollmentInfo(
+                                jsonObject.getString("research_fields"),
+                                jsonObject.getString("recruitment_type"),
+                                String.valueOf(jsonObject.getInt("recruitment_number")),
+                                jsonObject.getString("intention_state"),
+                                jsonObject.getString("introduction")
+                        );
+                        enrollmentInfo.setType(EnrollmentInfo.Type.UPDATE);
+
+                        getActivity().runOnUiThread(new Runnable() {
+                          @Override
+                          public void run() {
+                            mEnrollmentList.add(enrollmentInfo);
+                            adapter.notifyDataSetChanged();
+                          }
+                        });
+
+
+                      }else{
+                        String info = jsonObject.getString("info");
+                        getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
+                      }
+                    } catch (JSONException e) {
+
+                    }
+                  }
+                },String.valueOf(enrollmentIdList.get(i))).send();
+              }
+            }
+
+
           }else{
             String info = jsonObject.getString("info");
             getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
@@ -103,56 +162,15 @@ public class EditEnrollmentInfoFragment extends Fragment {
 
         }
       }
-    },String.valueOf(BasicInfo.ID));
-
-    // 按id获取申请意向
-    mEnrollmentList = new ArrayList<>();
-    if(enrollmentIdList!=null){
-      for(int i=0;i<enrollmentIdList.size();i++){
-        new GetRecruitIntentionDetailRequest(new okhttp3.Callback() {
-          @Override
-          public void onFailure(@NotNull Call call, @NotNull IOException e) {
-            Log.e("error", e.toString());
-          }
-
-          @Override
-          public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-            String resStr = response.body().string();
-            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-            Log.e("response", resStr);
-            try {
-              // 解析json，然后进行自己的内部逻辑处理
-              JSONObject jsonObject = new JSONObject(resStr);
-
-              Boolean status = jsonObject.getBoolean("status");
-              if(status){
-                EnrollmentInfo enrollmentInfo = new EnrollmentInfo(
-                        jsonObject.getString("research_fields"),
-                        jsonObject.getString("recruitment_type"),
-                        String.valueOf(jsonObject.getInt("recruitment_number")),
-                        jsonObject.getString("intention_state"),
-                        jsonObject.getString("introduction")
-                );
-                enrollmentInfo.setType(EnrollmentInfo.Type.UPDATE);
-                mEnrollmentList.add(enrollmentInfo);
-              }else{
-                String info = jsonObject.getString("info");
-                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
-              }
-            } catch (JSONException e) {
-
-            }
-          }
-        },String.valueOf(enrollmentIdList.get(i)));
-      }
-    }
+    },String.valueOf(BasicInfo.ID)).send();
 
 
-    ArrayList<EnrollmentInfo> mEnrollmentList = new ArrayList<>();
-    mEnrollmentList.add(new EnrollmentInfo("计算机图形学", "本科生", "100","进行中","介绍就是xxx"));
-    mEnrollmentList.add(new EnrollmentInfo("物联网", "进行中", "我是xxx","进行中","介绍是xxx"));
-    adapter = new EditEnrollmentListAdapter(mEnrollmentList, getContext());//初始化NameAdapter
-    adapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
+
+
+//    ArrayList<EnrollmentInfo> mEnrollmentList = new ArrayList<>();
+//    mEnrollmentList.add(new EnrollmentInfo("计算机图形学", "本科生", "100","进行中","介绍就是xxx"));
+//    mEnrollmentList.add(new EnrollmentInfo("物联网", "进行中", "我是xxx","进行中","介绍是xxx"));
+
 
     adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
       @Override
@@ -241,6 +259,12 @@ public class EditEnrollmentInfoFragment extends Fragment {
 
 
     return view;
+  }
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    unbinder.unbind();
   }
 
 }

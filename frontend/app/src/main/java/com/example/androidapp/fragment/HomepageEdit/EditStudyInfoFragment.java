@@ -27,6 +27,7 @@ import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -50,17 +51,23 @@ public class EditStudyInfoFragment extends Fragment implements View.OnClickListe
   @BindView(R.id.edit_url)
   FormEditText url;
 
-  private String signature;
-  private String phone;
-  private String email;
-  private String homepage;
-  private String address;
-  private String introduction;
-
-  WholeProfile wholeProfile;
+  private String mSignature;
+  private String mPhone;
+  private String mEmail;
+  private String mHomepage;
+  private String mAddress;
+  private String mIntroduction;
   private String mTeacherNumber;
   private String mStudentNumber;
   private String mIdNumber;
+
+  private String mDirection;
+  private String mResult;
+  private String mInterest;
+  private String mExperience;
+  private String mUrl;
+
+  private Unbinder unbinder;
 
   //To do
   public EditStudyInfoFragment() {
@@ -70,9 +77,9 @@ public class EditStudyInfoFragment extends Fragment implements View.OnClickListe
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.activity_edit_study_info, container, false);
-    ButterKnife.bind(this,view);
+    unbinder = ButterKnife.bind(this,view);
 
-    // 获取当前信息
+    // 获取并显示当前信息
     new GetInfoPlusRequest(new okhttp3.Callback() {
       @Override
       public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -90,10 +97,43 @@ public class EditStudyInfoFragment extends Fragment implements View.OnClickListe
 
           Boolean status = jsonObject.getBoolean("status");
           if(status){
-            wholeProfile = new WholeProfile(null,jsonObject);
+            mSignature = jsonObject.getString("signature");
+            mPhone = jsonObject.getString("phone");
+            mEmail = jsonObject.getString("email");
+            mHomepage = jsonObject.getString("homepage");
+            mAddress = jsonObject.getString("address");
+            mIntroduction = jsonObject.getString("introduction");
             mIdNumber = jsonObject.getString("id_number");
-            mTeacherNumber = jsonObject.getString("teacher_number");
-            mStudentNumber = jsonObject.getString("student_number");
+            mUrl = jsonObject.getString("promotional_video_url");
+            if(BasicInfo.TYPE.equals("S")){
+              mStudentNumber = jsonObject.getString("student_number");
+              mInterest = jsonObject.getString("research_interest");
+              mExperience = jsonObject.getString("research_experience");
+            } else {
+              mTeacherNumber = jsonObject.getString("teacher_number");
+              mDirection = jsonObject.getString("research_fields");
+              mResult = jsonObject.getString("research_achievements");
+            }
+
+            getActivity().runOnUiThread(new Runnable() {
+              @Override
+              public void run() {
+                if(BasicInfo.TYPE.equals("S")){
+                  textDirOrInt.setText("兴趣方向");
+                  textResOrExp.setText("研究经历");
+                  dirOrInt.setText(mInterest);
+                  resOrExp.setText(mExperience);
+                  url.setText(mUrl);
+                } else {
+                  textDirOrInt.setText("研究方向");
+                  textResOrExp.setText("研究成果");
+                  dirOrInt.setText(mDirection);
+                  resOrExp.setText(mResult);
+                  url.setText(mUrl);
+                }
+              }
+            });
+
           }else{
             String info = jsonObject.getString("info");
             getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
@@ -102,23 +142,23 @@ public class EditStudyInfoFragment extends Fragment implements View.OnClickListe
 
         }
       }
-    },"I",null,null);
+    },"I",null,null).send();
 
-
-    // 显示当前信息
-    if(BasicInfo.TYPE.equals("S")){
-      textDirOrInt.setText("兴趣方向");
-      dirOrInt.setText(wholeProfile.research_interest);
-      textResOrExp.setText("研究经历");
-      resOrExp.setText(wholeProfile.research_experience);
-      url.setText(wholeProfile.promotional_video_url);
-    } else {
-      textDirOrInt.setText("研究方向");
-      dirOrInt.setText(wholeProfile.research_fields);
-      textResOrExp.setText("研究成果");
-      resOrExp.setText(wholeProfile.research_achievements);
-      url.setText(wholeProfile.promotional_video_url);
-    }
+//
+//    // 显示当前信息
+//    if(BasicInfo.TYPE.equals("S")){
+//      textDirOrInt.setText("兴趣方向");
+//      dirOrInt.setText(wholeProfile.research_interest);
+//      textResOrExp.setText("研究经历");
+//      resOrExp.setText(wholeProfile.research_experience);
+//      url.setText(wholeProfile.promotional_video_url);
+//    } else {
+//      textDirOrInt.setText("研究方向");
+//      dirOrInt.setText(wholeProfile.research_fields);
+//      textResOrExp.setText("研究成果");
+//      resOrExp.setText(wholeProfile.research_achievements);
+//      url.setText(wholeProfile.promotional_video_url);
+//    }
 
     btnConcern.setOnClickListener(this);
 
@@ -159,17 +199,17 @@ public class EditStudyInfoFragment extends Fragment implements View.OnClickListe
               }
             }
           },
-                  wholeProfile.signature,
-                  wholeProfile.phone,
-                  wholeProfile.email,
-                  wholeProfile.homepage,
-                  wholeProfile.address,
-                  wholeProfile.introduction,
-                  wholeProfile.research_fields,
-                  wholeProfile.research_achievements,
+                  mSignature,
+                  mPhone,
+                  mEmail,
+                  mHomepage,
+                  mAddress,
+                  mIntroduction,
+                  mDirection,
+                  mResult,
                   dirOrInt.getText().toString(),
                   resOrExp.getText().toString(),
-                  url.getText().toString());
+                  url.getText().toString()).send();
         } else {
           new UpdateInfoPlusRequest(new okhttp3.Callback() {
             @Override
@@ -196,19 +236,25 @@ public class EditStudyInfoFragment extends Fragment implements View.OnClickListe
               }
             }
           },
-                  wholeProfile.signature,
-                  wholeProfile.phone,
-                  wholeProfile.email,
-                  wholeProfile.homepage,
-                  wholeProfile.address,
-                  wholeProfile.introduction,
+                  mSignature,
+                  mPhone,
+                  mEmail,
+                  mHomepage,
+                  mAddress,
+                  mIntroduction,
                   dirOrInt.getText().toString(),
                   resOrExp.getText().toString(),
-                  wholeProfile.research_interest,
-                  wholeProfile.research_experience,
-                  url.getText().toString());
+                  mInterest,
+                  mExperience,
+                  url.getText().toString()).send();
         }
       }
     }
+  }
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    unbinder.unbind();
   }
 }
