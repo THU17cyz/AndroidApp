@@ -2,6 +2,7 @@
 
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -53,7 +54,7 @@
                 style="@style/personal_homepage_font_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="张三"></TextView>
+                tools:text="张三"></TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -78,7 +79,7 @@
                 style="@style/personal_homepage_font_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="男"></TextView>
+                tools:text="男"></TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -103,7 +104,7 @@
                 style="@style/personal_homepage_font_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="清华"></TextView>
+                tools:text="清华"></TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -129,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
-                android:text="软件学院"></TextView>
+                tools:text="软件学院"></TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -156,7 +157,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
-                android:text="教授"></TextView>
+                tools:text="教授"></TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -183,7 +184,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
-                android:text="计算机"></TextView>
+                tools:text="计算机"></TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -210,7 +211,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
-                android:text="本科"></TextView>
+                tools:text="本科"></TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -237,7 +238,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
-                android:text="4154315451"></TextView>
+                tools:text="4154315451"></TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -264,7 +265,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
-                android:text="741947899"></TextView>
+                tools:text="741947899"></TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -291,7 +292,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
-                android:text="413985094183594385"></TextView>
+                tools:text="413985094183594385"></TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -316,7 +317,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
-                android:text="19900999999"
+                tools:text="19900999999"
                 android:textColor="?android:attr/textColorSecondary"></TextView>
         </LinearLayout>
 
@@ -343,7 +344,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
-                android:text="199@qq.com"></TextView>
+                tools:text="199@qq.com"></TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -369,7 +370,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
-                android:text="www.baidu.com"></TextView>
+                tools:text="www.baidu.com"></TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -395,7 +396,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
-                android:text="紫荆公寓1号楼"></TextView>
+                tools:text="紫荆公寓1号楼"></TextView>
         </LinearLayout>
 
         <LinearLayout
@@ -423,7 +424,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
-                android:text="个人介绍是xxxxxxxx"></TextView>
+                tools:text="个人介绍是xxxxxxxx"></TextView>
 
             <!--        <com.ms.square.android.expandabletextview.ExpandableTextView xmlns:android="http://schemas.android.com/apk/res/android"-->
             <!--            xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"-->

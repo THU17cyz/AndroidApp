@@ -28,6 +28,7 @@ import com.example.androidapp.request.intention.GetApplyIntentionDetailRequest;
 import com.example.androidapp.request.intention.GetApplyIntentionRequest;
 import com.example.androidapp.request.user.GetInfoPlusRequest;
 import com.example.androidapp.request.user.GetInfoRequest;
+import com.example.androidapp.util.BasicInfo;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -50,7 +51,6 @@ public class ApplicationInfoFragment extends Fragment {
   RecyclerView recyclerView;
   ApplicationListAdapter adapter;
   ArrayList<ApplicationInfo> mApplicationList;
-  private int studentId;
   private List<Integer> applicationIdList;
   //To do
   public ApplicationInfoFragment() {
@@ -63,35 +63,9 @@ public class ApplicationInfoFragment extends Fragment {
 
     recyclerView = view.findViewById(R.id.recycler_view);
     recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-
-    // 获取个人id
-    new GetInfoRequest(new okhttp3.Callback() {
-      @Override
-      public void onFailure(@NotNull Call call, @NotNull IOException e) {
-        Log.e("error", e.toString());
-      }
-
-      @Override
-      public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-        String resStr = response.body().string();
-        getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-        Log.e("response", resStr);
-        try {
-          // 解析json，然后进行自己的内部逻辑处理
-          JSONObject jsonObject = new JSONObject(resStr);
-
-          Boolean status = jsonObject.getBoolean("status");
-          if(status){
-            studentId = jsonObject.getInt("student_id");
-          }else{
-            String info = jsonObject.getString("info");
-            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
-          }
-        } catch (JSONException e) {
-
-        }
-      }
-    },"I",null,null);
+    mApplicationList = new ArrayList<>();
+    adapter = new ApplicationListAdapter(mApplicationList, getContext());
+    adapter.setRecyclerManager(recyclerView);
 
     // 获取申请意向id列表
     new GetApplyIntentionRequest(new okhttp3.Callback() {
@@ -116,6 +90,55 @@ public class ApplicationInfoFragment extends Fragment {
             for (int i=0;i<array.length();i++){
               applicationIdList.add(array.getInt(i));
             }
+
+            // 按id获取申请意向
+            if(applicationIdList!=null){
+              for(int i=0;i<applicationIdList.size();i++){
+                new GetApplyIntentionDetailRequest(new okhttp3.Callback() {
+                  @Override
+                  public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    Log.e("error", e.toString());
+                  }
+
+                  @Override
+                  public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    String resStr = response.body().string();
+                    getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+                    Log.e("response", resStr);
+                    try {
+                      // 解析json，然后进行自己的内部逻辑处理
+                      JSONObject jsonObject = new JSONObject(resStr);
+
+                      Boolean status = jsonObject.getBoolean("status");
+                      if(status){
+                        ApplicationInfo applicationInfo = new ApplicationInfo(
+                                jsonObject.getString("research_interests"),
+                                jsonObject.getString("intention_state"),
+                                jsonObject.getString("introduction")
+                        );
+
+                        getActivity().runOnUiThread(new Runnable() {
+                          @Override
+                          public void run() {
+                            mApplicationList.add(applicationInfo);
+                            adapter.notifyDataSetChanged();
+                          }
+                        });
+
+
+                      }else{
+                        String info = jsonObject.getString("info");
+                        getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
+                      }
+                    } catch (JSONException e) {
+
+                    }
+                  }
+                },String.valueOf(applicationIdList.get(i))).send();
+              }
+            }
+
+
           }else{
             String info = jsonObject.getString("info");
             getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
@@ -124,51 +147,50 @@ public class ApplicationInfoFragment extends Fragment {
 
         }
       }
-    },String.valueOf(studentId));
+    },String.valueOf(BasicInfo.ID)).send();
 
-    // 按id获取申请意向
-    mApplicationList = new ArrayList<>();
-    if(applicationIdList!=null){
-      for(int i=0;i<applicationIdList.size();i++){
-        new GetApplyIntentionDetailRequest(new okhttp3.Callback() {
-          @Override
-          public void onFailure(@NotNull Call call, @NotNull IOException e) {
-            Log.e("error", e.toString());
-          }
+//    // 按id获取申请意向
+//    mApplicationList = new ArrayList<>();
+//    if(applicationIdList!=null){
+//      for(int i=0;i<applicationIdList.size();i++){
+//        new GetApplyIntentionDetailRequest(new okhttp3.Callback() {
+//          @Override
+//          public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//            Log.e("error", e.toString());
+//          }
+//
+//          @Override
+//          public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//            String resStr = response.body().string();
+//            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+//            Log.e("response", resStr);
+//            try {
+//              // 解析json，然后进行自己的内部逻辑处理
+//              JSONObject jsonObject = new JSONObject(resStr);
+//
+//              Boolean status = jsonObject.getBoolean("status");
+//              if(status){
+//                ApplicationInfo applicationInfo = new ApplicationInfo(
+//                        jsonObject.getString("research_interests"),
+//                        jsonObject.getString("intention_state"),
+//                        jsonObject.getString("introduction")
+//                );
+//                mApplicationList.add(applicationInfo);
+//              }else{
+//                String info = jsonObject.getString("info");
+//                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
+//              }
+//            } catch (JSONException e) {
+//
+//            }
+//          }
+//        },String.valueOf(applicationIdList.get(i)));
+//      }
+//    }
 
-          @Override
-          public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-            String resStr = response.body().string();
-            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-            Log.e("response", resStr);
-            try {
-              // 解析json，然后进行自己的内部逻辑处理
-              JSONObject jsonObject = new JSONObject(resStr);
+//    mApplicationList.add(new ApplicationInfo("计算机图形学", "进行中", "我是xxx"));
+//    mApplicationList.add(new ApplicationInfo("物联网", "进行中", "我是xxx"));
 
-              Boolean status = jsonObject.getBoolean("status");
-              if(status){
-                ApplicationInfo applicationInfo = new ApplicationInfo(
-                        jsonObject.getString("research_interests"),
-                        jsonObject.getString("intention_state"),
-                        jsonObject.getString("introduction")
-                );
-                mApplicationList.add(applicationInfo);
-              }else{
-                String info = jsonObject.getString("info");
-                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
-              }
-            } catch (JSONException e) {
-
-            }
-          }
-        },String.valueOf(applicationIdList.get(i)));
-      }
-    }
-
-    mApplicationList.add(new ApplicationInfo("计算机图形学", "进行中", "我是xxx"));
-    mApplicationList.add(new ApplicationInfo("物联网", "进行中", "我是xxx"));
-    adapter = new ApplicationListAdapter(mApplicationList, getContext());//初始化NameAdapter
-    adapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
 
     return view;
   }

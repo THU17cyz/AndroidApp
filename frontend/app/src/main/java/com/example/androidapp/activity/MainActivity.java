@@ -15,7 +15,9 @@ import android.widget.Toast;
 import com.example.androidapp.R;
 import com.example.androidapp.UI.home.HomeFragment;
 import com.example.androidapp.application.App;
+import com.example.androidapp.request.user.GetInfoRequest;
 import com.example.androidapp.request.user.LoginRequest;
+import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Http;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -39,7 +41,15 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Response;
 
 public class MainActivity extends BaseActivity {
     
@@ -130,10 +140,50 @@ public class MainActivity extends BaseActivity {
 
 
 
+        // 获取account，id，type供全局使用
+        new GetInfoRequest(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.e("error", e.toString());
+                Toast.makeText(getApplicationContext(),"获取全局信息失败",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String resStr = response.body().string();
+                runOnUiThread(() -> Toast.makeText(getApplicationContext(), resStr, Toast.LENGTH_LONG).show());
+                Log.e("response", resStr);
+                try {
+                    // 解析json，然后进行自己的内部逻辑处理
+                    JSONObject jsonObject = new JSONObject(resStr);
+                    Boolean status = jsonObject.getBoolean("status");
+                    if(status){
+                        BasicInfo.ACCOUNT = jsonObject.getString("account");
+                        if(jsonObject.has("student_id")){
+                            BasicInfo.ID = jsonObject.getInt("student_id");
+                            BasicInfo.TYPE = "S";
+                        }else {
+                            BasicInfo.ID = jsonObject.getInt("teacher_id");
+                            BasicInfo.TYPE = "T";
+                        }
+                        Log.d("basic info",BasicInfo.ACCOUNT);
+                    }else{
+                        String info = jsonObject.getString("info");
+                    }
+                } catch (JSONException e) {
+
+                }
+            }
+        },"I",null,null).send();
+
         // *** HTTP 测试 ***
         if (Global.HTTP_TEST_MODE) {
             Http.testRequest();
         }
+
+
+
+
     }
 
     public void openDrawer() {

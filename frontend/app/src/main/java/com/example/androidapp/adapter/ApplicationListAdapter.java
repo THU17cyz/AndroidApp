@@ -54,8 +54,14 @@ public class ApplicationListAdapter<T> extends MyBaseAdapter {
 
     ApplicationInfo data = (ApplicationInfo) o;
     viewHolder.setText(R.id.direction, data.direction)
-            .setText(R.id.state, data.state)
             .setText(R.id.profile,data.profile);
+    if(data.state.equals("O")){
+      viewHolder.setText(R.id.state,"进行");
+    } else if(data.state.equals("S")){
+      viewHolder.setText(R.id.state,"成功");
+    } else if(data.state.equals("F")) {
+      viewHolder.setText(R.id.state,"失败");
+    }
   }
 
   @Override
