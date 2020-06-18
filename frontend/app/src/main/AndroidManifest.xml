@@ -57,6 +57,9 @@
         <activity
             android:name=".activity.VisitHomePageActivity"
             android:label="@string/app_name" />
+        <activity
+            android:name=".activity.EditInfoActivity"
+            android:label="@string/app_name" />
     </application>
 
 </manifest>

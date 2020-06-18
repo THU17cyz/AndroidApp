@@ -15,14 +15,17 @@ import com.example.androidapp.activity.LogonActivity;
 import com.example.androidapp.R;
 import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.entity.WholeProfile;
+import com.example.androidapp.fragment.QueryResult.Base;
 import com.example.androidapp.request.user.GetInfoPlusRequest;
 import com.example.androidapp.request.user.GetInfoRequest;
+import com.example.androidapp.util.BasicInfo;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.security.Signature;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,11 +52,12 @@ public class StudyInfoFragment extends Fragment {
   JCVideoPlayerStandard videoPlayer;
 
   private String url;
-  private String type;
   private String direction;
   private String interest;
   private String result;
   private String experience;
+
+  private Unbinder unbinder;
 
 
   //To do
@@ -64,41 +68,7 @@ public class StudyInfoFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_study_info, container, false);
-    ButterKnife.bind(this,view);
-
-    // 获取类型
-    new GetInfoRequest(new okhttp3.Callback() {
-      @Override
-      public void onFailure(@NotNull Call call, @NotNull IOException e) {
-        Log.e("error", e.toString());
-      }
-
-      @Override
-      public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-        String resStr = response.body().string();
-        getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-        Log.e("response", resStr);
-        try {
-          // 解析json，然后进行自己的内部逻辑处理
-          JSONObject jsonObject = new JSONObject(resStr);
-
-          Boolean status = jsonObject.getBoolean("status");
-          if(status){
-
-            if(jsonObject.getJSONObject("teacher_id")==null){
-              type="S";
-            }else {
-              type="T";
-            }
-          }else{
-            String info = jsonObject.getString("info");
-            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
-          }
-        } catch (JSONException e) {
-
-        }
-      }
-    },"I",null,null);
+    unbinder = ButterKnife.bind(this,view);
 
     // 获取信息
     new GetInfoPlusRequest(new okhttp3.Callback() {
@@ -118,11 +88,36 @@ public class StudyInfoFragment extends Fragment {
 
           Boolean status = jsonObject.getBoolean("status");
           if(status){
-            direction = jsonObject.getString("research_fields");
-            result = jsonObject.getString("research_achievements");
-            interest = jsonObject.getString("research_interest");
-            experience = jsonObject.getString("research_experience");
-            url = jsonObject.getString("promotional_video_url");
+            if(BasicInfo.TYPE.equals("S")){
+              interest = jsonObject.getString("research_interest");
+              experience = jsonObject.getString("research_experience");
+              url = jsonObject.getString("promotional_video_url");
+            }else {
+              direction = jsonObject.getString("research_fields");
+              result = jsonObject.getString("research_achievements");
+              url = jsonObject.getString("promotional_video_url");
+            }
+            getActivity().runOnUiThread(new Runnable() {
+              @Override
+              public void run() {
+                if(BasicInfo.TYPE.equals("S")){
+                  textDirOrInt.setText("兴趣方向");
+                  textResOrExp.setText("研究经历");
+                  dirOrInt.setText(interest);
+                  resOrExp.setText(experience);
+                }
+                else {
+                  textDirOrInt.setText("研究方向");
+                  textResOrExp.setText("研究成果");
+                  resOrExp.setText(direction);
+                  resOrExp.setText(result);
+                }
+
+                videoPlayer.setUp(url, JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "宣传视频");
+
+              }
+            });
+
           }else{
             String info = jsonObject.getString("info");
             getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
@@ -131,24 +126,31 @@ public class StudyInfoFragment extends Fragment {
 
         }
       }
-    },"I",null,null);
+    },"I",null,null).send();
 
-    if(type.equals("S")){
-      textDirOrInt.setText("兴趣方向");
-      textResOrExp.setText("研究经历");
-      dirOrInt.setText(interest);
-      resOrExp.setText(experience);
-    }
-    else {
-      textDirOrInt.setText("研究方向");
-      textResOrExp.setText("研究成果");
-      resOrExp.setText(direction);
-      resOrExp.setText(result);
-    }
-
-    videoPlayer.setUp(url, JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "宣传视频");
+//    if(BasicInfo.TYPE.equals("S")){
+//      textDirOrInt.setText("兴趣方向");
+//      textResOrExp.setText("研究经历");
+//      dirOrInt.setText(interest);
+//      resOrExp.setText(experience);
+//    }
+//    else {
+//      textDirOrInt.setText("研究方向");
+//      textResOrExp.setText("研究成果");
+//      resOrExp.setText(direction);
+//      resOrExp.setText(result);
+//    }
+//
+//    videoPlayer.setUp(url, JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "宣传视频");
 
     return view;
+  }
+
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    unbinder.unbind();
   }
 
 }

@@ -38,7 +38,9 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.Response;
 
 public class EditSelfInfoFragment extends Fragment
@@ -115,9 +117,6 @@ public class EditSelfInfoFragment extends Fragment
   @BindView(R.id.choose_degree)
   TextView chooseDegree;
 
-  private ShortProfile shortProfile;
-  private WholeProfile wholeProfile;
-
   private String mTitle;
   private String mMajor;
   private String mDegree;
@@ -126,13 +125,33 @@ public class EditSelfInfoFragment extends Fragment
   private String mIdNumber;
   private String mGender;
 
+  private String mName;
+  private String mSchool;
+  private String mDepartment;
+
+  private String mSignature;
+  private String mPhone;
+  private String mEmail;
+  private String mHomepage;
+  private String mAddress;
+  private String mIntroduction;
+
+  private String mDirection;
+  private String mResult;
+  private String mInterest;
+  private String mExperience;
+  private String mUrl;
+
+  private Unbinder unbinder;
+
+
   //To do
   public EditSelfInfoFragment() { }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.activity_edit_self_info, container, false);
-    ButterKnife.bind(this, view);
+    unbinder = ButterKnife.bind(this, view);
 
     chooseGender.setOnClickListener(this);
     chooseTitle.setOnClickListener(this);
@@ -158,15 +177,60 @@ public class EditSelfInfoFragment extends Fragment
           Boolean status = jsonObject.getBoolean("status");
           if(status){
 
-            if(BasicInfo.TYPE.equals("S")){
-              shortProfile = new ShortProfile(jsonObject,false);
-            }else {
-              shortProfile = new ShortProfile(jsonObject,true);
-            }
-            mTitle = jsonObject.getString("title");
-            mMajor = jsonObject.getString("major");
-            mDegree = jsonObject.getString("degree");
+            mName = jsonObject.getString("name");
             mGender = jsonObject.getString("gender");
+            mSchool = jsonObject.getString("school");
+            mDepartment = jsonObject.getString("department");
+            if(BasicInfo.TYPE.equals("S")){
+              mMajor = jsonObject.getString("major");
+              mDegree = jsonObject.getString("degree");
+            }else {
+              mTitle = jsonObject.getString("title");
+            }
+
+            getActivity().runOnUiThread(new Runnable() {
+              @Override
+              public void run() {
+                name.setText(mName);
+                if(mGender.equals("M")){
+                  chooseGender.setText("男");
+                } else if(mGender.equals("F")){
+                  chooseGender.setText("女");
+                } else if(mGender.equals("U")){
+                  chooseGender.setText("未知");
+                }
+                school.setText(mSchool);
+                department.setText(mDepartment);
+                if(BasicInfo.TYPE.equals("S")){
+                  major.setText(mMajor);
+                  if(mDegree.equals("UG")){
+                    chooseDegree.setText("本科生");
+                  } else if(mDegree.equals("MT")){
+                    chooseDegree.setText("硕士生");
+                  } else if(mDegree.equals("DT")){
+                    chooseDegree.setText("博士生");
+                  }
+                  layoutTitle.setVisibility(View.GONE);
+                  layoutTeacherNumber.setVisibility(View.GONE);
+                }else {
+
+                  if(mTitle.equals("TA")){
+                    chooseTitle.setText("助理");
+                  } else if(mTitle.equals("LT")){
+                    chooseTitle.setText("讲师");
+                  } else if(mTitle.equals("AP")){
+                    chooseTitle.setText("助理教授");
+                  } else if(mTitle.equals("PP")){
+                    chooseTitle.setText("教授");
+                  }
+
+                  layoutDegree.setVisibility(View.GONE);
+                  layoutMajor.setVisibility(View.GONE);
+                  layoutDegree.setVisibility(View.GONE);
+                }
+              }
+            });
+
           }else{
             String info = jsonObject.getString("info");
             getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
@@ -175,9 +239,9 @@ public class EditSelfInfoFragment extends Fragment
 
         }
       }
-    },"I",null,null);
+    },"I","","").send();
 
-    new GetInfoPlusRequest(new okhttp3.Callback() {
+    new GetInfoPlusRequest(new Callback() {
       @Override
       public void onFailure(@NotNull Call call, @NotNull IOException e) {
         Log.e("error", e.toString());
@@ -194,10 +258,44 @@ public class EditSelfInfoFragment extends Fragment
 
           Boolean status = jsonObject.getBoolean("status");
           if(status){
-            wholeProfile = new WholeProfile(shortProfile,jsonObject);
+            mSignature = jsonObject.getString("signature");
+            mPhone = jsonObject.getString("phone");
+            mEmail = jsonObject.getString("email");
+            mHomepage = jsonObject.getString("homepage");
+            mAddress = jsonObject.getString("address");
+            mIntroduction = jsonObject.getString("introduction");
             mIdNumber = jsonObject.getString("id_number");
-            mTeacherNumber = jsonObject.getString("teacher_number");
-            mStudentNumber = jsonObject.getString("student_number");
+            mUrl = jsonObject.getString("promotional_video_url");
+            if(BasicInfo.TYPE.equals("S")){
+              mStudentNumber = jsonObject.getString("student_number");
+              mInterest = jsonObject.getString("research_interest");
+              mExperience = jsonObject.getString("research_experience");
+            } else {
+              mTeacherNumber = jsonObject.getString("teacher_number");
+              mDirection = jsonObject.getString("research_fields");
+              mResult = jsonObject.getString("research_achievements");
+            }
+
+            getActivity().runOnUiThread(new Runnable() {
+              @Override
+              public void run() {
+                signature.setText(mSignature);
+                phone.setText(mPhone);
+                email.setText(mEmail);
+                homepage.setText(mHomepage);
+                address.setText(mAddress);
+                introduction.setText(mIntroduction);
+                idNumber.setText(mIdNumber);
+                if(BasicInfo.TYPE.equals("S")){
+                  studentNumber.setText(mStudentNumber);
+                  layoutTeacherNumber.setVisibility(View.GONE);
+                } else {
+                  teacherNumber.setText(mTeacherNumber);
+                  layoutStudentNumber.setVisibility(View.GONE);
+                }
+              }
+            });
+
           }else{
             String info = jsonObject.getString("info");
             getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
@@ -206,38 +304,38 @@ public class EditSelfInfoFragment extends Fragment
 
         }
       }
-    },"I",null,null);
+    },"I",null,null).send();
 
     // 显示目前数据
-    name.setText(shortProfile.name);
-    if(mGender.equals("M")){
-      chooseGender.setText("男");
-    } else if(mGender.equals("F")){
-      chooseGender.setText("女");
-    } else {
-      chooseGender.setText("未设置");
-    }
-    school.setText(shortProfile.school);
-    department.setText(shortProfile.department);
-    if(BasicInfo.TYPE.equals("T")){
-      chooseTitle.setText(mTitle);
-      teacherNumber.setText(mTeacherNumber);
-      layoutMajor.setVisibility(View.INVISIBLE);
-      layoutDegree.setVisibility(View.INVISIBLE);
-      layoutStudentNumber.setVisibility(View.INVISIBLE);
-    } else {
-      studentNumber.setText(mStudentNumber);
-      major.setText(mMajor);
-      chooseDegree.setText(mDegree);
-      layoutTitle.setVisibility(View.INVISIBLE);
-      layoutTeacherNumber.setVisibility(View.INVISIBLE);
-    }
-    idNumber.setText(mIdNumber);
-    phone.setText(wholeProfile.phone);
-    email.setText(wholeProfile.email);
-    homepage.setText(wholeProfile.homepage);
-    address.setText(wholeProfile.address);
-    introduction.setText(wholeProfile.introduction);
+//    name.setText(shortProfile.name);
+//    if(mGender.equals("M")){
+//      chooseGender.setText("男");
+//    } else if(mGender.equals("F")){
+//      chooseGender.setText("女");
+//    } else {
+//      chooseGender.setText("未设置");
+//    }
+//    school.setText(shortProfile.school);
+//    department.setText(shortProfile.department);
+//    if(BasicInfo.TYPE.equals("T")){
+//      chooseTitle.setText(mTitle);
+//      teacherNumber.setText(mTeacherNumber);
+//      layoutMajor.setVisibility(View.INVISIBLE);
+//      layoutDegree.setVisibility(View.INVISIBLE);
+//      layoutStudentNumber.setVisibility(View.INVISIBLE);
+//    } else {
+//      studentNumber.setText(mStudentNumber);
+//      major.setText(mMajor);
+//      chooseDegree.setText(mDegree);
+//      layoutTitle.setVisibility(View.INVISIBLE);
+//      layoutTeacherNumber.setVisibility(View.INVISIBLE);
+//    }
+//    idNumber.setText(mIdNumber);
+//    phone.setText(wholeProfile.phone);
+//    email.setText(wholeProfile.email);
+//    homepage.setText(wholeProfile.homepage);
+//    address.setText(wholeProfile.address);
+//    introduction.setText(wholeProfile.introduction);
 
 
     btnConcern.setOnClickListener(this);
@@ -309,6 +407,34 @@ public class EditSelfInfoFragment extends Fragment
       }
       case R.id.btn_concern:
       {
+
+        String tmpDegree = "";
+        if(chooseDegree.getText().equals("本科生")){
+          tmpDegree = "UG";
+        } else if(chooseDegree.getText().equals("硕士生")){
+          tmpDegree = "MT";
+        } else if(chooseDegree.getText().equals("博士生")) {
+          tmpDegree = "DT";
+        }
+        String tmpTitle = "";
+        if(chooseTitle.getText().toString().equals("助理")){
+          tmpTitle="TA";
+        } else if(chooseTitle.getText().toString().equals("讲师")){
+          tmpTitle="LT";
+        } else if(chooseTitle.getText().toString().equals("助理教授")){
+          tmpTitle="AP";
+        } else if(chooseTitle.getText().toString().equals("教授")){
+          tmpTitle="PP";
+        }
+        String tmpGender="";
+        if(chooseGender.getText().toString().equals("男")){
+          tmpGender = "M";
+        } else if(chooseGender.getText().toString().equals("女")){
+          tmpGender = "F";
+        } else if(chooseGender.getText().toString().equals("未知")){
+          tmpGender = "U";
+        }
+
         // 发送修改信息的请求
         new UpdateInfoRequest(new okhttp3.Callback() {
           @Override
@@ -336,12 +462,12 @@ public class EditSelfInfoFragment extends Fragment
           }
         },
                 name.getText().toString(),
-                chooseGender.getText().toString(),
+                tmpGender,
                 school.getText().toString(),
                 department.getText().toString(),
-                chooseTitle.getText().toString(),
+                tmpTitle,
                 major.getText().toString(),
-                chooseDegree.getText().toString() );
+                tmpDegree ).send();
 
         new UpdateInfoPlusRequest(new okhttp3.Callback() {
           @Override
@@ -374,13 +500,19 @@ public class EditSelfInfoFragment extends Fragment
                 homepage.getText().toString(),
                 address.getText().toString(),
                 introduction.getText().toString(),
-                wholeProfile.research_fields,
-                wholeProfile.research_achievements,
-                wholeProfile.research_interest,
-                wholeProfile.research_experience,
-                wholeProfile.promotional_video_url);
+                mDirection,
+                mResult,
+                mInterest,
+                mExperience,
+                mUrl).send();
       }
     }
+  }
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    unbinder.unbind();
   }
 
 }

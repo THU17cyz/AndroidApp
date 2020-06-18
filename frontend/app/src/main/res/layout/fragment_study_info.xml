@@ -3,6 +3,7 @@
 
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -56,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="?android:attr/textColorSecondary"
-                android:text="我的兴趣是巴拉巴拉"></TextView>
+                tools:text="我的兴趣是巴拉巴拉"></TextView>
 
         </LinearLayout>
 
@@ -83,7 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="?android:attr/textColorSecondary"
-                android:text="我的研究经历是是巴拉巴拉"></TextView>
+                tools:text="我的研究经历是是巴拉巴拉"></TextView>
 
             <!-- sample xml -->
 <!--            <com.ms.square.android.expandabletextview.ExpandableTextView xmlns:android="http://schemas.android.com/apk/res/android"-->
