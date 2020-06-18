@@ -4,11 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
     android:layout_marginTop="10dp"
+    android:layout_marginRight="10dp"
     android:layout_marginBottom="10dp"
-    android:background="?android:attr/windowBackground"
+    android:background="@drawable/shape_intent_card"
     android:gravity="center_vertical"
     android:orientation="horizontal">
+    <!--    android:background="?android:attr/windowBackground"-->
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -46,7 +49,6 @@
             android:textSize="13sp" />
 
     </LinearLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
