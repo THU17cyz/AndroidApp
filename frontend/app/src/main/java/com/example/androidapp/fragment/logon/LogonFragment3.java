@@ -121,5 +121,4 @@ public class LogonFragment3 extends Fragment {
                 Log.e("HttpError", e.toString());
         }
     };
-
 }

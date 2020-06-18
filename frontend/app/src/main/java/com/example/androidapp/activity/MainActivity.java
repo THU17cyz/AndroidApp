@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.androidapp.R;
 import com.example.androidapp.UI.home.HomeFragment;
 import com.example.androidapp.application.App;
+import com.example.androidapp.request.intention.ClearAllIntentionRequest;
 import com.example.androidapp.request.user.GetInfoRequest;
 import com.example.androidapp.request.user.LoginRequest;
 import com.example.androidapp.util.BasicInfo;
@@ -178,7 +179,8 @@ public class MainActivity extends BaseActivity {
 
         // *** HTTP 测试 ***
         if (Global.HTTP_TEST_MODE) {
-            Http.testRequest();
+            Log.d("Test", "******************");
+            new ClearAllIntentionRequest(Http.callbackExample_0).send();
         }
 
 

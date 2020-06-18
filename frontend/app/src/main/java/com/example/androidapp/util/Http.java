@@ -2,6 +2,7 @@ package com.example.androidapp.util;
 
 import android.util.Log;
 
+import com.example.androidapp.request.intention.ClearAllIntentionRequest;
 import com.example.androidapp.request.user.GetInfoRequest;
 import com.example.androidapp.request.user.LoginRequest;
 import com.example.androidapp.request.user.UpdateInfoPictureRequest;
@@ -103,7 +104,7 @@ public class Http {
      */
     public static void testRequest() {
         Log.e("Test", "*****************");
-        new LoginRequest(Http.callbackExample_1, "T", "T1", "T1").send();
+        new ClearAllIntentionRequest(Http.callbackExample_0).send();
     }
 
     /**

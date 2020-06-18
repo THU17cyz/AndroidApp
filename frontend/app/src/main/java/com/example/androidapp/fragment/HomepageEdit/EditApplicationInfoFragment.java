@@ -221,6 +221,7 @@ public class EditApplicationInfoFragment extends Fragment {
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+
             }
           },
                   applicationInfo.direction,
