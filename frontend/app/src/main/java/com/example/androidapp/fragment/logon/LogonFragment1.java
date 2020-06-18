@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.example.androidapp.activity.LoginActivity;
 import com.example.androidapp.activity.LogonActivity;
 import com.example.androidapp.R;
+import com.example.androidapp.request.user.LoginRequest;
 import com.example.androidapp.request.user.LogonRequest;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Hint;
@@ -116,7 +117,11 @@ public class LogonFragment1 extends Fragment {
                     String info = (String) jsonObject.get("info");
                     if (status) {
                         requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), info));
-                        requireActivity().runOnUiThread(((LogonActivity) requireActivity())::onNextPage);
+                        // 注册成功，进行登录
+                        String type = typeSpinner.getSelectedItem().toString().equals(getResources().getStringArray(R.array.t_s_type)[0]) ? "T" : "S";
+                        String account = accountEditText.getText().toString();
+                        String password = passwordEditText.getText().toString();
+                        new LoginRequest(handleLogin, type, account, password).send();
                     } else {
                         requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), info));
                     }
@@ -131,6 +136,42 @@ public class LogonFragment1 extends Fragment {
         @Override
         public void onFailure(@NotNull Call call, @NotNull IOException e) {
             requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), "注册失败..."));
+            if (Global.HTTP_DEBUG_MODE)
+                Log.e("HttpError", e.toString());
+        }
+    };
+
+    private okhttp3.Callback handleLogin = new okhttp3.Callback() {
+        @Override
+        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+            try {
+                if (response.code() != 200) {
+                    requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), "登录失败..."));
+                } else {
+                    ResponseBody responseBody = response.body();
+                    String responseBodyString = responseBody != null ? responseBody.string() : "";
+                    if (Global.HTTP_DEBUG_MODE)
+                        Log.e("HttpResponse", responseBodyString);
+                    JSONObject jsonObject = new JSONObject(responseBodyString);
+                    boolean status = (Boolean) jsonObject.get("status");
+                    String info = (String) jsonObject.get("info");
+                    if (status) {
+                        requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), info));
+                        requireActivity().runOnUiThread(((LogonActivity) requireActivity())::onNextPage);
+                    } else {
+                        requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), info));
+                    }
+                }
+            } catch (JSONException e) {
+                requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), "登录失败..."));
+                if (Global.HTTP_DEBUG_MODE)
+                    Log.e("HttpResponse", e.toString());
+            }
+        }
+
+        @Override
+        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+            requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), "登录失败..."));
             if (Global.HTTP_DEBUG_MODE)
                 Log.e("HttpError", e.toString());
         }

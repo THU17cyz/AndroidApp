@@ -60,6 +60,10 @@ public class LogonActivity extends BaseActivity {
         viewPager.setCurrentItem(tabLayout.getSelectedTabPosition() + 1);
     }
 
+    public void onJumpToMain() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
 
     /******************************
      ************ 事件 ************
