@@ -14,6 +14,7 @@ import com.andreabaccega.formedittextvalidator.Validator;
 import com.andreabaccega.widget.FormEditText;
 import com.example.androidapp.R;
 import com.example.androidapp.request.user.LoginRequest;
+import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Hint;
 import com.example.androidapp.util.SoftKeyBoardListener;
 
@@ -93,7 +94,7 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    public void onJumpToMain() {
+    private void onJumpToMain() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
@@ -125,7 +126,7 @@ public class LoginActivity extends BaseActivity {
     /******************************
      ************ 回调 ************
      ******************************/
-    public okhttp3.Callback handleLogin = new okhttp3.Callback() {
+    private okhttp3.Callback handleLogin = new okhttp3.Callback() {
         @Override
         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
             Hint.endActivityLoad(LoginActivity.this);
@@ -135,7 +136,8 @@ public class LoginActivity extends BaseActivity {
                 } else {
                     ResponseBody responseBody = response.body();
                     String responseBodyString = responseBody != null ? responseBody.string() : "";
-                    Log.e("HttpResponse", responseBodyString);
+                    if (Global.HTTP_DEBUG_MODE)
+                        Log.e("HttpResponse", responseBodyString);
                     JSONObject jsonObject = new JSONObject(responseBodyString);
                     boolean status = (Boolean) jsonObject.get("status");
                     String info = (String) jsonObject.get("info");
@@ -148,13 +150,16 @@ public class LoginActivity extends BaseActivity {
                 }
             } catch (JSONException e) {
                 LoginActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(LoginActivity.this, "登录失败..."));
-                Log.e("HttpResponse", e.toString());
+                if (Global.HTTP_DEBUG_MODE)
+                    Log.e("HttpResponse", e.toString());
             }
         }
 
         @Override
         public void onFailure(@NotNull Call call, @NotNull IOException e) {
-            Log.e("HttpError", e.toString());
+            LoginActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(LoginActivity.this, "登录失败..."));
+            if (Global.HTTP_DEBUG_MODE)
+                Log.e("HttpError", e.toString());
         }
     };
 
