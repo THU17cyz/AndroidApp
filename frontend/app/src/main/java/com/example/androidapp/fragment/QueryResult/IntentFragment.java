@@ -1,7 +1,6 @@
 package com.example.androidapp.fragment.QueryResult;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,17 +20,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidapp.R;
 import com.example.androidapp.activity.VisitHomePageActivity;
-import com.example.androidapp.adapter.MyBaseAdapter;
-import com.example.androidapp.adapter.ShortProfileAdapter;
+import com.example.androidapp.adapter.ShortIntentAdapter;
+import com.example.androidapp.adapter.ShortIntentAdapter;
 import com.example.androidapp.component.FocusButton;
-import com.example.androidapp.entity.ShortProfile;
-import com.example.androidapp.entity.TeacherProfile;
+import com.example.androidapp.entity.ShortIntent;
+import com.example.androidapp.entity.ShortIntent;
 import com.example.androidapp.popup.SelectList;
 import com.example.androidapp.request.follow.AddToWatchRequest;
 import com.example.androidapp.request.follow.DeleteFromWatchRequest;
-import com.example.androidapp.request.search.SearchTeacherRequest;
 import com.kingja.loadsir.core.LoadService;
-import com.kingja.loadsir.core.LoadSir;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -46,10 +43,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.Response;
 
-public class Base extends Fragment {
+public class IntentFragment extends Fragment {
+
     @BindView(R.id.orderSpinner)
     protected Spinner orderSpinner;
 
@@ -63,12 +60,12 @@ public class Base extends Fragment {
     @BindView(R.id.recycleView)
     protected RecyclerView recyclerView;
 
-    protected ShortProfileAdapter mShortProfileAdapter;
+    protected ShortIntentAdapter mShortIntentAdapter;
 
     SelectList selectList;
-    protected ArrayList<ShortProfile> mProfileList;
+    protected ArrayList<ShortIntent> mIntentList;
 
-    protected ArrayList<ShortProfile> filteredProfileList;
+    protected ArrayList<ShortIntent> filteredIntentList;
 
 
     protected Unbinder unbinder;
@@ -81,8 +78,7 @@ public class Base extends Fragment {
 
     private String test_url = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1592237104788&di=da06c7ee8d8256243940b53531bdeba7&imgtype=0&src=http%3A%2F%2Ftupian.qqjay.com%2Ftou2%2F2018%2F1106%2F60bdf5b88754650e51ccee32bb6ac8ae.jpg";
 
-
-    public Base() {
+    public IntentFragment() {
 
     }
 
@@ -92,7 +88,22 @@ public class Base extends Fragment {
         unbinder = ButterKnife.bind(this, root);
         initViews();
 
+        mIntentList = new ArrayList<>();
+        filteredIntentList = new ArrayList<>();
+//        mIntentList.add(new ShortIntent(1, "黄翔", "清华大学",
+//                test_url,999, true, false));
+        mShortIntentAdapter = new ShortIntentAdapter(mIntentList, getContext());//初始化NameAdapter
+        mShortIntentAdapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
+        mShortIntentAdapter.openLeftAnimation();//设置加载动画
 
+        mShortIntentAdapter.setOnItemClickListener((adapter, view, position) -> {
+            visitHomePage(position);
+        });
+
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(new ColorDrawable(ContextCompat.getColor(getContext(), android.R.color.darker_gray)));
+        recyclerView.addItemDecoration(dividerItemDecoration);
 
         return root;
 
@@ -135,24 +146,88 @@ public class Base extends Fragment {
             selectList.showPopupWindow(orderSpinner);
 
         }
-
-//        orderList.setOutSideTouchable(true);
-//        orderList.setPopupGravity(Gravity.BOTTOM);
-//        orderList.setAlignBackground(true);
-//        orderList.setAlignBackgroundGravity(Gravity.TOP);
-        // orderList.setBackground(0);
-
     }
 
     public void setFilterClosed() {
         this.isFilterOpen = false;
     }
 
-
-
-
-
     public boolean[] getFilters() {
         return filters;
     }
+
+    void addIntentItem(boolean isRefresh, ShortIntent ShortIntent) {
+        if (recyclerView.isComputingLayout()) {
+            Log.e("errorrecyclerview", "ohno");
+            recyclerView.post(() -> {
+                if (isRefresh) {
+                    for (ShortIntent tmp: mIntentList) {
+                        if (tmp.id == ShortIntent.id) return;
+                    }
+                    mIntentList.remove(0);
+                    mShortIntentAdapter.notifyItemRemoved(0);
+                }
+                mIntentList.add(ShortIntent);
+            });
+
+
+        } else {
+            if (isRefresh) {
+                for (ShortIntent tmp: mIntentList) {
+                    if (tmp.id == ShortIntent.id) return;
+                }
+                mIntentList.remove(0);
+                mShortIntentAdapter.notifyItemRemoved(0);
+            }
+            mIntentList.add(ShortIntent);
+        }
+    }
+
+    private void visitHomePage(int position) {
+        Intent intent = new Intent(getContext(), VisitHomePageActivity.class);
+        intent.putExtra("id", mIntentList.get(position).id);
+        startActivity(intent);
+    }
+    
+
+    public void adjustList() {
+        int i = 0;
+        ArrayList<Integer> removed = new ArrayList<>();
+        mIntentList.addAll(filteredIntentList);
+        filteredIntentList.clear();
+        for (ShortIntent ShortIntent: mIntentList) {
+//            if (filters[0] && !ShortIntent.isMale) {
+//                removed.add(i);
+//            }
+//            if (filters[1] && ShortIntent.isMale) {
+//                removed.add(i);
+//            }
+            i++;
+        }
+        for (int j = removed.size() - 1; j >= 0; j--) {
+            int idx = removed.get(j);
+            filteredIntentList.add(mIntentList.get(idx));
+            mIntentList.remove(idx);
+            mShortIntentAdapter.notifyItemRemoved(idx);
+        }
+
+        if (current_order == 0) {
+            // Collections.sort(mIntentList, (p1, p2) -> Integer.valueOf(p2.fanNum).compareTo(Integer.valueOf(p1.fanNum)));
+        }
+
+    }
+
+    public void filterResult(boolean[] filters) {
+//        loadService = LoadSir.getDefault().register(recyclerView, (com.kingja.loadsir.callback.Callback.OnReloadListener) v -> {
+//
+//        });
+        int i = 0;
+        for (Boolean filter : filters) {
+            this.filters[i] = filter;
+            i++;
+        }
+        adjustList();
+//        loadService.showSuccess();
+    }
 }
+

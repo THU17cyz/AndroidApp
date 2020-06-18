@@ -15,7 +15,10 @@ import androidx.fragment.app.Fragment;
 
 import com.example.androidapp.activity.QueryResultActivity;
 import com.example.androidapp.R;
-import com.example.androidapp.fragment.QueryResult.Base;
+import com.example.androidapp.fragment.QueryResult.Apply;
+import com.example.androidapp.fragment.QueryResult.IntentFragment;
+import com.example.androidapp.fragment.QueryResult.ProfileFragment;
+import com.example.androidapp.fragment.QueryResult.Recruit;
 import com.example.androidapp.fragment.QueryResult.Student;
 import com.example.androidapp.fragment.QueryResult.Teacher;
 import com.google.android.flexbox.FlexboxLayout;
@@ -51,7 +54,13 @@ public class SelectList extends BasePopupWindow {
         setAlignBackgroundGravity(Gravity.TOP);
 
         selected = new boolean[]{false, false, false, false};
-        boolean[] filters = ((Base)((QueryResultActivity) getContext()).getCurrentFragment()).getFilters();
+        Fragment fragment = ((QueryResultActivity) getContext()).getCurrentFragment();
+        boolean[] filters;
+        if (fragment instanceof ProfileFragment) {
+            filters = ((ProfileFragment) fragment).getFilters();
+        } else {
+            filters = ((IntentFragment) fragment).getFilters();
+        }
         int i = 0;
         for (boolean filter: filters) {
             selected[i] = filter;
@@ -66,12 +75,14 @@ public class SelectList extends BasePopupWindow {
         Button enterBtn = (Button) btns.getViewById(R.id.enterBtn);
         enterBtn.setOnClickListener(v -> {
             dismiss();
-            QueryResultActivity activity = (QueryResultActivity) getContext();
-            Fragment fragment = activity.getCurrentFragment();
             if (fragment instanceof Teacher) {
                 ((Teacher) fragment).filterResult(selected);
             } else if (fragment instanceof Student) {
                 ((Student) fragment).filterResult(selected);
+            } if (fragment instanceof Apply) {
+                ((Apply) fragment).filterResult(selected);
+            } else if (fragment instanceof Recruit) {
+                ((Recruit) fragment).filterResult(selected);
             }
 
         });
@@ -168,8 +179,10 @@ public class SelectList extends BasePopupWindow {
     public void onDismiss() {
         QueryResultActivity activity = (QueryResultActivity) getContext();
         Fragment fragment = activity.getCurrentFragment();
-        if (fragment instanceof Base) {
-            ((Base) fragment).setFilterClosed();
+        if (fragment instanceof ProfileFragment) {
+            ((ProfileFragment) fragment).setFilterClosed();
+        } else {
+            ((IntentFragment) fragment).setFilterClosed();
         }
     }
 

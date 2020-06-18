@@ -51,7 +51,17 @@ public class VisitHomePageActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        shortProfile = intent.getParcelableExtra("profile");
+
+        int id = intent.getIntExtra("id", -1);
+        System.out.println(id);
+        if (id == -1) {
+            shortProfile = intent.getParcelableExtra("profile");
+        } else {
+
+        }
+
+
+
         homepageName.setText(shortProfile.name);
 
 

@@ -16,6 +16,8 @@ import com.example.androidapp.entity.queryInfo.ApplyQueryInfo;
 import com.example.androidapp.entity.queryInfo.RecruitQueryInfo;
 import com.example.androidapp.entity.queryInfo.StudentQueryInfo;
 import com.example.androidapp.entity.queryInfo.TeacherQueryInfo;
+import com.example.androidapp.fragment.QueryResult.Apply;
+import com.example.androidapp.fragment.QueryResult.Recruit;
 import com.example.androidapp.fragment.QueryResult.Student;
 import com.example.androidapp.fragment.QueryResult.Teacher;
 import com.example.androidapp.request.search.SearchStudentRequest;
@@ -158,10 +160,14 @@ public class QueryResultActivity extends BaseActivity {
 //        recruitQueryInfoList = null;
         ((Teacher) pagerAdapter.getRegisteredFragment(0)).clearQueryResult();
         ((Student) pagerAdapter.getRegisteredFragment(1)).clearQueryResult();
+        ((Recruit) pagerAdapter.getRegisteredFragment(2)).clearQueryResult();
+        ((Apply) pagerAdapter.getRegisteredFragment(3)).clearQueryResult();
+
         teacherInfo = false;
         studentInfo = false;
-        applyInfo = false;
         recruitInfo = false;
+        applyInfo = false;
+
     }
 
     public void querySet(int position) {
@@ -175,12 +181,12 @@ public class QueryResultActivity extends BaseActivity {
                 break;
             }
             case 2: {
-                applyInfo = true;
+                recruitInfo = true;
                 break;
             }
 
             default: {
-                recruitInfo = true;
+                applyInfo = true;
                 break;
             }
         }
@@ -198,22 +204,21 @@ public class QueryResultActivity extends BaseActivity {
                 break;
             }
             case 1: {
-                Log.e("1", "fuck" + studentInfo);
                 if (studentInfo) return;
                 Student student = (Student) pagerAdapter.getRegisteredFragment(1);
                 student.loadQueryInfo(query);
                 break;
             }
             case 2: {
-//                if (recruitQueryInfoList != null) return;
-//                Teacher teacher = (Teacher) pagerAdapter.getRegisteredFragment(0);
-//                recruitQueryInfoList = teacher.loadQueryInfo();
+                if (recruitInfo) return;
+                Recruit recruit = (Recruit) pagerAdapter.getRegisteredFragment(2);
+                recruit.loadQueryInfo(query);
                 break;
             }
             default: {
-//                if (teacherQueryInfoList != null) return;
-//                Teacher teacher = (Teacher) pagerAdapter.getRegisteredFragment(0);
-//                teacherQueryInfoList = teacher.loadQueryInfo();
+                if (applyInfo) return;
+                Apply apply = (Apply) pagerAdapter.getRegisteredFragment(3);
+                apply.loadQueryInfo(query);
                 break;
             }
         }

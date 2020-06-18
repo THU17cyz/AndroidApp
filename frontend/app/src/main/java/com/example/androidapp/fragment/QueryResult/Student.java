@@ -28,7 +28,7 @@ import java.util.List;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class Student extends Base {
+public class Student extends ProfileFragment {
 
     public Student() {
         order = new String[]{"最相关（默认）", "关注人数最多"};

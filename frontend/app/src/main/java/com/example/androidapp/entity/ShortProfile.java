@@ -17,6 +17,7 @@ public class ShortProfile implements Parcelable {
     public boolean isMale;
     public boolean isValidated;
     public boolean isFan;
+    public int relate;
 
     public ShortProfile() {
         
@@ -46,6 +47,12 @@ public class ShortProfile implements Parcelable {
         } else {
             this.id = jsonObject.getInt("student_id");
         }
+        try {
+            this.relate = jsonObject.getInt("match_degree");
+        } catch (JSONException e) {
+
+        }
+
     }
 
     public ShortProfile(ShortProfile shortProfile) {

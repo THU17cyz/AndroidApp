@@ -107,7 +107,9 @@ public class LoginActivity extends BaseActivity {
         String account = accountEditText.getText().toString();
         String password = passwordEditText.getText().toString();
         Hint.startActivityLoad(this);
-        new LoginRequest(this.handleLogin, type, account, password).send();
+        // 后门儿
+        if (account.length() == 0) new LoginRequest(this.handleLogin, type, "T1", "T1").send();
+        else new LoginRequest(this.handleLogin, type, account, password).send();
     }
 
     @OnClick(R.id.logon)

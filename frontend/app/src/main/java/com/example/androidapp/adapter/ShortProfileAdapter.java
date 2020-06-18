@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.androidapp.component.FocusButton;
 import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.R;
+import com.example.androidapp.util.StringCutter;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -40,8 +41,9 @@ public class ShortProfileAdapter<T> extends MyBaseAdapter {
     protected void initData(BaseViewHolder viewHolder, Object o) {
         // 在这里链式赋值就可以了
         ShortProfile data = (ShortProfile) o;
-        viewHolder.setText(R.id.logon1_type, data.name)
-                .setText(R.id.info, data.school).setText(R.id.fan,  data.fanNum + "人关注");
+        viewHolder.setText(R.id.profile_user_name, data.name)
+                .setText(R.id.info, StringCutter.cutter(data.school + data.department, 20))
+                .setText(R.id.fan,  data.fanNum + "人关注");
 
         try {
             mHead = viewHolder.getView(R.id.profile_image);
@@ -52,7 +54,7 @@ public class ShortProfileAdapter<T> extends MyBaseAdapter {
         }
 
         if (data.isValidated) {
-            TextView mNameView = viewHolder.getView(R.id.logon1_type);
+            TextView mNameView = viewHolder.getView(R.id.profile_user_name);
             Drawable drawable = mNameView.getContext().getDrawable(R.drawable.ic_validated);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             mNameView.setCompoundDrawables(null,null, drawable, null);
