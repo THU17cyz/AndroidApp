@@ -85,7 +85,7 @@ public class Http {
      */
     public static void sendHttpPostRequest(String url, HashMap<String, String> param, String fileKey, File fileObject, okhttp3.Callback callback) {
         if (param.isEmpty() && (fileKey == null || fileObject == null))
-            return;
+            param.put("whatever", "whatever");
         MultipartBody.Builder mulBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
         for(Map.Entry<String, String> entry : param.entrySet()) {
             mulBuilder.addFormDataPart(entry.getKey(), entry.getValue());
