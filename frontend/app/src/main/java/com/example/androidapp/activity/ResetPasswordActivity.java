@@ -2,6 +2,8 @@ package com.example.androidapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,11 +11,13 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 //import butterknife.BindView;
+import com.andreabaccega.widget.FormEditText;
 import com.example.androidapp.R;
 import com.example.androidapp.activity.LoginActivity;
 import com.example.androidapp.request.user.ChangePasswordRequest;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Hint;
+import com.example.androidapp.util.Valid;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -34,13 +38,13 @@ public class ResetPasswordActivity extends BaseActivity {
      ************ 变量 ************
      ******************************/
     @BindView(R.id.old_password)
-    EditText oldPasswordEditText;
+    FormEditText oldPasswordEditText;
 
     @BindView(R.id.new_password)
-    EditText newPasswordEditText;
+    FormEditText newPasswordEditText;
 
     @BindView(R.id.repeated_password)
-    EditText repeatedPasswordEditText;
+    FormEditText repeatedPasswordEditText;
 
     @BindView(R.id.reset_password_button)
     Button resetPasswordButton;
@@ -53,6 +57,34 @@ public class ResetPasswordActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
         ButterKnife.bind(this);
+        // 添加验证
+        oldPasswordEditText.addValidator(new Valid.NumberValidator());
+        oldPasswordEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { oldPasswordEditText.testValidity(); }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+        newPasswordEditText.addValidator(new Valid.NumberValidator());
+        newPasswordEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { newPasswordEditText.testValidity(); }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+        repeatedPasswordEditText.addValidator(new Valid.NumberValidator());
+        repeatedPasswordEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { repeatedPasswordEditText.testValidity(); }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
     }
 
     public void onReturnToLogin() {
@@ -65,10 +97,13 @@ public class ResetPasswordActivity extends BaseActivity {
      ******************************/
     @OnClick(R.id.reset_password_button)
     public void onClickResetButton() {
-        Log.d("reset", ">>>>>>>>>>>>>>>>>>>>>");
         String old_password = oldPasswordEditText.getText().toString();
         String new_password = newPasswordEditText.getText().toString();
         String repeated_password = repeatedPasswordEditText.getText().toString();
+        if (!Valid.isNumber(old_password) || !Valid.isNumber(new_password) || !Valid.isNumber(repeated_password)) {
+            Hint.showLongBottomToast(this, "格式错误！");
+            return;
+        }
         if (old_password.equals(new_password)) {
             Hint.showLongBottomToast(this, "新旧密码相同！");
         }

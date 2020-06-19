@@ -1,22 +1,23 @@
 package com.example.androidapp.fragment.logon;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
 
+import com.andreabaccega.widget.FormEditText;
 import com.example.androidapp.R;
 import com.example.androidapp.activity.LogonActivity;
-import com.example.androidapp.activity.MainActivity;
 import com.example.androidapp.request.user.UserAuthRequest;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Hint;
+import com.example.androidapp.util.Valid;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -40,24 +41,41 @@ public class LogonFragment3 extends Fragment {
     Button nextButton;
 
     @BindView(R.id.logon3_ts_number)
-    EditText tsNumberEditText;
+    FormEditText tsNumberEditText;
 
     @BindView(R.id.logon3_id_number)
-    EditText idNumberEditText;
+    FormEditText idNumberEditText;
 
     private Unbinder unbinder;
 
     /******************************
      ************ 方法 ************
      ******************************/
-    public LogonFragment3() {
-        // TODO
-    }
+    public LogonFragment3() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_logon3, container, false);
         unbinder = ButterKnife.bind(this, view);
+        // 添加验证
+        tsNumberEditText.addValidator(new Valid.NumberValidator());
+        tsNumberEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { tsNumberEditText.testValidity(); }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+        idNumberEditText.addValidator(new Valid.NumberValidator());
+        idNumberEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { idNumberEditText.testValidity(); }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
         return view;
     }
 
@@ -79,6 +97,10 @@ public class LogonFragment3 extends Fragment {
         // 进行验证
         String tsNumber = tsNumberEditText.getText().toString();
         String idNumber = idNumberEditText.getText().toString();
+        if (!Valid.isNumber(tsNumber) || !Valid.isNumber(idNumber)) {
+            Hint.showLongBottomToast(getContext(), "格式错误！");
+            return;
+        }
         new UserAuthRequest(handleVerify, tsNumber, tsNumber, idNumber).send();
     }
 

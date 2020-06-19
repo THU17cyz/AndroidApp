@@ -17,6 +17,7 @@ import com.example.androidapp.request.user.LoginRequest;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Hint;
 import com.example.androidapp.util.SoftKeyBoardListener;
+import com.example.androidapp.util.Valid;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -62,25 +63,25 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-
-//        accountEditText.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                Log.d("testdsf", String.valueOf(accountEditText.testValidity()));
-//                accountEditText.testValidity();
-//                accountEditText.setError("fuck");
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) { }
-//        });
-
-        // formEditText.addValidator(new myValidator(""));
-
-
+        // 添加验证
+        accountEditText.addValidator(new Valid.AccountValidator());
+        accountEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { accountEditText.testValidity(); }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+        passwordEditText.addValidator(new Valid.PasswordValidator());
+        passwordEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { passwordEditText.testValidity(); }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
         SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
             @Override
             public void keyBoardShow(int height) {
@@ -107,6 +108,10 @@ public class LoginActivity extends BaseActivity {
         String type = typeSpinner.getSelectedItem().toString().equals(getResources().getStringArray(R.array.t_s_type)[0]) ? "T" : "S";
         String account = accountEditText.getText().toString();
         String password = passwordEditText.getText().toString();
+        if (!Valid.isAccount(account) || !Valid.isPassword(password)) {
+            Hint.showLongBottomToast(this, "格式错误！");
+            return;
+        }
         Hint.startActivityLoad(this);
         // 后门儿
         if (account.length() == 0) new LoginRequest(this.handleLogin, type, "T2", "T2").send();
@@ -164,18 +169,4 @@ public class LoginActivity extends BaseActivity {
                 Log.e("HttpError", e.toString());
         }
     };
-
-    class myValidator extends Validator {
-
-
-        public myValidator(String _customErrorMessage) {
-            super("fuck wrong");
-        }
-
-        @Override
-        public boolean isValid(EditText et) {
-            return false;
-        }
-    }
-
 }
