@@ -57,8 +57,8 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
   @BindView(R.id.btn_add)
   FloatingActionButton btn_add;
 
-  @BindView(R.id.btn_concern)
-  Button btn_concern;
+//  @BindView(R.id.btn_concern)
+//  Button btn_concern;
 
   RecyclerView recyclerView;
   EditApplicationListAdapter adapter;
@@ -188,7 +188,7 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
 
     btn_add.setOnClickListener(this);
 
-    btn_concern.setOnClickListener(this);
+//    btn_concern.setOnClickListener(this);
 
     return view;
   }
@@ -202,64 +202,6 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
   @Override
   public void onClick(View v) {
     switch (v.getId()){
-      case R.id.btn_concern:
-      {
-
-        new ClearAllIntentionRequest(new okhttp3.Callback() {
-          @Override
-          public void onFailure(@NotNull Call call, @NotNull IOException e) {
-            Log.e("response", "FA");
-          }
-
-          @Override
-          public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-            String resStr = response.body().string();
-            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-            Log.e("response", resStr);
-            try {
-              // 解析json，然后进行自己的内部逻辑处理
-              JSONObject jsonObject = new JSONObject(resStr);
-              Boolean status = jsonObject.getBoolean("status");
-              String info = jsonObject.getString("info");
-              getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
-
-              // 全部删除以后再插入
-              for(int i=0;i<mApplicationList.size();i++){
-                ApplicationInfo applicationInfo = mApplicationList.get(i);
-
-                new CreateApplyIntentionRequest(new okhttp3.Callback() {
-                  @Override
-                  public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    Log.e("response", "res");
-                  }
-
-                  @Override
-                  public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    String resStr = response.body().string();
-                    getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-                    Log.e("response", resStr);
-                    try {
-                      // 解析json，然后进行自己的内部逻辑处理
-                      JSONObject jsonObject = new JSONObject(resStr);
-                      Boolean status = jsonObject.getBoolean("status");
-                      String info = jsonObject.getString("info");
-                      getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
-                    } catch (JSONException e) {
-                    }
-                  }
-                },
-                        applicationInfo.direction,
-                        applicationInfo.profile,
-                        applicationInfo.state,
-                        null).send();
-              }
-
-            } catch (JSONException e) {
-            }
-          }
-        }).send();
-        break;
-      }
       case R.id.btn_add:
       {
         if(mApplicationList.size()>= BasicInfo.MAX_INTENTION_NUMBER){
@@ -275,4 +217,60 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
     }
 
   }
+
+    public void update() {
+      new ClearAllIntentionRequest(new okhttp3.Callback() {
+        @Override
+        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+          Log.e("response", "FA");
+        }
+
+        @Override
+        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+          String resStr = response.body().string();
+          getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+          Log.e("response", resStr);
+          try {
+            // 解析json，然后进行自己的内部逻辑处理
+            JSONObject jsonObject = new JSONObject(resStr);
+            Boolean status = jsonObject.getBoolean("status");
+            String info = jsonObject.getString("info");
+            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
+
+            // 全部删除以后再插入
+            for(int i=0;i<mApplicationList.size();i++){
+              ApplicationInfo applicationInfo = mApplicationList.get(i);
+
+              new CreateApplyIntentionRequest(new okhttp3.Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                  Log.e("response", "res");
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                  String resStr = response.body().string();
+                  getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+                  Log.e("response", resStr);
+                  try {
+                    // 解析json，然后进行自己的内部逻辑处理
+                    JSONObject jsonObject = new JSONObject(resStr);
+                    Boolean status = jsonObject.getBoolean("status");
+                    String info = jsonObject.getString("info");
+                    getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
+                  } catch (JSONException e) {
+                  }
+                }
+              },
+                      applicationInfo.direction,
+                      applicationInfo.profile,
+                      applicationInfo.state,
+                      null).send();
+            }
+
+          } catch (JSONException e) {
+          }
+        }
+      }).send();
+    }
 }

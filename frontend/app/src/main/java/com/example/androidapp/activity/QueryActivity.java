@@ -78,6 +78,7 @@ public class QueryActivity extends BaseActivity {
                 Intent intent = new Intent(getApplicationContext(), QueryResultActivity.class);
                 intent.putExtra("query", s);
                 startActivity(intent);
+                QueryActivity.this.finish();
                 return false;
             }
 

@@ -13,6 +13,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:contentInsetStartWithNavigation="0dp"
         app:navigationIcon="@drawable/ic_keyboard_arrow_left_black_24dp">
 
 <!--        <Button-->

@@ -250,7 +250,9 @@ public class QueryResultActivity extends BaseActivity {
 
     @OnClick(R.id.returnButton)
     public void returnToParent() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, MainActivity.class);
+//        startActivity(intent);
+        finish();
+
     }
 }

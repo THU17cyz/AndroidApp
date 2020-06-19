@@ -47,8 +47,8 @@ public class EditSelfInfoFragment extends Fragment
         implements View.OnClickListener
 {
 
-  @BindView(R.id.btn_concern)
-  Button btnConcern;
+//  @BindView(R.id.btn_concern)
+//  Button btnConcern;
 
   @BindView(R.id.edit_name)
   FormEditText name;
@@ -338,38 +338,36 @@ public class EditSelfInfoFragment extends Fragment
 //    introduction.setText(wholeProfile.introduction);
 
 
-    btnConcern.setOnClickListener(this);
+//    btnConcern.setOnClickListener(this);
     return view;
   }
 
   @Override
   public void onClick(View v) {
-    switch (v.getId()){
-      case R.id.choose_gender:
-        {
+    switch (v.getId()) {
+      case R.id.choose_gender: {
         OptionsPickerView pvOptions = new OptionsPickerBuilder(getActivity(), new OnOptionsSelectListener() {
           @Override
-          public void onOptionsSelect(int options1, int option2, int options3 ,View v) {
+          public void onOptionsSelect(int options1, int option2, int options3, View v) {
             String gender = OptionItems.optionsGender.get(options1);
             chooseGender.setText(gender);
           }
         })
-        .setTitleText("选择性别")
-        .setSubmitText("确定")
-        .setCancelText("取消")
-        .setContentTextSize(20)
-        .setDividerColor(Color.GRAY)
-        .setSelectOptions(0)
-        .build();
+                .setTitleText("选择性别")
+                .setSubmitText("确定")
+                .setCancelText("取消")
+                .setContentTextSize(20)
+                .setDividerColor(Color.GRAY)
+                .setSelectOptions(0)
+                .build();
         pvOptions.setPicker(OptionItems.optionsGender);
         pvOptions.show();
         break;
       }
-      case R.id.choose_title:
-        {
-         OptionsPickerView pvOptions = new OptionsPickerBuilder(getActivity(), new OnOptionsSelectListener() {
+      case R.id.choose_title: {
+        OptionsPickerView pvOptions = new OptionsPickerBuilder(getActivity(), new OnOptionsSelectListener() {
           @Override
-          public void onOptionsSelect(int options1, int option2, int options3 ,View v) {
+          public void onOptionsSelect(int options1, int option2, int options3, View v) {
             String gender = OptionItems.optionsTitle.get(options1);
             chooseTitle.setText(gender);
           }
@@ -385,11 +383,10 @@ public class EditSelfInfoFragment extends Fragment
         pvOptions.show();
         break;
       }
-      case R.id.choose_degree:
-      {
+      case R.id.choose_degree: {
         OptionsPickerView pvOptions = new OptionsPickerBuilder(getActivity(), new OnOptionsSelectListener() {
           @Override
-          public void onOptionsSelect(int options1, int option2, int options3 ,View v) {
+          public void onOptionsSelect(int options1, int option2, int options3, View v) {
             String gender = OptionItems.optionsDegree.get(options1);
             chooseDegree.setText(gender);
           }
@@ -405,108 +402,111 @@ public class EditSelfInfoFragment extends Fragment
         pvOptions.show();
         break;
       }
-      case R.id.btn_concern:
-      {
-
-        String tmpDegree = "";
-        if(chooseDegree.getText().equals("本科生")){
-          tmpDegree = "UG";
-        } else if(chooseDegree.getText().equals("硕士生")){
-          tmpDegree = "MT";
-        } else if(chooseDegree.getText().equals("博士生")) {
-          tmpDegree = "DT";
-        }
-        String tmpTitle = "";
-        if(chooseTitle.getText().toString().equals("助理")){
-          tmpTitle="TA";
-        } else if(chooseTitle.getText().toString().equals("讲师")){
-          tmpTitle="LT";
-        } else if(chooseTitle.getText().toString().equals("助理教授")){
-          tmpTitle="AP";
-        } else if(chooseTitle.getText().toString().equals("教授")){
-          tmpTitle="PP";
-        }
-        String tmpGender="";
-        if(chooseGender.getText().toString().equals("男")){
-          tmpGender = "M";
-        } else if(chooseGender.getText().toString().equals("女")){
-          tmpGender = "F";
-        } else if(chooseGender.getText().toString().equals("未知")){
-          tmpGender = "U";
-        }
-
-        // 发送修改信息的请求
-        new UpdateInfoRequest(new okhttp3.Callback() {
-          @Override
-          public void onFailure(@NotNull Call call, @NotNull IOException e) {
-            Log.e("error", e.toString());
-          }
-
-          @Override
-          public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-            String resStr = response.body().string();
-            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-            Log.e("response", resStr);
-            try {
-              // 解析json，然后进行自己的内部逻辑处理
-              JSONObject jsonObject = new JSONObject(resStr);
-
-              Boolean status = jsonObject.getBoolean("status");
-              if(status){
-
-              }else{
-              }
-            } catch (JSONException e) {
-
-            }
-          }
-        },
-                name.getText().toString(),
-                tmpGender,
-                school.getText().toString(),
-                department.getText().toString(),
-                tmpTitle,
-                major.getText().toString(),
-                tmpDegree ).send();
-
-        new UpdateInfoPlusRequest(new okhttp3.Callback() {
-          @Override
-          public void onFailure(@NotNull Call call, @NotNull IOException e) {
-            Log.e("error", e.toString());
-          }
-
-          @Override
-          public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-            String resStr = response.body().string();
-            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-            Log.e("response", resStr);
-            try {
-              // 解析json，然后进行自己的内部逻辑处理
-              JSONObject jsonObject = new JSONObject(resStr);
-
-              Boolean status = jsonObject.getBoolean("status");
-              if(status){
-
-              }else{
-              }
-            } catch (JSONException e) {
-
-            }
-          }
-        },
-                signature.getText().toString(),
-                phone.getText().toString(),
-                email.getText().toString(),
-                homepage.getText().toString(),
-                address.getText().toString(),
-                introduction.getText().toString(),
-                mDirection,
-                mResult,
-                mInterest,
-                mExperience,
-                mUrl).send();
-      }
+//      case R.id.btn_concern: {
+//        update();
+//        break;
+//      }
     }
+  }
+
+  public void update() {
+    String tmpDegree = "";
+    if(chooseDegree.getText().equals("本科生")){
+      tmpDegree = "UG";
+    } else if(chooseDegree.getText().equals("硕士生")){
+      tmpDegree = "MT";
+    } else if(chooseDegree.getText().equals("博士生")) {
+      tmpDegree = "DT";
+    }
+    String tmpTitle = "";
+    if(chooseTitle.getText().toString().equals("助理")){
+      tmpTitle="TA";
+    } else if(chooseTitle.getText().toString().equals("讲师")){
+      tmpTitle="LT";
+    } else if(chooseTitle.getText().toString().equals("助理教授")){
+      tmpTitle="AP";
+    } else if(chooseTitle.getText().toString().equals("教授")){
+      tmpTitle="PP";
+    }
+    String tmpGender="";
+    if(chooseGender.getText().toString().equals("男")){
+      tmpGender = "M";
+    } else if(chooseGender.getText().toString().equals("女")){
+      tmpGender = "F";
+    } else if(chooseGender.getText().toString().equals("未知")){
+      tmpGender = "U";
+    }
+
+    // 发送修改信息的请求
+    new UpdateInfoRequest(new okhttp3.Callback() {
+      @Override
+      public void onFailure(@NotNull Call call, @NotNull IOException e) {
+        Log.e("error", e.toString());
+      }
+
+      @Override
+      public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+        String resStr = response.body().string();
+        getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+        Log.e("response", resStr);
+        try {
+          // 解析json，然后进行自己的内部逻辑处理
+          JSONObject jsonObject = new JSONObject(resStr);
+
+          Boolean status = jsonObject.getBoolean("status");
+          if(status){
+
+          }else{
+          }
+        } catch (JSONException e) {
+
+        }
+      }
+    },
+            name.getText().toString(),
+            tmpGender,
+            school.getText().toString(),
+            department.getText().toString(),
+            tmpTitle,
+            major.getText().toString(),
+            tmpDegree ).send();
+
+    new UpdateInfoPlusRequest(new okhttp3.Callback() {
+      @Override
+      public void onFailure(@NotNull Call call, @NotNull IOException e) {
+        Log.e("error", e.toString());
+      }
+
+      @Override
+      public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+        String resStr = response.body().string();
+        getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+        Log.e("response", resStr);
+        try {
+          // 解析json，然后进行自己的内部逻辑处理
+          JSONObject jsonObject = new JSONObject(resStr);
+
+          Boolean status = jsonObject.getBoolean("status");
+          if(status){
+
+          }else{
+          }
+        } catch (JSONException e) {
+
+        }
+      }
+    },
+            signature.getText().toString(),
+            phone.getText().toString(),
+            email.getText().toString(),
+            homepage.getText().toString(),
+            address.getText().toString(),
+            introduction.getText().toString(),
+            null,
+            null,
+            null,
+            null,
+            null).send();
   }
 
   @Override

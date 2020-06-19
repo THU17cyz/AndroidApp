@@ -14,7 +14,6 @@
 <!--        android:layout_height="match_parent"-->
 <!--        >-->
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_above="@id/btn_concern"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/recycler_view">
@@ -24,7 +23,7 @@
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_above="@id/btn_concern"
+        android:layout_alignParentBottom="true"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="30dp"
@@ -35,12 +34,12 @@
         android:background="@color/black"></com.google.android.material.floatingactionbutton.FloatingActionButton>
 
 
-    <Button
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_concern"
-        android:text="确定"></Button>
+<!--    <Button-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/btn_concern"-->
+<!--        android:text="确定"></Button>-->
 </RelativeLayout>
 
 

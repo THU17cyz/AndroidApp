@@ -98,6 +98,7 @@ public class LoginActivity extends BaseActivity {
     private void onJumpToMain() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+        Hint.endActivityLoad(this);
     }
 
     /******************************
@@ -140,7 +141,7 @@ public class LoginActivity extends BaseActivity {
     private okhttp3.Callback handleLogin = new okhttp3.Callback() {
         @Override
         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-            Hint.endActivityLoad(LoginActivity.this);
+//            Hint.endActivityLoad(LoginActivity.this);
                 try {
                 if (response.code() != 200) {
                     LoginActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(LoginActivity.this, "登录失败..."));

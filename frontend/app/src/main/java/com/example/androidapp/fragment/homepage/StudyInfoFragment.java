@@ -147,6 +147,7 @@ public class StudyInfoFragment extends Fragment {
   }
 
   public void setInfo() {
+
     Activity activity = getActivity();
     if (activity instanceof MainActivity) {
       DashboardFragment fragment = (DashboardFragment) StudyInfoFragment.this.getParentFragment();
@@ -159,7 +160,7 @@ public class StudyInfoFragment extends Fragment {
       else {
         textDirOrInt.setText("研究方向");
         textResOrExp.setText("研究成果");
-        resOrExp.setText(fragment.mDirection);
+        dirOrInt.setText(fragment.mDirection);
         resOrExp.setText(fragment.mResult);
       }
 
@@ -176,7 +177,7 @@ public class StudyInfoFragment extends Fragment {
       else {
         textDirOrInt.setText("研究方向");
         textResOrExp.setText("研究成果");
-        resOrExp.setText(activity_.mDirection);
+        dirOrInt.setText(activity_.mDirection);
         resOrExp.setText(activity_.mResult);
       }
 

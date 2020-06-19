@@ -36,6 +36,8 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.squareup.picasso.OkHttpDownloader;
+import com.squareup.picasso.Picasso;
 import com.zhihu.matisse.Matisse;
 
 import androidx.annotation.NonNull;
@@ -52,6 +54,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -263,10 +266,26 @@ public class MainActivity extends BaseActivity {
 //            new ClearAllIntentionRequest(Http.callbackExample_0).send();
 //        }
 
-
-
-
     }
+    private void loadImageCache() {
+//        String imageCacheDir = getExternalCacheDir().getPath()+"/image/";
+//
+//        Picasso picasso = new Picasso.Builder(this).downloader(new OkHttpDownloader(new File(imageCacheDir))).build();
+///**  setIndicatorsEnabled(true);
+//
+// * 左上角会显示个三角形，不同的颜色代表加载的来源
+//
+// * 红色：代表从网络下载的图片
+//
+// * 黄色：代表从磁盘缓存加载的图片
+//
+// * 绿色：代表从内存中加载的图片
+//
+// */
+//        picasso.setIndicatorsEnabled(true);
+//        Picasso.setSingletonInstance(picasso);
+    }
+
 
     public void openDrawer() {
         drawer.openDrawer();

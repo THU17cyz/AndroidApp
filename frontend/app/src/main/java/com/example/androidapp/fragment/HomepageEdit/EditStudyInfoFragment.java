@@ -31,10 +31,10 @@ import butterknife.Unbinder;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class EditStudyInfoFragment extends Fragment implements View.OnClickListener{
+public class EditStudyInfoFragment extends Fragment {
 
-  @BindView(R.id.btn_concern)
-  Button btnConcern;
+//  @BindView(R.id.btn_concern)
+//  Button btnConcern;
 
   @BindView(R.id.text_direction_or_interest)
   TextView textDirOrInt;
@@ -160,95 +160,101 @@ public class EditStudyInfoFragment extends Fragment implements View.OnClickListe
 //      url.setText(wholeProfile.promotional_video_url);
 //    }
 
-    btnConcern.setOnClickListener(this);
+//    btnConcern.setOnClickListener(this);
 
 
     return view;
   }
 
-  @Override
-  public void onClick(View v) {
-    switch (v.getId()){
-      case R.id.btn_concern:
-      {
+//  @Override
+//  public void onClick(View v) {
+//    switch (v.getId()){
+//      case R.id.btn_concern:
+//      {
+//
+//
+//      }
+//    }
+//  }
 
-        if(BasicInfo.TYPE.equals("S")){
-          // 提交信息
-          new UpdateInfoPlusRequest(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-              Log.e("error", e.toString());
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-              String resStr = response.body().string();
-              getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-              Log.e("response", resStr);
-              try {
-                // 解析json，然后进行自己的内部逻辑处理
-                JSONObject jsonObject = new JSONObject(resStr);
-
-                Boolean status = jsonObject.getBoolean("status");
-                if(status){
-
-                }else{
-                }
-              } catch (JSONException e) {
-
-              }
-            }
-          },
-                  mSignature,
-                  mPhone,
-                  mEmail,
-                  mHomepage,
-                  mAddress,
-                  mIntroduction,
-                  mDirection,
-                  mResult,
-                  dirOrInt.getText().toString(),
-                  resOrExp.getText().toString(),
-                  url.getText().toString()).send();
-        } else {
-          new UpdateInfoPlusRequest(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-              Log.e("error", e.toString());
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-              String resStr = response.body().string();
-              getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-              Log.e("response", resStr);
-              try {
-                // 解析json，然后进行自己的内部逻辑处理
-                JSONObject jsonObject = new JSONObject(resStr);
-
-                Boolean status = jsonObject.getBoolean("status");
-                if(status){
-
-                }else{
-                }
-              } catch (JSONException e) {
-
-              }
-            }
-          },
-                  mSignature,
-                  mPhone,
-                  mEmail,
-                  mHomepage,
-                  mAddress,
-                  mIntroduction,
-                  dirOrInt.getText().toString(),
-                  resOrExp.getText().toString(),
-                  mInterest,
-                  mExperience,
-                  url.getText().toString()).send();
+  public void update() {
+    if(BasicInfo.TYPE.equals("S")){
+      // 提交信息
+      new UpdateInfoPlusRequest(new okhttp3.Callback() {
+        @Override
+        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+          Log.e("error", e.toString());
         }
-      }
+
+        @Override
+        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+          String resStr = response.body().string();
+          getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+          Log.e("response", resStr);
+          try {
+            // 解析json，然后进行自己的内部逻辑处理
+            JSONObject jsonObject = new JSONObject(resStr);
+
+            Boolean status = jsonObject.getBoolean("status");
+            if(status){
+
+            }else{
+            }
+          } catch (JSONException e) {
+
+          }
+        }
+      },
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              dirOrInt.getText().toString(),
+              resOrExp.getText().toString(),
+              url.getText().toString()).send();
+
+    } else {
+      new UpdateInfoPlusRequest(new okhttp3.Callback() {
+        @Override
+        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+          Log.e("error", e.toString());
+        }
+
+        @Override
+        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+          String resStr = response.body().string();
+          getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+          Log.e("response", resStr);
+          try {
+            // 解析json，然后进行自己的内部逻辑处理
+            JSONObject jsonObject = new JSONObject(resStr);
+
+            Boolean status = jsonObject.getBoolean("status");
+            if(status){
+
+            }else{
+            }
+          } catch (JSONException e) {
+
+          }
+        }
+      },
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              dirOrInt.getText().toString(),
+              resOrExp.getText().toString(),
+              null,
+              null,
+              url.getText().toString()).send();
+      System.out.println("fwuwuuw" + dirOrInt.getText().toString());
     }
   }
 

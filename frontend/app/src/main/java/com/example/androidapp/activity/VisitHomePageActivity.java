@@ -24,6 +24,7 @@ import com.example.androidapp.fragment.homepage.SelfInfoFragment;
 import com.example.androidapp.fragment.homepage.StudyInfoFragment;
 import com.example.androidapp.request.user.GetInfoPlusRequest;
 import com.example.androidapp.request.user.GetInfoRequest;
+import com.example.androidapp.util.SizeConverter;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
@@ -41,8 +42,8 @@ import okhttp3.Response;
 
 public class VisitHomePageActivity extends AppCompatActivity {
 
-//    @BindView(R.id.toolbar)
-//    LinearLayout toolbar;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
@@ -77,8 +78,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
     @BindView(R.id.btn_chat)
     Button btn_chat;
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+
 
     @BindView(R.id.visit_homepage_appbar)
     AppBarLayout app_bar;
@@ -222,7 +222,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
             }
         });
 
-        final int alphaMaxOffset = dpToPx(150);
+        final int alphaMaxOffset = SizeConverter.dpToPx(150);
         toolbar.getBackground().setAlpha(0);
         title.setAlpha(0);
 
@@ -246,12 +246,6 @@ public class VisitHomePageActivity extends AppCompatActivity {
         getInfo();
     }
 
-    /**
-     * dp转换为px
-     */
-    public static int dpToPx(float dp) {
-        return (int) (dp * Resources.getSystem().getDisplayMetrics().density + 0.5f);
-    }
 
     protected void getInfo() {
         String type_ = "I";

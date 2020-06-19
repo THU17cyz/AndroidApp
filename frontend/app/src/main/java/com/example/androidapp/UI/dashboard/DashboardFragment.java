@@ -38,7 +38,9 @@ import com.example.androidapp.request.user.GetInfoPlusRequest;
 import com.example.androidapp.request.user.GetInfoRequest;
 import com.example.androidapp.request.user.UpdateInfoPictureRequest;
 import com.example.androidapp.util.BasicInfo;
+import com.example.androidapp.util.SizeConverter;
 import com.example.androidapp.util.Uri2File;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
 import com.squareup.picasso.Picasso;
@@ -94,6 +96,12 @@ public class DashboardFragment
     @BindView(R.id.btn_edit)
     Button button;
 
+    @BindView(R.id.visit_homepage_title)
+    TextView title;
+
+    @BindView(R.id.visit_homepage_appbar)
+    AppBarLayout app_bar;
+
     private WholeProfile wholeProfile;
     private ShortProfile shortProfile;
 
@@ -142,7 +150,7 @@ public class DashboardFragment
 
         ButterKnife.bind(this,root);
 
-        ImmersionBar.with(this).statusBarColor(R.color.colorPrimary).init();
+        ImmersionBar.with(this).statusBarColor(R.color.transparent).init();
 
         tabLayout.addTab(tabLayout.newTab().setText("个人信息"));
         tabLayout.addTab(tabLayout.newTab().setText("科研信息"));
@@ -208,6 +216,23 @@ public class DashboardFragment
             public void onClick(View v) {
                 Intent intent=new Intent(getActivity(), EditInfoActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        title.setText("我的个人主页");
+
+        final int alphaMaxOffset = SizeConverter.dpToPx(150);
+        toolbar.getBackground().setAlpha(0);
+        title.setAlpha(0);
+
+        app_bar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            // 设置 toolbar 背景
+            if (verticalOffset > -alphaMaxOffset) {
+                toolbar.getBackground().setAlpha(255 * -verticalOffset / alphaMaxOffset);
+                title.setAlpha(1 * -verticalOffset / alphaMaxOffset);
+            } else {
+                toolbar.getBackground().setAlpha(255);
+                title.setAlpha(1);
             }
         });
 
@@ -324,10 +349,7 @@ public class DashboardFragment
 //        numFocus.setText(String.valueOf(mNumFocus));
 //        numFocused.setText(String.valueOf(mNumFocused));
         getAvatar(null);
-
         return root;
-
-
     }
 
     @OnClick(R.id.img_avatar)
@@ -373,7 +395,8 @@ public class DashboardFragment
             try {
                 System.out.println(path);
                 Picasso.with(imgAvatar.getContext()).load(path).
-                        placeholder(R.drawable.ic_person_outline_black_24dp).into(imgAvatar);
+                        placeholder(R.drawable.ic_person_outline_black_24dp)
+                        .error(R.drawable.ic_person_outline_black_24dp).into(imgAvatar);
             } catch (Exception e) {
                 System.out.println(e);
             }

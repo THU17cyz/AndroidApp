@@ -43,6 +43,8 @@ public class RecommendFragment extends ProfileListFragment {
     Activity activity;
     int fixed_num;
 
+    public RecommendFragment() {
+    }
 
     public RecommendFragment(int num) {
         if (num == 0) isTeacher = true;
