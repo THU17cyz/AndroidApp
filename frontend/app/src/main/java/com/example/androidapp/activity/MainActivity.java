@@ -84,7 +84,7 @@ public class MainActivity extends BaseActivity {
 
 
         ImmersionBar.with(this)
-                .statusBarColor(R.color.colorPrimary)
+                .statusBarColor(R.color.white)
                 .init();
 
         // setSupportActionBar(toolbar);

@@ -57,7 +57,8 @@ public class ShortProfileAdapter<T> extends MyBaseAdapter {
             TextView mNameView = viewHolder.getView(R.id.profile_user_name);
             Drawable drawable = mNameView.getContext().getDrawable(R.drawable.ic_validated);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            mNameView.setCompoundDrawables(null,null, drawable, null);
+            mNameView.setCompoundDrawables(drawable,null, null, null);
+            mNameView.setCompoundDrawablePadding(5);
         }
 
         mWatchBtn = viewHolder.getView(R.id.watch_btn);

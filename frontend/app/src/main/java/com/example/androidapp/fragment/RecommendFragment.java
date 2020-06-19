@@ -218,12 +218,11 @@ public class RecommendFragment extends ProfileListFragment {
 
     void addProfileItem(boolean isRefresh, ShortProfile shortProfile) {
         if (mRecyclerView.isComputingLayout()) {
-            Log.e("errorrecyclerview", "ohno");
             mRecyclerView.post(() -> {
+                for (ShortProfile tmp: mProfileList) {
+                    if (tmp.id == shortProfile.id) return;
+                }
                 if (isRefresh) {
-                    for (ShortProfile tmp: mProfileList) {
-                        if (tmp.id == shortProfile.id) return;
-                    }
                     mProfileList.remove(0);
                     mShortProfileAdapter.notifyItemRemoved(0);
                 }
@@ -232,10 +231,10 @@ public class RecommendFragment extends ProfileListFragment {
 
 
         } else {
+            for (ShortProfile tmp: mProfileList) {
+                if (tmp.id == shortProfile.id) return;
+            }
             if (isRefresh) {
-                for (ShortProfile tmp: mProfileList) {
-                    if (tmp.id == shortProfile.id) return;
-                }
                 mProfileList.remove(0);
                 mShortProfileAdapter.notifyItemRemoved(0);
             }

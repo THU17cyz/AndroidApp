@@ -101,9 +101,7 @@ public class IntentFragment extends Fragment {
         });
 
 
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        dividerItemDecoration.setDrawable(new ColorDrawable(ContextCompat.getColor(getContext(), android.R.color.darker_gray)));
-        recyclerView.addItemDecoration(dividerItemDecoration);
+//C
 
         return root;
 

@@ -5,6 +5,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +24,7 @@ import com.example.androidapp.fragment.homepage.SelfInfoFragment;
 import com.example.androidapp.fragment.homepage.StudyInfoFragment;
 import com.example.androidapp.request.user.GetInfoPlusRequest;
 import com.example.androidapp.request.user.GetInfoRequest;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
 
@@ -38,14 +41,17 @@ import okhttp3.Response;
 
 public class VisitHomePageActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolbar)
-    LinearLayout toolbar;
+//    @BindView(R.id.toolbar)
+//    LinearLayout toolbar;
 
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
 
     @BindView(R.id.img_avatar)
     ImageView imgAvatar;
+
+    @BindView(R.id.visit_homepage_title)
+    TextView title;
 
     @BindView(R.id.homepage_name)
     TextView name;
@@ -62,14 +68,20 @@ public class VisitHomePageActivity extends AppCompatActivity {
     @BindView(R.id.view_pager)
     ViewPager viewPager;
 
-    @BindView(R.id.btn_return)
-    ImageView btn_return;
+//    @BindView(R.id.btn_return)
+//    ImageView btn_return;
 
     @BindView(R.id.btn_focus)
     Button btn_focus;
 
     @BindView(R.id.btn_chat)
     Button btn_chat;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.visit_homepage_appbar)
+    AppBarLayout app_bar;
 
 
     HomepagePagerAdapter pagerAdapter;
@@ -83,9 +95,9 @@ public class VisitHomePageActivity extends AppCompatActivity {
     public String mTitle;
     public String mMajor;
     public String mDegree;
-    public String mTeacherNumber;
-    public String mStudentNumber;
-    public String mIdNumber;
+//    public String mTeacherNumber;
+//    public String mStudentNumber;
+//    public String mIdNumber;
     public String mGender;
 
     public String mName;
@@ -141,6 +153,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("个人信息"));
         tabLayout.addTab(tabLayout.newTab().setText("科研信息"));
         tabLayout.addTab(tabLayout.newTab().setText("招生信息"));
+        tabLayout.setBackgroundColor(Color.WHITE);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
@@ -188,16 +201,18 @@ public class VisitHomePageActivity extends AppCompatActivity {
             }
             @Override
             public void onPageScrollStateChanged(int state) {
+
+
             }
         });
 
-        btn_return.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(VisitHomePageActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
+//        btn_return.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent=new Intent(VisitHomePageActivity.this, MainActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         btn_chat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,7 +222,35 @@ public class VisitHomePageActivity extends AppCompatActivity {
             }
         });
 
+        final int alphaMaxOffset = dpToPx(150);
+        toolbar.getBackground().setAlpha(0);
+        title.setAlpha(0);
+
+        app_bar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                // 设置 toolbar 背景
+                if (verticalOffset > -alphaMaxOffset) {
+                    toolbar.getBackground().setAlpha(255 * -verticalOffset / alphaMaxOffset);
+                    title.setAlpha(1 * -verticalOffset / alphaMaxOffset);
+                } else {
+                    toolbar.getBackground().setAlpha(255);
+                    title.setAlpha(1);
+                }
+            }
+        });
+
+        toolbar.setNavigationOnClickListener(v -> {
+            this.finish();
+        });
         getInfo();
+    }
+
+    /**
+     * dp转换为px
+     */
+    public static int dpToPx(float dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density + 0.5f);
     }
 
     protected void getInfo() {
@@ -258,7 +301,6 @@ public class VisitHomePageActivity extends AppCompatActivity {
                             mTitle = jsonObject.getString("title");
                         }
                         count[0]++;
-
                     } else {
                         String info = jsonObject.getString("info");
                         count[0]++;
@@ -294,14 +336,11 @@ public class VisitHomePageActivity extends AppCompatActivity {
                         mHomepage = jsonObject.getString("homepage");
                         mAddress = jsonObject.getString("address");
                         mIntroduction = jsonObject.getString("introduction");
-                        mIdNumber = jsonObject.getString("id_number");
                         if (type.equals("S")) {
-                            mStudentNumber = jsonObject.getString("student_number");
                             mInterest = jsonObject.getString("research_interest");
                             mExperience = jsonObject.getString("research_experience");
                             mUrl = jsonObject.getString("promotional_video_url");
                         } else {
-                            mTeacherNumber = jsonObject.getString("teacher_number");
                             mDirection = jsonObject.getString("research_fields");
                             mResult = jsonObject.getString("research_achievements");
                             mUrl = jsonObject.getString("promotional_video_url");
@@ -312,6 +351,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
 
                         }
                         runOnUiThread(() -> {
+                            title.setText(mName + "的个人主页");
                             signature.setText(mSignature);
                             ((SelfInfoFragment) pagerAdapter.getRegisteredFragment(0)).setInfo();
                         });

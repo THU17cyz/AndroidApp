@@ -249,14 +249,10 @@ public class SelfInfoFragment extends Fragment {
         layoutTitle.setVisibility(View.GONE);
         layoutTeacherNumber.setVisibility(View.GONE);
       }
+      teacherNumber.setVisibility(View.GONE);
+      studentNumber.setVisibility(View.GONE);
+      idNumber.setVisibility(View.GONE);
 
-      if(type.equals("T")){
-        teacherNumber.setText(activity_.mTeacherNumber);
-      } else {
-        studentNumber.setText(activity_.mStudentNumber);
-      }
-
-      idNumber.setText(activity_.mIdNumber);
       phone.setText(activity_.mPhone);
       email.setText(activity_.mEmail);
       homepage.setText(activity_.mHomepage);
