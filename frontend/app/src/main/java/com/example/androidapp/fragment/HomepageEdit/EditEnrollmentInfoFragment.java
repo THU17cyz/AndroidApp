@@ -5,28 +5,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.androidapp.R;
-import com.example.androidapp.adapter.ApplicationListAdapter;
 import com.example.androidapp.adapter.EditEnrollmentListAdapter;
-import com.example.androidapp.adapter.EnrollmentListAdapter;
-import com.example.androidapp.entity.ApplicationInfo;
 import com.example.androidapp.entity.EnrollmentInfo;
-import com.example.androidapp.fragment.QueryResult.Base;
 import com.example.androidapp.request.intention.ClearAllIntentionRequest;
 import com.example.androidapp.request.intention.CreateRecruitIntentionRequest;
-import com.example.androidapp.request.intention.DeleteRecruitIntentionRequest;
 import com.example.androidapp.request.intention.GetRecruitIntentionDetailRequest;
 import com.example.androidapp.request.intention.GetRecruitIntentionRequest;
-import com.example.androidapp.request.intention.UpdateRecruitIntentionRequest;
 import com.example.androidapp.util.BasicInfo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

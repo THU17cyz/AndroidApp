@@ -17,6 +17,7 @@ import com.example.androidapp.request.recommend.RecommendFitStudentRequest;
 import com.example.androidapp.request.recommend.RecommendFitTeacherRequest;
 import com.example.androidapp.request.recommend.RecommendHotRequest;
 import com.example.androidapp.request.recommend.RecommendRandomRequest;
+import com.example.androidapp.util.BasicInfo;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -41,7 +42,7 @@ public class RecommendFragment extends ProfileListFragment {
     boolean isTeacher;
     LoadService loadService;
     Activity activity;
-    int fixed_num;
+    final static int fixed_num = 6;
 
     public RecommendFragment() {
     }
@@ -221,10 +222,11 @@ public class RecommendFragment extends ProfileListFragment {
     void addProfileItem(boolean isRefresh, ShortProfile shortProfile) {
         if (mRecyclerView.isComputingLayout()) {
             mRecyclerView.post(() -> {
+                if (shortProfile.id == BasicInfo.ID) return; // 如果是自己，筛去
                 for (ShortProfile tmp: mProfileList) {
                     if (tmp.id == shortProfile.id) return;
                 }
-                if (isRefresh) {
+                if (isRefresh && mProfileList.size() == fixed_num) {
                     mProfileList.remove(0);
                     mShortProfileAdapter.notifyItemRemoved(0);
                 }
@@ -233,10 +235,11 @@ public class RecommendFragment extends ProfileListFragment {
 
 
         } else {
+            if (shortProfile.id == BasicInfo.ID) return; // 如果是自己，筛去
             for (ShortProfile tmp: mProfileList) {
                 if (tmp.id == shortProfile.id) return;
             }
-            if (isRefresh) {
+            if (isRefresh && mProfileList.size() == fixed_num) {
                 mProfileList.remove(0);
                 mShortProfileAdapter.notifyItemRemoved(0);
             }

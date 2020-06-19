@@ -68,10 +68,10 @@ public class ProfileListFragment extends Fragment {
         unbinder = ButterKnife.bind(this, root);
 
         mProfileList = new ArrayList<>();
-        mProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-                test_url,999, true, false));
-        mProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-                test_url,999, true, false));
+//        mProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
+//                test_url,999, true, false));
+//        mProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
+//                test_url,999, true, false));
 
         mShortProfileAdapter = new ShortProfileAdapter(mProfileList, getContext());//初始化NameAdapter
         mShortProfileAdapter.setRecyclerManager(mRecyclerView);//设置RecyclerView特性
@@ -80,8 +80,6 @@ public class ProfileListFragment extends Fragment {
         // 子组件的监听事件，比如按钮
         // 在Adapter里注册（addOnClickListener）
         mShortProfileAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            Toast.makeText(getActivity(), "testItemChildClick" + position, Toast.LENGTH_SHORT).show();
-            // TODO 关注/取关
             FocusButton btn = ((FocusButton) view);
             btn.startLoading(() -> {
                 ShortProfile profile = mProfileList.get(position);

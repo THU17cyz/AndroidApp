@@ -5,14 +5,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.androidapp.activity.QueryResultActivity;
 import com.example.androidapp.entity.ShortProfile;
-import com.example.androidapp.entity.queryInfo.StudentQueryInfo;
-import com.example.androidapp.entity.queryInfo.TeacherQueryInfo;
 import com.example.androidapp.request.search.SearchStudentRequest;
-import com.example.androidapp.request.search.SearchTeacherRequest;
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
@@ -23,8 +19,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Response;

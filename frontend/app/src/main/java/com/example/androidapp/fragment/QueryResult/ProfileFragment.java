@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -26,7 +25,6 @@ import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.popup.SelectList;
 import com.example.androidapp.request.follow.AddToWatchRequest;
 import com.example.androidapp.request.follow.DeleteFromWatchRequest;
-import com.kingja.loadsir.core.LoadService;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -119,6 +117,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 current_order = pos;
+                adjustList();
             }
 
             @Override
@@ -142,7 +141,7 @@ public class ProfileFragment extends Fragment {
         } else {
             isFilterOpen = true;
             // selectText.setTextColor(Color.BLUE);
-            selectList = new SelectList(getContext(), filters);
+            selectList = new SelectList(getContext());
             selectList.showPopupWindow(orderSpinner);
 
         }
@@ -199,7 +198,6 @@ public class ProfileFragment extends Fragment {
 
     private void addButtonListener(ShortProfileAdapter shortProfileAdapter, ArrayList<ShortProfile> shortProfileArrayList) {
         shortProfileAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            Toast.makeText(getActivity(), "testItemChildClick" + position, Toast.LENGTH_SHORT).show();
             FocusButton btn = ((FocusButton) view);
             btn.startLoading(() -> {
                 ShortProfile profile = shortProfileArrayList.get(position);
@@ -266,6 +264,9 @@ public class ProfileFragment extends Fragment {
             if (filters[1] && shortProfile.isMale) {
                 removed.add(i);
             }
+            if (filters[2] && !shortProfile.isValidated) {
+                removed.add(i);
+            }
             i++;
         }
         for (int j = removed.size() - 1; j >= 0; j--) {
@@ -277,6 +278,8 @@ public class ProfileFragment extends Fragment {
 
         if (current_order == 0) {
             Collections.sort(mProfileList, (p1, p2) -> Integer.valueOf(p2.fanNum).compareTo(Integer.valueOf(p1.fanNum)));
+        } else {
+            Collections.sort(mProfileList, (p1, p2) -> Integer.valueOf(p2.relate).compareTo(Integer.valueOf(p1.relate)));
         }
 
     }

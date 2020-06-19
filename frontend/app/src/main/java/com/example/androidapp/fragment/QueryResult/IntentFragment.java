@@ -117,6 +117,7 @@ public class IntentFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 current_order = pos;
+                adjustList();
             }
 
             @Override
@@ -140,7 +141,7 @@ public class IntentFragment extends Fragment {
         } else {
             isFilterOpen = true;
             // selectText.setTextColor(Color.BLUE);
-            selectList = new SelectList(getContext(), filters);
+            selectList = new SelectList(getContext());
             selectList.showPopupWindow(orderSpinner);
 
         }
@@ -195,12 +196,9 @@ public class IntentFragment extends Fragment {
         mIntentList.addAll(filteredIntentList);
         filteredIntentList.clear();
         for (ShortIntent ShortIntent: mIntentList) {
-//            if (filters[0] && !ShortIntent.isMale) {
-//                removed.add(i);
-//            }
-//            if (filters[1] && ShortIntent.isMale) {
-//                removed.add(i);
-//            }
+            if (filters[0] && !ShortIntent.intentionState.equals('O')) {
+                removed.add(i);
+            }
             i++;
         }
         for (int j = removed.size() - 1; j >= 0; j--) {
@@ -211,7 +209,7 @@ public class IntentFragment extends Fragment {
         }
 
         if (current_order == 0) {
-            // Collections.sort(mIntentList, (p1, p2) -> Integer.valueOf(p2.fanNum).compareTo(Integer.valueOf(p1.fanNum)));
+            Collections.sort(mIntentList, (p1, p2) -> Integer.valueOf(p2.relate).compareTo(Integer.valueOf(p1.relate)));
         }
 
     }

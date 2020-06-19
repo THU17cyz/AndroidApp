@@ -30,17 +30,12 @@ import razerdp.basepopup.BasePopupWindow;
 
 public class SelectList extends BasePopupWindow {
     private final int num = 4;
-    private static final String[] options = {"男 ", "女 ", "一本", "二本"};
+    private String[] options;
     private boolean[] selected;
     FlexboxLayout flexboxLayout;
 
-    public SelectList(Context context, boolean[] filters) {
+    public SelectList(Context context) {
         super(context);
-//        int i = 0;
-//        for (boolean filter: filters) {
-//            selected[i] = filter;
-//            i++;
-//        }
     }
 
     @Override
@@ -58,8 +53,11 @@ public class SelectList extends BasePopupWindow {
         boolean[] filters;
         if (fragment instanceof ProfileFragment) {
             filters = ((ProfileFragment) fragment).getFilters();
+            options = new String[] {"男 ", "女 ", "已认证"};
         } else {
             filters = ((IntentFragment) fragment).getFilters();
+            options = new String[] {"正在进行"};
+//            if (fragment instanceof Recruit) options = new String[] {"男 ", "女 ", "已认证"};
         }
         int i = 0;
         for (boolean filter: filters) {
@@ -131,12 +129,12 @@ public class SelectList extends BasePopupWindow {
                 textView.setBackground(getContext().getDrawable(R.drawable.shape_label));
                 textView.setTextColor(getContext().getColor(R.color.text_color));
                 textView.setPadding(20, 20, 20, 20);
-                textView.setWidth((int) (60 * factor));
+                textView.setWidth((int) (70 * factor));
             } else {
                 textView.setBackground(getContext().getDrawable(R.drawable.shape_label_pressed));
                 textView.setTextColor(getContext().getColor(R.color.label_pressed_text));
                 textView.setPadding(20, 20, 20, 20);
-                textView.setWidth((int) (60 * factor));
+                textView.setWidth((int) (70 * factor));
             }
             textView.setOnClickListener(viewIn -> {
                 int idx = Arrays.asList(options).indexOf(query);
@@ -145,13 +143,13 @@ public class SelectList extends BasePopupWindow {
                     textView.setBackground(getContext().getDrawable(R.drawable.shape_label));
                     textView.setTextColor(getContext().getColor(R.color.text_color));
                     textView.setPadding(20, 20, 20, 20);
-                    textView.setWidth((int) (60 * factor));
+                    textView.setWidth((int) (70 * factor));
                 } else {
                     selected[idx] = true;
                     textView.setBackground(getContext().getDrawable(R.drawable.shape_label_pressed));
                     textView.setTextColor(getContext().getColor(R.color.label_pressed_text));
                     textView.setPadding(20, 20, 20, 20);
-                    textView.setWidth((int) (60 * factor));
+                    textView.setWidth((int) (70 * factor));
                 }
 
             });
@@ -168,7 +166,7 @@ public class SelectList extends BasePopupWindow {
             textView.setTextColor(getContext().getColor(R.color.text_color));
             textView.setBackground(getContext().getDrawable(R.drawable.shape_label));
             textView.setPadding(20, 20, 20, 20);
-            textView.setWidth((int) (60 * factor));
+            textView.setWidth((int) (70 * factor));
             selected[i] = false;
 
         }

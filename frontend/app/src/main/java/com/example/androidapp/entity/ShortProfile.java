@@ -3,6 +3,8 @@ package com.example.androidapp.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.androidapp.request.user.GetInfoPictureRequest;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -44,14 +46,17 @@ public class ShortProfile implements Parcelable {
         this.isFan = jsonObject.getBoolean("is_followed");
         if (isTeacher) {
             this.id = jsonObject.getInt("teacher_id");
+            this.url = new GetInfoPictureRequest("T", String.valueOf(this.id), null).getWholeUrl();
         } else {
             this.id = jsonObject.getInt("student_id");
+            this.url = new GetInfoPictureRequest("S", null, String.valueOf(this.id)).getWholeUrl();
         }
         try {
             this.relate = jsonObject.getInt("match_degree");
         } catch (JSONException e) {
 
         }
+
 
     }
 

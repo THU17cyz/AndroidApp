@@ -229,7 +229,6 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Log.e("error", e.toString());
-                Toast.makeText(getApplicationContext(),"获取全局信息失败",Toast.LENGTH_SHORT).show();
             }
 
             @Override

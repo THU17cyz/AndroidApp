@@ -244,9 +244,9 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
 //
 
 
-        test();
+        // test();
 
-        // refreshData();
+        refreshData();
         return root;
 
     }
@@ -403,16 +403,17 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
 
                                                             }else{
                                                                 String info = jsonObject.getString("info");
-
+                                                                index[0]++;
                                                             }
                                                         } catch (JSONException | ParseException e) {
-
+                                                            index[0]++;
                                                         }
                                                     }
 
                                                     @Override
                                                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
                                                         Log.e("error", e.toString());
+                                                        index[0]++;
                                                     }
                                                 },String.valueOf(messageIdList.get(index[0]))).send();
                                             }

@@ -5,16 +5,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
-
-import com.example.androidapp.R;
 import com.example.androidapp.activity.QueryResultActivity;
 import com.example.androidapp.entity.ShortIntent;
-import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.request.search.SearchApplyIntentionRequest;
-import com.example.androidapp.request.search.SearchTeacherRequest;
 import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
@@ -35,7 +29,7 @@ public class Apply extends IntentFragment {
     private Unbinder unbinder;
 
     public Apply() {
-        order = new String[]{"最相关（默认）", "关注人数最多"};
+        order = new String[]{"最相关（默认）"};
     }
 
     @Override
@@ -67,7 +61,6 @@ public class Apply extends IntentFragment {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String resStr = response.body().string();
-                getActivity().runOnUiThread(() -> Toast.makeText(getContext(), resStr, Toast.LENGTH_LONG).show());
                 Log.e("response", resStr);
                 try {
                     JSONObject jsonObject = new JSONObject(resStr);
