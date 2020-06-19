@@ -14,7 +14,7 @@ import com.example.androidapp.adapter.ConversationPagerAdapter;
 import com.example.androidapp.adapter.FollowPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
-public class FollowFragmentNav extends Fragment {
+public class FollowFragment extends Fragment {
   private FollowViewModel followViewModel;
 
   public View onCreateView(@NonNull LayoutInflater inflater,

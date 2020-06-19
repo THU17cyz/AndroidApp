@@ -87,9 +87,9 @@ public class ResetPasswordActivity extends BaseActivity {
         });
     }
 
+    @OnClick(R.id.returnButton)
     public void onReturnToLogin() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+        finish();
     }
 
     /******************************

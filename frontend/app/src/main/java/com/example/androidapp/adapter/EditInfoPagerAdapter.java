@@ -9,11 +9,6 @@ import com.example.androidapp.fragment.HomepageEdit.EditApplicationInfoFragment;
 import com.example.androidapp.fragment.HomepageEdit.EditEnrollmentInfoFragment;
 import com.example.androidapp.fragment.HomepageEdit.EditSelfInfoFragment;
 import com.example.androidapp.fragment.HomepageEdit.EditStudyInfoFragment;
-import com.example.androidapp.fragment.follow.FollowFragment;
-import com.example.androidapp.fragment.homepage.ApplicationInfoFragment;
-import com.example.androidapp.fragment.homepage.EnrollmentInfoFragment;
-import com.example.androidapp.fragment.homepage.SelfInfoFragment;
-import com.example.androidapp.fragment.homepage.StudyInfoFragment;
 import com.example.androidapp.util.BasicInfo;
 
 public class EditInfoPagerAdapter extends FragmentStatePagerAdapter {

@@ -49,7 +49,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class FollowFragment extends Fragment {
+public class FollowListFragment extends Fragment {
 
 //    @BindView(R.id.follow_list_layout)
 //    ConstraintLayout constraintLayout;
@@ -86,7 +86,7 @@ public class FollowFragment extends Fragment {
     protected ShortProfileAdapter tShortProfileAdapter;
     protected ShortProfileAdapter sShortProfileAdapter;
 
-    public FollowFragment() {
+    public FollowListFragment() {
 
     }
 

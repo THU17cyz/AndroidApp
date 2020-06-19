@@ -5,8 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.example.androidapp.UI.follow.FollowFragmentNav;
-import com.example.androidapp.fragment.follow.FollowFragment;
+import com.example.androidapp.fragment.follow.FollowListFragment;
 
 public class FollowPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -20,7 +19,7 @@ public class FollowPagerAdapter extends FragmentStatePagerAdapter {
   @NonNull
   @Override
   public Fragment getItem(int position) {
-    return new FollowFragment();
+    return new FollowListFragment();
   }
 
   @Override

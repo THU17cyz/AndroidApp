@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.example.androidapp.fragment.RecommendFragment;
-import com.example.androidapp.fragment.follow.FollowFragment;
 
 import org.jetbrains.annotations.NotNull;
 

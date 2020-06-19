@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_follow"
-        android:name="com.example.androidapp.UI.follow.FollowFragmentNav"
+        android:name="com.example.androidapp.UI.follow.FollowFragment"
         android:label="@string/title_follow"
         tools:layout="@layout/fragment_follow_nav" />
 

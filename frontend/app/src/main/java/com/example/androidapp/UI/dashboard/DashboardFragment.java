@@ -136,6 +136,8 @@ public class DashboardFragment
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+        System.out.println("onCreateView");
+
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
         ButterKnife.bind(this,root);
@@ -383,6 +385,7 @@ public class DashboardFragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 //    setInfo();
+        System.out.println("onActivityCreated");
         getInfo();
     }
 

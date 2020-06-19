@@ -108,14 +108,18 @@ public class LoginActivity extends BaseActivity {
         String type = typeSpinner.getSelectedItem().toString().equals(getResources().getStringArray(R.array.t_s_type)[0]) ? "T" : "S";
         String account = accountEditText.getText().toString();
         String password = passwordEditText.getText().toString();
+        // 后门儿
+        if (account.length() == 0) {
+            Hint.startActivityLoad(this);
+            new LoginRequest(this.handleLogin, type, "T2", "T2").send();
+        }
+
         if (!Valid.isAccount(account) || !Valid.isPassword(password)) {
             Hint.showLongBottomToast(this, "格式错误！");
             return;
         }
         Hint.startActivityLoad(this);
-        // 后门儿
-        if (account.length() == 0) new LoginRequest(this.handleLogin, type, "T2", "T2").send();
-        else new LoginRequest(this.handleLogin, type, account, password).send();
+        new LoginRequest(this.handleLogin, type, account, password).send();
     }
 
     @OnClick(R.id.logon)

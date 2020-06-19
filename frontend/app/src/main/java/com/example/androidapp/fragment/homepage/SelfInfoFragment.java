@@ -139,7 +139,7 @@ public class SelfInfoFragment extends Fragment {
     View view = inflater.inflate(R.layout.fragment_self_info, container, false);
     unbinder = ButterKnife.bind(this,view);
 
-
+    System.out.println("SelfINFOonCreateView");
 
     // 显示
 //    name.setText(shortProfile.name);
@@ -183,7 +183,7 @@ public class SelfInfoFragment extends Fragment {
   @Override
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-
+    System.out.println("SelfInfoonActivityCreated");
 //    getInfo();
 //    setInfo();
   }

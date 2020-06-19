@@ -8,13 +8,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.example.androidapp.entity.WholeProfile;
-import com.example.androidapp.fragment.follow.FollowFragment;
 import com.example.androidapp.fragment.homepage.ApplicationInfoFragment;
 import com.example.androidapp.fragment.homepage.EnrollmentInfoFragment;
 import com.example.androidapp.fragment.homepage.SelfInfoFragment;
 import com.example.androidapp.fragment.homepage.StudyInfoFragment;
-import com.example.androidapp.util.BasicInfo;
 
 import org.jetbrains.annotations.NotNull;
 
