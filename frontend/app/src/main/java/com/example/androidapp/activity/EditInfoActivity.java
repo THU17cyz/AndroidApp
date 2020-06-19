@@ -69,13 +69,7 @@ public class EditInfoActivity extends AppCompatActivity {
 
     setSupportActionBar(toolbar);
     // 标题栏返回
-    toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        Intent intent = new Intent(EditInfoActivity.this,MainActivity.class);
-        startActivity(intent);
-      }
-    });
+    toolbar.setNavigationOnClickListener(v-> this.finish());
 
 
   }

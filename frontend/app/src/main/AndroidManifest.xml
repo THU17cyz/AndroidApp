@@ -17,6 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme"
+        android:requestLegacyExternalStorage="true"
         tools:targetApi="n">
         <activity android:name=".activity.InfoActivity"></activity>
         <activity

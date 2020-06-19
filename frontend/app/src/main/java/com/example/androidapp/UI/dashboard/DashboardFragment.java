@@ -1,6 +1,9 @@
 package com.example.androidapp.UI.dashboard;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,9 +20,11 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.androidapp.R;
+import com.example.androidapp.activity.ChatActivity;
 import com.example.androidapp.activity.EditInfoActivity;
 import com.example.androidapp.activity.HomepageActivity;
 import com.example.androidapp.adapter.HomepagePagerAdapter;
+import com.example.androidapp.chatTest.GifSizeFilter;
 import com.example.androidapp.chatTest.model.Message;
 import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.entity.WholeProfile;
@@ -28,11 +33,20 @@ import com.example.androidapp.fragment.homepage.SelfInfoFragment;
 import com.example.androidapp.fragment.homepage.StudyInfoFragment;
 import com.example.androidapp.request.follow.GetFanlistRequest;
 import com.example.androidapp.request.follow.GetWatchlistRequest;
+import com.example.androidapp.request.user.GetInfoPictureRequest;
 import com.example.androidapp.request.user.GetInfoPlusRequest;
 import com.example.androidapp.request.user.GetInfoRequest;
+import com.example.androidapp.request.user.UpdateInfoPictureRequest;
 import com.example.androidapp.util.BasicInfo;
+import com.example.androidapp.util.Uri2File;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
+import com.squareup.picasso.Picasso;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.engine.impl.GlideEngine;
+import com.zhihu.matisse.filter.Filter;
+import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -41,9 +55,11 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -81,12 +97,15 @@ public class DashboardFragment
     private WholeProfile wholeProfile;
     private ShortProfile shortProfile;
 
+    private static final int REQUEST_CODE_CHOOSE = 11;
+
     private HomepagePagerAdapter pagerAdapter;
 
     private String mAccount;
     private int mNumFocus;
     private int mNumFocused;
     private String type;
+    private int id;
 
     public String mTitle;
     public String mMajor;
@@ -126,10 +145,12 @@ public class DashboardFragment
         tabLayout.addTab(tabLayout.newTab().setText("个人信息"));
         tabLayout.addTab(tabLayout.newTab().setText("科研信息"));
         tabLayout.addTab(tabLayout.newTab().setText("招生信息"));
+        tabLayout.setBackgroundColor(Color.WHITE);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
         type = BasicInfo.TYPE;
+        id = BasicInfo.ID;
 
         pagerAdapter = new HomepagePagerAdapter(getChildFragmentManager(), tabLayout.getTabCount(), type, -1);
         viewPager.setAdapter(pagerAdapter);
@@ -223,7 +244,7 @@ public class DashboardFragment
 //            }
 //        },"I","","").send();
 
-        // 获取头像
+
 
         // 获取关注人数
         new GetWatchlistRequest(new okhttp3.Callback() {
@@ -300,9 +321,61 @@ public class DashboardFragment
 //        signature.setText(mSignature);
 //        numFocus.setText(String.valueOf(mNumFocus));
 //        numFocused.setText(String.valueOf(mNumFocused));
+        getAvatar(null);
 
         return root;
 
+
+    }
+
+    @OnClick(R.id.img_avatar)
+    void changeAvatar() {
+        Matisse.from(getActivity())
+                .choose(MimeType.ofImage(), false)
+                .countable(true)
+                .capture(true)
+                .captureStrategy(
+                        new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider", "test"))
+                .maxSelectable(1)
+                .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+                .gridExpectedSize(
+                        getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                .thumbnailScale(0.85f)
+                .imageEngine(new GlideEngine())
+                .setOnSelectedListener((uriList, pathList) -> {
+                    Log.e("onSelected", "onSelected: pathList=" + pathList);
+                })
+                .showSingleMediaType(true)
+                .originalEnable(true)
+                .maxOriginalSize(10)
+                .autoHideToolbarOnSingleTap(true)
+                .setOnCheckedListener(isChecked -> {
+                    Log.e("isChecked", "onCheck: isChecked=" + isChecked);
+                })
+                .forResult(REQUEST_CODE_CHOOSE);
+    }
+
+    public void getAvatar(String path) {
+        if (path == null) {
+            GetInfoPictureRequest request;
+            if (type.equals("S")) request = new GetInfoPictureRequest(type, null, String.valueOf(id));
+            else request = new GetInfoPictureRequest(type, String.valueOf(id), null);
+            try {
+                Picasso.with(imgAvatar.getContext()).load(request.getWholeUrl())
+                        .placeholder(R.drawable.ic_person_outline_black_24dp).into(imgAvatar);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        } else {
+            try {
+                System.out.println(path);
+                Picasso.with(imgAvatar.getContext()).load(path).
+                        placeholder(R.drawable.ic_person_outline_black_24dp).into(imgAvatar);
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
 
     }
 

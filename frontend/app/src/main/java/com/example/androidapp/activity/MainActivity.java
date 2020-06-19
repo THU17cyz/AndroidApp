@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,14 +14,17 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.androidapp.R;
+import com.example.androidapp.UI.dashboard.DashboardFragment;
 import com.example.androidapp.UI.home.HomeFragment;
 import com.example.androidapp.application.App;
 import com.example.androidapp.request.intention.ClearAllIntentionRequest;
 import com.example.androidapp.request.user.GetInfoRequest;
 import com.example.androidapp.request.user.LoginRequest;
+import com.example.androidapp.request.user.UpdateInfoPictureRequest;
 import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Http;
+import com.example.androidapp.util.Uri2File;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gyf.immersionbar.ImmersionBar;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -32,6 +36,7 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.zhihu.matisse.Matisse;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -47,13 +52,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Response;
 
 public class MainActivity extends BaseActivity {
-    
+
+    private static final int REQUEST_CODE_CHOOSE = 11;
     private long exitTime = 0;
 
 //    @BindView(R.id.toolbar)
@@ -308,6 +315,45 @@ public class MainActivity extends BaseActivity {
             }
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println(requestCode + " " + resultCode);
+
+        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+            List<String> mSelected = Matisse.obtainPathResult(data);
+            String path = mSelected.get(0);
+            DashboardFragment fragment = (DashboardFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.nav_host_fragment).getChildFragmentManager()
+                    .getPrimaryNavigationFragment();
+            fragment.getAvatar("file://" + path);
+            System.out.println(path);
+            new UpdateInfoPictureRequest(new okhttp3.Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    Log.e("error", e.toString());
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    String resStr = response.body().string();
+                    Log.e("response", resStr);
+                    try {
+                        // 解析json，然后进行自己的内部逻辑处理
+                        JSONObject jsonObject = new JSONObject(resStr);
+                        Boolean status = jsonObject.getBoolean("status");
+                        if (status) {
+
+                        } else {
+                            String info = jsonObject.getString("info");
+                        }
+                    } catch (JSONException e) {
+                    }
+                }
+            }, Uri2File.convert(path)).send();
+        }
     }
 
 }

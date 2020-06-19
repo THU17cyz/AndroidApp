@@ -4,21 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidapp.R;
 import com.example.androidapp.adapter.HistoryAdapter;
-import com.example.androidapp.entity.ShortIntent;
 import com.example.androidapp.request.search.DeleteRecordRequest;
-import com.example.androidapp.request.search.SearchApplyIntentionRequest;
 import com.example.androidapp.request.search.SearchHotRecordRequest;
 import com.example.androidapp.request.search.SearchRecordRequest;
 import com.google.android.flexbox.FlexboxLayout;
@@ -33,16 +30,17 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Response;
 
 public class QueryActivity extends BaseActivity {
+
+    @BindView(R.id.top_bar)
+    Toolbar toolbar;
 
     @BindView(R.id.search_view)
     SearchView searchView;
@@ -115,6 +113,8 @@ public class QueryActivity extends BaseActivity {
         });
         getSearchHistory();
         getHotSearch();
+
+        toolbar.setNavigationOnClickListener(v->this.finish());
     }
 
 
@@ -139,11 +139,11 @@ public class QueryActivity extends BaseActivity {
 
     }
 
-    @OnClick(R.id.returnButton)
-    public void returnToParent() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
+//    @OnClick(R.id.returnButton)
+//    public void returnToParent() {
+//        Intent intent = new Intent(this, MainActivity.class);
+//        startActivity(intent);
+//    }
 
     private void deleteSearchHistory(String key) {
         new DeleteRecordRequest(new okhttp3.Callback() {
