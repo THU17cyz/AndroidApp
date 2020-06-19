@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
 import okhttp3.Response;
@@ -41,8 +42,8 @@ public class ResetPasswordActivity extends BaseActivity {
     @BindView(R.id.repeated_password)
     EditText repeatedPasswordEditText;
 
-    @BindView(R.id.reset_button)
-    Button resetButton;
+    @BindView(R.id.reset_password_button)
+    Button resetPasswordButton;
 
     /******************************
      ************ 方法 ************
@@ -51,7 +52,7 @@ public class ResetPasswordActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
-//        ButterKnife.bind(this);
+        ButterKnife.bind(this);
     }
 
     public void onReturnToLogin() {
@@ -62,8 +63,9 @@ public class ResetPasswordActivity extends BaseActivity {
     /******************************
      ************ 事件 ************
      ******************************/
-    @OnClick(R.id.reset_button)
+    @OnClick(R.id.reset_password_button)
     public void onClickResetButton() {
+        Log.d("reset", ">>>>>>>>>>>>>>>>>>>>>");
         String old_password = oldPasswordEditText.getText().toString();
         String new_password = newPasswordEditText.getText().toString();
         String repeated_password = repeatedPasswordEditText.getText().toString();
