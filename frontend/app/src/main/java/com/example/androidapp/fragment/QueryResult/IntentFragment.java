@@ -70,7 +70,7 @@ public class IntentFragment extends Fragment {
 
     protected Unbinder unbinder;
 
-    LoadService loadService;
+//    LoadService loadService;
 
     protected String[] order;
     boolean[] filters = new boolean[]{false, false, false, false};
@@ -186,6 +186,7 @@ public class IntentFragment extends Fragment {
     private void visitHomePage(int position) {
         Intent intent = new Intent(getContext(), VisitHomePageActivity.class);
         intent.putExtra("id", mIntentList.get(position).id);
+        intent.putExtra("isTeacher", mIntentList.get(position).isTeacher);
         startActivity(intent);
     }
     

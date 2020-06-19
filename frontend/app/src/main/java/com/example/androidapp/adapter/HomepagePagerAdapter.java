@@ -20,11 +20,15 @@ import org.jetbrains.annotations.NotNull;
 
 public class HomepagePagerAdapter extends FragmentStatePagerAdapter {
   int mNumOfTabs;
+  String type;
+  int id;
   SparseArray<Fragment> registeredFragments = new SparseArray<>();
 
-  public HomepagePagerAdapter(@NonNull FragmentManager fm, int NumOfTabs) {
+  public HomepagePagerAdapter(@NonNull FragmentManager fm, int NumOfTabs, String type, int id) {
     super(fm);
     this.mNumOfTabs = NumOfTabs;
+    this.type = type;
+    this.id = id;
   }
 
 
@@ -34,10 +38,10 @@ public class HomepagePagerAdapter extends FragmentStatePagerAdapter {
 //    return new SelfInfoFragment();
 //    return new FollowFragment();
     switch (position) {
-      case 0: return new SelfInfoFragment();
-      case 1: return new StudyInfoFragment();
+      case 0: return new SelfInfoFragment(type, id);
+      case 1: return new StudyInfoFragment(type, id);
       case 2:
-        if (BasicInfo.TYPE.equals("S")){
+        if (type.equals("S")){
           return new ApplicationInfoFragment();
         } else {
           return new EnrollmentInfoFragment();

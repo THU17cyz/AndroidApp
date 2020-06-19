@@ -9,6 +9,7 @@
     <color name="cornflower_blue">#6274e2</color>
     <color name="cornflower_blue_dark">#303F9F</color>
     <color name="cornflower_blue_darkest">#2d3a93</color>
+    <color name="gray_white">#f0f0f0</color>
     <color name="gray">#ebebeb</color>
     <color name="gray_light">#e8e8e8</color>
     <color name="gray_transparent">#a6efefef</color>

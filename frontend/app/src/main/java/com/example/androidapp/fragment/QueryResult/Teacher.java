@@ -17,6 +17,7 @@ import com.example.androidapp.request.follow.DeleteFromWatchRequest;
 import com.example.androidapp.request.information.GetInformationRequest;
 import com.example.androidapp.request.search.SearchTeacherRequest;
 import com.kingja.loadsir.callback.Callback;
+import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
 
 import org.jetbrains.annotations.NotNull;
@@ -55,7 +56,7 @@ public class Teacher extends ProfileFragment {
     }
 
     public void loadQueryInfo(String query) {
-        loadService = LoadSir.getDefault().register(recyclerView, (Callback.OnReloadListener) v -> {
+        LoadService loadService = LoadSir.getDefault().register(recyclerView, (Callback.OnReloadListener) v -> {
 
         });
         Log.e("query", query);

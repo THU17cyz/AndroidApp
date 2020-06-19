@@ -59,6 +59,7 @@
             android:textSize="20sp"
             android:text="系统通知"></TextView>
         <TextView
+            android:id="@+id/btn_all_read"
             android:textSize="18sp"
             android:textColor="@color/colorPrimary"
             android:layout_marginRight="10dp"

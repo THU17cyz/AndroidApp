@@ -1,5 +1,6 @@
 package com.example.androidapp.fragment.HomepageEdit;
 
+import android.app.Application;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,8 +25,10 @@ import com.example.androidapp.R;
 import com.example.androidapp.adapter.ApplicationListAdapter;
 import com.example.androidapp.adapter.EditApplicationListAdapter;
 import com.example.androidapp.entity.ApplicationInfo;
+import com.example.androidapp.entity.EnrollmentInfo;
 import com.example.androidapp.request.intention.ClearAllIntentionRequest;
 import com.example.androidapp.request.intention.CreateApplyIntentionRequest;
+import com.example.androidapp.request.intention.CreateRecruitIntentionRequest;
 import com.example.androidapp.request.intention.DeleteApplyIntentionRequest;
 import com.example.androidapp.request.intention.GetApplyIntentionDetailRequest;
 import com.example.androidapp.request.intention.GetApplyIntentionRequest;
@@ -49,7 +52,7 @@ import butterknife.Unbinder;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class EditApplicationInfoFragment extends Fragment {
+public class EditApplicationInfoFragment extends Fragment implements View.OnClickListener {
 
   @BindView(R.id.btn_add)
   FloatingActionButton btn_add;
@@ -163,7 +166,7 @@ public class EditApplicationInfoFragment extends Fragment {
 
         }
       }
-    },String.valueOf(BasicInfo.ID));
+    },String.valueOf(BasicInfo.ID)).send();
 
 
 
@@ -183,54 +186,9 @@ public class EditApplicationInfoFragment extends Fragment {
       }
     });
 
-    btn_add.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        // todo 添加栏目
-        Toast.makeText(getActivity(),"添加",Toast.LENGTH_SHORT).show();
-        ApplicationInfo applicationInfo = new ApplicationInfo("","","",-1,ApplicationInfo.Type.ADD);
-        mApplicationList.add(applicationInfo);
-        adapter.notifyDataSetChanged();
-      }
-    });
+    btn_add.setOnClickListener(this);
 
-    btn_concern.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-
-        new ClearAllIntentionRequest(new okhttp3.Callback() {
-          @Override
-          public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
-          }
-
-          @Override
-          public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-
-          }
-        });
-
-
-        for(int i=0;i<mApplicationList.size();i++){
-          ApplicationInfo applicationInfo = mApplicationList.get(i);
-
-          new CreateApplyIntentionRequest(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-
-            }
-          },
-                  applicationInfo.direction,
-                  applicationInfo.profile,
-                  applicationInfo.state,
-                  null);
-        }
-      }
-    });
+    btn_concern.setOnClickListener(this);
 
     return view;
   }
@@ -241,4 +199,80 @@ public class EditApplicationInfoFragment extends Fragment {
     unbinder.unbind();
   }
 
+  @Override
+  public void onClick(View v) {
+    switch (v.getId()){
+      case R.id.btn_concern:
+      {
+
+        new ClearAllIntentionRequest(new okhttp3.Callback() {
+          @Override
+          public void onFailure(@NotNull Call call, @NotNull IOException e) {
+            Log.e("response", "FA");
+          }
+
+          @Override
+          public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+            String resStr = response.body().string();
+            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+            Log.e("response", resStr);
+            try {
+              // 解析json，然后进行自己的内部逻辑处理
+              JSONObject jsonObject = new JSONObject(resStr);
+              Boolean status = jsonObject.getBoolean("status");
+              String info = jsonObject.getString("info");
+              getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
+
+              // 全部删除以后再插入
+              for(int i=0;i<mApplicationList.size();i++){
+                ApplicationInfo applicationInfo = mApplicationList.get(i);
+
+                new CreateApplyIntentionRequest(new okhttp3.Callback() {
+                  @Override
+                  public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    Log.e("response", "res");
+                  }
+
+                  @Override
+                  public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    String resStr = response.body().string();
+                    getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+                    Log.e("response", resStr);
+                    try {
+                      // 解析json，然后进行自己的内部逻辑处理
+                      JSONObject jsonObject = new JSONObject(resStr);
+                      Boolean status = jsonObject.getBoolean("status");
+                      String info = jsonObject.getString("info");
+                      getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
+                    } catch (JSONException e) {
+                    }
+                  }
+                },
+                        applicationInfo.direction,
+                        applicationInfo.profile,
+                        applicationInfo.state,
+                        null).send();
+              }
+
+            } catch (JSONException e) {
+            }
+          }
+        }).send();
+        break;
+      }
+      case R.id.btn_add:
+      {
+        if(mApplicationList.size()>= BasicInfo.MAX_INTENTION_NUMBER){
+          Toast.makeText(getContext(),"已达到意向数量上限",Toast.LENGTH_SHORT).show();
+          break;
+        }
+        Toast.makeText(getActivity(),"添加",Toast.LENGTH_SHORT).show();
+        ApplicationInfo applicationInfo = new ApplicationInfo("","进行","");
+        mApplicationList.add(applicationInfo);
+        adapter.notifyDataSetChanged();
+        break;
+      }
+    }
+
+  }
 }

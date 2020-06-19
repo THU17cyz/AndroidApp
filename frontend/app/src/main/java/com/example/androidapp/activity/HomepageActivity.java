@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.example.androidapp.R;
 import com.example.androidapp.adapter.HomepagePagerAdapter;
+import com.example.androidapp.util.BasicInfo;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
 
@@ -50,7 +51,7 @@ public class HomepageActivity extends AppCompatActivity {
     tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
-    HomepagePagerAdapter pagerAdapter = new HomepagePagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+    HomepagePagerAdapter pagerAdapter = new HomepagePagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), BasicInfo.TYPE, -1);
     viewPager.setAdapter(pagerAdapter);
     viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 

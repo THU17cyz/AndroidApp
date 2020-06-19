@@ -18,6 +18,10 @@ import com.stfalcon.chatkit.messages.MessagesList;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
 import com.stfalcon.chatkit.utils.DateFormatter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import butterknife.BindView;
@@ -50,9 +54,17 @@ public class InfoActivity extends BaseActivity implements  DateFormatter.Formatt
 
     Intent intent = getIntent();
     String text = intent.getStringExtra("text");
+    String dateString = intent.getStringExtra("dateString");
+    SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm" );
 
-    Message message = new Message("0", new User("1", "", null, true), text);
-    messagesAdapter.addToStart(message, false);
+    Message message = null;
+    try {
+      message = new Message("0", new User("1", "", null, true), text,sdf.parse(dateString));
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    messagesAdapter.addToEnd(new ArrayList(Arrays.asList(message)), false);
+    messagesAdapter.updateAndMoveToStart(message);
 
 
     btn_return.setOnClickListener(new View.OnClickListener() {

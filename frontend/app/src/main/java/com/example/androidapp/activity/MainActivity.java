@@ -178,10 +178,10 @@ public class MainActivity extends BaseActivity {
         },"I",null,null).send();
 
         // *** HTTP 测试 ***
-        if (Global.HTTP_TEST_MODE) {
-            Log.d("Test", "******************");
-            new ClearAllIntentionRequest(Http.callbackExample_0).send();
-        }
+//        if (Global.HTTP_TEST_MODE) {
+//            Log.d("Test", "******************");
+//            new ClearAllIntentionRequest(Http.callbackExample_0).send();
+//        }
 
 
 

@@ -68,7 +68,7 @@ public class ProfileFragment extends Fragment {
 
     protected Unbinder unbinder;
 
-    LoadService loadService;
+//    LoadService loadService;
 
     protected String[] order;
     boolean[] filters = new boolean[]{false, false, false, false};
@@ -192,7 +192,8 @@ public class ProfileFragment extends Fragment {
 
     private void visitHomePage(int position) {
         Intent intent = new Intent(getContext(), VisitHomePageActivity.class);
-        intent.putExtra("profile", mProfileList.get(position));
+        intent.putExtra("id", mProfileList.get(position).id);
+        intent.putExtra("isTeacher", mProfileList.get(position).isTeacher);
         startActivity(intent);
     }
 

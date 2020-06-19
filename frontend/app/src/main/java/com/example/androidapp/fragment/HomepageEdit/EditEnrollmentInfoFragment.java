@@ -20,6 +20,7 @@ import com.example.androidapp.adapter.EditEnrollmentListAdapter;
 import com.example.androidapp.adapter.EnrollmentListAdapter;
 import com.example.androidapp.entity.ApplicationInfo;
 import com.example.androidapp.entity.EnrollmentInfo;
+import com.example.androidapp.fragment.QueryResult.Base;
 import com.example.androidapp.request.intention.ClearAllIntentionRequest;
 import com.example.androidapp.request.intention.CreateRecruitIntentionRequest;
 import com.example.androidapp.request.intention.DeleteRecruitIntentionRequest;
@@ -163,12 +164,12 @@ implements View.OnClickListener{
 
 
 
-    adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-      @Override
-      public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-        Toast.makeText(getActivity(), "testItemClick " + i, Toast.LENGTH_SHORT).show();
-      }
-    });
+//    adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+//      @Override
+//      public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+//        Toast.makeText(getActivity(), "testItemClick " + i, Toast.LENGTH_SHORT).show();
+//      }
+//    });
 
     adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
       @Override
@@ -180,16 +181,7 @@ implements View.OnClickListener{
       }
     });
 
-    btn_add.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        // todo 添加栏目
-        Toast.makeText(getActivity(),"添加",Toast.LENGTH_SHORT).show();
-        EnrollmentInfo enrollmentInfo = new EnrollmentInfo("","","","","",-1,EnrollmentInfo.Type.ADD);
-        mEnrollmentList.add(enrollmentInfo);
-        adapter.notifyDataSetChanged();
-      }
-    });
+    btn_add.setOnClickListener(this);
 
     btn_concern.setOnClickListener(this);
 
@@ -224,42 +216,59 @@ implements View.OnClickListener{
               Boolean status = jsonObject.getBoolean("status");
                 String info = jsonObject.getString("info");
                 getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
+
+                // 全部删除以后再插入
+              for(int i=0;i<mEnrollmentList.size();i++){
+                EnrollmentInfo enrollmentInfo = mEnrollmentList.get(i);
+                new CreateRecruitIntentionRequest(new okhttp3.Callback() {
+                  @Override
+                  public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    Log.e("response", "res");
+                  }
+
+                  @Override
+                  public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+
+                    String resStr = response.body().string();
+                    getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+                    Log.e("response", resStr);
+                    try {
+                      // 解析json，然后进行自己的内部逻辑处理
+                      JSONObject jsonObject = new JSONObject(resStr);
+                      Boolean status = jsonObject.getBoolean("status");
+                      String info = jsonObject.getString("info");
+                      getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
+                    } catch (JSONException e) {
+                    }
+                  }
+                },
+                        enrollmentInfo.studentType,
+                        enrollmentInfo.number,
+                        enrollmentInfo.direction,
+                        enrollmentInfo.introduction,
+                        enrollmentInfo.state,
+                        null).send();
+              }
+
+
             } catch (JSONException e) {
             }
           }
         }).send();
 
-        for(int i=0;i<mEnrollmentList.size();i++){
-          EnrollmentInfo enrollmentInfo = mEnrollmentList.get(i);
-          new CreateRecruitIntentionRequest(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-              Log.e("response", "res");
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-
-              String resStr = response.body().string();
-              getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-              Log.e("response", resStr);
-              try {
-                // 解析json，然后进行自己的内部逻辑处理
-                JSONObject jsonObject = new JSONObject(resStr);
-                Boolean status = jsonObject.getBoolean("status");
-                String info = jsonObject.getString("info");
-                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
-              } catch (JSONException e) {
-              }
-            }
-          },
-                  enrollmentInfo.studentType,
-                  enrollmentInfo.number,
-                  enrollmentInfo.direction,
-                  enrollmentInfo.introduction,
-                  enrollmentInfo.state,
-                  null).send();
+        break;
+      }
+      case R.id.btn_add:
+      {
+        if(mEnrollmentList.size()>= BasicInfo.MAX_INTENTION_NUMBER){
+          Toast.makeText(getContext(),"已达到意向数量上限",Toast.LENGTH_SHORT).show();
+          break;
         }
+        Toast.makeText(getActivity(),"添加",Toast.LENGTH_SHORT).show();
+        EnrollmentInfo enrollmentInfo = new EnrollmentInfo("","本科生","","进行","",-1,EnrollmentInfo.Type.ADD);
+        mEnrollmentList.add(enrollmentInfo);
+        adapter.notifyDataSetChanged();
+        break;
       }
     }
 

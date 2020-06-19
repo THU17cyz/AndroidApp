@@ -2,11 +2,15 @@ package com.example.androidapp.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andreabaccega.widget.FormEditText;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
@@ -56,20 +60,61 @@ public class EditEnrollmentListAdapter<T> extends MyBaseAdapter {
     viewHolder.addOnClickListener(R.id.delete);
     viewHolder.addOnClickListener(R.id.student_type);
 
-    // 删除按钮
-//    ImageView delete = viewHolder.getView(R.id.delete);
-//    EnrollmentInfo data = (EnrollmentInfo) o;
-//    delete.setOnClickListener(new View.OnClickListener() {
-//      @Override
-//      public void onClick(View v) {
-//        // todo 删除该栏
-//        Toast.makeText(mContext,"删除",Toast.LENGTH_SHORT).show();
-//        data.setType(EnrollmentInfo.Type.DELETE);
-//        // viewHolder.setVisible(R.id.card,false);
-//        // viewHolder.getView(R.id.card).setVisibility(View.GONE);
-//
-//      }
-//    });
+    EnrollmentInfo data = (EnrollmentInfo) o;
+
+    FormEditText direction = viewHolder.getView(R.id.direction);
+    direction.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+        data.direction = s.toString();
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+
+      }
+    });
+
+    FormEditText number = viewHolder.getView(R.id.number);
+    number.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+          data.number = s.toString();
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+
+      }
+    });
+
+    FormEditText introduction = viewHolder.getView(R.id.introduction);
+    introduction.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+        data.introduction = s.toString();
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+
+      }
+    });
 
     // 选择器
     TextView state = viewHolder.getView(R.id.state);
@@ -81,6 +126,13 @@ public class EditEnrollmentListAdapter<T> extends MyBaseAdapter {
           public void onOptionsSelect(int options1, int option2, int options3 ,View v) {
             String s = OptionItems.optionsState.get(options1);
             state.setText(s);
+            if(s.equals("进行")){
+              data.state = "O";
+            } else if(s.equals("成功")){
+              data.state = "S";
+            } else if(s.equals("失败")) {
+              data.state = "F";
+            }
           }
         })
                 .setTitleText("选择状态")
@@ -105,6 +157,13 @@ public class EditEnrollmentListAdapter<T> extends MyBaseAdapter {
           public void onOptionsSelect(int options1, int option2, int options3 ,View v) {
             String s = OptionItems.optionsDegree.get(options1);
             studentType.setText(s);
+            if(s.equals("本科生")){
+              data.studentType = "UG";
+            } else if(s.equals("硕士生")){
+              data.studentType = "MT";
+            } else if(s.equals("博士生")){
+              data.studentType = "DT";
+            }
           }
         })
                 .setTitleText("选择类型")

@@ -11,4 +11,6 @@ public class BasicInfo {
   public static String TYPE = "S";
 
   public static String SIGNATURE = "";
+
+  public static final int MAX_INTENTION_NUMBER = 10;
 }

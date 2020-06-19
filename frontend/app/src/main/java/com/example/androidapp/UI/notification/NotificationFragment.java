@@ -48,6 +48,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -76,16 +78,21 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
   private DialogsListAdapter dialogsAdapter;
 
   private List<Integer> informationIdList;
-  private ArrayList<Dialog> dialogList;
+  private ArrayList<Dialog> dialogs;
   private ArrayList<Message> messages;
   private LoadService loadService;
   private User user;
+
+  private TextView btnAllRead;
 
   public View onCreateView(@NonNull LayoutInflater inflater,
                            ViewGroup container, Bundle savedInstanceState) {
 
     View root = inflater.inflate(R.layout.fragment_notification, container, false);
     ButterKnife.bind(this,root);
+
+    //全标已读
+    btnAllRead = root.findViewById(R.id.btn_all_read);
 
     //设置头像
     imageLoader = new ImageLoader() {
@@ -98,11 +105,11 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
 
     user  =new User("0","","zx",false);
 
-    ArrayList<Dialog> dialogs = new ArrayList<>();
-    Dialog dialog = new Dialog("0","联系人一","zx",
-            new ArrayList<User>(Arrays.asList(user)),
-            new Message("0",user,"一句话"),0);
-    dialogs.add(dialog);
+    dialogs = new ArrayList<>();
+//    Dialog dialog = new Dialog("0","联系人一","zx",
+//            new ArrayList<User>(Arrays.asList(user)),
+//            new Message("0",user,"一句话"),0);
+//    dialogs.add(dialog);
 
     dialogsAdapter.setItems(dialogs);
     dialogsAdapter.setDatesFormatter(this);
@@ -111,19 +118,6 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
       @Override
       public void onDialogClick(IDialog dialog) {
         // todo
-
-//        new SetInformationStateRequest(new okhttp3.Callback() {
-//          @Override
-//          public void onFailure(@NotNull Call call, @NotNull IOException e) {
-//
-//          }
-//
-//          @Override
-//          public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-//
-//          }
-//        },String.valueOf(informationIdList.get(Integer.valueOf(dialog.getId()))),"R");
-
         Intent intent = new Intent(getActivity(), InfoActivity.class);
         intent.putExtra("text", "ok");
 //        intent.putExtra("text", messages.get(Integer.parseInt(dialog.getId())).getText());
@@ -131,6 +125,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
       }
     });
     dialogsList.setAdapter(dialogsAdapter);
+
 
 
     refreshData(false);
@@ -145,6 +140,66 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
       }
     });
 
+    btnAllRead.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        for(int i=0;i<dialogs.size();i++){
+          Dialog dialog = dialogs.get(i);
+          // 修改消息状态
+          new SetInformationStateRequest(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+              getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                  dialog.setUnreadCount(0);
+                  dialogsAdapter.notifyDataSetChanged();
+                }
+              });
+            }
+          },dialogs.get(i).getLastMessage().getId(),"R").send();
+
+        }
+      }
+    });
+
+    dialogsAdapter.setOnDialogClickListener(new DialogsListAdapter.OnDialogClickListener() {
+      @Override
+      public void onDialogClick(IDialog dialog) {
+
+        // 更新未读条数
+        Dialog d = (Dialog)dialog;
+        d.setUnreadCount(0);
+        dialogsAdapter.notifyDataSetChanged();
+
+        // 修改消息状态
+        new SetInformationStateRequest(new okhttp3.Callback() {
+          @Override
+          public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+          }
+
+          @Override
+          public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+
+          }
+        },dialog.getLastMessage().getId(),"R").send();
+
+        // 进入页面
+        Intent intent = new Intent(getActivity(),InfoActivity.class);
+        intent.putExtra("text",dialog.getLastMessage().getText());
+        intent.putExtra("dateString",((Message)dialog.getLastMessage()).getDateString());
+        startActivity(intent);
+
+
+      }
+
+    });
 
 
     return root;
@@ -161,11 +216,6 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
       @Override
       public void onFailure(@NotNull Call call, @NotNull IOException e) {
         Log.e("error", e.toString());
-        if (isRefresh) {
-          refreshLayout.finishRefresh(false);
-        } else {
-//          getActivity().runOnUiThread(loadService::showSuccess);
-        }
       }
 
       @Override
@@ -181,6 +231,72 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
           for (int i = 0; i < jsonArray.length(); i++) {
             informationIdList.add(jsonArray.getInt(i));
           }
+
+          //在获取id列表的基础上获取每条消息
+          if(informationIdList!=null){
+
+            messages = new ArrayList<>();
+
+            for(int i=0;i<informationIdList.size();i++){
+              String id = informationIdList.get(i).toString();
+              new GetInformationDetailRequest(new okhttp3.Callback(){
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                  String resStr = response.body().string();
+                  getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+                  Log.e("response", resStr);
+                  try {
+                    // 解析json，然后进行自己的内部逻辑处理
+                    JSONObject jsonObject = new JSONObject(resStr);
+
+                    Boolean status = jsonObject.getBoolean("status");
+                    if(status){
+                      String time = jsonObject.getString("information_time");
+                      String state = jsonObject.getString("information_state");
+                      // todo 解析byte
+                      String content = (String)jsonObject.get("information_content");
+
+                      Message message;
+                      SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm" );
+                      if(state.equals("N")){
+                        message = new Message(id,user,content,sdf.parse(time),false);
+                      } else {
+                        message = new Message(id,user,content,sdf.parse(time),true);
+                      }
+                      message.setDateString(time);
+                      Log.e("消息内容",sdf.parse(time).toString()+" "+state);
+
+                      getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                          if(message.isRead()){
+                            dialogs.add(new Dialog("1","系统通知",null,new ArrayList<User>(Arrays.asList(user)),message,0));
+                            dialogsAdapter.notifyDataSetChanged();;
+                          } else {
+                            dialogs.add(new Dialog("1","系统通知",null,new ArrayList<User>(Arrays.asList(user)),message,1));
+                            dialogsAdapter.notifyDataSetChanged();;
+                          }
+                        }
+                      });
+
+                    }else{
+                      String info = jsonObject.getString("info");
+                      getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
+                    }
+                  } catch (JSONException | ParseException e) {
+
+                  }
+                }
+
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                }
+              },String.valueOf(informationIdList.get(i))).send();
+            }
+
+          }
+
         } catch (JSONException e) {
 
         }
@@ -188,74 +304,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
     }).send();
 
     // 根据id列表获取消息
-    if(informationIdList!=null){
 
-      messages = new ArrayList<>();
-
-      for(int i=0;i<informationIdList.size();i++){
-        new GetInformationDetailRequest(new okhttp3.Callback(){
-          @Override
-          public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-            String resStr = response.body().string();
-            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-            Log.e("response", resStr);
-            try {
-              // 解析json，然后进行自己的内部逻辑处理
-              JSONObject jsonObject = new JSONObject(resStr);
-
-              Boolean status = jsonObject.getBoolean("status");
-              if(status){
-                String time = jsonObject.getString("information_time");
-                String state = jsonObject.getString("information_state");
-                // todo 解析byte
-                String content = (String)jsonObject.get("information_content");
-
-                if(state.equals("N")){
-                  messages.add(new Message("",user,content,new Date(time),false));
-                } else {
-                  messages.add(new Message("",user,content,new Date(time),true));
-                }
-
-              }else{
-                String info = jsonObject.getString("info");
-                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
-              }
-            } catch (JSONException e) {
-
-            }
-          }
-
-          @Override
-          public void onFailure(@NotNull Call call, @NotNull IOException e) {
-            if (isRefresh) {
-              refreshLayout.finishRefresh(false);
-            } else {
- //             getActivity().runOnUiThread(loadService::showSuccess);
-            }
-          }
-        },String.valueOf(informationIdList.get(i)));
-      }
-
-      dialogList = new ArrayList<>();
-
-      int i=0;
-      for(Message message:messages){
-        if(message.isRead()){
-          dialogList.add(new Dialog(String.valueOf(i),"系统通知",null,new ArrayList<User>(Arrays.asList(user)),message,0));
-        } else{
-          dialogList.add(new Dialog(String.valueOf(i),"系统通知",null,new ArrayList<User>(Arrays.asList(user)),message,1));
-        }
-        i++;
-      }
-
-      dialogsAdapter.setItems(dialogList);
-
-      if (isRefresh) {
-        refreshLayout.finishRefresh(true);
-      } else {
- //       getActivity().runOnUiThread(loadService::showSuccess);
-      }
-    }
   }
 
 
