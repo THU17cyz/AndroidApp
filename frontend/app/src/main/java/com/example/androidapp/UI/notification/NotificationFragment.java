@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +23,8 @@ import com.example.androidapp.R;
 import com.example.androidapp.activity.ChatActivity;
 import com.example.androidapp.activity.InfoActivity;
 import com.example.androidapp.activity.LoginActivity;
+import com.example.androidapp.activity.MainActivity;
+import com.example.androidapp.activity.QueryActivity;
 import com.example.androidapp.chatTest.fixtures.DialogsFixtures;
 import com.example.androidapp.chatTest.model.Dialog;
 import com.example.androidapp.chatTest.model.Message;
@@ -59,6 +63,7 @@ import javax.security.auth.PrivateCredentialPermission;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import okhttp3.Call;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
@@ -66,6 +71,12 @@ import okhttp3.ResponseBody;
 public class NotificationFragment extends Fragment implements DateFormatter.Formatter{
 
   private NotificationViewModel notificationViewModel;
+
+  @BindView(R.id.imageButton)
+  ImageButton drawerBtn;
+
+  @BindView(R.id.search_view)
+  EditText searchView;
 
   @BindView(R.id.dialogsList)
   DialogsList dialogsList;
@@ -85,11 +96,13 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
 
   private TextView btnAllRead;
 
+  private Unbinder unbinder;
+
   public View onCreateView(@NonNull LayoutInflater inflater,
                            ViewGroup container, Bundle savedInstanceState) {
 
     View root = inflater.inflate(R.layout.fragment_notification, container, false);
-    ButterKnife.bind(this,root);
+    unbinder = ButterKnife.bind(this,root);
 
     //全标已读
     btnAllRead = root.findViewById(R.id.btn_all_read);
@@ -206,6 +219,19 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
   }
 
 
+  @Override
+  public void onActivityCreated(Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    drawerBtn.setOnClickListener(v -> {
+      MainActivity parentActivity = (MainActivity) getActivity();
+      parentActivity.openDrawer();
+    });
+    searchView.setOnClickListener(v -> {
+      Intent intent = new Intent(getActivity(), QueryActivity.class);
+      startActivity(intent);
+    });
+  }
+
   private void refreshData(boolean isRefresh){
 //    if (!isRefresh) {
 //      loadService = LoadSir.getDefault().register(dialogList, (com.kingja.loadsir.callback.Callback.OnReloadListener) v -> {
@@ -320,5 +346,10 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
     } else {
       return DateFormatter.format(date, DateFormatter.Template.STRING_DAY_MONTH_YEAR);
     }
+  }
+
+  @Override public void onDestroyView() {
+    super.onDestroyView();
+    unbinder.unbind();
   }
 }

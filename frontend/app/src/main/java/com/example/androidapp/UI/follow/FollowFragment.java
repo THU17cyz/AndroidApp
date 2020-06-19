@@ -1,25 +1,47 @@
 package com.example.androidapp.UI.follow;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.androidapp.R;
+import com.example.androidapp.activity.MainActivity;
+import com.example.androidapp.activity.QueryActivity;
 import com.example.androidapp.adapter.ConversationPagerAdapter;
 import com.example.androidapp.adapter.FollowPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class FollowFragment extends Fragment {
   private FollowViewModel followViewModel;
+
+  @BindView(R.id.imageButton)
+  ImageButton drawerBtn;
+
+  @BindView(R.id.search_view)
+  EditText searchView;
+
+  private Unbinder unbinder;
 
   public View onCreateView(@NonNull LayoutInflater inflater,
                            ViewGroup container, Bundle savedInstanceState) {
     View root = inflater.inflate(R.layout.fragment_follow_nav, container, false);
+
+    unbinder = ButterKnife.bind(this, root);
+
+
 
 //    followViewModel =
 //            ViewModelProviders.of(this).get(FollowViewModel.class);
@@ -61,5 +83,23 @@ public class FollowFragment extends Fragment {
 
 
     return root;
+  }
+
+  @Override
+  public void onActivityCreated(Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    drawerBtn.setOnClickListener(v -> {
+      MainActivity parentActivity = (MainActivity) getActivity();
+      parentActivity.openDrawer();
+    });
+    searchView.setOnClickListener(v -> {
+      Intent intent = new Intent(getActivity(), QueryActivity.class);
+      startActivity(intent);
+    });
+  }
+
+  @Override public void onDestroyView() {
+    super.onDestroyView();
+    unbinder.unbind();
   }
 }
