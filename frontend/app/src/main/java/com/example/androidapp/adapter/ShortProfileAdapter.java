@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.androidapp.component.FocusButton;
 import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.R;
+import com.example.androidapp.util.MyImageLoader;
 import com.example.androidapp.util.StringCutter;
 import com.squareup.picasso.Picasso;
 
@@ -47,8 +48,7 @@ public class ShortProfileAdapter<T> extends MyBaseAdapter {
 
         try {
             mHead = viewHolder.getView(R.id.profile_image);
-            Picasso.with(mHead.getContext()).load(data.url).
-                    placeholder(R.drawable.ic_person_outline_black_24dp).into(mHead);
+            MyImageLoader.loadImage(mHead, data.url);
         } catch (Exception e) {
             System.out.println(e);
         }

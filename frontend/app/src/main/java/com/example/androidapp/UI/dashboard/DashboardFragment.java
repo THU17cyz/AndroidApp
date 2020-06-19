@@ -31,6 +31,7 @@ import com.example.androidapp.request.user.GetInfoPictureRequest;
 import com.example.androidapp.request.user.GetInfoPlusRequest;
 import com.example.androidapp.request.user.GetInfoRequest;
 import com.example.androidapp.util.BasicInfo;
+import com.example.androidapp.util.MyImageLoader;
 import com.example.androidapp.util.SizeConverter;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
@@ -376,17 +377,14 @@ public class DashboardFragment
             if (type.equals("S")) request = new GetInfoPictureRequest(type, null, String.valueOf(id));
             else request = new GetInfoPictureRequest(type, String.valueOf(id), null);
             try {
-                Picasso.with(imgAvatar.getContext()).load(request.getWholeUrl())
-                        .placeholder(R.drawable.ic_person_outline_black_24dp).into(imgAvatar);
+                MyImageLoader.loadImage(imgAvatar);
             } catch (Exception e) {
                 System.out.println(e);
             }
         } else {
             try {
                 System.out.println(path);
-                Picasso.with(imgAvatar.getContext()).load(path).
-                        placeholder(R.drawable.ic_person_outline_black_24dp)
-                        .error(R.drawable.ic_person_outline_black_24dp).into(imgAvatar);
+                MyImageLoader.loadImage(imgAvatar);
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -399,6 +397,14 @@ public class DashboardFragment
         super.onActivityCreated(savedInstanceState);
 //    setInfo();
         System.out.println("onActivityCreated");
+//        getInfo();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+//    setInfo();
+        System.out.println("onSTART");
         getInfo();
     }
 

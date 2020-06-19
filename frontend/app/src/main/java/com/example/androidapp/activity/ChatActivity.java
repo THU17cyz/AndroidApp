@@ -28,6 +28,7 @@ import com.example.androidapp.request.conversation.SendMessageRequest;
 import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Hint;
+import com.example.androidapp.util.MyImageLoader;
 import com.example.androidapp.util.Uri2File;
 import com.example.androidapp.viewmodel.ChatHistoryViewModel;
 import com.google.android.material.internal.NavigationMenu;
@@ -138,7 +139,7 @@ public class ChatActivity
     imageLoader = new ImageLoader() {
       @Override
       public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
-        Picasso.with(getApplicationContext()).load(url).placeholder(R.drawable.ic_person_outline_black_24dp).into(imageView);
+        MyImageLoader.loadImage(imageView, url);
         Log.d("url", url);
       }
     };

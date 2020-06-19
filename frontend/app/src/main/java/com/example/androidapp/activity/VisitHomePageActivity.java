@@ -133,22 +133,8 @@ public class VisitHomePageActivity extends AppCompatActivity {
         } else {
             type = "S";
         }
-        System.out.println(id);
-//        if (id == -1) {
-//            shortProfile = intent.getParcelableExtra("profile");
-//        } else {
-//
-//        }
 
-
-
-//        homepageName.setText(shortProfile.name);
-
-
-
-        ImmersionBar.with(this)
-                .statusBarColor(R.color.colorPrimary)
-                .init();
+        ImmersionBar.with(this).statusBarColor(R.color.transparent).init();
 
         tabLayout.addTab(tabLayout.newTab().setText("个人信息"));
         tabLayout.addTab(tabLayout.newTab().setText("科研信息"));
@@ -206,37 +192,23 @@ public class VisitHomePageActivity extends AppCompatActivity {
             }
         });
 
-//        btn_return.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent=new Intent(VisitHomePageActivity.this, MainActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-
-        btn_chat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(VisitHomePageActivity.this, ChatActivity.class);
-                startActivity(intent);
-            }
+        btn_chat.setOnClickListener(v -> {
+            Intent intent1 =new Intent(VisitHomePageActivity.this, ChatActivity.class);
+            startActivity(intent1);
         });
 
         final int alphaMaxOffset = SizeConverter.dpToPx(150);
         toolbar.getBackground().setAlpha(0);
         title.setAlpha(0);
 
-        app_bar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                // 设置 toolbar 背景
-                if (verticalOffset > -alphaMaxOffset) {
-                    toolbar.getBackground().setAlpha(255 * -verticalOffset / alphaMaxOffset);
-                    title.setAlpha(1 * -verticalOffset / alphaMaxOffset);
-                } else {
-                    toolbar.getBackground().setAlpha(255);
-                    title.setAlpha(1);
-                }
+        app_bar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            // 设置 toolbar 背景
+            if (verticalOffset > -alphaMaxOffset) {
+                toolbar.getBackground().setAlpha(255 * -verticalOffset / alphaMaxOffset);
+                title.setAlpha(1 * -verticalOffset / alphaMaxOffset);
+            } else {
+                toolbar.getBackground().setAlpha(255);
+                title.setAlpha(1);
             }
         });
 

@@ -2,47 +2,34 @@ package com.example.androidapp.UI.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.androidapp.adapter.RecommendPagerAdapter;
+import com.example.androidapp.R;
 import com.example.androidapp.activity.MainActivity;
 import com.example.androidapp.activity.QueryActivity;
-import com.example.androidapp.R;
-import com.example.androidapp.request.recommend.RecommendFitTeacherRequest;
+import com.example.androidapp.adapter.RecommendPagerAdapter;
+import com.example.androidapp.util.MyImageLoader;
 import com.google.android.material.tabs.TabLayout;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
 
     @BindView(R.id.imageButton)
-    ImageButton drawerBtn;
+    CircleImageView drawerBtn;
 
     @BindView(R.id.search_view)
     EditText searchView;
@@ -87,23 +74,13 @@ public class HomeFragment extends Fragment {
 
             }
         });
-
-
-        // btn = root.findViewById(R.id.button);
-
-
-
-
+        MyImageLoader.loadImage(drawerBtn);
         return root;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        btn.setOnClickListener(v -> {
-//            Intent intent = new Intent(getActivity(), LoginActivity.class);
-//            startActivity(intent);
-//        });
         drawerBtn.setOnClickListener(v -> {
             MainActivity parentActivity = (MainActivity) getActivity();
             parentActivity.openDrawer();

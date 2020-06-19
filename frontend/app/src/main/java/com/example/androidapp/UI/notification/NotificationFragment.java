@@ -2,11 +2,12 @@ package com.example.androidapp.UI.notification;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,26 +15,20 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.androidapp.R;
-import com.example.androidapp.activity.ChatActivity;
 import com.example.androidapp.activity.InfoActivity;
-import com.example.androidapp.activity.LoginActivity;
-import com.example.androidapp.chatTest.fixtures.DialogsFixtures;
+import com.example.androidapp.activity.MainActivity;
+import com.example.androidapp.activity.QueryActivity;
 import com.example.androidapp.chatTest.model.Dialog;
 import com.example.androidapp.chatTest.model.Message;
 import com.example.androidapp.chatTest.model.User;
 import com.example.androidapp.request.information.GetInformationDetailRequest;
 import com.example.androidapp.request.information.GetInformationRequest;
 import com.example.androidapp.request.information.SetInformationStateRequest;
-import com.example.androidapp.util.Hint;
-import com.google.android.material.tabs.TabLayout;
+import com.example.androidapp.util.MyImageLoader;
 import com.kingja.loadsir.core.LoadService;
-import com.kingja.loadsir.core.LoadSir;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.chatkit.commons.ImageLoader;
@@ -55,15 +50,20 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import javax.security.auth.PrivateCredentialPermission;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
 
 public class NotificationFragment extends Fragment implements DateFormatter.Formatter{
+
+  @BindView(R.id.imageButton)
+  CircleImageView drawerBtn;
+
+  @BindView(R.id.search_view)
+  EditText searchView;
 
   private NotificationViewModel notificationViewModel;
 
@@ -83,22 +83,25 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
   private LoadService loadService;
   private User user;
 
-  private TextView btnAllRead;
+  private Unbinder unbinder;
+
+  // 全标已读
+  @BindView(R.id.btn_all_read)
+  TextView btnAllRead;
 
   public View onCreateView(@NonNull LayoutInflater inflater,
                            ViewGroup container, Bundle savedInstanceState) {
 
     View root = inflater.inflate(R.layout.fragment_notification, container, false);
-    ButterKnife.bind(this,root);
+    unbinder = ButterKnife.bind(this,root);
+    MyImageLoader.loadImage(drawerBtn);
 
-    //全标已读
-    btnAllRead = root.findViewById(R.id.btn_all_read);
 
     //设置头像
     imageLoader = new ImageLoader() {
       @Override
       public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
-        Picasso.with(getContext()).load(url).placeholder(R.drawable.ic_person_outline_black_24dp).into(imageView);
+        MyImageLoader.loadImage(imageView, url);
       }
     };
     dialogsAdapter = new DialogsListAdapter<>(imageLoader);
@@ -320,5 +323,24 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
     } else {
       return DateFormatter.format(date, DateFormatter.Template.STRING_DAY_MONTH_YEAR);
     }
+  }
+
+  @Override
+  public void onActivityCreated(Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    drawerBtn.setOnClickListener(v -> {
+      MainActivity parentActivity = (MainActivity) getActivity();
+      parentActivity.openDrawer();
+    });
+    searchView.setOnClickListener(v -> {
+      Intent intent = new Intent(getActivity(), QueryActivity.class);
+      startActivity(intent);
+    });
+  }
+
+  @Override
+  public void onDestroyView() {
+    super.onDestroyView();
+    unbinder.unbind();
   }
 }

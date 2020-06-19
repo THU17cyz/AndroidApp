@@ -19,16 +19,17 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <ImageButton
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:padding="5dp"
             android:layout_weight="1"
             android:background="@color/transparent"
+            android:clickable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_dashboard_black_24dp" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/search_view"

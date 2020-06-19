@@ -4,6 +4,7 @@ import java.security.PublicKey;
 
 public class BasicInfo {
 
+  public static String PATH;
   public static String ACCOUNT = "account";
 
   public static int ID = 0;

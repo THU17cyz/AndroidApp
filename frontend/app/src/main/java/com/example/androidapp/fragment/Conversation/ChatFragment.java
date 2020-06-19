@@ -32,6 +32,7 @@ import com.example.androidapp.request.conversation.GetMessageRequest;
 import com.example.androidapp.request.conversation.GetNewMessagesRequest;
 import com.example.androidapp.request.user.GetInfoRequest;
 import com.example.androidapp.util.BasicInfo;
+import com.example.androidapp.util.MyImageLoader;
 import com.example.androidapp.viewmodel.ChatHistoryHasReadViewModel;
 import com.example.androidapp.viewmodel.ChatHistoryViewModel;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -99,7 +100,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
         imageLoader = new ImageLoader() {
             @Override
             public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
-                Picasso.with(getContext()).load("DDD").placeholder(R.drawable.ic_person_outline_black_24dp).into(imageView);
+                MyImageLoader.loadImage(imageView, "DDD");
                 // Log.d("url",url);
             }
         };
