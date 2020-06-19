@@ -93,7 +93,7 @@ public class LogonFragment1 extends Fragment {
         String password = passwordEditText.getText().toString();
         String repeatPassword = repeatPasswordEditText.getText().toString();
         if (!password.equals(repeatPassword))
-            Hint.showLongBottomToast(getContext(), "两次密码不一致！");
+            Hint.showLongBottomToast(getContext(), "重复密码不一致！");
         else
             new LogonRequest(handleLogon, type, account, password, "？").send();
     }

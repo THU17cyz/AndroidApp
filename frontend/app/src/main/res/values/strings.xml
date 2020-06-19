@@ -16,7 +16,9 @@
     <string name="GET_VERIFICATION_CODE">获取验证码</string>
     <string name="VERIFICATION_CODE">验证码</string>
     <string name="PASSWORD">密码</string>
-    <string name="SET_PASSWORD">设置密码</string>
+    <string name="OLD_PASSWORD">旧密码</string>
+    <string name="NEW_PASSWORD">新密码</string>
+    <string name="RESET_PASSWORD">修改密码</string>
     <string name="REPEAT_PASSWORD">重复密码</string>
     <string name="FORGET_PASSWORD">忘记密码</string>
     <string name="TYPE">类型</string>
