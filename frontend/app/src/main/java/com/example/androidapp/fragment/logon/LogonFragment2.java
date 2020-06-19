@@ -1,20 +1,23 @@
 package com.example.androidapp.fragment.logon;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
 
+import com.andreabaccega.widget.FormEditText;
 import com.example.androidapp.activity.LogonActivity;
 import com.example.androidapp.R;
 import com.example.androidapp.request.user.UpdateInfoRequest;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Hint;
+import com.example.androidapp.util.Valid;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -38,30 +41,65 @@ public class LogonFragment2 extends Fragment {
     Button nextButton;
 
     @BindView(R.id.logon2_name)
-    EditText nameEditText;
+    FormEditText nameEditText;
 
     @BindView(R.id.logon2_gender)
-    EditText genderEditText;
+    FormEditText genderEditText;
 
     @BindView(R.id.logon2_school)
-    EditText schoolEditText;
+    FormEditText schoolEditText;
 
     @BindView(R.id.logon2_department)
-    EditText departmentEditText;
+    FormEditText departmentEditText;
 
     private Unbinder unbinder;
 
     /******************************
      ************ 方法 ************
      ******************************/
-    public LogonFragment2() {
-        // TODO
-    }
+    public LogonFragment2() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_logon2, container, false);
         unbinder = ButterKnife.bind(this, view);
+        // 添加验证
+        nameEditText.addValidator(new Valid.NotBlankValidator());
+        nameEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { nameEditText.testValidity(); }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+        genderEditText.addValidator(new Valid.GenderValidator());
+        genderEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { genderEditText.testValidity(); }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+        schoolEditText.addValidator(new Valid.NotBlankValidator());
+        schoolEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { schoolEditText.testValidity(); }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+        departmentEditText.addValidator(new Valid.NotBlankValidator());
+        departmentEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { departmentEditText.testValidity(); }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
         return view;
     }
 
@@ -85,6 +123,10 @@ public class LogonFragment2 extends Fragment {
         String gender = genderEditText.getText().toString();
         String school = schoolEditText.getText().toString();
         String department = departmentEditText.getText().toString();
+        if (Valid.isBlank(name) || !Valid.isGender(gender) || Valid.isBlank(school) || Valid.isBlank(department)) {
+            Hint.showLongBottomToast(getContext(), "格式错误！");
+            return;
+        }
         new UpdateInfoRequest(handleUpdate, name, gender, school, department, null, null, null).send();
     }
 
@@ -96,7 +138,7 @@ public class LogonFragment2 extends Fragment {
         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
             try {
                 if (response.code() != 200) {
-                    requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), "更新失败..."));
+                    requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), "更新失败，请先注册！"));
                 } else {
                     ResponseBody responseBody = response.body();
                     String responseBodyString = responseBody != null ? responseBody.string() : "";
@@ -113,7 +155,7 @@ public class LogonFragment2 extends Fragment {
                     }
                 }
             } catch (JSONException e) {
-                requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), "更新失败..."));
+                requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), "更新失败，请稍后重试！"));
                 if (Global.HTTP_DEBUG_MODE)
                     Log.e("HttpResponse", e.toString());
             }
@@ -121,11 +163,9 @@ public class LogonFragment2 extends Fragment {
 
         @Override
         public void onFailure(@NotNull Call call, @NotNull IOException e) {
-            requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), "注册失败..."));
+            requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), "更新失败，请稍后重试！"));
             if (Global.HTTP_DEBUG_MODE)
                 Log.e("HttpError", e.toString());
         }
     };
-
-
 }

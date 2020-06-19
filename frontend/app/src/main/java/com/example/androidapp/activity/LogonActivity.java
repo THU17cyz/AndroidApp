@@ -38,7 +38,7 @@ public class LogonActivity extends BaseActivity {
         tabLayout.addTab(tabLayout.newTab().setText("信息完善"));
         tabLayout.addTab(tabLayout.newTab().setText("身份验证"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-//        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
         LogonPagerAdapter pagerAdapter = new LogonPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);

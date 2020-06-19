@@ -13,61 +13,65 @@
         android:layout_width="90dp"
         android:layout_height="wrap_content" />
 
-    <EditText
+    <com.andreabaccega.widget.FormEditText
         android:id="@+id/logon2_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@drawable/shape_username_box"
-        android:drawableLeft="@drawable/ic_person_black_24dp"
+        android:drawableStart="@drawable/png_black_24dp_name"
         android:drawablePadding="10dp"
         android:hint="@string/NAME"
         android:padding="15dp"
         android:textColor="@color/white"
         android:textColorHighlight="@color/white"
-        android:textColorHint="@color/white" />
+        android:textColorHint="@color/white"
+        app:emptyErrorString="@string/CANNOT_BE_NULL" />
 
-    <EditText
+    <com.andreabaccega.widget.FormEditText
         android:id="@+id/logon2_gender"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@drawable/shape_username_box"
-        android:drawableLeft="@drawable/ic_person_black_24dp"
+        android:drawableStart="@drawable/png_black_24dp_gender"
         android:drawablePadding="10dp"
         android:hint="@string/GENDER"
         android:padding="15dp"
         android:textColor="@color/white"
         android:textColorHighlight="@color/white"
-        android:textColorHint="@color/white" />
+        android:textColorHint="@color/white"
+        app:emptyErrorString="@string/CANNOT_BE_NULL" />
 
-    <EditText
+    <com.andreabaccega.widget.FormEditText
         android:id="@+id/logon2_school"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@drawable/shape_username_box"
-        android:drawableLeft="@drawable/ic_person_black_24dp"
+        android:drawableStart="@drawable/png_black_24dp_school"
         android:drawablePadding="10dp"
         android:hint="@string/SCHOOL"
         android:padding="15dp"
         android:textColor="@color/white"
         android:textColorHighlight="@color/white"
-        android:textColorHint="@color/white" />
+        android:textColorHint="@color/white"
+        app:emptyErrorString="@string/CANNOT_BE_NULL" />
 
-    <EditText
+    <com.andreabaccega.widget.FormEditText
         android:id="@+id/logon2_department"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@drawable/shape_username_box"
-        android:drawableLeft="@drawable/ic_person_black_24dp"
+        android:drawableStart="@drawable/png_black_24dp_department"
         android:drawablePadding="10dp"
         android:hint="@string/DEPARTMENT"
         android:padding="15dp"
         android:textColor="@color/white"
         android:textColorHighlight="@color/white"
-        android:textColorHint="@color/white" />
+        android:textColorHint="@color/white"
+        app:emptyErrorString="@string/CANNOT_BE_NULL" />
 
     <Button
         android:id="@+id/logon2_next"
@@ -81,6 +85,4 @@
         android:padding="15dp"
         android:shadowColor="@android:color/transparent"
         android:text="@string/SAVE" />
-
-
 </LinearLayout>
