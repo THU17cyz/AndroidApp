@@ -184,8 +184,10 @@ public class IntentFragment extends Fragment {
 
     private void visitHomePage(int position) {
         Intent intent = new Intent(getContext(), VisitHomePageActivity.class);
-        intent.putExtra("id", mIntentList.get(position).id);
-        intent.putExtra("isTeacher", mIntentList.get(position).isTeacher);
+        ShortIntent shortIntent = mIntentList.get(position);
+        intent.putExtra("id",shortIntent.id);
+        intent.putExtra("isTeacher", shortIntent.isTeacher);
+        intent.putExtra("isFan", shortIntent.isFan);
         startActivity(intent);
     }
     

@@ -180,8 +180,15 @@ public class FollowListFragment extends Fragment {
 
     private void visitHomePage(boolean isTop,  int position) {
         Intent intent = new Intent(getContext(), VisitHomePageActivity.class);
-        if (isTop) intent.putExtra("profile", tProfileList.get(position));
-        else intent.putExtra("profile", sProfileList.get(position));
+        ShortProfile shortProfile;
+        if (isTop) {
+            shortProfile = tProfileList.get(position);
+        } else {
+            shortProfile = sProfileList.get(position);
+        }
+        intent.putExtra("id",shortProfile.id);
+        intent.putExtra("isTeacher", shortProfile.isTeacher);
+        intent.putExtra("isFan", shortProfile.isFan);
         startActivity(intent);
     }
 

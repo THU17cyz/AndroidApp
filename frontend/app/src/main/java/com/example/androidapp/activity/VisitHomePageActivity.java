@@ -5,39 +5,50 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.androidapp.R;
 import com.example.androidapp.adapter.HomepagePagerAdapter;
+import com.example.androidapp.component.FocusButton;
+import com.example.androidapp.entity.ApplicationInfo;
+import com.example.androidapp.entity.EnrollmentInfo;
 import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.entity.WholeProfile;
 import com.example.androidapp.fragment.homepage.SelfInfoFragment;
 import com.example.androidapp.fragment.homepage.StudyInfoFragment;
+import com.example.androidapp.request.follow.AddToWatchRequest;
+import com.example.androidapp.request.follow.DeleteFromWatchRequest;
+import com.example.androidapp.request.intention.GetApplyIntentionDetailRequest;
+import com.example.androidapp.request.intention.GetApplyIntentionRequest;
+import com.example.androidapp.request.intention.GetRecruitIntentionDetailRequest;
+import com.example.androidapp.request.intention.GetRecruitIntentionRequest;
 import com.example.androidapp.request.user.GetInfoPlusRequest;
 import com.example.androidapp.request.user.GetInfoRequest;
+import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.SizeConverter;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.Response;
 
 public class VisitHomePageActivity extends AppCompatActivity {
@@ -73,7 +84,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
 //    ImageView btn_return;
 
     @BindView(R.id.btn_focus)
-    Button btn_focus;
+    FocusButton btn_focus;
 
     @BindView(R.id.btn_chat)
     Button btn_chat;
@@ -91,6 +102,8 @@ public class VisitHomePageActivity extends AppCompatActivity {
 
     int id;
     String type;
+    boolean isFan;
+    boolean isTeacher;
 
     public String mTitle;
     public String mMajor;
@@ -116,6 +129,9 @@ public class VisitHomePageActivity extends AppCompatActivity {
     public String mResult;
     public String mExperience;
 
+    public ArrayList<ApplicationInfo> mApplicationList;
+    public ArrayList<EnrollmentInfo> mRecruitmentList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,12 +143,15 @@ public class VisitHomePageActivity extends AppCompatActivity {
 
         id = intent.getIntExtra("id", -1);
         boolean isTeacher = intent.getBooleanExtra("isTeacher", true);
+        isFan = intent.getBooleanExtra("isFan", true);
 
         if (isTeacher) {
             type = "T";
         } else {
             type = "S";
         }
+        mApplicationList = new ArrayList<>();
+        mRecruitmentList = new ArrayList<>();
 
         ImmersionBar.with(this).statusBarColor(R.color.transparent).init();
 
@@ -193,9 +212,11 @@ public class VisitHomePageActivity extends AppCompatActivity {
         });
 
         btn_chat.setOnClickListener(v -> {
+            // TODO
             Intent intent1 =new Intent(VisitHomePageActivity.this, ChatActivity.class);
             startActivity(intent1);
         });
+        btn_focus.setPressed_(isFan);
 
         final int alphaMaxOffset = SizeConverter.dpToPx(150);
         toolbar.getBackground().setAlpha(0);
@@ -216,6 +237,62 @@ public class VisitHomePageActivity extends AppCompatActivity {
             this.finish();
         });
         getInfo();
+    }
+
+    // TODO 还有bug
+    @OnClick(R.id.btn_focus)
+    void watchOrUnwatch() {
+        btn_focus.startLoading(() -> {
+            if (isFan) {
+                new DeleteFromWatchRequest(new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                        Log.e("error1", e.toString());
+                        runOnUiThread(btn_focus::clickFail);
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        String resStr = response.body().string();
+                        Log.e("response", resStr);
+                        try {
+                            JSONObject jsonObject = new JSONObject(resStr);
+                            isFan = false;
+                            runOnUiThread(btn_focus::clickSuccess);
+
+//                            loadService.showSuccess();
+                        } catch (JSONException e) {
+                            Log.e("error2", e.toString());
+                            runOnUiThread(btn_focus::clickFail);
+                        }
+
+                    }
+                }, String.valueOf(id), isTeacher).send();
+            } else {
+                new AddToWatchRequest(new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                        Log.e("error1", e.toString());
+                        runOnUiThread(btn_focus::clickFail);
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        String resStr = response.body().string();
+                        Log.e("response", resStr);
+                        try {
+                            JSONObject jsonObject = new JSONObject(resStr);
+                            isFan = true;
+                            runOnUiThread(btn_focus::clickSuccess);
+                        } catch (JSONException e) {
+                            Log.e("error2", e.toString());
+                            runOnUiThread(btn_focus::clickFail);
+                        }
+
+                    }
+                }, String.valueOf(id), isTeacher).send();
+            }
+        });
     }
 
 
@@ -331,5 +408,148 @@ public class VisitHomePageActivity extends AppCompatActivity {
                 }
             }
         }, type_, teacher_id, student_id).send();
+        getIntentionInfo();
+
+    }
+
+    private void getIntentionInfo() {
+        if (type.equals("T")) {
+            // 获取招收意向id列表
+            new GetRecruitIntentionRequest(new okhttp3.Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    Log.e("error", e.toString());
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    String resStr = response.body().string();
+                    Log.e("response", resStr);
+                    try {
+                        // 解析json，然后进行自己的内部逻辑处理
+                        JSONObject jsonObject = new JSONObject(resStr);
+
+                        Boolean status = jsonObject.getBoolean("status");
+                        if(status){
+                            JSONArray array = jsonObject.getJSONArray("recruitment_id_list");
+                            List<Integer> enrollmentIdList = new ArrayList<>();
+                            for (int i=0;i<array.length();i++){
+                                enrollmentIdList.add(array.getInt(i));
+                            }
+
+                            // 按id获取招收意向
+
+                            if(enrollmentIdList!=null){
+                                for(int i=0;i<enrollmentIdList.size();i++){
+                                    new GetRecruitIntentionDetailRequest(new okhttp3.Callback() {
+                                        @Override
+                                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                            Log.e("error", e.toString());
+                                        }
+
+                                        @Override
+                                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                            String resStr = response.body().string();
+                                            Log.e("response", resStr);
+                                            try {
+                                                // 解析json，然后进行自己的内部逻辑处理
+                                                JSONObject jsonObject = new JSONObject(resStr);
+
+                                                Boolean status = jsonObject.getBoolean("status");
+                                                if(status){
+                                                    EnrollmentInfo enrollmentInfo = new EnrollmentInfo(
+                                                            jsonObject.getString("research_fields"),
+                                                            jsonObject.getString("recruitment_type"),
+                                                            String.valueOf(jsonObject.getInt("recruitment_number")),
+                                                            jsonObject.getString("intention_state"),
+                                                            jsonObject.getString("introduction")
+                                                    );
+                                                    mRecruitmentList.add(enrollmentInfo);
+
+                                                } else {
+                                                    String info = jsonObject.getString("info");
+                                                }
+                                            } catch (JSONException e) {
+
+                                            }
+                                        }
+                                    },String.valueOf(enrollmentIdList.get(i))).send();
+                                }
+                            }
+
+                        }else{
+                            String info = jsonObject.getString("info");
+                        }
+                    } catch (JSONException e) {
+
+                    }
+                }
+            },String.valueOf(BasicInfo.ID)).send();
+        } else {
+            // 获取申请意向id列表
+            new GetApplyIntentionRequest(new okhttp3.Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    Log.e("error", e.toString());
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    String resStr = response.body().string();
+                    Log.e("response", resStr);
+                    try {
+                        // 解析json，然后进行自己的内部逻辑处理
+                        JSONObject jsonObject = new JSONObject(resStr);
+
+                        Boolean status = jsonObject.getBoolean("status");
+                        if(status){
+                            JSONArray array = jsonObject.getJSONArray("application_id_list");
+                            List<Integer> applicationIdList = new ArrayList<>();
+                            for (int i=0;i<array.length();i++){
+                                applicationIdList.add(array.getInt(i));
+                            }
+                            // 按id获取申请意向
+                            if(applicationIdList != null){
+                                for(int i=0;i<applicationIdList.size();i++){
+                                    new GetApplyIntentionDetailRequest(new okhttp3.Callback() {
+                                        @Override
+                                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                            Log.e("error", e.toString());
+                                        }
+
+                                        @Override
+                                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                            String resStr = response.body().string();
+                                            Log.e("response", resStr);
+                                            try {
+                                                // 解析json，然后进行自己的内部逻辑处理
+                                                JSONObject jsonObject = new JSONObject(resStr);
+                                                Boolean status = jsonObject.getBoolean("status");
+                                                if(status){
+                                                    ApplicationInfo applicationInfo = new ApplicationInfo(
+                                                            jsonObject.getString("research_interests"),
+                                                            jsonObject.getString("intention_state"),
+                                                            jsonObject.getString("introduction")
+                                                    );
+                                                    mApplicationList.add(applicationInfo);
+                                                } else {
+                                                    String info = jsonObject.getString("info");
+                                                }
+                                            } catch (JSONException e) {
+
+                                            }
+                                        }
+                                    }, String.valueOf(applicationIdList.get(i))).send();
+                                }
+                            }
+                        } else {
+                            String info = jsonObject.getString("info");
+                        }
+                    } catch (JSONException e) {
+
+                    }
+                }
+            },String.valueOf(BasicInfo.ID)).send();
+        }
     }
 }

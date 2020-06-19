@@ -17,6 +17,7 @@ public class ShortIntent implements Parcelable {
     public String recruitType;
     public String target;
     public int relate;
+    public boolean isFan;
 
     public ShortIntent(JSONObject jsonObject, boolean isTeacher) throws JSONException {
         this.isTeacher = isTeacher;
@@ -36,6 +37,7 @@ public class ShortIntent implements Parcelable {
             this.school = jsonObject.getString("student_school");
             this.department = jsonObject.getString("student_department");
         }
+//        this.isFan = jsonObject.getBoolean("is_followed");
         this.intentionState = jsonObject.getString("intention_state");
         this.relate = jsonObject.getInt("match_degree");
     }

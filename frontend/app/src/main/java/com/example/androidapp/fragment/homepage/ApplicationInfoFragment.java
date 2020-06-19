@@ -1,6 +1,7 @@
 package com.example.androidapp.fragment.homepage;
 
 
+import android.app.Activity;
 import android.app.Application;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,8 +16,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.androidapp.UI.dashboard.DashboardFragment;
 import com.example.androidapp.activity.LogonActivity;
 import com.example.androidapp.R;
+import com.example.androidapp.activity.MainActivity;
+import com.example.androidapp.activity.VisitHomePageActivity;
 import com.example.androidapp.adapter.ApplicationListAdapter;
 import com.example.androidapp.adapter.ShortProfileAdapter;
 import com.example.androidapp.component.FocusButton;
@@ -67,132 +71,23 @@ public class ApplicationInfoFragment extends Fragment {
     adapter = new ApplicationListAdapter(mApplicationList, getContext());
     adapter.setRecyclerManager(recyclerView);
 
-    // 获取申请意向id列表
-    new GetApplyIntentionRequest(new okhttp3.Callback() {
-      @Override
-      public void onFailure(@NotNull Call call, @NotNull IOException e) {
-        Log.e("error", e.toString());
-      }
-
-      @Override
-      public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-        String resStr = response.body().string();
-        getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-        Log.e("response", resStr);
-        try {
-          // 解析json，然后进行自己的内部逻辑处理
-          JSONObject jsonObject = new JSONObject(resStr);
-
-          Boolean status = jsonObject.getBoolean("status");
-          if(status){
-            JSONArray array = jsonObject.getJSONArray("application_id_list");
-            applicationIdList = new ArrayList<>();
-            for (int i=0;i<array.length();i++){
-              applicationIdList.add(array.getInt(i));
-            }
-
-            // 按id获取申请意向
-            if(applicationIdList!=null){
-              for(int i=0;i<applicationIdList.size();i++){
-                new GetApplyIntentionDetailRequest(new okhttp3.Callback() {
-                  @Override
-                  public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    Log.e("error", e.toString());
-                  }
-
-                  @Override
-                  public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    String resStr = response.body().string();
-                    getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-                    Log.e("response", resStr);
-                    try {
-                      // 解析json，然后进行自己的内部逻辑处理
-                      JSONObject jsonObject = new JSONObject(resStr);
-
-                      Boolean status = jsonObject.getBoolean("status");
-                      if(status){
-                        ApplicationInfo applicationInfo = new ApplicationInfo(
-                                jsonObject.getString("research_interests"),
-                                jsonObject.getString("intention_state"),
-                                jsonObject.getString("introduction")
-                        );
-
-                        getActivity().runOnUiThread(new Runnable() {
-                          @Override
-                          public void run() {
-                            mApplicationList.add(applicationInfo);
-                            adapter.notifyDataSetChanged();
-                          }
-                        });
-
-
-                      }else{
-                        String info = jsonObject.getString("info");
-                        getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
-                      }
-                    } catch (JSONException e) {
-
-                    }
-                  }
-                },String.valueOf(applicationIdList.get(i))).send();
-              }
-            }
-
-
-          }else{
-            String info = jsonObject.getString("info");
-            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
-          }
-        } catch (JSONException e) {
-
-        }
-      }
-    },String.valueOf(BasicInfo.ID)).send();
-
-//    // 按id获取申请意向
-//    mApplicationList = new ArrayList<>();
-//    if(applicationIdList!=null){
-//      for(int i=0;i<applicationIdList.size();i++){
-//        new GetApplyIntentionDetailRequest(new okhttp3.Callback() {
-//          @Override
-//          public void onFailure(@NotNull Call call, @NotNull IOException e) {
-//            Log.e("error", e.toString());
-//          }
-//
-//          @Override
-//          public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-//            String resStr = response.body().string();
-//            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-//            Log.e("response", resStr);
-//            try {
-//              // 解析json，然后进行自己的内部逻辑处理
-//              JSONObject jsonObject = new JSONObject(resStr);
-//
-//              Boolean status = jsonObject.getBoolean("status");
-//              if(status){
-//                ApplicationInfo applicationInfo = new ApplicationInfo(
-//                        jsonObject.getString("research_interests"),
-//                        jsonObject.getString("intention_state"),
-//                        jsonObject.getString("introduction")
-//                );
-//                mApplicationList.add(applicationInfo);
-//              }else{
-//                String info = jsonObject.getString("info");
-//                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
-//              }
-//            } catch (JSONException e) {
-//
-//            }
-//          }
-//        },String.valueOf(applicationIdList.get(i)));
-//      }
-//    }
-
-//    mApplicationList.add(new ApplicationInfo("计算机图形学", "进行中", "我是xxx"));
-//    mApplicationList.add(new ApplicationInfo("物联网", "进行中", "我是xxx"));
 
 
     return view;
+  }
+
+  public void setInfo() {
+    mApplicationList.clear();
+    Activity activity = getActivity();
+    if (activity instanceof MainActivity) {
+      DashboardFragment fragment = (DashboardFragment) ApplicationInfoFragment.this.getParentFragment();
+      mApplicationList.addAll(fragment.mApplicationList);
+    }
+    else {
+      VisitHomePageActivity activity_ = (VisitHomePageActivity) activity;
+      mApplicationList.addAll(activity_.mApplicationList);
+    }
+    adapter.notifyDataSetChanged();
   }
 
 }

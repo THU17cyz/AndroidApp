@@ -157,8 +157,10 @@ public class ProfileListFragment extends Fragment {
 
     private void visitHomePage(int position) {
         Intent intent = new Intent(getContext(), VisitHomePageActivity.class);
-        intent.putExtra("id", mProfileList.get(position).id);
-        intent.putExtra("isTeacher", mProfileList.get(position).isTeacher);
+        ShortProfile shortProfile = mProfileList.get(position);
+        intent.putExtra("id",shortProfile.id);
+        intent.putExtra("isTeacher", shortProfile.isTeacher);
+        intent.putExtra("isFan", shortProfile.isFan);
         startActivity(intent);
     }
 }

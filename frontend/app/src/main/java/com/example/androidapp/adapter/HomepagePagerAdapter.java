@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.example.androidapp.fragment.homepage.ApplicationInfoFragment;
-import com.example.androidapp.fragment.homepage.EnrollmentInfoFragment;
+import com.example.androidapp.fragment.homepage.RecruitmentInfoFragment;
 import com.example.androidapp.fragment.homepage.SelfInfoFragment;
 import com.example.androidapp.fragment.homepage.StudyInfoFragment;
 
@@ -41,7 +41,7 @@ public class HomepagePagerAdapter extends FragmentStatePagerAdapter {
         if (type.equals("S")){
           return new ApplicationInfoFragment();
         } else {
-          return new EnrollmentInfoFragment();
+          return new RecruitmentInfoFragment();
         }
       default: return null;
     }
