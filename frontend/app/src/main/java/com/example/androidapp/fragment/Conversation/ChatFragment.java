@@ -26,6 +26,7 @@ import com.example.androidapp.chatTest.model.User;
 import com.example.androidapp.R;
 import com.example.androidapp.repository.chathistory.ChatHistory;
 import com.example.androidapp.repository.chathistoryhasread.ChatHistoryHasRead;
+import com.example.androidapp.request.conversation.GetAllMessagesRequest;
 import com.example.androidapp.request.conversation.GetContactListRequest;
 import com.example.androidapp.request.conversation.GetMessageDetailRequest;
 import com.example.androidapp.request.conversation.GetMessageRequest;
@@ -69,14 +70,10 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
     private DialogsListAdapter dialogsAdapter;
     private ImageLoader imageLoader;
 
-    private List<Integer> contactIdList;
-    private List<String> contactList;
-    private List<Dialog> dialogList;
     private int currentMessageId;
     private int messageId;
     private List<Integer> messageIdList;
     private ChatHistoryViewModel chatHistoryViewModel;
-    private ChatHistoryHasReadViewModel chatHistoryHasReadViewModel;
     private String userAccount;
 
     private ArrayList<Dialog> dialogs;
@@ -96,7 +93,6 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
         View root = inflater.inflate(R.layout.fragment_chat, container, false);
 
         dialogsList = root.findViewById(R.id.dialogsList);
-
         imageLoader = new ImageLoader() {
             @Override
             public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
@@ -115,15 +111,15 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
 
         User user  =new User("0","ming","http://i.imgur.com/pv1tBmT.png",false);
         dialogs = new ArrayList<>();
-        Dialog dialog = new Dialog("0","联系人一","http://i.imgur.com/pv1tBmT.png",
-                new ArrayList<User>(Arrays.asList(user)),
-                new Message("0",user,"一句话"),4);
-        dialogs.add(dialog);
+//        Dialog dialog = new Dialog("0","联系人一","http://i.imgur.com/pv1tBmT.png",
+//                new ArrayList<User>(Arrays.asList(user)),
+//                new Message("0",user,"一句话"),4);
+//        dialogs.add(dialog);
 
         dialogsAdapter.setItems(dialogs);
-        dialogs.add(dialog);
-        dialogsAdapter.notifyDataSetChanged();
+
         dialogsAdapter.setDatesFormatter(this);
+
         dialogsAdapter.setOnDialogClickListener(new DialogsListAdapter.OnDialogClickListener() {
             @Override
             public void onDialogClick(IDialog dialog) {
@@ -149,13 +145,6 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
                 refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
             }
         });
-        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(RefreshLayout refreshlayout) {
-                refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
-            }
-        });
-
 
         chatHistoryViewModel = ViewModelProviders.of(getActivity()).get(ChatHistoryViewModel.class);
         chatHistoryViewModel.getAllHistory().observe(getActivity(), new Observer<List<ChatHistory>>() {
@@ -164,7 +153,6 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
 
             }
         });
-        chatHistoryHasReadViewModel = ViewModelProviders.of(this).get(ChatHistoryHasReadViewModel.class);
 
         Button button = root.findViewById(R.id.btn_refresh);
         button.setOnClickListener(new View.OnClickListener() {
@@ -179,7 +167,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new GetContactListRequest(new okhttp3.Callback() {
+                new GetContactListRequest(new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
                         Log.e("error", e.toString());
@@ -242,21 +230,187 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
 
             }
         });
-//
-
 
         // test();
 
-        refreshData();
+        // refreshData();
         return root;
 
     }
 
+    int num = 0;
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // refreshData();
+        Log.e("次数","onActivityCreated");
+        num++;
+
+        if(type==0){
+            newTest();
+        }
+        // newTest();
     }
+
+    public void newTest(){
+        // 初步构造联系人列表
+//        chatHistoryViewModel.insert(new ChatHistory(new Date(),"第一条","T","S","T4","S0"));
+//        chatHistoryViewModel.insert(new ChatHistory(new Date(),"第二条","T","S","T4","S1"));
+//        chatHistoryViewModel.insert(new ChatHistory(new Date(),"第三条","T","S","T4","S2"));
+//        chatHistoryViewModel.insert(new ChatHistory(new Date(),"第四条","T","S","T4","S3"));
+//        chatHistoryViewModel.insert(new ChatHistory(new Date(),"第五条","T","S","T4","S4"));
+//        chatHistoryViewModel.insert(new ChatHistory(new Date(),"第六条","T","S","T4","S5"));
+        LiveData<List<ChatHistory>> list = chatHistoryViewModel.getAllHistory();
+        List<ChatHistory> chatList = list.getValue();
+        if(chatList==null){
+            Toast.makeText(getActivity(),"出错null",Toast.LENGTH_SHORT).show();
+            Log.e("错误","数据库获取为null");
+        }
+        else {
+            List<String> accounts = new ArrayList<>();//对方列表
+            List<String> messages = new ArrayList<>();//对方最新消息列表
+            List<Date> dates = new ArrayList<>();//对方最新消息时间列表
+            for(int i=0;i<chatList.size();i++){
+                ChatHistory chat = chatList.get(i);
+                // 判断是否为当前用户的消息
+                if(chat.getUser().equals(BasicInfo.ACCOUNT)){
+
+                    if(accounts.contains(chat.getContact())){
+                        // 如果已经在列表中则更新最新消息
+                        int index = accounts.indexOf(chat.getContact());
+                        messages.set(index,chat.getContent());
+                        dates.set(index,chat.getTime());
+                    } else {
+                        // 如果不在则加入
+                        accounts.add(chat.getContact());
+                        messages.add(chat.getContent());
+                        dates.add(chat.getTime());
+                    }
+                }
+            }
+            for(int i=0;i<accounts.size();i++){
+                User user = new User("",accounts.get(i),"",accounts.get(i),"");
+                Message message = new Message("",user,messages.get(i),dates.get(i));
+                Dialog dialog = new Dialog(String.valueOf(i),accounts.get(i),"",
+                        new ArrayList<>(Arrays.asList(user)),
+                        message,0);
+                dialogs.add(dialog);
+                dialogsAdapter.notifyDataSetChanged();
+            }
+        }
+
+        // 网络请求聊天记录
+        new GetMessageRequest(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.e("error","获取最新id失败");
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String resStr = response.body().string();
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(resStr);
+                    Boolean status = jsonObject.getBoolean("status");
+                    if(status){
+                        messageId = jsonObject.getInt("message_id");
+                        if(messageId==-1){
+                            // 无消息
+                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("data",Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putInt(BasicInfo.ACCOUNT,0);
+                            editor.commit();
+                        } else if(messageId==currentMessageId){
+                            // 无新操作
+                        } else if(messageId>currentMessageId){
+                            new GetNewMessagesRequest(new Callback() {
+                                @Override
+                                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                    Log.e("error","获取最新消息失败");
+                                }
+
+                                @Override
+                                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                    String resStr = response.body().string();
+                                    JSONObject jsonObject = null;
+                                    try {
+                                        jsonObject = new JSONObject(resStr);
+                                        Boolean status = jsonObject.getBoolean("status");
+                                        if (status) {
+                                            JSONArray jsonArray = (JSONArray) jsonObject.get("message_info_list");
+                                            for (int i = 0; i < jsonArray.length(); i++){
+                                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                                int messageId = jsonObject1.getInt("message_id");
+                                                String objectType = jsonObject1.getString("object_type");
+                                                String objectId = jsonObject1.getString("object_id");
+                                                String objectAccount = jsonObject1.getString("object_account");
+                                                String objectName = jsonObject1.getString("object_name");
+                                                String messageWay = jsonObject1.getString("message_way");
+                                                String messageType = jsonObject1.getString("message_type");
+                                                String messageContent = jsonObject1.getString("message_content");
+                                                String messageTime = jsonObject1.getString("message_time");
+
+                                                SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm" );
+                                                chatHistoryViewModel.insert(new ChatHistory(sdf.parse(messageTime),messageContent,messageType,messageWay,BasicInfo.ACCOUNT,objectAccount));
+                                                boolean hasMatched = false;
+                                                for (int idx=0;idx<dialogs.size();idx++){
+                                                    if(dialogs.get(idx).getUsers().get(0).getAccount().equals(objectAccount)){
+                                                        // todo 异步
+                                                        // 如果有重名则更新
+                                                        dialogs.get(idx).getLastMessage().setText(messageContent);
+                                                        dialogs.get(idx).getLastMessage().setCreatedAt(sdf.parse(messageTime));
+                                                        // 不知道要不要uiThread
+                                                        getActivity().runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                dialogsAdapter.notifyDataSetChanged();
+                                                            }
+                                                        });
+
+                                                        hasMatched = true;
+                                                        break;
+                                                    }
+                                                }
+                                                if(hasMatched==false){
+                                                    // 没匹配到则加项
+                                                    User user = new User("",objectAccount,"",objectAccount,"");
+                                                    Message message = new Message("",user,messageContent,sdf.parse(messageTime));
+                                                    Dialog dialog = new Dialog(String.valueOf(i),objectAccount,"",
+                                                            new ArrayList<>(Arrays.asList(user)),
+                                                            message,0);
+                                                    dialogs.add(dialog);
+                                                    getActivity().runOnUiThread(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            dialogsAdapter.notifyDataSetChanged();
+                                                        }
+                                                    });
+
+                                                }
+                                            }
+                                        } else {
+                                        }
+                                    } catch (JSONException | ParseException e) {
+                                        e.printStackTrace();
+                                    }
+
+
+                                }
+                            },String.valueOf(currentMessageId)).send();
+                        }
+                    } else {
+                        String info = jsonObject.getString("info");
+                        Log.e("error",info);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).send();
+
+    }
+
 
 
     private void refreshData(){
@@ -403,18 +557,19 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
                                                                 index[0]++;
 
                                                             }else{
-                                                                String info = jsonObject.getString("info");
                                                                 index[0]++;
+                                                                String info = jsonObject.getString("info");
+
                                                             }
                                                         } catch (JSONException | ParseException e) {
-                                                            index[0]++;
+
                                                         }
                                                     }
 
                                                     @Override
                                                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                                                        Log.e("error", e.toString());
                                                         index[0]++;
+                                                        Log.e("error", e.toString());
                                                     }
                                                 },String.valueOf(messageIdList.get(index[0]))).send();
                                             }
@@ -527,7 +682,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
     }
 
     private void test(){
-        new GetContactListRequest(new okhttp3.Callback() {
+        new GetContactListRequest(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Log.e("error", e.toString());
@@ -567,11 +722,11 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
 //                                    }
 
                                     // 获取未读信息
-                                    List<ChatHistoryHasRead> chatHistoryHasReadList = chatHistoryHasReadViewModel.getUserContactHistory(userAccount,objectAccount).getValue();
-                                    ChatHistoryHasRead chatHistoryHasRead = null;
-                                    if(chatHistoryHasReadList!=null){
-                                        chatHistoryHasRead = chatHistoryHasReadList.get(0);
-                                    }
+//                                    List<ChatHistoryHasRead> chatHistoryHasReadList = chatHistoryHasReadViewModel.getUserContactHistory(userAccount,objectAccount).getValue();
+//                                    ChatHistoryHasRead chatHistoryHasRead = null;
+//                                    if(chatHistoryHasReadList!=null){
+//                                        chatHistoryHasRead = chatHistoryHasReadList.get(0);
+//                                    }
 
                                     // 构造联系人列表
 
@@ -638,5 +793,18 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
         } else {
             return DateFormatter.format(date, DateFormatter.Template.STRING_DAY_MONTH_YEAR);
         }
+    }
+}
+
+class Item{
+    public String account;
+    public String avatar;
+    public String message;
+    public Date date;
+
+    public Item(String account, String message, Date date) {
+        this.account = account;
+        this.message = message;
+        this.date = date;
     }
 }

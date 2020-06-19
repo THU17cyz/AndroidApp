@@ -24,6 +24,7 @@ import com.example.androidapp.UI.follow.FollowFragment;
 import com.example.androidapp.UI.home.HomeFragment;
 import com.example.androidapp.UI.notification.NotificationFragment;
 import com.example.androidapp.application.App;
+import com.example.androidapp.repository.chathistory.ChatHistory;
 import com.example.androidapp.request.user.GetInfoPictureRequest;
 import com.example.androidapp.request.user.GetInfoRequest;
 import com.example.androidapp.request.user.LogoutRequest;
@@ -32,6 +33,7 @@ import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.MyImageLoader;
 //import com.example.androidapp.util.MyOkHttpDownloader;
 import com.example.androidapp.util.Uri2File;
+import com.example.androidapp.viewmodel.ChatHistoryViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gyf.immersionbar.ImmersionBar;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -54,6 +56,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
@@ -95,6 +99,8 @@ public class MainActivity extends BaseActivity {
     public static Handler msgHandler;
 
     private NavController navController;
+
+    private ChatHistoryViewModel chatHistoryViewModel;
 
     @SuppressLint("HandlerLeak")
     @Override
@@ -173,6 +179,13 @@ public class MainActivity extends BaseActivity {
 //                });
 
 
+
+        chatHistoryViewModel = ViewModelProviders.of(this).get(ChatHistoryViewModel.class);
+        chatHistoryViewModel.getAllHistory().observe(this, new Observer<List<ChatHistory>>() {
+            @Override
+            public void onChanged(List<ChatHistory> chatHistories) {
+            }
+        });
 
         ImmersionBar.with(this)
                 .statusBarColor(R.color.white)
