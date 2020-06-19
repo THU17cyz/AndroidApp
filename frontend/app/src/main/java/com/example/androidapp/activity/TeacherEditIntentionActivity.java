@@ -24,9 +24,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class TeacherEditIntentionActivity extends BaseActivity {
-
-
-
   private EditEnrollmentListAdapter adapter;
 
   @Override
