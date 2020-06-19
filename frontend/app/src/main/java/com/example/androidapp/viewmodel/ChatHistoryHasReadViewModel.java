@@ -25,15 +25,12 @@ public class ChatHistoryHasReadViewModel extends AndroidViewModel {
   public ChatHistoryHasReadViewModel(@NonNull Application application) {
     super(application);
     this.application=application;
+    mRepository = new ChatHistoryHasReadRepository(application);
   }
 
-  public void initData(String user){
-    this.user=user;
-    mRepository = new ChatHistoryHasReadRepository(application,user);
-    mChatHistory = mRepository.getAllHistory();
-  }
+  public LiveData<List<ChatHistoryHasRead>> getUserHistory(String user) { return mRepository.getUserHistory(user); }
 
-  public LiveData<List<ChatHistoryHasRead>> getAllHistory() { return mChatHistory; }
+  public LiveData<List<ChatHistoryHasRead>> getUserContactHistory(String user,String contact) { return mRepository.getUserContactHistory(user,contact); }
 
   public void insert(ChatHistoryHasRead chatHistoryHasRead) { mRepository.insert(chatHistoryHasRead); }
 

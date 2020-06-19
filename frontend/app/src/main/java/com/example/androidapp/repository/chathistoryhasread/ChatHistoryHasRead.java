@@ -27,11 +27,15 @@ public class ChatHistoryHasRead {
   @ColumnInfo(name = "number")
   private int number;
 
-  public ChatHistoryHasRead(String user, String contact, Boolean hasRead, int number) {
+  @ColumnInfo(name = "lastMessage")
+  private String lastMessage;
+
+  public ChatHistoryHasRead(String user, String contact, Boolean hasRead, int number, String lastMessage) {
     this.user = user;
     this.contact = contact;
     this.hasRead = hasRead;
     this.number = number;
+    this.lastMessage = lastMessage;
   }
 
   public int getId() {
@@ -72,5 +76,13 @@ public class ChatHistoryHasRead {
 
   public void setNumber(int number) {
     this.number = number;
+  }
+
+  public String getLastMessage() {
+    return lastMessage;
+  }
+
+  public void setLastMessage(String lastMessage) {
+    this.lastMessage = lastMessage;
   }
 }

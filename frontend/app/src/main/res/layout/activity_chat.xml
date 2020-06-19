@@ -32,12 +32,19 @@
 
 
 
-    <com.stfalcon.chatkit.messages.MessagesList
-        android:layout_above="@id/input"
-        android:id="@+id/messagesList"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
+        android:layout_above="@id/input"
+        >
+
+    <com.stfalcon.chatkit.messages.MessagesList
+        android:id="@+id/messagesList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
 
         app:dateHeaderFormat="dd MMMM yyyy"
         app:incomingDefaultBubbleColor="@color/ivory"
@@ -57,6 +64,8 @@
         app:outcomingTextLinkColor="@color/brown"
         app:outcomingTextSize="18sp"
         app:textAutoLink="all" />
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 
     <!--    <View-->

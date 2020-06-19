@@ -15,27 +15,17 @@ public class ChatHistoryViewModel extends AndroidViewModel  {
 
     private ChatHistoryRepository mRepository;
 
-    private LiveData<List<ChatHistory>> mChatHistory;
+    private LiveData<List<ChatHistory>> mAllHistory;
 
-
-    private String user;
-    private String contact;
-    private Application application;
 
     public ChatHistoryViewModel(@NonNull Application application) {
         super(application);
-        this.application=application;
+        mRepository = new ChatHistoryRepository(application);
+        mAllHistory = mRepository.getAllHistory();
     }
 
 
-    public void initData(String user, String contact){
-        this.user=user;
-        this.contact=contact;
-        mRepository = new ChatHistoryRepository(application,user,contact);
-        mChatHistory = mRepository.getChatHistory();
-    }
-
-    public LiveData<List<ChatHistory>> getChatHistory() { return mChatHistory; }
+    public LiveData<List<ChatHistory>> getAllHistory() { return mAllHistory; }
 
     public void insert(ChatHistory chatHistory) { mRepository.insert(chatHistory); }
 

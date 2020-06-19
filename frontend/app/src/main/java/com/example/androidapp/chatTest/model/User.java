@@ -12,11 +12,38 @@ public class User implements IUser {
     private String avatar;
     private boolean online;
 
+    private String account;
+    private String type;
+
     public User(String id, String name, String avatar, boolean online) {
         this.id = id;
         this.name = name;
         this.avatar = avatar;
         this.online = online;
+    }
+
+    public User(String id, String name, String avatar, String account, String type) {
+        this.id = id;
+        this.name = name;
+        this.avatar = avatar;
+        this.account = account;
+        this.type = type;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override

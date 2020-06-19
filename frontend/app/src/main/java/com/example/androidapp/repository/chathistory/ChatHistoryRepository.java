@@ -14,29 +14,16 @@ import java.util.List;
 public class ChatHistoryRepository {
     private ChatHistoryDao mChatHistoryDao;
     private LiveData<List<ChatHistory>> mAllHistory;
-    private LiveData<List<ChatHistory>> mChatHistory;
 
-    public ChatHistoryRepository(Application application, String user) {
-        ChatHistoryDb db = ChatHistoryDb.getDatabase(application);
-        mChatHistoryDao = db.chatHistoryDao();
-        mAllHistory = mChatHistoryDao.fetchAllHistory(user);// todo
-    }
-
-    public ChatHistoryRepository(Application application, String user, String contact) {
-        ChatHistoryDb db = ChatHistoryDb.getDatabase(application);
-        mChatHistoryDao = db.chatHistoryDao();
-        mChatHistory = mChatHistoryDao.fetchChatHistory(user,contact);// todo
-    }
 
     public ChatHistoryRepository(Application application) {
+        ChatHistoryDb db = ChatHistoryDb.getDatabase(application);
+        mChatHistoryDao = db.chatHistoryDao();
+        mAllHistory = mChatHistoryDao.getAllHistory();
     }
 
     public LiveData<List<ChatHistory>> getAllHistory() {
         return mAllHistory;
-    }
-
-    public LiveData<List<ChatHistory>> getChatHistory() {
-        return mChatHistory;
     }
 
     public void insert (ChatHistory chatHistory) {

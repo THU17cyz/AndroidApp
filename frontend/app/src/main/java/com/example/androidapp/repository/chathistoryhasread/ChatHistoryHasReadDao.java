@@ -17,7 +17,10 @@ public interface ChatHistoryHasReadDao {
   Long insert(ChatHistoryHasRead chatHistoryHasRead);
 
   @Query("SELECT * FROM chat_history_has_read WHERE user = :user")
-  LiveData<List<ChatHistoryHasRead>> fetchAllHistory(String user);
+  LiveData<List<ChatHistoryHasRead>> getUserHistory(String user);
+
+  @Query("SELECT * FROM chat_history_has_read WHERE user = :user AND contact = :contact")
+  LiveData<List<ChatHistoryHasRead>> getUserContactHistory(String user, String contact);
 
   @Delete()
   void delete(ChatHistoryHasRead chatHistoryHasReady);

@@ -23,10 +23,11 @@ public class ChatHistory {
     @ColumnInfo(name = "content")
     private String content;
 
+    // 消息类型 T/P
     @ColumnInfo(name = "type")
     private String type;
 
-    // 是否为当前用户发送
+    // 是否为当前用户发送 S/R
     @ColumnInfo(name = "send")
     private String send;
 

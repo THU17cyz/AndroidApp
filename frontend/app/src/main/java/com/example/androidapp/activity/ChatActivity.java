@@ -25,8 +25,16 @@ import com.example.androidapp.chatTest.model.User;
 import com.example.androidapp.R;
 import com.example.androidapp.repository.chathistory.ChatHistory;
 import com.example.androidapp.request.conversation.SendMessageRequest;
+import com.example.androidapp.util.BasicInfo;
+import com.example.androidapp.util.Global;
+import com.example.androidapp.util.Hint;
+import com.example.androidapp.util.Uri2File;
 import com.example.androidapp.viewmodel.ChatHistoryViewModel;
+import com.google.android.material.internal.NavigationMenu;
 import com.gyf.immersionbar.ImmersionBar;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.chatkit.commons.ImageLoader;
 import com.stfalcon.chatkit.commons.models.IMessage;
@@ -41,6 +49,8 @@ import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,6 +61,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 
 public class ChatActivity
@@ -83,9 +94,13 @@ public class ChatActivity
   private List<Uri> mUris;
   private List<String> mPaths;
   private ChatHistoryViewModel chatHistoryViewModel;
+
   private String user;
   private String contact;
-  private User mUser;
+  private String contactId;
+  private String contactType;
+
+  private User thisUser;
   private User contactUser;
 
   @Override
@@ -98,46 +113,22 @@ public class ChatActivity
 
     user = getIntent().getStringExtra("user");
     contact = getIntent().getStringExtra("contact");
+    contactId = getIntent().getStringExtra("contact_id");
+    contactType = getIntent().getStringExtra("contact_type");
 
-    initView();
-
-    messageInput.setInputListener(this);
-    messageInput.setAttachmentsListener(this);
-
-    user = "我";
-    contact = "你";
-
+    // String.valueOf(BasicInfo.ID)
+    thisUser = new User("0",user,"",user,BasicInfo.TYPE);
+    // contactId
+    contactUser = new User("1",contact,"",contact,contactType);
 
     // 聊天记录
     chatHistoryViewModel = ViewModelProviders.of(this).get(ChatHistoryViewModel.class);
-    chatHistoryViewModel.initData(user,contact);
-
-    mUser = new User("1",user,null,false);
-    contactUser = new User("0",contact,null,false);
-
-    LiveData<List<ChatHistory>> list = chatHistoryViewModel.getChatHistory();
-    List<ChatHistory> historyList = list.getValue();
-
-
-    if(historyList!=null){
-      List<Message> messagesList = new ArrayList<>();
-      for(int i=0;i<historyList.size();i++){
-        ChatHistory aHistory = historyList.get(i);
-        Message message = new Message(String.valueOf(i),mUser,aHistory.getContact(),aHistory.getTime());
-        messagesList.add(message);
+    chatHistoryViewModel.getAllHistory().observe(this, new Observer<List<ChatHistory>>() {
+      @Override
+      public void onChanged(List<ChatHistory> chatHistories) {
       }
-      messagesAdapter.addToEnd(messagesList, false);
-    }
+    });
 
-
-
-
-  }
-
-  /**
-   * 初始化视图
-   */
-  private void initView(){
     // 状态栏
     ImmersionBar.with(this)
             .statusBarColor(R.color.colorPrimary)
@@ -157,13 +148,102 @@ public class ChatActivity
     messagesAdapter.setDateHeadersFormatter(this);
     messagesList.setAdapter(messagesAdapter);
 
-
     btn_return.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         finish();
       }
     });
+
+    name.setText(contact);
+
+    name.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        // 查找并显示历史聊天记录
+        LiveData<List<ChatHistory>> list = chatHistoryViewModel.getAllHistory();
+        List<ChatHistory> historyList = list.getValue();
+        if(historyList!=null){
+          List<Message> messagesList = new ArrayList<>();
+          for(int i=0;i<historyList.size();i++){
+            ChatHistory history = historyList.get(i);
+            if(history.getUser().equals(user)&& history.getContact().equals(contact)){
+              Message message = new Message(String.valueOf(i),thisUser,history.getContent(),history.getTime());
+              messagesList.add(message);
+            }
+          }
+          messagesAdapter.addToEnd(messagesList, false);
+          messagesAdapter.notifyDataSetChanged();
+        }
+      }
+    });
+
+    messageInput.setInputListener(this);
+    messageInput.setAttachmentsListener(this);
+
+//
+//    RefreshLayout refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout);
+//    refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+//      @Override
+//      public void onRefresh(RefreshLayout refreshlayout) {
+//
+//        // 查找并显示历史聊天记录
+//        LiveData<List<ChatHistory>> list = chatHistoryViewModel.getAllHistory();
+//        List<ChatHistory> historyList = list.getValue();
+//        if(historyList!=null){
+//          List<Message> messagesList = new ArrayList<>();
+//          for(int i=0;i<historyList.size();i++){
+//            ChatHistory history = historyList.get(i);
+//            if(history.getUser().equals(user)&& history.getContact().equals(contact)){
+//              Message message = new Message(String.valueOf(i),thisUser,history.getContent(),history.getTime());
+//              messagesList.add(message);
+//            }
+//          }
+//          messagesAdapter.addToEnd(messagesList, false);
+//          messagesAdapter.notifyDataSetChanged();
+//        }
+//
+//        refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+//      }
+//    });
+
+//
+//    messagesAdapter.setLoadMoreListener(new MessagesListAdapter.OnLoadMoreListener() {
+//      @Override
+//      public void onLoadMore(int page, int totalItemsCount) {
+//        // 查找并显示历史聊天记录
+//        LiveData<List<ChatHistory>> list = chatHistoryViewModel.getAllHistory();
+//        List<ChatHistory> historyList = list.getValue();
+//        if(historyList!=null){
+//          List<Message> messagesList = new ArrayList<>();
+//          for(int i=0;i<historyList.size();i++){
+//            ChatHistory history = historyList.get(i);
+//            if(history.getUser().equals(user)&& history.getContact().equals(contact)){
+//              Message message = new Message(String.valueOf(i),thisUser,history.getContent(),history.getTime());
+//              messagesList.add(message);
+//            }
+//          }
+//          messagesAdapter.addToEnd(messagesList, false);
+//          messagesAdapter.notifyDataSetChanged();
+//        }
+//      }
+//    });
+//
+
+  }
+
+
+
+  @Override
+  protected void onStart() {
+    super.onStart();
+  }
+
+  /**
+   * 初始化视图
+   */
+  private void initView(){
+
   }
 
 
@@ -181,23 +261,6 @@ public class ChatActivity
     } else {
       return DateFormatter.format(date, DateFormatter.Template.STRING_DAY_MONTH_YEAR);
     }
-  }
-
-  protected void loadMessages() {
-    new Handler().postDelayed(new Runnable() { //imitation of internet connection
-      @Override
-      public void run() {
-//        ArrayList<Message> messages = MessagesFixtures.getMessages(lastLoadedDate);
-//        lastLoadedDate = messages.get(messages.size() - 1).getCreatedAt();
-        LiveData<List<ChatHistory>> list = chatHistoryViewModel.getChatHistory();
-        ChatHistory aHistory = list.getValue().get(-1);
-        User user = new User("1","fd",null,false);
-        List<Message> messagesList = new ArrayList<>();
-        Message message = new Message("1",user,aHistory.getContact(),aHistory.getTime());
-        messagesList.add(message);
-        messagesAdapter.addToEnd(messagesList, false);
-      }
-    }, 1000);
   }
 
 
@@ -255,14 +318,38 @@ public class ChatActivity
       Log.d("Matisse", "mSelected: " + mUris);
 
       for (int i = 0; i < mUris.size(); i++) {
-        Message message = new Message("0", new User("0", "ming", null, true), null);
+        Message message = new Message("0", thisUser, null);
         message.setImage(new Message.Image(mUris.get(i).toString()));
         Log.d("Matisse print", mUris.get(i).toString());
         messagesAdapter.addToStart(message, true);
-      }
-//content://media/external/images/media/27
-//        messagesAdapter.addToStart(MessagesFixtures.getImageMessage(), true);
+        String path = "file://" + mUris.get(i).toString();
+        new SendMessageRequest(new okhttp3.Callback() {
+          @Override
+          public void onFailure(@NotNull Call call, @NotNull IOException e) {
 
+          }
+
+          @Override
+          public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+
+            String resStr = response.body().string();
+            Log.e("response", resStr);
+            try {
+              // 解析json，然后进行自己的内部逻辑处理
+              JSONObject jsonObject = new JSONObject(resStr);
+
+              Boolean status = jsonObject.getBoolean("status");
+              if (status) {
+              } else {
+              }
+              String info = jsonObject.getString("info");
+              runOnUiThread(() -> Toast.makeText(ChatActivity.this,info, Toast.LENGTH_LONG).show());
+            } catch (JSONException e) {
+              e.printStackTrace();
+            }
+          }
+        },contactUser.getId(), contactUser.getType(),"P", "",Uri2File.convert(path)).send();
+      }
     }
 
   }
@@ -274,10 +361,21 @@ public class ChatActivity
    */
   @Override
   public void onLoadMore(int page, int totalItemsCount) {
-    Log.i("TAG", "onLoadMore: " + page + " " + totalItemsCount);
-    if (totalItemsCount < 100) {
-      loadMessages();
-    }
+//    // 查找并显示历史聊天记录
+//    LiveData<List<ChatHistory>> list = chatHistoryViewModel.getAllHistory();
+//    List<ChatHistory> historyList = list.getValue();
+//    if(historyList!=null){
+//      List<Message> messagesList = new ArrayList<>();
+//      for(int i=0;i<historyList.size();i++){
+//        ChatHistory history = historyList.get(i);
+//        if(history.getUser().equals(user)&& history.getContact().equals(contact)){
+//          Message message = new Message(String.valueOf(i),thisUser,history.getContent(),history.getTime());
+//          messagesList.add(message);
+//        }
+//      }
+//      messagesAdapter.addToEnd(messagesList, false);
+//      messagesAdapter.notifyDataSetChanged();
+//    }
   }
 
   /**
@@ -297,9 +395,32 @@ public class ChatActivity
   @Override
   public boolean onSubmit(CharSequence input) {
     messagesAdapter.addToStart(
-            new Message("0", new User("0", "ming", null, true), input.toString())
+            new Message("0", thisUser, input.toString())
             , true);
-    chatHistoryViewModel.insert(new ChatHistory(new Date(),input.toString(),"T","S",user,contact));
+    chatHistoryViewModel.insert(new ChatHistory(new Date(), input.toString(),"T","S",user,contact));
+//    chatHistoryViewModel.insert(new ChatHistory(new Date(), input.toString(),"T","S",user,contact));
+//    chatHistoryViewModel.insert(new ChatHistory(new Date(), input.toString(),"T","R",user,contact));
+
+    LiveData<List<ChatHistory>> list = chatHistoryViewModel.getAllHistory();
+    List<ChatHistory> historyList = list.getValue();
+    if(historyList!=null) {
+      List<Message> messagesList = new ArrayList<>();
+      for (int i = 0; i < historyList.size(); i++) {
+        ChatHistory history = historyList.get(i);
+        if (history.getUser().equals(user) && history.getContact().equals(contact)) {
+          Message message = null;
+          if(history.getSend().equals("S")){
+            message = new Message(String.valueOf(i), thisUser, history.getContent(), history.getTime());
+          } else {
+            message = new Message(String.valueOf(i), contactUser, history.getContent(), history.getTime());
+          }
+          messagesList.add(message);
+        }
+      }
+      messagesAdapter.addToEnd(messagesList, true);
+      messagesAdapter.notifyDataSetChanged();
+    }
+
 
     new SendMessageRequest(new okhttp3.Callback() {
       @Override
@@ -310,20 +431,23 @@ public class ChatActivity
       @Override
       public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
 
+        String resStr = response.body().string();
+        Log.e("response", resStr);
+        try {
+          // 解析json，然后进行自己的内部逻辑处理
+          JSONObject jsonObject = new JSONObject(resStr);
+
+          Boolean status = jsonObject.getBoolean("status");
+          if (status) {
+          } else {
+          }
+          String info = jsonObject.getString("info");
+          runOnUiThread(() -> Toast.makeText(ChatActivity.this,info, Toast.LENGTH_LONG).show());
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
       }
-    },getIntent().getStringExtra("contact_id"),
-            getIntent().getStringExtra("contact_type"),"T",input.toString(),null);
-
-
-
-    LiveData<List<ChatHistory>> list = chatHistoryViewModel.getChatHistory();
-    List<ChatHistory> historyList = list.getValue();
-    ChatHistory aHistory = historyList.get(1);
-    User user = new User("1","fd",null,false);
-    List<Message> messagesList = new ArrayList<>();
-    Message message = new Message("1",user,aHistory.getContact(),aHistory.getTime());
-    messagesList.add(message);
-    messagesAdapter.addToEnd(messagesList, false);
+    },contactUser.getId(), contactUser.getType(),"T",input.toString(),null).send();
     return true;
   }
 
@@ -337,4 +461,5 @@ public class ChatActivity
             .setItems(R.array.view_types_dialog, ChatActivity.this)
             .show();
   }
+
 }
