@@ -125,7 +125,7 @@ public class ResetPasswordActivity extends BaseActivity {
             Hint.endActivityLoad(ResetPasswordActivity.this);
             try {
                 if (response.code() != 200) {
-                    ResetPasswordActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(ResetPasswordActivity.this, "修改失败..."));
+                    ResetPasswordActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(ResetPasswordActivity.this, "修改失败，请稍后重试！"));
                 } else {
                     ResponseBody responseBody = response.body();
                     String responseBodyString = responseBody != null ? responseBody.string() : "";
@@ -142,7 +142,7 @@ public class ResetPasswordActivity extends BaseActivity {
                     }
                 }
             } catch (JSONException e) {
-                ResetPasswordActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(ResetPasswordActivity.this, "修改失败..."));
+                ResetPasswordActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(ResetPasswordActivity.this, "修改失败，请稍后重试！"));
                 if (Global.HTTP_DEBUG_MODE)
                     Log.e("HttpResponse", e.toString());
             }
@@ -150,10 +150,9 @@ public class ResetPasswordActivity extends BaseActivity {
 
         @Override
         public void onFailure(@NotNull Call call, @NotNull IOException e) {
-            ResetPasswordActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(ResetPasswordActivity.this, "修改失败..."));
+            ResetPasswordActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(ResetPasswordActivity.this, "修改失败，请稍后重试！"));
             if (Global.HTTP_DEBUG_MODE)
                 Log.e("HttpError", e.toString());
         }
     };
-
 }

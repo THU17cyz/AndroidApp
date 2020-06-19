@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@drawable/shape_username_box"
-        android:drawableStart="@drawable/ic_person_black_24dp"
+        android:drawableStart="@drawable/ic_lock_black_24dp"
         android:drawablePadding="10dp"
         android:hint="@string/ID_NUMBER"
         android:padding="15dp"
