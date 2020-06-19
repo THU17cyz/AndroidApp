@@ -58,7 +58,7 @@ public class ResetPasswordActivity extends BaseActivity {
         setContentView(R.layout.activity_reset_password);
         ButterKnife.bind(this);
         // 添加验证
-        oldPasswordEditText.addValidator(new Valid.NumberValidator());
+        oldPasswordEditText.addValidator(new Valid.PasswordValidator());
         oldPasswordEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -67,7 +67,7 @@ public class ResetPasswordActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) { }
         });
-        newPasswordEditText.addValidator(new Valid.NumberValidator());
+        newPasswordEditText.addValidator(new Valid.PasswordValidator());
         newPasswordEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -76,7 +76,7 @@ public class ResetPasswordActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) { }
         });
-        repeatedPasswordEditText.addValidator(new Valid.NumberValidator());
+        repeatedPasswordEditText.addValidator(new Valid.PasswordValidator());
         repeatedPasswordEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -100,7 +100,7 @@ public class ResetPasswordActivity extends BaseActivity {
         String old_password = oldPasswordEditText.getText().toString();
         String new_password = newPasswordEditText.getText().toString();
         String repeated_password = repeatedPasswordEditText.getText().toString();
-        if (!Valid.isNumber(old_password) || !Valid.isNumber(new_password) || !Valid.isNumber(repeated_password)) {
+        if (!Valid.isPassword(old_password) || !Valid.isPassword(new_password) || !Valid.isPassword(repeated_password)) {
             Hint.showLongBottomToast(this, "格式错误！");
             return;
         }
