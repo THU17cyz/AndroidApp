@@ -20,7 +20,17 @@ public class Message implements IMessage,
     private Voice voice;
     private Boolean read=false;
 
-    public Message(String id, User user, String text) {
+    private String dateString;
+
+  public String getDateString() {
+    return dateString;
+  }
+
+  public void setDateString(String dateString) {
+    this.dateString = dateString;
+  }
+
+  public Message(String id, User user, String text) {
 
         // todo 解决方案
         Date date = new Date();
