@@ -18,9 +18,8 @@ public class App extends Application {
                 .build();
         LoadSir.beginBuilder()
                 .addCallback(loadingCallback)
-                .setDefaultCallback(ProgressCallback.class)//设置默认状态页
+                .setDefaultCallback(ProgressCallback.class) //设置默认状态页
                 .commit();
-
     }
 
     /**
