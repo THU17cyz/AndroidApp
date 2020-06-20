@@ -20,7 +20,7 @@ public class ConversationPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0: return new ChatFragment(0);
-            case 1: return new ChatFragment(1);
+            case 1: return new Fragment();
             default: return null;
         }
     }

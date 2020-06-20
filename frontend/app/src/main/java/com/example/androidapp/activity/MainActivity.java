@@ -2,36 +2,37 @@ package com.example.androidapp.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
+
 import com.example.androidapp.R;
-import com.example.androidapp.UI.conversation.ConversationFragment;
 import com.example.androidapp.UI.dashboard.DashboardFragment;
-import com.example.androidapp.UI.follow.FollowFragment;
 import com.example.androidapp.UI.home.HomeFragment;
-import com.example.androidapp.UI.notification.NotificationFragment;
 import com.example.androidapp.application.App;
 import com.example.androidapp.repository.chathistory.ChatHistory;
-import com.example.androidapp.request.user.GetInfoPictureRequest;
 import com.example.androidapp.request.user.GetInfoRequest;
 import com.example.androidapp.request.user.LogoutRequest;
 import com.example.androidapp.request.user.UpdateInfoPictureRequest;
 import com.example.androidapp.util.BasicInfo;
-import com.example.androidapp.util.MyImageLoader;
-//import com.example.androidapp.util.MyOkHttpDownloader;
 import com.example.androidapp.util.Uri2File;
 import com.example.androidapp.viewmodel.ChatHistoryViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -45,28 +46,12 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
-import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
-import com.mikepenz.materialdrawer.util.DrawerImageLoader;
-import com.squareup.picasso.Picasso;
 import com.zhihu.matisse.Matisse;
-
-import androidx.annotation.NonNull;
-
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -195,7 +180,6 @@ public class MainActivity extends BaseActivity {
         // toolbar.inflateMenu(R.menu.top_menu_home);
 
         // 初始化侧边栏
-//        new Thread(() -> initDrawer()).start();
         initDrawer();
 
 //        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
@@ -220,13 +204,78 @@ public class MainActivity extends BaseActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
 
 
+        // 初始化websocket
+        // WebSocket.initSocket();
+
+
+//        CommonInterface.sendOkHttpGetRequest("/hello", new Callback() {
+//            @Override
+//            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//                Log.e("error", e.toString());
+//            }
+//
+//            @Override
+//            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//                String resStr = response.body().string();
+//                MainActivity.this.runOnUiThread(() -> Toast.makeText(MainActivity.this, resStr, Toast.LENGTH_LONG).show());
+//                Log.e("response", resStr);
+//                try {
+//                    // 解析json，然后进行自己的内部逻辑处理
+//                    JSONObject jsonObject = new JSONObject(resStr);
+//                } catch (JSONException e) {
+//
+//                }
+//            }
+//        });
+
+
+
+        // 获取account，id，type供全局使用
+        new GetInfoRequest(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.e("error", e.toString());
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String resStr = response.body().string();
+                runOnUiThread(() -> Toast.makeText(getApplicationContext(), resStr, Toast.LENGTH_LONG).show());
+                Log.e("response", resStr);
+                try {
+                    // 解析json，然后进行自己的内部逻辑处理
+                    JSONObject jsonObject = new JSONObject(resStr);
+                    Boolean status = jsonObject.getBoolean("status");
+                    if(status){
+                        BasicInfo.ACCOUNT = jsonObject.getString("account");
+                        if(jsonObject.has("student_id")){
+                            BasicInfo.ID = jsonObject.getInt("student_id");
+                            BasicInfo.TYPE = "S";
+                        }else {
+                            BasicInfo.ID = jsonObject.getInt("teacher_id");
+                            BasicInfo.TYPE = "T";
+                        }
+                        Log.d("basic info",BasicInfo.ACCOUNT);
+                    }else{
+                        String info = jsonObject.getString("info");
+                    }
+                } catch (JSONException e) {
+
+                }
+            }
+        },"I",null,null).send();
+
+        // *** HTTP 测试 ***
+//        if (Global.HTTP_TEST_MODE) {
+//            Log.d("Test", "******************");
+//            new ClearAllIntentionRequest(Http.callbackExample_0).send();
+//        }
 
     }
-    private String loadImageCache() {
-//        String imageCacheDir = getExternalCacheDir().getPath() + "/zhaodaoshi/";
-//        MyOkHttpDownloader okHttpDownloader = new MyOkHttpDownloader(new File(imageCacheDir));
+    private void loadImageCache() {
+//        String imageCacheDir = getExternalCacheDir().getPath()+"/image/";
 //
-//        Picasso picasso = new Picasso.Builder(this).downloader(okHttpDownloader).build();
+//        Picasso picasso = new Picasso.Builder(this).downloader(new OkHttpDownloader(new File(imageCacheDir))).build();
 ///**  setIndicatorsEnabled(true);
 //
 // * 左上角会显示个三角形，不同的颜色代表加载的来源
@@ -238,16 +287,8 @@ public class MainActivity extends BaseActivity {
 // * 绿色：代表从内存中加载的图片
 //
 // */
-////        picasso.setIndicatorsEnabled(true);
-////        Picasso.setSingletonInstance(picasso);
-//        String url;
-//        if (BasicInfo.TYPE.equals("S"))
-//            url = new GetInfoPictureRequest("S", null, String.valueOf(BasicInfo.ID)).getWholeUrl();
-//        else
-//            url = new GetInfoPictureRequest("T", String.valueOf(BasicInfo.ID), null).getWholeUrl();
-//        picasso.load(url);
-//        return imageCacheDir;
-        return null;
+//        picasso.setIndicatorsEnabled(true);
+//        Picasso.setSingletonInstance(picasso);
     }
 
 
@@ -259,63 +300,28 @@ public class MainActivity extends BaseActivity {
     /**
      * [method]初始化侧边栏
      */
-    private void initDrawer() {
-        DrawerImageLoader.init(new AbstractDrawerImageLoader() {
-            @Override
-            public void set(ImageView imageView, Uri uri, Drawable placeholder) {
-                Picasso.get().load(uri).placeholder(placeholder).into(imageView);
-            }
-
-            @Override
-            public void cancel(ImageView imageView) {
-                Picasso.get().cancelRequest(imageView);
-            }
-
-            /*
-            @Override
-            public Drawable placeholder(Context ctx) {
-                return super.placeholder(ctx);
-            }
-
-            @Override
-            public Drawable placeholder(Context ctx, String tag) {
-                return super.placeholder(ctx, tag);
-            }
-            */
-        });
-
-        String url;
-        if (BasicInfo.TYPE.equals("S"))
-            url = new GetInfoPictureRequest("S", null, String.valueOf(BasicInfo.ID)).getWholeUrl();
-        else
-            url = new GetInfoPictureRequest("T", String.valueOf(BasicInfo.ID), null).getWholeUrl();
-        System.out.println(url);
-
-
-
-
+    private void initDrawer(){
         // Create the AccountHeader
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.bg_login)
-                .addProfiles(new ProfileDrawerItem().withName("用户名").withEmail("个性签名").withIcon(url))
-                .withOnAccountHeaderListener((view, profile, currentProfile) -> false)
+                .addProfiles(
+                        new ProfileDrawerItem().withName("用户名").withEmail("个性签名").withIcon(getResources().getDrawable(R.drawable.ic_drawer_homepage_24dp))
+                )
+                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                    @Override
+                    public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
+                        return false;
+                    }
+                })
                 .build();
 
-
-
-        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1)
-                .withIcon(getDrawable(R.drawable.ic_drawer_homepage_24dp)).withName("我的主页");
-        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2)
-                .withIcon(getDrawable(R.drawable.ic_drawer_chat_24dp)).withName("我的会话");
-        PrimaryDrawerItem item3 = new PrimaryDrawerItem().withIdentifier(3)
-                .withIcon(getDrawable(R.drawable.ic_drawer_focus_24dp)).withName("我的关注");
-        PrimaryDrawerItem item4 = new PrimaryDrawerItem().withIdentifier(4)
-                .withIcon(getDrawable(R.drawable.ic_drawer_info_24dp)).withName("我的通知");
-        PrimaryDrawerItem item5 = new PrimaryDrawerItem().withIdentifier(5)
-                .withIcon(getDrawable(R.drawable.ic_drawer_settings_24dp)).withName("设置");
-        PrimaryDrawerItem item6 = new PrimaryDrawerItem().withIdentifier(6)
-                .withIcon(getDrawable(R.drawable.ic_drawer_quit_24dp)).withName("退出登录");
+        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withIcon(getResources().getDrawable(R.drawable.ic_drawer_homepage_24dp)).withName("我的主页");
+        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2).withIcon(getResources().getDrawable(R.drawable.ic_drawer_chat_24dp)).withName("我的会话");
+        PrimaryDrawerItem item3 = new PrimaryDrawerItem().withIdentifier(3).withIcon(getResources().getDrawable(R.drawable.ic_drawer_focus_24dp)).withName("我的关注");
+        PrimaryDrawerItem item4 = new PrimaryDrawerItem().withIdentifier(4).withIcon(getResources().getDrawable(R.drawable.ic_drawer_info_24dp)).withName("我的通知");
+        PrimaryDrawerItem item5 = new PrimaryDrawerItem().withIdentifier(5).withIcon(getResources().getDrawable(R.drawable.ic_drawer_settings_24dp)).withName("设置");
+        PrimaryDrawerItem item6 = new PrimaryDrawerItem().withIdentifier(6).withIcon(getResources().getDrawable(R.drawable.ic_drawer_quit_24dp)).withName("退出登录");
 
         drawer = new DrawerBuilder()
                 .withAccountHeader(headerResult)
@@ -414,6 +420,31 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
+        SharedPreferences sharedPreferences =getSharedPreferences("data", Context.MODE_PRIVATE);
+        sharedPreferences.getInt("T4",0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("S0",0);
+        editor.putInt("S1",0);
+        editor.putInt("S2",0);
+        editor.putInt("S3",0);
+        editor.putInt("S4",0);
+        editor.putInt("S5",0);
+        editor.putInt("S6",0);
+        editor.putInt("S7",0);
+        editor.putInt("S8",0);
+        editor.putInt("S9",0);
+        editor.putInt("T1",0);
+        editor.putInt("T2",0);
+        editor.putInt("T3",0);
+        editor.putInt("T4",0);
+        editor.putInt("T5",0);
+        editor.putInt("T6",0);
+        editor.putInt("T7",0);
+        editor.putInt("T8",0);
+        editor.putInt("T9",0);
+        editor.commit();
+
+
         if(keyCode==KeyEvent.KEYCODE_BACK){
 
             // 获取当前fragment
@@ -447,7 +478,7 @@ public class MainActivity extends BaseActivity {
                     .getPrimaryNavigationFragment();
             fragment.getAvatar("file://" + path);
             System.out.println(path);
-            new UpdateInfoPictureRequest(new okhttp3.Callback() {
+            new UpdateInfoPictureRequest(new Callback() {
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
                     Log.e("error", e.toString());

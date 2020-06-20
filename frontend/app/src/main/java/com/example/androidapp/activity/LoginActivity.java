@@ -13,9 +13,7 @@ import android.widget.Toast;
 import com.andreabaccega.formedittextvalidator.Validator;
 import com.andreabaccega.widget.FormEditText;
 import com.example.androidapp.R;
-import com.example.androidapp.request.user.GetInfoRequest;
 import com.example.androidapp.request.user.LoginRequest;
-import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Hint;
 import com.example.androidapp.util.SoftKeyBoardListener;
@@ -98,45 +96,9 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void onJumpToMain() {
-        // 获取account，id，type供全局使用
-        new GetInfoRequest(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.e("error", e.toString());
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String resStr = response.body().string();
-                runOnUiThread(() -> Toast.makeText(getApplicationContext(), resStr, Toast.LENGTH_LONG).show());
-                Log.e("response", resStr);
-                try {
-                    // 解析json，然后进行自己的内部逻辑处理
-                    JSONObject jsonObject = new JSONObject(resStr);
-                    Boolean status = jsonObject.getBoolean("status");
-                    if(status){
-                        BasicInfo.ACCOUNT = jsonObject.getString("account");
-                        if(jsonObject.has("student_id")){
-                            BasicInfo.ID = jsonObject.getInt("student_id");
-                            BasicInfo.TYPE = "S";
-                        }else {
-                            BasicInfo.ID = jsonObject.getInt("teacher_id");
-                            BasicInfo.TYPE = "T";
-                            // BasicInfo.PATH = loadImageCache();
-                        }
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        Hint.endActivityLoad(LoginActivity.this);
-                        Log.d("basic info",BasicInfo.ACCOUNT);
-                    }else{
-                        String info = jsonObject.getString("info");
-                    }
-                } catch (JSONException e) {
-
-                }
-            }
-        },"I",null,null).send();
-
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        Hint.endActivityLoad(this);
     }
 
     /******************************
@@ -150,7 +112,7 @@ public class LoginActivity extends BaseActivity {
         // 后门儿
         if (account.length() == 0) {
             Hint.startActivityLoad(this);
-            new LoginRequest(this.handleLogin, type, "T4", "T4").send();
+            new LoginRequest(this.handleLogin, type, "S1", "S1").send();
         }
 
         if (!Valid.isAccount(account) || !Valid.isPassword(password)) {
