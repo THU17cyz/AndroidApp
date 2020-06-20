@@ -9,7 +9,8 @@
     android:gravity="center"
     android:padding="20dp">
 
-    <Spinner
+    <TextView
+        android:maxLines="1"
         android:id="@+id/login_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +18,8 @@
         android:background="@drawable/shape_username_box"
         android:entries="@array/t_s_type"
         android:gravity="center"
-        android:hint="@string/TYPE"
+        android:hint="选择类型"
+        android:textSize="16sp"
         android:padding="15dp"
         android:spinnerMode="dropdown"
         android:textColor="@color/white"
@@ -25,6 +27,7 @@
         android:textColorHint="@color/white" />
 
     <com.andreabaccega.widget.FormEditText
+        android:maxLines="1"
         android:id="@+id/login_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,6 +44,7 @@
         app:emptyErrorString="@string/CANNOT_BE_NULL"/>
 
     <com.andreabaccega.widget.FormEditText
+        android:maxLines="1"
         android:id="@+id/login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -97,6 +101,7 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/shape_login_button"
         android:padding="15dp"
+        android:textSize="16sp"
         android:shadowColor="@android:color/transparent"
         android:text="@string/LOGIN" />
 

@@ -1,6 +1,7 @@
 package com.example.androidapp.UI.home;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,8 +46,6 @@ public class HomeFragment extends Fragment {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, root);
-
-
 
         TabLayout tabLayout = root.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("推荐导师"));

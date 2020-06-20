@@ -21,4 +21,6 @@ public class OptionItems {
 
   public static final ArrayList<String> optionsState = new ArrayList<>(Arrays.asList("进行","成功","失败"));
 
+  public static final ArrayList<String> optionsType = new ArrayList<>(Arrays.asList("导师","学生"));
+
 }

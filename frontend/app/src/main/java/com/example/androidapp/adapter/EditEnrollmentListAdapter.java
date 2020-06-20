@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.andreabaccega.widget.FormEditText;
@@ -118,9 +119,19 @@ public class EditEnrollmentListAdapter<T> extends MyBaseAdapter {
     state.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+
+        // 隐藏软键盘
+        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(v.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+
         OptionsPickerView pvOptions = new OptionsPickerBuilder(mContext, new OnOptionsSelectListener() {
           @Override
           public void onOptionsSelect(int options1, int option2, int options3 ,View v) {
+
+            // 隐藏软键盘
+            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+
             String s = OptionItems.optionsState.get(options1);
             state.setText(s);
             if(s.equals("进行")){
@@ -149,6 +160,11 @@ public class EditEnrollmentListAdapter<T> extends MyBaseAdapter {
     studentType.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+
+        // 隐藏软键盘
+        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(v.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+
         OptionsPickerView pvOptions = new OptionsPickerBuilder(mContext, new OnOptionsSelectListener() {
           @Override
           public void onOptionsSelect(int options1, int option2, int options3 ,View v) {
