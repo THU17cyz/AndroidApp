@@ -64,7 +64,7 @@ public abstract class ChatHistoryDb extends RoomDatabase {
             }
             return null;*/
 
-//            if (mDao.fetchAll().length < 1) {
+//            if (mDao.getAllHistory().length < 1) {
 //                for (int i = 0; i <= words.length - 1; i++) {
 //                    ChatHistory word = new ChatHistory(words[i]);
 //                    mDao.insert(word);

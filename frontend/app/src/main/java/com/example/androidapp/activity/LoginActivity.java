@@ -127,9 +127,9 @@ public class LoginActivity extends BaseActivity {
 
 
     private void onJumpToMain() {
+        Hint.endActivityLoad(LoginActivity.this);
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
-        Hint.endActivityLoad(LoginActivity.this);
     }
 
     private void beforeJump1() {
@@ -458,6 +458,7 @@ public class LoginActivity extends BaseActivity {
     @OnClick(R.id.login)
     public void onClickLogin() {
         String type = "";
+        type = "T";
         if(typeSelector.getText().toString().equals(OptionItems.optionsType.get(0))){
             type = "T";
         } else if(typeSelector.getText().toString().equals(OptionItems.optionsType.get(1))){
@@ -468,7 +469,7 @@ public class LoginActivity extends BaseActivity {
         // 后门儿
         if (account.length() == 0) {
             Hint.startActivityLoad(this);
-            new LoginRequest(this.handleLogin, type, "T4", "T4").send();
+            new LoginRequest(this.handleLogin, "T", "T4", "T4").send();
         }
 
         // 后门儿2

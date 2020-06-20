@@ -455,7 +455,7 @@ public class ChatActivity
   @Override
   protected void onResume() {
     super.onResume();
-    // mTimeCounterRunnable.run();
+     mTimeCounterRunnable.run();
   }
 
 

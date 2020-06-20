@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -21,11 +22,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -38,6 +42,8 @@ import com.example.androidapp.application.App;
 import com.example.androidapp.chatTest.model.Dialog;
 import com.example.androidapp.chatTest.model.User;
 import com.example.androidapp.repository.chathistory.ChatHistory;
+import com.example.androidapp.request.conversation.GetMessageRequest;
+import com.example.androidapp.request.conversation.GetNewMessagesRequest;
 import com.example.androidapp.request.information.GetInformationDetailRequest;
 import com.example.androidapp.request.information.GetInformationRequest;
 import com.example.androidapp.request.user.GetInfoPictureRequest;
@@ -45,6 +51,7 @@ import com.example.androidapp.request.user.GetInfoRequest;
 import com.example.androidapp.request.user.LogoutRequest;
 import com.example.androidapp.request.user.UpdateInfoPictureRequest;
 import com.example.androidapp.util.BasicInfo;
+import com.example.androidapp.util.DateUtil3;
 import com.example.androidapp.util.LocalPicx;
 import com.example.androidapp.util.Uri2File;
 import com.example.androidapp.viewmodel.ChatHistoryViewModel;
@@ -78,6 +85,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -131,8 +139,11 @@ public class MainActivity extends BaseActivity {
         // NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        chatHistoryViewModel = ViewModelProviders.of(this).get(ChatHistoryViewModel.class);
+        chatHistoryViewModel = new ViewModelProvider(this).get(ChatHistoryViewModel.class);
+//        chatHistoryViewModel = ViewModelProviders.of(this).get(ChatHistoryViewModel.class);
         chatHistoryViewModel.getAllHistory().observe(this, chatHistories -> {
+            getDatabase();
+            mTimeCounterRunnable.run();
         });
 
         ImmersionBar.with(this)
@@ -158,7 +169,8 @@ public class MainActivity extends BaseActivity {
 
 
         LocalPicx.loadAsset(this);
-
+//        getDatabase();
+//        mTimeCounterRunnable.run();
     }
 
     private Runnable mTimeCounterRunnable = new Runnable() {
@@ -174,7 +186,47 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onStart() {
         super.onStart();
-        mTimeCounterRunnable.run();
+
+//        getDatabase();
+//        mTimeCounterRunnable.run();
+    }
+
+    private void getDatabase() {
+        LiveData<List<ChatHistory>> list = chatHistoryViewModel.getAllHistory();
+        List<ChatHistory> chatList = list.getValue();
+        if (chatList == null) {
+            Log.e("错误","数据库获取为null");
+        } else {
+//            List<String> accounts = new ArrayList<>();//对方列表
+//            List<String> messages = new ArrayList<>();//对方最新消息列表
+//            List<Date> dates = new ArrayList<>();//对方最新消息时间列表
+//            List<String> ids = new ArrayList<>();//对方id列表
+//            List<String> types = new ArrayList<>();//对方类型列表
+
+            for(int i = 0; i < chatList.size(); i++){
+                ChatHistory chat = chatList.get(i);
+
+                // 判断是否为当前用户的消息
+                if(chat.getUser().equals(BasicInfo.ACCOUNT)){
+                    String id = chat.getContactId();
+                    String account = chat.getContact();
+                    String type = chat.getContactType();
+                    String msg = chat.getContent();
+                    Date date = chat.getTime();
+                    User user = new User(id, account,"", account, type);
+                    com.example.androidapp.chatTest.model.Message message =
+                            new com.example.androidapp.chatTest.model.Message("", user, msg, date);
+                    ArrayList<com.example.androidapp.chatTest.model.Message> msgs = BasicInfo.CHAT_HISTORY.get(account);
+                    if (msgs == null) {
+                        msgs = new ArrayList<>();
+                        BasicInfo.CHAT_HISTORY.put(account, msgs);
+                    }
+//                    System.out.println(account);
+//                    System.out.println(BasicInfo.CHAT_HISTORY.get(account));
+                    msgs.add(message);
+                }
+            }
+        }
     }
 
     private void refreshData() {
@@ -200,14 +252,33 @@ public class MainActivity extends BaseActivity {
                     }
 
                     // TODO 有待优化
-                    BasicInfo.WELCOME_NOTIFICATIONS.clear();
-                    BasicInfo.INTENTION_NOTIFICATIONS.clear();
-                    BasicInfo.FOLLOW_NOTIFICATIONS.clear();
-                    BasicInfo.PWD_CHANGE_NOTIFICATIONS.clear();
+                    int idx = -1;
+                    int tmp;
+                    int len;
+                    len = BasicInfo.WELCOME_NOTIFICATIONS.size();
+                    if (len > 0) {
+                        tmp = Integer.valueOf(BasicInfo.WELCOME_NOTIFICATIONS.get(len-1).getId());
+                        if (idx < tmp) idx = tmp;
+                    }
+                    len = BasicInfo.FOLLOW_NOTIFICATIONS.size();
+                    if (len > 0) {
+                        tmp = Integer.valueOf(BasicInfo.FOLLOW_NOTIFICATIONS.get(len-1).getId());
+                        if (idx < tmp) idx = tmp;
+                    }
+                    len = BasicInfo.INTENTION_NOTIFICATIONS.size();
+                    if (len > 0) {
+                        tmp = Integer.valueOf(BasicInfo.INTENTION_NOTIFICATIONS.get(len-1).getId());
+                        if (idx < tmp) idx = tmp;
+                    }
+                    len = BasicInfo.PWD_CHANGE_NOTIFICATIONS.size();
+                    if (len > 0) {
+                        tmp = Integer.valueOf(BasicInfo.PWD_CHANGE_NOTIFICATIONS.get(len-1).getId());
+                        if (idx < tmp) idx = tmp;
+                    }
                     //在获取id列表的基础上获取每条消息
                     for(int i = 0; i < informationIdList.size(); i++){
-
                         String id = informationIdList.get(i).toString();
+                        if (Integer.valueOf(id) <= idx) continue;
                         new GetInformationDetailRequest(new okhttp3.Callback() {
                             @Override
                             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
@@ -263,6 +334,81 @@ public class MainActivity extends BaseActivity {
             }
         }).send();
 
+        // 先获取本地聊天id
+        SharedPreferences sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE);
+        int currentMessageId = sharedPreferences.getInt(BasicInfo.ACCOUNT,0);
+        Log.e("当前id:",String.valueOf(currentMessageId));
+
+        new GetNewMessagesRequest(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.e("error","获取最新消息失败");
+            }
+
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String resStr = response.body().string();
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(resStr);
+                    Boolean status = jsonObject.getBoolean("status");
+                    Log.e("response", resStr);
+                    if (status) {
+                        JSONArray jsonArray = (JSONArray) jsonObject.get("message_info_list");
+
+                        int messageId = -1;
+                        for (int i = 0; i < jsonArray.length(); i++){
+                            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                            messageId = jsonObject1.getInt("message_id");
+                            String objectType = jsonObject1.getString("object_type");
+                            String objectId = jsonObject1.getString("object_id");
+                            String objectAccount = jsonObject1.getString("object_account");
+                            String objectName = jsonObject1.getString("object_name");
+                            String messageWay = jsonObject1.getString("message_way");
+                            String messageType = jsonObject1.getString("message_type");
+                            String messageContent = jsonObject1.getString("message_content");
+                            String messageTime = jsonObject1.getString("message_time");
+                            // TODO 时间是不是不对
+                            Date date = new Date();
+                            chatHistoryViewModel.insert(new ChatHistory(
+                                    date, messageContent, messageType,
+                                    messageWay, BasicInfo.ACCOUNT, objectAccount, objectId, objectType));
+                            ArrayList<com.example.androidapp.chatTest.model.Message> msgs = BasicInfo.CHAT_HISTORY.get(objectAccount);
+                            if (msgs == null) {
+                                msgs = new ArrayList<>();
+                                BasicInfo.CHAT_HISTORY.put(objectAccount, msgs);
+                            }
+                            User user = new User(objectId, BasicInfo.ACCOUNT,"", BasicInfo.ACCOUNT, objectType);
+                            com.example.androidapp.chatTest.model.Message message =
+                                    new com.example.androidapp.chatTest.model.Message("", user, messageContent, date, false);
+                            msgs.add(message);
+                            Log.e("fansi", String.valueOf(msgs.size()));
+                        }
+
+
+                        if (messageId != -1) {
+                            // tmp: 得到所有新消息后，直接更新currentMessageId
+                            SharedPreferences sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putInt(BasicInfo.ACCOUNT, messageId);
+                            editor.commit();
+                            Log.e("更新后id：",String.valueOf(messageId));
+                        }
+
+
+
+                    } else {
+                        Log.e("hasHandled置true","，");
+                    }
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, String.valueOf(currentMessageId)).send();
     }
 
 
@@ -270,6 +416,7 @@ public class MainActivity extends BaseActivity {
 
     public void openDrawer() {
         drawer.openDrawer();
+        getDatabase();
     }
 
 

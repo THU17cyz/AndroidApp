@@ -6,6 +6,7 @@ import com.example.androidapp.entity.RecruitmentInfo;
 import com.example.androidapp.entity.ShortProfile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -52,6 +53,8 @@ public class BasicInfo {
   public static ArrayList<Message> FOLLOW_NOTIFICATIONS = new ArrayList<>();
   public static ArrayList<Message> PWD_CHANGE_NOTIFICATIONS = new ArrayList<>();
   public static ArrayList<Message> INTENTION_NOTIFICATIONS = new ArrayList<>();
+
+  public static HashMap<String, ArrayList<Message>> CHAT_HISTORY = new HashMap<>();
 
   public static final int MAX_INTENTION_NUMBER = 10;
 

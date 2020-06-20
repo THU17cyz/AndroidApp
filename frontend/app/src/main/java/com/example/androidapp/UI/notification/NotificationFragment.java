@@ -217,7 +217,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
         }
         Collections.sort(dialogs, (p1, p2) -> Integer.valueOf(p2.getLastMessage().getId())
                 .compareTo(Integer.valueOf(p2.getLastMessage().getId())));
-        dialogsAdapter.notifyDataSetChanged();;
+        dialogsAdapter.notifyDataSetChanged();
 
     }
 
