@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import com.example.androidapp.chatTest.model.Message;
 import com.example.androidapp.chatTest.model.User;
 import com.example.androidapp.R;
 import com.example.androidapp.repository.chathistory.ChatHistory;
+import com.example.androidapp.request.conversation.GetMessagePictureRequest;
 import com.example.androidapp.request.conversation.GetMessageRequest;
 import com.example.androidapp.request.conversation.GetNewMessagesRequest;
 import com.example.androidapp.request.conversation.SendMessageRequest;
@@ -125,6 +127,7 @@ public class ChatActivity
     setContentView(R.layout.activity_chat);
     ButterKnife.bind(this);
 
+    //固定顶部导航栏
     getWindow().setSoftInputMode (WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
     user = getIntent().getStringExtra("user");
@@ -133,9 +136,9 @@ public class ChatActivity
     contactType = getIntent().getStringExtra("contact_type");
 
     // String.valueOf(BasicInfo.ID)
-    thisUser = new User("0",user,"",user,BasicInfo.TYPE);
+    thisUser = new User("0",user,"http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",user,BasicInfo.TYPE);
     // contactId
-    contactUser = new User("1",contact,"",contact,contactType);//这里面的id是用于显示
+    contactUser = new User("1",contact,"http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",contact,contactType);//这里面的id是用于显示
 
     // 聊天记录
     chatHistoryViewModel = ViewModelProviders.of(this).get(ChatHistoryViewModel.class);
@@ -173,11 +176,16 @@ public class ChatActivity
       }
     });
 
+    // 设置联系人用户名
     name.setText(contact);
 
     name.setOnClickListener(new View.OnClickListener() {
+
+      // 改成访问他人主页
+
       @Override
       public void onClick(View v) {
+
         // 显示历史聊天记录
         LiveData<List<ChatHistory>> list = chatHistoryViewModel.getAllHistory();
         List<ChatHistory> historyList = list.getValue();
@@ -191,6 +199,9 @@ public class ChatActivity
                 message = new Message(String.valueOf(i), thisUser, history.getContent(), history.getTime());
               } else {
                 message = new Message(String.valueOf(i), contactUser, history.getContent(), history.getTime());
+              }
+              if(history.getType().equals("P")){
+                message.setImage(new Message.Image((new GetMessagePictureRequest(history.getContent()).getWholeUrl())));
               }
               messagesList.add(message);
             }
@@ -328,15 +339,21 @@ public class ChatActivity
       Log.d("Matisse", "mSelected: " + mUris);
 
       for (int i = 0; i < mUris.size(); i++) {
-        Message message = new Message("0", thisUser, null);
-        message.setImage(new Message.Image(mUris.get(i).toString()));
-        Log.d("Matisse print", mUris.get(i).toString());
-        messagesAdapter.addToStart(message, true);
-        String path = "file://" + mUris.get(i).toString();
+
+        String path = mPaths.get(i);
+        String uri = mUris.get(i).toString();
+
+        // 发送图片
         new SendMessageRequest(new Callback() {
           @Override
           public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+              Log.e("error","发送图片失败");
+            runOnUiThread(new Runnable() {
+              @Override
+              public void run() {
+                Toast.makeText(getApplicationContext(),"发送图片失败",Toast.LENGTH_SHORT).show();
+              }
+            });
           }
 
           @Override
@@ -350,17 +367,32 @@ public class ChatActivity
 
               Boolean status = jsonObject.getBoolean("status");
               if (status) {
-                // 本地数据库是否应该插入
-                // chatHistoryViewModel.insert(new ChatHistory(new Date(),"","P","S",user,contact,contactId,contactType));
+                // 发送成功之后显示图片
+                runOnUiThread(new Runnable() {
+                  @Override
+                  public void run() {
+                    Message message = new Message("0", thisUser, null);
+                    message.setImage(new Message.Image(uri));
+                    Log.d("Matisse print", uri);
+                    messagesAdapter.addToStart(message, true);
+                  }
+                });
+
               } else {
+                runOnUiThread(new Runnable() {
+                  String info = jsonObject.getString("info");
+                  @Override
+                  public void run() {
+                    runOnUiThread(() -> Toast.makeText(ChatActivity.this,info, Toast.LENGTH_LONG).show());
+                  }
+                });
               }
-              String info = jsonObject.getString("info");
-              runOnUiThread(() -> Toast.makeText(ChatActivity.this,info, Toast.LENGTH_LONG).show());
+
             } catch (JSONException e) {
               e.printStackTrace();
             }
           }
-        },contactId, contactType,"P", "",Uri2File.convert(path)).send();
+        },contactId, contactType,"P", null,Uri2File.convert(path)).send();
       }
     }
 
@@ -373,21 +405,7 @@ public class ChatActivity
    */
   @Override
   public void onLoadMore(int page, int totalItemsCount) {
-//    // 查找并显示历史聊天记录
-//    LiveData<List<ChatHistory>> list = chatHistoryViewModel.getAllHistory();
-//    List<ChatHistory> historyList = list.getValue();
-//    if(historyList!=null){
-//      List<Message> messagesList = new ArrayList<>();
-//      for(int i=0;i<historyList.size();i++){
-//        ChatHistory history = historyList.get(i);
-//        if(history.getUser().equals(user)&& history.getContact().equals(contact)){
-//          Message message = new Message(String.valueOf(i),thisUser,history.getContent(),history.getTime());
-//          messagesList.add(message);
-//        }
-//      }
-//      messagesAdapter.addToEnd(messagesList, false);
-//      messagesAdapter.notifyDataSetChanged();
-//    }
+
   }
 
   /**
@@ -396,7 +414,7 @@ public class ChatActivity
    */
   @Override
   public void onMessageClick(IMessage message) {
-    Toast.makeText(getApplicationContext(), message.getText() + "clilcked", Toast.LENGTH_SHORT).show();
+    // Toast.makeText(getApplicationContext(), message.getText() + "clilcked", Toast.LENGTH_SHORT).show();
   }
 
   /**
@@ -406,14 +424,11 @@ public class ChatActivity
    */
   @Override
   public boolean onSubmit(CharSequence input) {
-    messagesAdapter.addToStart(
-            new Message("0", thisUser, input.toString())
-            , true);
-
     new SendMessageRequest(new Callback() {
       @Override
       public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+        Log.e("error","发送失败");
+        runOnUiThread(() -> Toast.makeText(ChatActivity.this,"发送失败", Toast.LENGTH_LONG).show());
       }
 
       @Override
@@ -427,10 +442,21 @@ public class ChatActivity
 
           Boolean status = jsonObject.getBoolean("status");
           if (status) {
+            // 发送成功后显示消息
+            runOnUiThread(new Runnable() {
+              @Override
+              public void run() {
+                messagesAdapter.addToStart(
+                        new Message("0", thisUser, input.toString())
+                        , true);
+              }
+            });
+
           } else {
+            String info = jsonObject.getString("info");
+            runOnUiThread(() -> Toast.makeText(ChatActivity.this,info, Toast.LENGTH_LONG).show());
           }
-          String info = jsonObject.getString("info");
-          runOnUiThread(() -> Toast.makeText(ChatActivity.this,info, Toast.LENGTH_LONG).show());
+
         } catch (JSONException e) {
           e.printStackTrace();
         }
@@ -455,13 +481,14 @@ public class ChatActivity
   @Override
   protected void onResume() {
     super.onResume();
-     mTimeCounterRunnable.run();
+    // 开始轮询
+    mTimeCounterRunnable.run();
   }
 
-
+  // 轮询
   private Runnable mTimeCounterRunnable = new Runnable() {
     @Override
-    public void run() {//在此添加需轮寻的接口
+    public void run() {
       Log.e("聊天界面轮询","+1");
       newTest();//getUnreadCount()执行的任务
       mHandler.postDelayed(this, 10 * 1000);
@@ -530,14 +557,34 @@ public class ChatActivity
                         String messageContent = jsonObject1.getString("message_content");
                         String messageTime = jsonObject1.getString("message_time");
 
-                        // SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm" );
+                        SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm" );
                         // LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
                         // sdf.parse(messageTime)
-                        chatHistoryViewModel.insert(new ChatHistory(new Date(),messageContent,messageType,messageWay,BasicInfo.ACCOUNT,objectAccount,objectId,objectType));
+                        if(messageType.equals("T")){
+                          try {
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                            chatHistoryViewModel.insert(new ChatHistory(simpleDateFormat.parse(messageTime),messageContent,messageType,messageWay,BasicInfo.ACCOUNT,objectAccount,objectId,objectType));
+                          } catch (ParseException e) {
+                            e.printStackTrace();
+                          }
+                        } else {
+                          try {
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                            chatHistoryViewModel.insert(new ChatHistory(simpleDateFormat.parse(messageTime),String.valueOf(messageId),messageType,messageWay,BasicInfo.ACCOUNT,objectAccount,objectId,objectType));
+                          } catch (ParseException e) {
+                            e.printStackTrace();
+                          }
+                        }
                         // 如果是对方的消息则显示
                         if(objectAccount.equals(contact)&&messageWay.equals("R")){
                           // sdf.parse(messageTime)
                           Message message = new Message("",contactUser,messageContent,new Date());
+                          if(messageType.equals("P"))
+                          {
+                            // todo 检查对不对
+                            message.setImage(new Message.Image(new GetMessagePictureRequest(String.valueOf(messageId)).getWholeUrl()));
+                          }
+
                           runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

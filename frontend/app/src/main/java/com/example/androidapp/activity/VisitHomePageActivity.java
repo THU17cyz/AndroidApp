@@ -115,6 +115,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
 //    public String mIdNumber;
     public String mGender;
 
+    public String mAccount;
     public String mName;
     public String mSchool;
     public String mDepartment;
@@ -221,6 +222,10 @@ public class VisitHomePageActivity extends AppCompatActivity {
         btn_chat.setOnClickListener(v -> {
             // TODO
             Intent intent1 =new Intent(VisitHomePageActivity.this, ChatActivity.class);
+            intent1.putExtra("user",BasicInfo.ACCOUNT);
+            intent1.putExtra("contact",mAccount);
+            intent1.putExtra("contact_id",String.valueOf(id));
+            intent1.putExtra("contact_type",type);
             startActivity(intent1);
         });
         btn_focus.setPressed_(isFan);
@@ -332,7 +337,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
         final int[] count = {0};
 
         // 获取用户名和类型
-        new GetInfoRequest(new okhttp3.Callback() {
+        new GetInfoRequest(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Log.e("error", e.toString());
@@ -350,6 +355,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
                     Boolean status = jsonObject.getBoolean("status");
                     if (status) {
                         mName = jsonObject.getString("name");
+                        mAccount = jsonObject.getString("account");
                         mGender = jsonObject.getString("gender");
                         mSchool = jsonObject.getString("school");
                         mDepartment = jsonObject.getString("department");
