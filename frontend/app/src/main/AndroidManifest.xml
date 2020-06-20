@@ -19,7 +19,7 @@
         android:theme="@style/MyAppTheme"
         android:requestLegacyExternalStorage="true"
         tools:targetApi="n">
-        <activity android:name=".activity.InfoActivity"></activity>
+        <activity android:name=".activity.InfoActivity" />
         <activity
             android:name=".activity.TeacherHomepageActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -34,7 +34,7 @@
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"></activity>
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".activity.LogonActivity"
             android:label="@string/app_name"
@@ -48,7 +48,6 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

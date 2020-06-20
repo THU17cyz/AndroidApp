@@ -23,6 +23,8 @@ import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Hint;
 import com.example.androidapp.util.SoftKeyBoardListener;
 import com.example.androidapp.util.Valid;
+import com.rubengees.introduction.IntroductionBuilder;
+import com.rubengees.introduction.Slide;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -30,6 +32,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,6 +66,8 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.login_password)
     FormEditText passwordEditText;
 
+    IntroductionBuilder introductionBuilder;
+
     /******************************
      ************ 方法 ************
      ******************************/
@@ -89,18 +95,44 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) { }
         });
-        SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
-            @Override
-            public void keyBoardShow(int height) {
-                Toast.makeText(LoginActivity.this, "键盘显示 高度" + height, Toast.LENGTH_SHORT).show();
-            }
+        // 软键盘设置
+//        SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
+//            @Override
+//            public void keyBoardShow(int height) {
+//                Toast.makeText(LoginActivity.this, "键盘显示 高度" + height, Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void keyBoardHide(int height) {
+//                Toast.makeText(LoginActivity.this, "键盘隐藏 高度" + height, Toast.LENGTH_SHORT).show();
+//            }
+//        });
+        // 引导页设置
+        introductionBuilder = new IntroductionBuilder(this);
+        introductionBuilder.withSlides(generateSlides()).introduceMyself();
 
-            @Override
-            public void keyBoardHide(int height) {
-                Toast.makeText(LoginActivity.this, "键盘隐藏 高度" + height, Toast.LENGTH_SHORT).show();
-            }
-        });
     }
+
+    private List<Slide> generateSlides() {
+        List<Slide> result = new ArrayList<>();
+
+        result.add(new Slide()
+                .withTitle("Some title")
+                .withDescription("Some description")
+                .withColorResource(R.color.green)
+                .withImage(R.drawable.ic_person_black_24dp)
+        );
+
+        result.add(new Slide()
+                .withTitle("Another title")
+                .withDescription("Another description")
+                .withColorResource(R.color.blue)
+                .withImage(R.drawable.ic_person_black_24dp)
+        );
+        return result;
+    }
+
+
 
     private void onJumpToMain() {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
