@@ -113,29 +113,8 @@ public class LoginActivity extends BaseActivity {
 //        });
         // 引导页设置
         introductionBuilder = new IntroductionBuilder(this);
-        introductionBuilder.withSlides(generateSlides()).introduceMyself();
-
+        introductionBuilder.withSlides(Hint.generateSlides()).introduceMyself();
     }
-
-    private List<Slide> generateSlides() {
-        List<Slide> result = new ArrayList<>();
-
-        result.add(new Slide()
-                .withTitle("Some title")
-                .withDescription("Some description")
-                .withColorResource(R.color.green)
-                .withImage(R.drawable.ic_person_black_24dp)
-        );
-
-        result.add(new Slide()
-                .withTitle("Another title")
-                .withDescription("Another description")
-                .withColorResource(R.color.blue)
-                .withImage(R.drawable.ic_person_black_24dp)
-        );
-        return result;
-    }
-
 
 
     private void onJumpToMain() {
