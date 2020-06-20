@@ -215,8 +215,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
                     LocalPicx.NOTIFICATION_PASSWORD_CHANGE,
                     new ArrayList<>(Arrays.asList(user)), m, m.isRead() ? 0 : 1));
         }
-        Collections.sort(dialogs, (p1, p2) -> Integer.valueOf(p2.getLastMessage().getId())
-                .compareTo(Integer.valueOf(p2.getLastMessage().getId())));
+        Collections.sort(dialogs, (p1, p2) -> p2.getLastMessage().getCreatedAt().compareTo(p1.getLastMessage().getCreatedAt()));
         dialogsAdapter.notifyDataSetChanged();
 
     }

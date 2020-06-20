@@ -42,6 +42,7 @@ import com.example.androidapp.application.App;
 import com.example.androidapp.chatTest.model.Dialog;
 import com.example.androidapp.chatTest.model.User;
 import com.example.androidapp.repository.chathistory.ChatHistory;
+import com.example.androidapp.request.conversation.GetMessagePictureRequest;
 import com.example.androidapp.request.conversation.GetMessageRequest;
 import com.example.androidapp.request.conversation.GetNewMessagesRequest;
 import com.example.androidapp.request.information.GetInformationDetailRequest;
@@ -210,12 +211,32 @@ public class MainActivity extends BaseActivity {
                 if(chat.getUser().equals(BasicInfo.ACCOUNT)){
                     String id = chat.getContactId();
                     String account = chat.getContact();
-                    String type = chat.getContactType();
+                    String type = chat.getType();
+                    String otherUserType = chat.getContactType();
                     String msg = chat.getContent();
+                    String send = chat.getSend();
                     Date date = chat.getTime();
-                    User user = new User(id, account,"", account, type);
-                    com.example.androidapp.chatTest.model.Message message =
-                            new com.example.androidapp.chatTest.model.Message("", user, msg, date);
+//                    User user = new User(id, account,"", account, type);
+                    com.example.androidapp.chatTest.model.Message message;// = new com.example.androidapp.chatTest.model.Message("", user, msg, date);
+
+                    if(send.equals("S")){
+                        User user = new User("0", BasicInfo.ACCOUNT,
+                                "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
+                                account, otherUserType);
+                        message = new com.example.androidapp.chatTest.model.Message("", user, msg, date);
+                    } else {
+                        User user = new User("1", account,
+                                "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
+                                account, otherUserType);
+                        message = new com.example.androidapp.chatTest.model.Message("", user, msg, date);
+                    }
+                    if (type.equals("P")) {
+                        message.setImage(new com.example.androidapp.chatTest.model.Message.Image(
+                                (new GetMessagePictureRequest(msg).getWholeUrl())));
+                        System.out.println(new GetMessagePictureRequest(msg).getWholeUrl());
+
+                    }
+
                     ArrayList<com.example.androidapp.chatTest.model.Message> msgs = BasicInfo.CHAT_HISTORY.get(account);
                     if (msgs == null) {
                         msgs = new ArrayList<>();
@@ -250,8 +271,6 @@ public class MainActivity extends BaseActivity {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         informationIdList.add(jsonArray.getInt(i));
                     }
-
-                    // TODO 有待优化
                     int idx = -1;
                     int tmp;
                     int len;
@@ -369,21 +388,46 @@ public class MainActivity extends BaseActivity {
                             String messageType = jsonObject1.getString("message_type");
                             String messageContent = jsonObject1.getString("message_content");
                             String messageTime = jsonObject1.getString("message_time");
-                            // TODO 时间是不是不对
-                            Date date = new Date();
-                            chatHistoryViewModel.insert(new ChatHistory(
-                                    date, messageContent, messageType,
-                                    messageWay, BasicInfo.ACCOUNT, objectAccount, objectId, objectType));
+
+
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                            Date date = simpleDateFormat.parse(messageTime);
+//                            chatHistoryViewModel.insert(new ChatHistory(
+//                                    date, messageContent, messageType,
+//                                    messageWay, BasicInfo.ACCOUNT, objectAccount, objectId, objectType));
+                            com.example.androidapp.chatTest.model.Message message;
+                            if(messageWay.equals("S")){
+                                User user = new User("0", BasicInfo.ACCOUNT,
+                                        "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
+                                        objectAccount, objectType);
+                                message = new com.example.androidapp.chatTest.model.Message(String.valueOf(messageId), user, messageContent, date, false);
+                            } else {
+                                User user = new User("1", objectAccount,
+                                        "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
+                                        objectAccount, objectType);
+                                message = new com.example.androidapp.chatTest.model.Message(String.valueOf(messageId), user, messageContent, date, false);
+                            }
+                            if(messageType.equals("T")){
+                                chatHistoryViewModel.insert(new ChatHistory(date, messageContent,
+                                        messageType, messageWay, BasicInfo.ACCOUNT, objectAccount, objectId, objectType));
+
+                            } else {
+                                chatHistoryViewModel.insert(new ChatHistory(date, String.valueOf(messageId), messageType,
+                                        messageWay, BasicInfo.ACCOUNT, objectAccount, objectId, objectType));
+                                message.setImage(new com.example.androidapp.chatTest.model.Message.Image(
+                                        (new GetMessagePictureRequest(String.valueOf(messageId)).getWholeUrl())));
+                                message.setText(String.valueOf(messageId));
+                            }
+
                             ArrayList<com.example.androidapp.chatTest.model.Message> msgs = BasicInfo.CHAT_HISTORY.get(objectAccount);
                             if (msgs == null) {
                                 msgs = new ArrayList<>();
                                 BasicInfo.CHAT_HISTORY.put(objectAccount, msgs);
                             }
-                            User user = new User(objectId, BasicInfo.ACCOUNT,"", BasicInfo.ACCOUNT, objectType);
-                            com.example.androidapp.chatTest.model.Message message =
-                                    new com.example.androidapp.chatTest.model.Message("", user, messageContent, date, false);
+//                            User user = new User(objectId, BasicInfo.ACCOUNT,"", BasicInfo.ACCOUNT, objectType);
+//                            com.example.androidapp.chatTest.model.Message message =
+//                                    new com.example.androidapp.chatTest.model.Message(String.valueOf(messageId), user, messageContent, date, false);
                             msgs.add(message);
-                            Log.e("fansi", String.valueOf(msgs.size()));
                         }
 
 
@@ -404,7 +448,7 @@ public class MainActivity extends BaseActivity {
 
 
 
-                } catch (JSONException e) {
+                } catch (JSONException | ParseException e) {
                     e.printStackTrace();
                 }
             }

@@ -65,6 +65,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -134,13 +135,14 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
             @Override
             public void onDialogClick(IDialog dialog) {
                 // todo
-                User contact = (User)dialog.getUsers().get(0);
+                User contact = (User) dialog.getUsers().get(0);
+                System.out.println(contact.getAccount() + contact.getId() + contact.getName());
                 String s = contact.getName();
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
-                intent.putExtra("user",userAccount);
-                intent.putExtra("contact",contact.getName());
-                intent.putExtra("contact_id",contact.getId());
-                intent.putExtra("contact_type",contact.getType());
+                intent.putExtra("user", userAccount);
+                intent.putExtra("contact", contact.getAccount());
+                intent.putExtra("contact_id", contact.getId());
+                intent.putExtra("contact_type", contact.getType());
                 startActivity(intent);
             }
         });
@@ -202,224 +204,25 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
 
     public void newTest(){
         // 初步构造联系人列表
-//        LiveData<List<ChatHistory>> list = chatHistoryViewModel.getAllHistory();
-//        List<ChatHistory> chatList = list.getValue();
-//        if(chatList==null){
-//            Toast.makeText(getActivity(),"出错null",Toast.LENGTH_SHORT).show();
-//            Log.e("错误","数据库获取为null");
-//        }
-//        else {
-//
-//            if(dialogs.size()!=0){
-//                dialogs.clear();
-//            }
-//
-//            List<String> accounts = new ArrayList<>();//对方列表
-//            List<String> messages = new ArrayList<>();//对方最新消息列表
-//            List<Date> dates = new ArrayList<>();//对方最新消息时间列表
-//            List<String> ids = new ArrayList<>();//对方id列表
-//            List<String> types = new ArrayList<>();//对方类型列表
-//
-//            for(int i=0;i<chatList.size();i++){
-//                ChatHistory chat = chatList.get(i);
-//                // 判断是否为当前用户的消息
-//                if(chat.getUser().equals(BasicInfo.ACCOUNT)){
-//
-//                    if(accounts.contains(chat.getContact())){
-//                        // 如果已经在列表中则更新最新消息
-//                        int index = accounts.indexOf(chat.getContact());
-//                        messages.set(index,chat.getContent());
-//                        dates.set(index,chat.getTime());
-//                    } else {
-//                        // 如果不在则加入
-//                        accounts.add(chat.getContact());
-//                        messages.add(chat.getContent());
-//                        dates.add(chat.getTime());
-//                        ids.add(chat.getContactId());
-//                        types.add(chat.getContactType());
-//                    }
-//                }
-//            }
-//            for(int i=0;i<accounts.size();i++){
-//                User user = new User(ids.get(i),accounts.get(i),"",accounts.get(i),types.get(i));
-//                Message message = new Message("", user,messages.get(i),dates.get(i));
-//                Dialog dialog = new Dialog(String.valueOf(i),accounts.get(i),"",
-//                        new ArrayList<>(Arrays.asList(user)),
-//                        message,0);
-//                dialogs.add(dialog);
-//                dialogsAdapter.notifyDataSetChanged();
-//            }
-//        }
 
         dialogs.clear();
         int i = 0;
         for (String account: BasicInfo.CHAT_HISTORY.keySet()) {
-            System.out.println("account" + account);
             ArrayList<Message> msgs = BasicInfo.CHAT_HISTORY.get(account);
+            if (msgs.isEmpty()) continue;
             Message message = msgs.get(msgs.size() - 1);
             User user = message.getUser();
+            System.out.println(user.getAccount() + user.getId() + user.getName());
             Dialog dialog = new Dialog(String.valueOf(i), account, "",
                     new ArrayList<>(Arrays.asList(user)),
                     message, message.isRead() ? 0 : 1);
             dialogs.add(dialog);
             i++;
         }
+        Collections.sort(dialogs, (p1, p2) -> p2.getLastMessage().getCreatedAt().compareTo(p1.getLastMessage().getCreatedAt()));
         dialogsAdapter.notifyDataSetChanged();
 
-//        // 先获取本地聊天id
-//        SharedPreferences sharedPreferences = getContext().getSharedPreferences("data",Context.MODE_PRIVATE);
-//        currentMessageId = sharedPreferences.getInt(BasicInfo.ACCOUNT,0);
-//        Log.e("当前id:",String.valueOf(currentMessageId));
-//
-//        // 网络请求聊天记录
-//        new GetMessageRequest(new Callback() {
-//            @Override
-//            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-//                Log.e("error","获取最新id失败");
-//                hasHandled = true;
-//            }
-//
-//            @Override
-//            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-//                String resStr = response.body().string();
-//                Log.e("回复",resStr);
-//                JSONObject jsonObject = null;
-//                try {
-//                    jsonObject = new JSONObject(resStr);
-//                    Boolean status = jsonObject.getBoolean("status");
-//                    if(status){
-//                        messageId = jsonObject.getInt("message_id");
-//                        Log.e("收到最新id：",String.valueOf(messageId));
-//
-//                        if(messageId==-1){
-//                            hasHandled = true;
-//                            Log.e("hasHandled置true","，");
-//                            // 无消息
-//                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("data",Context.MODE_PRIVATE);
-//                            SharedPreferences.Editor editor = sharedPreferences.edit();
-//                            editor.putInt(BasicInfo.ACCOUNT,0);
-//                            editor.commit();
-//                        }
-//                        else if(messageId==currentMessageId){
-//                            hasHandled =true;
-//                            Log.e("hasHandled置true","，");
-//                            // 无新操作
-//                        } else if(messageId>currentMessageId){
-//                            new GetNewMessagesRequest(new Callback() {
-//                                @Override
-//                                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-//                                    Log.e("error","获取最新消息失败");
-//                                    hasHandled = true;
-//                                    Log.e("hasHandled置true","，");
-//                                }
-//
-//                                @RequiresApi(api = Build.VERSION_CODES.O)
-//                                @Override
-//                                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-//                                    String resStr = response.body().string();
-//                                    JSONObject jsonObject = null;
-//                                    try {
-//                                        jsonObject = new JSONObject(resStr);
-//                                        Boolean status = jsonObject.getBoolean("status");
-//                                        if (status) {
-//                                            JSONArray jsonArray = (JSONArray) jsonObject.get("message_info_list");
-//
-//                                            for (int i = 0; i < jsonArray.length(); i++){
-//                                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-//                                                int messageId = jsonObject1.getInt("message_id");
-//                                                String objectType = jsonObject1.getString("object_type");
-//                                                String objectId = jsonObject1.getString("object_id");
-//                                                String objectAccount = jsonObject1.getString("object_account");
-//                                                String objectName = jsonObject1.getString("object_name");
-//                                                String messageWay = jsonObject1.getString("message_way");
-//                                                String messageType = jsonObject1.getString("message_type");
-//                                                String messageContent = jsonObject1.getString("message_content");
-//                                                String messageTime = jsonObject1.getString("message_time");
-//
-//                                                // SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm" );
-//                                                // LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-//
-//                                                Log.e("插入",new Date().toString()+" "+messageContent+" "+ messageType+" "+messageWay+" "+BasicInfo.ACCOUNT+" "+objectAccount+" "+ objectId+ " "+objectType);
-//
-//                                                getActivity().runOnUiThread(new Runnable() {
-//                                                    @Override
-//                                                    public void run() {
-//                                                        chatHistoryViewModel.insert(new ChatHistory(new Date(),messageContent,messageType,messageWay,BasicInfo.ACCOUNT,objectAccount,objectId,objectType));
-//                                                    }
-//                                                });
-//
-//                                                boolean hasMatched = false;
-//                                                for (int idx=0;idx<dialogs.size();idx++){
-//                                                    if(dialogs.get(idx).getUsers().get(0).getAccount().equals(objectAccount)){
-//                                                        // todo 异步
-//                                                        // 如果有重名则更新
-//                                                        dialogs.get(idx).getLastMessage().setText(messageContent);
-//                                                        dialogs.get(idx).getLastMessage().setCreatedAt(DateUtil3.parse(messageTime));
-//                                                        // 不知道要不要uiThread
-//                                                        getActivity().runOnUiThread(new Runnable() {
-//                                                            @Override
-//                                                            public void run() {
-//                                                                dialogsAdapter.notifyDataSetChanged();
-//                                                            }
-//                                                        });
-//
-//                                                        hasMatched = true;
-//                                                        break;
-//                                                    }
-//                                                }
-//                                                if(hasMatched==false){
-//                                                    // 没匹配到则加项
-//                                                    User user = new User(objectId,objectAccount,"",objectAccount,objectType);
-//                                                    Message message = new Message("",user,messageContent,DateUtil3.parse(messageTime));
-//                                                    Dialog dialog = new Dialog(String.valueOf(i),objectAccount,"",
-//                                                            new ArrayList<>(Arrays.asList(user)),
-//                                                            message,0);
-//                                                    dialogs.add(dialog);
-//                                                    getActivity().runOnUiThread(new Runnable() {
-//                                                        @Override
-//                                                        public void run() {
-//                                                            dialogsAdapter.notifyDataSetChanged();
-//                                                        }
-//                                                    });
-//
-//                                                }
-//                                            }
-//
-//                                            // tmp: 得到所有新消息后，直接更新currentMessageId
-//                                            SharedPreferences sharedPreferences = getContext().getSharedPreferences("data",Context.MODE_PRIVATE);
-//                                            SharedPreferences.Editor editor = sharedPreferences.edit();
-//                                            editor.putInt(BasicInfo.ACCOUNT,messageId);
-//                                            editor.commit();
-//                                            hasHandled = true;
-//                                            Log.e("hasHandled置true","，");
-//                                            Log.e("更新后id：",String.valueOf(messageId));
-//
-//
-//                                        } else {
-//                                            hasHandled = true;
-//                                            Log.e("hasHandled置true","，");
-//                                        }
-//
-//
-//
-//                                    } catch (JSONException | ParseException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                            },String.valueOf(currentMessageId)).send();
-//                        }
-//                    }
-//                    else {
-//                        hasHandled = true;
-//                        Log.e("hasHandled置true","，");
-//                        String info = jsonObject.getString("info");
-//                        Log.e("error",info);
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).send();
+
 
     }
 
