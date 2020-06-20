@@ -25,9 +25,11 @@ import com.example.androidapp.adapter.ShortIntentAdapter;
 import com.example.androidapp.component.FocusButton;
 import com.example.androidapp.entity.ShortIntent;
 import com.example.androidapp.entity.ShortIntent;
+import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.popup.SelectList;
 import com.example.androidapp.request.follow.AddToWatchRequest;
 import com.example.androidapp.request.follow.DeleteFromWatchRequest;
+import com.example.androidapp.util.BasicInfo;
 import com.kingja.loadsir.core.LoadService;
 
 import org.jetbrains.annotations.NotNull;
@@ -37,6 +39,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,7 +70,7 @@ public class IntentFragment extends Fragment {
     protected ArrayList<ShortIntent> mIntentList;
 
     protected ArrayList<ShortIntent> filteredIntentList;
-
+    private Lock lock = new ReentrantLock();
 
     protected Unbinder unbinder;
 
@@ -155,30 +159,36 @@ public class IntentFragment extends Fragment {
         return filters;
     }
 
-    void addIntentItem(boolean isRefresh, ShortIntent ShortIntent) {
+    void addIntentItem(boolean isRefresh, ShortIntent shortIntent) {
         if (recyclerView.isComputingLayout()) {
             Log.e("errorrecyclerview", "ohno");
             recyclerView.post(() -> {
                 if (isRefresh) {
                     for (ShortIntent tmp: mIntentList) {
-                        if (tmp.id == ShortIntent.id) return;
+                        if (tmp.id == shortIntent.id) return;
                     }
                     mIntentList.remove(0);
                     mShortIntentAdapter.notifyItemRemoved(0);
                 }
-                mIntentList.add(ShortIntent);
+                if (shortIntent.id == BasicInfo.ID && shortIntent.isTeacher == BasicInfo.IS_TEACHER) return; // 如果是自己，筛去
+                lock.lock();
+                mIntentList.add(shortIntent);
+                lock.unlock();
             });
 
 
         } else {
             if (isRefresh) {
                 for (ShortIntent tmp: mIntentList) {
-                    if (tmp.id == ShortIntent.id) return;
+                    if (tmp.id == shortIntent.id) return;
                 }
                 mIntentList.remove(0);
                 mShortIntentAdapter.notifyItemRemoved(0);
             }
-            mIntentList.add(ShortIntent);
+            if (shortIntent.id == BasicInfo.ID && shortIntent.isTeacher == BasicInfo.IS_TEACHER) return; // 如果是自己，筛去
+            lock.lock();
+            mIntentList.add(shortIntent);
+            lock.unlock();
         }
     }
 
@@ -188,6 +198,7 @@ public class IntentFragment extends Fragment {
         intent.putExtra("id",shortIntent.id);
         intent.putExtra("isTeacher", shortIntent.isTeacher);
         intent.putExtra("isFan", shortIntent.isFan);
+        intent.putExtra("profile", new ShortProfile(shortIntent));
         startActivity(intent);
     }
     

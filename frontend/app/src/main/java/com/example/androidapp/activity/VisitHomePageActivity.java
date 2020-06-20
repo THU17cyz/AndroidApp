@@ -19,6 +19,8 @@ import com.example.androidapp.entity.ApplicationInfo;
 import com.example.androidapp.entity.EnrollmentInfo;
 import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.entity.WholeProfile;
+import com.example.androidapp.fragment.homepage.ApplicationInfoFragment;
+import com.example.androidapp.fragment.homepage.RecruitmentInfoFragment;
 import com.example.androidapp.fragment.homepage.SelfInfoFragment;
 import com.example.androidapp.fragment.homepage.StudyInfoFragment;
 import com.example.androidapp.request.follow.AddToWatchRequest;
@@ -141,8 +143,9 @@ public class VisitHomePageActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
+        shortProfile = intent.getParcelableExtra("profile");
         id = intent.getIntExtra("id", -1);
-        boolean isTeacher = intent.getBooleanExtra("isTeacher", true);
+        isTeacher = intent.getBooleanExtra("isTeacher", true);
         isFan = intent.getBooleanExtra("isFan", true);
 
         if (isTeacher) {
@@ -199,6 +202,10 @@ public class VisitHomePageActivity extends AppCompatActivity {
                         break;
                     }
                     default: {
+                        if (type.equals("S"))
+                            ((ApplicationInfoFragment) pagerAdapter.getRegisteredFragment(2)).setInfo();
+                        else
+                            ((RecruitmentInfoFragment) pagerAdapter.getRegisteredFragment(2)).setInfo();
 //                        ((SelfInfoFragment) pagerAdapter.getRegisteredFragment(0)).setInfo();
                         break;
                     }
@@ -242,6 +249,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
     // TODO 还有bug
     @OnClick(R.id.btn_focus)
     void watchOrUnwatch() {
+        System.out.println(id + " " +  isTeacher);
         btn_focus.startLoading(() -> {
             if (isFan) {
                 new DeleteFromWatchRequest(new Callback() {
@@ -258,7 +266,10 @@ public class VisitHomePageActivity extends AppCompatActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(resStr);
                             isFan = false;
+                            BasicInfo.removeFromWatchList(id, isTeacher);
+
                             runOnUiThread(btn_focus::clickSuccess);
+                            BasicInfo.printWatchList();
 
 //                            loadService.showSuccess();
                         } catch (JSONException e) {
@@ -283,7 +294,10 @@ public class VisitHomePageActivity extends AppCompatActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(resStr);
                             isFan = true;
+                            BasicInfo.addToWatchList(shortProfile);
                             runOnUiThread(btn_focus::clickSuccess);
+                            BasicInfo.printWatchList();
+
                         } catch (JSONException e) {
                             Log.e("error2", e.toString());
                             runOnUiThread(btn_focus::clickFail);

@@ -21,7 +21,7 @@ public class ShortIntent implements Parcelable {
 
     public ShortIntent(JSONObject jsonObject, boolean isTeacher) throws JSONException {
         this.isTeacher = isTeacher;
-
+        this.isFan = jsonObject.getBoolean("is_followed");
         if (isTeacher) {
             this.id = jsonObject.getInt("teacher_id");
             this.target = jsonObject.getString("research_fields");

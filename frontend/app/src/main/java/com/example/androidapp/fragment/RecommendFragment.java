@@ -28,12 +28,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-
+// TODO 肯有可能会发生冲突
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -43,6 +47,7 @@ public class RecommendFragment extends ProfileListFragment {
     LoadService loadService;
     Activity activity;
     final static int fixed_num = 6;
+    private Lock lock = new ReentrantLock();
 
     public RecommendFragment() {
     }
@@ -50,6 +55,8 @@ public class RecommendFragment extends ProfileListFragment {
     public RecommendFragment(int num) {
         if (num == 0) isTeacher = true;
         else isTeacher = false;
+        System.out.println("construct" + isTeacher);
+
     }
 
 
@@ -59,13 +66,42 @@ public class RecommendFragment extends ProfileListFragment {
         View root = super.onCreateView(inflater, container, savedInstanceState);
 //        refreshLayout = ((HomeFragment) getParentFragment()).refreshLayout;
         activity = getActivity();
+        System.out.println("onCreateView");
         getRecommendList(false);
-
         refreshLayout.setOnRefreshListener(refreshlayout -> {
             getRecommendList(true);
         });
         return root;
 
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        System.out.println("onActivityCreated");
+
+    }
+
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        int i = 0;
+        lock.lock();
+        for (ShortProfile shortProfile: mProfileList) {
+            boolean true_state = BasicInfo.isInWatchList(shortProfile.id, shortProfile.isTeacher);
+            if (true_state && !shortProfile.isFan) {
+                shortProfile.isFan = true;
+                mShortProfileAdapter.notifyItemChanged(i);
+            }
+            if (!true_state && shortProfile.isFan) {
+                shortProfile.isFan = false;
+                mShortProfileAdapter.notifyItemChanged(i);
+            }
+            i++;
+        }
+        lock.unlock();
     }
 
     private void getRecommendList(boolean isRefresh) {
@@ -222,28 +258,33 @@ public class RecommendFragment extends ProfileListFragment {
     void addProfileItem(boolean isRefresh, ShortProfile shortProfile) {
         if (mRecyclerView.isComputingLayout()) {
             mRecyclerView.post(() -> {
-                if (shortProfile.id == BasicInfo.ID) return; // 如果是自己，筛去
+
+                if (shortProfile.id == BasicInfo.ID && shortProfile.isTeacher == BasicInfo.IS_TEACHER) return; // 如果是自己，筛去
                 for (ShortProfile tmp: mProfileList) {
                     if (tmp.id == shortProfile.id) return;
                 }
+                lock.lock();
                 if (isRefresh && mProfileList.size() == fixed_num) {
                     mProfileList.remove(0);
                     mShortProfileAdapter.notifyItemRemoved(0);
                 }
                 mProfileList.add(shortProfile);
+                lock.unlock();
             });
 
 
         } else {
-            if (shortProfile.id == BasicInfo.ID) return; // 如果是自己，筛去
+            if (shortProfile.id == BasicInfo.ID && shortProfile.isTeacher == BasicInfo.IS_TEACHER) return; // 如果是自己，筛去
             for (ShortProfile tmp: mProfileList) {
                 if (tmp.id == shortProfile.id) return;
             }
+            lock.lock();
             if (isRefresh && mProfileList.size() == fixed_num) {
                 mProfileList.remove(0);
                 mShortProfileAdapter.notifyItemRemoved(0);
             }
             mProfileList.add(shortProfile);
+            lock.unlock();
         }
     }
 }

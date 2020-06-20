@@ -24,7 +24,6 @@ public class ShortProfile implements Parcelable {
     public ShortProfile() {
         
     }
-    // TODO 照片
     public ShortProfile(int id, String name, String school, String url, int fanNum, boolean isValidated, boolean isFan) {
         this.id = id;
         this.name = name;
@@ -33,6 +32,23 @@ public class ShortProfile implements Parcelable {
         this.url = url;
         this.isValidated = isValidated;
         this.isFan = isFan;
+    }
+
+    // TODO 照片
+    public ShortProfile(ShortIntent shortIntent) {
+        this.isTeacher = shortIntent.isTeacher;
+        this.id = shortIntent.id;
+        this.name = shortIntent.name;
+        this.school = shortIntent.school;
+        this.department = shortIntent.department;
+        this.isFan = shortIntent.isFan;
+        if (this.isTeacher) {
+            this.url = new GetInfoPictureRequest("T", String.valueOf(this.id), null).getWholeUrl();
+        } else {
+            this.url = new GetInfoPictureRequest("S", null, String.valueOf(this.id)).getWholeUrl();
+        }
+//        this.fanNum = url;
+//        this.isValidated = isValidated;
     }
 
     public ShortProfile(JSONObject jsonObject, boolean isTeacher) throws JSONException {
@@ -71,6 +87,7 @@ public class ShortProfile implements Parcelable {
         this.isMale = shortProfile.isMale;
         this.isValidated = shortProfile.isValidated;
         this.isFan = shortProfile.isFan;
+        this.relate = shortProfile.relate;
     }
 
     protected ShortProfile(Parcel in) {
@@ -84,6 +101,7 @@ public class ShortProfile implements Parcelable {
         isMale = in.readByte() != 0;
         isValidated = in.readByte() != 0;
         isFan = in.readByte() != 0;
+        relate = in.readInt();
     }
 
     @Override
@@ -98,6 +116,7 @@ public class ShortProfile implements Parcelable {
         dest.writeByte((byte) (isMale ? 1 : 0));
         dest.writeByte((byte) (isValidated ? 1 : 0));
         dest.writeByte((byte) (isFan ? 1 : 0));
+        dest.writeInt(relate);
     }
 
     @Override

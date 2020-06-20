@@ -13,6 +13,9 @@ import android.widget.Toast;
 import com.andreabaccega.formedittextvalidator.Validator;
 import com.andreabaccega.widget.FormEditText;
 import com.example.androidapp.R;
+import com.example.androidapp.entity.ShortProfile;
+import com.example.androidapp.request.follow.GetFanlistRequest;
+import com.example.androidapp.request.follow.GetWatchlistRequest;
 import com.example.androidapp.request.user.GetInfoRequest;
 import com.example.androidapp.request.user.LoginRequest;
 import com.example.androidapp.util.BasicInfo;
@@ -22,6 +25,7 @@ import com.example.androidapp.util.SoftKeyBoardListener;
 import com.example.androidapp.util.Valid;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,6 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
@@ -98,6 +103,12 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void onJumpToMain() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+        Hint.endActivityLoad(LoginActivity.this);
+    }
+
+    private void beforeJump1() {
         // 获取account，id，type供全局使用
         new GetInfoRequest(new okhttp3.Callback() {
             @Override
@@ -119,15 +130,15 @@ public class LoginActivity extends BaseActivity {
                         if(jsonObject.has("student_id")){
                             BasicInfo.ID = jsonObject.getInt("student_id");
                             BasicInfo.TYPE = "S";
+                            BasicInfo.IS_TEACHER = false;
                         }else {
                             BasicInfo.ID = jsonObject.getInt("teacher_id");
                             BasicInfo.TYPE = "T";
+                            BasicInfo.IS_TEACHER = true;
                             // BasicInfo.PATH = loadImageCache();
                         }
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        Hint.endActivityLoad(LoginActivity.this);
                         Log.d("basic info",BasicInfo.ACCOUNT);
+                        beforeJump2();
                     }else{
                         String info = jsonObject.getString("info");
                     }
@@ -136,7 +147,79 @@ public class LoginActivity extends BaseActivity {
                 }
             }
         },"I",null,null).send();
+    }
 
+    private void beforeJump2() {
+        final int count[] = {0};
+        new GetFanlistRequest(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.e("error1", e.toString());
+                count[0]++;
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String resStr = response.body().string();
+                Log.e("response", resStr);
+                try {
+                    JSONObject jsonObject = new JSONObject(resStr);
+                    JSONArray jsonArray;
+                    jsonArray = (JSONArray) jsonObject.get("watchlist_teachers");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        ShortProfile shortProfile = new ShortProfile(jsonArray.getJSONObject(i), true);
+                        BasicInfo.FAN_LIST.add(shortProfile);
+                   }
+                    jsonArray = (JSONArray) jsonObject.get("watchlist_students");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        ShortProfile shortProfile = new ShortProfile(jsonArray.getJSONObject(i), false);
+                        BasicInfo.FAN_LIST.add(shortProfile);
+                    }
+                    count[0]++;
+                } catch (JSONException e) {
+                    count[0]++;
+                    Log.e("error2", e.toString());
+                }
+
+            }
+        }).send();
+
+        new GetWatchlistRequest(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.e("error1", e.toString());
+                count[0]++;
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String resStr = response.body().string();
+                Log.e("response", resStr);
+                try {
+                    JSONObject jsonObject = new JSONObject(resStr);
+                    JSONArray jsonArray;
+                    jsonArray = (JSONArray) jsonObject.get("watchlist_teachers");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        ShortProfile shortProfile = new ShortProfile(jsonArray.getJSONObject(i), true);
+                        BasicInfo.addToWatchList(shortProfile);
+                    }
+                    jsonArray = (JSONArray) jsonObject.get("watchlist_students");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        ShortProfile shortProfile = new ShortProfile(jsonArray.getJSONObject(i), false);
+                        BasicInfo.addToWatchList(shortProfile);
+                    }
+                    count[0]++;
+                    while (count[0] != 2) {
+
+                    }
+                    onJumpToMain();
+                } catch (JSONException e) {
+                    Log.e("error2", e.toString());
+                    count[0]++;
+                }
+
+            }
+        }).send();
     }
 
     /******************************
@@ -193,7 +276,8 @@ public class LoginActivity extends BaseActivity {
                     String info = (String) jsonObject.get("info");
                     if (status) {
                         LoginActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(LoginActivity.this, info));
-                        LoginActivity.this.runOnUiThread(LoginActivity.this::onJumpToMain);
+//                        LoginActivity.this.runOnUiThread(LoginActivity.this::onJumpToMain);
+                        beforeJump1();
                     } else {
                         LoginActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(LoginActivity.this, info));
                     }

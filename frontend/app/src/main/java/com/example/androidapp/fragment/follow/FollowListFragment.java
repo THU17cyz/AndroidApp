@@ -29,6 +29,7 @@ import com.example.androidapp.request.follow.AddToWatchRequest;
 import com.example.androidapp.request.follow.DeleteFromWatchRequest;
 import com.example.androidapp.request.follow.GetFanlistRequest;
 import com.example.androidapp.request.follow.GetWatchlistRequest;
+import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.ViewFolder;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
@@ -45,6 +46,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -75,6 +77,10 @@ public class FollowListFragment extends Fragment {
 //  @BindView(R.id.s_refresh_layout)
 //  RefreshLayout sRefreshLayout;
 
+    boolean isWatchList;
+
+    Unbinder unbinder;
+
     ArrayList<ShortProfile> sProfileList;
     ArrayList<ShortProfile> tProfileList;
 
@@ -86,8 +92,8 @@ public class FollowListFragment extends Fragment {
     protected ShortProfileAdapter tShortProfileAdapter;
     protected ShortProfileAdapter sShortProfileAdapter;
 
-    public FollowListFragment() {
-
+    public FollowListFragment(boolean isWatchList) {
+        this.isWatchList = isWatchList;
     }
 
     @Nullable
@@ -95,35 +101,35 @@ public class FollowListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_follow_list, container, false);
-        ButterKnife.bind(this, root);
+        unbinder = ButterKnife.bind(this, root);
 
         sProfileList = new ArrayList<>();
         tProfileList = new ArrayList<>();
-        sProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-                test_url,999, true, false));
-        tProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-                test_url,999, true, false));
-        sProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-                test_url,999, true, false));
-        tProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-                test_url,999, true, false));
-        sProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-                test_url,999, true, false));
-        tProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-                test_url,999, true, false));
-        sProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-                test_url,999, true, false));
-        tProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-                test_url,999, true, false));
-        sProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-                test_url,999, true, false));
-        tProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-                test_url,999, true, false));
+//        sProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
+//                test_url,999, true, false));
+//        tProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
+//                test_url,999, true, false));
+//        sProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
+//                test_url,999, true, false));
+//        tProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
+//                test_url,999, true, false));
+//        sProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
+//                test_url,999, true, false));
+//        tProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
+//                test_url,999, true, false));
+//        sProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
+//                test_url,999, true, false));
+//        tProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
+//                test_url,999, true, false));
+//        sProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
+//                test_url,999, true, false));
+//        tProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
+//                test_url,999, true, false));
 
-        tShortProfileAdapter = new ShortProfileAdapter(sProfileList, getContext());//初始化NameAdapter
+        tShortProfileAdapter = new ShortProfileAdapter(tProfileList, getContext());//初始化NameAdapter
         tShortProfileAdapter.setRecyclerManager(tRecyclerView);//设置RecyclerView特性
 
-        sShortProfileAdapter = new ShortProfileAdapter(tProfileList, getContext());//初始化NameAdapter
+        sShortProfileAdapter = new ShortProfileAdapter(sProfileList, getContext());//初始化NameAdapter
         sShortProfileAdapter.setRecyclerManager(sRecyclerView);//设置RecyclerView特性
 
         // RecycleView 本身的监听事件
@@ -139,43 +145,47 @@ public class FollowListFragment extends Fragment {
         addButtonListener(tShortProfileAdapter, tProfileList);
         addButtonListener(sShortProfileAdapter, sProfileList);
 
-        getFanList();
-        getWatchList();
-
-//        sRecyclerView.setVisibility(View.GONE);
-//        teacherTextView.setOnClickListener(v -> {
-////           ViewFolder.foldView(tRecyclerView, tRecyclerView.getLayoutParams().height, 0);
-//            if (tRecyclerView.getVisibility() == View.VISIBLE) {
-//                tRecyclerView.setVisibility(View.GONE);
-//                sRecyclerView.setVisibility(View.VISIBLE);
-//                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-//                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//                lp.weight = 0;
-//                linearLayout2.setLayoutParams(lp);
-////                LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(
-////                        LinearLayout.LayoutParams.MATCH_PARENT, 0);
-////                lp.weight = 1;
-////                linearLayout3.setLayoutParams(lp2);
-//            }
-//
-//            else {
-//                tRecyclerView.setVisibility(View.VISIBLE);
-//                sRecyclerView.setVisibility(View.GONE);
-//                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-//                        LinearLayout.LayoutParams.MATCH_PARENT, 0);
-//                lp.weight = 1;
-//                linearLayout2.setLayoutParams(lp);
-//                LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(
-//                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//                lp.weight = 0;
-//                linearLayout3.setLayoutParams(lp2);
-//            }
-//
-//        });
+//        getFanList();
+//        getWatchList();
+        if (isWatchList) {
+            for (ShortProfile shortProfile : BasicInfo.WATCH_LIST) {
+                if (shortProfile.isTeacher) tProfileList.add(shortProfile);
+                else sProfileList.add(shortProfile);
+            }
+        } else {
+            for (ShortProfile shortProfile : BasicInfo.FAN_LIST) {
+                if (shortProfile.isTeacher) tProfileList.add(shortProfile);
+                else sProfileList.add(shortProfile);
+            }
+        }
 
         addDivider();
 
         return root;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        int i = 0;
+        for (ShortProfile shortProfile: sProfileList) {
+            if (!BasicInfo.isInWatchList(shortProfile.id, false)) {
+                break;
+            }
+            i++;
+        }
+        if (i < sProfileList.size()) sProfileList.remove(i);
+        sShortProfileAdapter.notifyItemRemoved(i);
+
+        i = 0;
+        for (ShortProfile shortProfile: tProfileList) {
+            if (!BasicInfo.isInWatchList(shortProfile.id, true)) {
+                break;
+            }
+            i++;
+        }
+        if (i < tProfileList.size())tProfileList.remove(i);
+        tShortProfileAdapter.notifyItemRemoved(i);
     }
 
     private void visitHomePage(boolean isTop,  int position) {
@@ -189,6 +199,7 @@ public class FollowListFragment extends Fragment {
         intent.putExtra("id",shortProfile.id);
         intent.putExtra("isTeacher", shortProfile.isTeacher);
         intent.putExtra("isFan", shortProfile.isFan);
+        intent.putExtra("profile", shortProfile);
         startActivity(intent);
     }
 
@@ -326,6 +337,7 @@ public class FollowListFragment extends Fragment {
                             try {
                                 JSONObject jsonObject = new JSONObject(resStr);
                                 profile.isFan = false;
+                                BasicInfo.removeFromWatchList(profile.id, profile.isTeacher);
                                 getActivity().runOnUiThread(btn::clickSuccess);
                             } catch (JSONException e) {
                                 Log.e("error2", e.toString());
@@ -349,6 +361,7 @@ public class FollowListFragment extends Fragment {
                             try {
                                 JSONObject jsonObject = new JSONObject(resStr);
                                 profile.isFan = true;
+                                BasicInfo.addToWatchList(profile);
                                 getActivity().runOnUiThread(btn::clickSuccess);
                             } catch (JSONException e) {
                                 Log.e("error2", e.toString());
@@ -361,4 +374,12 @@ public class FollowListFragment extends Fragment {
             });
         });
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
 }
+

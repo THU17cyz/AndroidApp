@@ -1,5 +1,6 @@
 package com.example.androidapp.fragment;
 
+import android.appwidget.AppWidgetProvider;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.example.androidapp.component.FocusButton;
 import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.request.follow.AddToWatchRequest;
 import com.example.androidapp.request.follow.DeleteFromWatchRequest;
+import com.example.androidapp.util.BasicInfo;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -98,6 +100,7 @@ public class ProfileListFragment extends Fragment {
                             try {
                                 JSONObject jsonObject = new JSONObject(resStr);
                                 profile.isFan = false;
+                                BasicInfo.removeFromWatchList(profile.id, profile.isTeacher);
                                 getActivity().runOnUiThread(btn::clickSuccess);
 
 //                            loadService.showSuccess();
@@ -123,6 +126,7 @@ public class ProfileListFragment extends Fragment {
                             try {
                                 JSONObject jsonObject = new JSONObject(resStr);
                                 profile.isFan = true;
+                                BasicInfo.addToWatchList(profile);
                                 getActivity().runOnUiThread(btn::clickSuccess);
                             } catch (JSONException e) {
                                 Log.e("error2", e.toString());
@@ -161,6 +165,7 @@ public class ProfileListFragment extends Fragment {
         intent.putExtra("id",shortProfile.id);
         intent.putExtra("isTeacher", shortProfile.isTeacher);
         intent.putExtra("isFan", shortProfile.isFan);
+        intent.putExtra("profile", shortProfile);
         startActivity(intent);
     }
 }

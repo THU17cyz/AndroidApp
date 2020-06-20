@@ -25,6 +25,7 @@ import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.popup.SelectList;
 import com.example.androidapp.request.follow.AddToWatchRequest;
 import com.example.androidapp.request.follow.DeleteFromWatchRequest;
+import com.example.androidapp.util.BasicInfo;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -33,6 +34,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,6 +65,8 @@ public class ProfileFragment extends Fragment {
     protected ArrayList<ShortProfile> mProfileList;
 
     protected ArrayList<ShortProfile> filteredProfileList;
+    private Lock lock = new ReentrantLock();
+
 
 
     protected Unbinder unbinder;
@@ -154,6 +159,26 @@ public class ProfileFragment extends Fragment {
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        int i = 0;
+        lock.lock();
+        for (ShortProfile shortProfile: mProfileList) {
+            boolean true_state = BasicInfo.isInWatchList(shortProfile.id, shortProfile.isTeacher);
+            if (true_state && !shortProfile.isFan) {
+                shortProfile.isFan = true;
+                mShortProfileAdapter.notifyItemChanged(i);
+            }
+            if (!true_state && shortProfile.isFan) {
+                shortProfile.isFan = false;
+                mShortProfileAdapter.notifyItemChanged(i);
+            }
+            i++;
+        }
+        lock.unlock();
+    }
+
     public void setFilterClosed() {
         this.isFilterOpen = false;
     }
@@ -167,13 +192,17 @@ public class ProfileFragment extends Fragment {
             Log.e("errorrecyclerview", "ohno");
             recyclerView.post(() -> {
                 if (isRefresh) {
+
                     for (ShortProfile tmp: mProfileList) {
                         if (tmp.id == shortProfile.id) return;
                     }
                     mProfileList.remove(0);
                     mShortProfileAdapter.notifyItemRemoved(0);
                 }
+                if (shortProfile.id == BasicInfo.ID && shortProfile.isTeacher == BasicInfo.IS_TEACHER) return; // 如果是自己，筛去
+                lock.lock();
                 mProfileList.add(shortProfile);
+                lock.unlock();
             });
 
 
@@ -185,7 +214,10 @@ public class ProfileFragment extends Fragment {
                 mProfileList.remove(0);
                 mShortProfileAdapter.notifyItemRemoved(0);
             }
+            if (shortProfile.id == BasicInfo.ID && shortProfile.isTeacher == BasicInfo.IS_TEACHER) return; // 如果是自己，筛去
+            lock.lock();
             mProfileList.add(shortProfile);
+            lock.unlock();
         }
     }
 
@@ -195,6 +227,7 @@ public class ProfileFragment extends Fragment {
         intent.putExtra("id",shortProfile.id);
         intent.putExtra("isTeacher", shortProfile.isTeacher);
         intent.putExtra("isFan", shortProfile.isFan);
+        intent.putExtra("profile", shortProfile);
         startActivity(intent);
     }
 
@@ -218,6 +251,7 @@ public class ProfileFragment extends Fragment {
                             try {
                                 JSONObject jsonObject = new JSONObject(resStr);
                                 profile.isFan = false;
+                                BasicInfo.removeFromWatchList(profile.id, profile.isTeacher);
                                 getActivity().runOnUiThread(btn::clickSuccess);
                             } catch (JSONException e) {
                                 Log.e("error2", e.toString());
@@ -241,6 +275,8 @@ public class ProfileFragment extends Fragment {
                             try {
                                 JSONObject jsonObject = new JSONObject(resStr);
                                 profile.isFan = true;
+                                BasicInfo.addToWatchList(profile);
+
                                 getActivity().runOnUiThread(btn::clickSuccess);
                             } catch (JSONException e) {
                                 Log.e("error2", e.toString());
