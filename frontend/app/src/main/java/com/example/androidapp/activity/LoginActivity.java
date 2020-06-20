@@ -457,10 +457,11 @@ public class LoginActivity extends BaseActivity {
             new LoginRequest(this.handleLogin, type, "T4", "T4").send();
         }
 
-        if (!Valid.isAccount(account) || !Valid.isPassword(password)) {
-            Hint.showLongBottomToast(this, "格式错误！");
-            return;
-        }
+        // 后门儿2
+//        if (!Valid.isAccount(account) || !Valid.isPassword(password)) {
+//            Hint.showLongBottomToast(this, "格式错误！");
+//            return;
+//        }
         Hint.startActivityLoad(this);
         new LoginRequest(this.handleLogin, type, account, password).send();
     }
