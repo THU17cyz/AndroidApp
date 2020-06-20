@@ -187,35 +187,35 @@ public class DashboardFragment
             }
         });
 
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-            @Override
-            public void onPageSelected(int position) {
-                switch (position) {
-                    case 0: {
-                        ((SelfInfoFragment) pagerAdapter.getRegisteredFragment(0)).setInfo();
-                        break;
-                    }
-                    case 1: {
-                        ((StudyInfoFragment) pagerAdapter.getRegisteredFragment(1)).setInfo();
-                        break;
-                    }
-                    default: {
-                        if (type.equals("S"))
-                            ((ApplicationInfoFragment) pagerAdapter.getRegisteredFragment(2)).setInfo();
-                        else
-                            ((RecruitmentInfoFragment) pagerAdapter.getRegisteredFragment(2)).setInfo();
+//        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//            }
+//            @Override
+//            public void onPageSelected(int position) {
+//                switch (position) {
+//                    case 0: {
 //                        ((SelfInfoFragment) pagerAdapter.getRegisteredFragment(0)).setInfo();
-                        break;
-                    }
-                }
-            }
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
+//                        break;
+//                    }
+//                    case 1: {
+//                        ((StudyInfoFragment) pagerAdapter.getRegisteredFragment(1)).setInfo();
+//                        break;
+//                    }
+//                    default: {
+//                        if (type.equals("S"))
+//                            ((ApplicationInfoFragment) pagerAdapter.getRegisteredFragment(2)).setInfo();
+//                        else
+//                            ((RecruitmentInfoFragment) pagerAdapter.getRegisteredFragment(2)).setInfo();
+////                        ((SelfInfoFragment) pagerAdapter.getRegisteredFragment(0)).setInfo();
+//                        break;
+//                    }
+//                }
+//            }
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//            }
+//        });
 
         // 编辑信息按钮点击事件
         button.setOnClickListener(new View.OnClickListener() {
@@ -301,34 +301,6 @@ public class DashboardFragment
                 System.out.println(e);
             }
         }
-
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-//    setInfo();
-        System.out.println("onActivityCreated");
-
-//        getInfo();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-//    setInfo();
-        System.out.println("onSTART");
-//        ((SelfInfoFragment) pagerAdapter.getRegisteredFragment(0)).setInfo();
-//        ((StudyInfoFragment) pagerAdapter.getRegisteredFragment(1)).setInfo();
-//        if (type.equals("S"))
-//            ((ApplicationInfoFragment) pagerAdapter.getRegisteredFragment(2)).setInfo();
-//        else
-//            ((RecruitmentInfoFragment) pagerAdapter.getRegisteredFragment(2)).setInfo();
-        //getInfo();
-    }
-
-    private void setFragmentInfo() {
-
     }
 
 //    protected void getInfo() {

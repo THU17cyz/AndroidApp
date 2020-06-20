@@ -25,8 +25,6 @@ public class RecruitmentInfoFragment extends Fragment {
     EnrollmentListAdapter adapter;
     ArrayList<RecruitmentInfo> mRecruitmentList;
 
-
-
     public RecruitmentInfoFragment() {
 
     }
@@ -34,13 +32,11 @@ public class RecruitmentInfoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_intention_info, container, false);
-
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         mRecruitmentList = new ArrayList<>();
         adapter = new EnrollmentListAdapter(mRecruitmentList, getContext());//初始化NameAdapter
         adapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
-
 
         return view;
     }
@@ -55,7 +51,6 @@ public class RecruitmentInfoFragment extends Fragment {
         mRecruitmentList.clear();
         Activity activity = getActivity();
         if (activity instanceof MainActivity) {
-//            DashboardFragment fragment = (DashboardFragment) RecruitmentInfoFragment.this.getParentFragment();
             mRecruitmentList.addAll(BasicInfo.mRecruitmentList);
         }
         else {

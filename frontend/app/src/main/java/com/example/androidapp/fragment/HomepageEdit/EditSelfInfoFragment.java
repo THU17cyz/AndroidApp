@@ -114,31 +114,6 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
     @BindView(R.id.choose_degree)
     TextView chooseDegree;
 
-    private String mTitle;
-    private String mMajor;
-    private String mDegree;
-    private String mTeacherNumber;
-    private String mStudentNumber;
-    private String mIdNumber;
-    private String mGender;
-
-    private String mName;
-    private String mSchool;
-    private String mDepartment;
-
-    private String mSignature;
-    private String mPhone;
-    private String mEmail;
-    private String mHomepage;
-    private String mAddress;
-    private String mIntroduction;
-
-    private String mDirection;
-    private String mResult;
-    private String mInterest;
-    private String mExperience;
-    private String mUrl;
-
     private Unbinder unbinder;
 
 

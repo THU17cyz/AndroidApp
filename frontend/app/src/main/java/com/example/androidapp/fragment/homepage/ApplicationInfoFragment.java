@@ -55,8 +55,7 @@ public class ApplicationInfoFragment extends Fragment {
   RecyclerView recyclerView;
   ApplicationListAdapter adapter;
   ArrayList<ApplicationInfo> mApplicationList;
-  private List<Integer> applicationIdList;
-  //To do
+
   public ApplicationInfoFragment() {
 
   }
@@ -70,9 +69,6 @@ public class ApplicationInfoFragment extends Fragment {
     mApplicationList = new ArrayList<>();
     adapter = new ApplicationListAdapter(mApplicationList, getContext());
     adapter.setRecyclerManager(recyclerView);
-
-
-
     return view;
   }
 
@@ -86,7 +82,6 @@ public class ApplicationInfoFragment extends Fragment {
     mApplicationList.clear();
     Activity activity = getActivity();
     if (activity instanceof MainActivity) {
-//      DashboardFragment fragment = (DashboardFragment) ApplicationInfoFragment.this.getParentFragment();
       mApplicationList.addAll(BasicInfo.mApplicationList);
     }
     else {

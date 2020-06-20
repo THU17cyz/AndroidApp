@@ -43,16 +43,11 @@ public class EditRecruitmentInfoFragment extends Fragment
     @BindView(R.id.btn_add)
     FloatingActionButton btn_add;
 
-//  @BindView(R.id.btn_concern)
-//  Button btn_concern;
-
     RecyclerView recyclerView;
 
     EditEnrollmentListAdapter adapter;
 
     private ArrayList<RecruitmentInfo> mRecruitmentList;
-
-    private List<Integer> enrollmentIdList;
 
     private Unbinder unbinder;
 

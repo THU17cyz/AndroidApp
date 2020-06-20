@@ -51,15 +51,8 @@ public class EditStudyInfoFragment extends Fragment {
     @BindView(R.id.edit_url)
     FormEditText url;
 
-    private String mDirection;
-    private String mResult;
-    private String mInterest;
-    private String mExperience;
-    private String mUrl;
-
     private Unbinder unbinder;
 
-    //To do
     public EditStudyInfoFragment() {
 
     }

@@ -43,19 +43,13 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
     @BindView(R.id.btn_add)
     FloatingActionButton btn_add;
 
-//  @BindView(R.id.btn_concern)
-//  Button btn_concern;
-
     RecyclerView recyclerView;
     EditApplicationListAdapter adapter;
 
     ArrayList<ApplicationInfo> mApplicationList;
 
-    private List<Integer> applicationIdList;
-
     private Unbinder unbinder;
 
-    //To do
     public EditApplicationInfoFragment() {
 
     }
@@ -87,7 +81,6 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
         });
 
         btn_add.setOnClickListener(this);
-
         return view;
     }
 

@@ -103,25 +103,6 @@ public class SelfInfoFragment extends Fragment {
     TextView introduction;
 
 
-    private String mTitle;
-    private String mMajor;
-    private String mDegree;
-    private String mTeacherNumber;
-    private String mStudentNumber;
-    private String mIdNumber;
-    private String mGender;
-
-    private String mName;
-    private String mSchool;
-    private String mDepartment;
-
-    private String mSignature;
-    private String mPhone;
-    private String mEmail;
-    private String mHomepage;
-    private String mAddress;
-    private String mIntroduction;
-
     private Unbinder unbinder;
 
     private String type;
@@ -138,55 +119,9 @@ public class SelfInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_self_info, container, false);
         unbinder = ButterKnife.bind(this,view);
-
-        System.out.println("SelfINFOonCreateView");
-
-        // 显示
-//    name.setText(shortProfile.name);
-//    if(mGender.equals("M")){
-//      gender.setText("男");
-//    } else if(mGender.equals("F")){
-//      gender.setText("女");
-//    } else {
-//      gender.setText("未设置");
-//    }
-//    school.setText(shortProfile.school);
-//    department.setText(shortProfile.department);
-//    if(BasicInfo.TYPE.equals("T")){
-//      title.setText(mTitle);
-//      layoutMajor.setVisibility(View.INVISIBLE);
-//      layoutDegree.setVisibility(View.INVISIBLE);
-//      layoutStudentNumber.setVisibility(View.INVISIBLE);
-//    } else {
-//      major.setText(mMajor);
-//      degree.setText(mDegree);
-//      layoutTitle.setVisibility(View.INVISIBLE);
-//      layoutTeacherNumber.setVisibility(View.INVISIBLE);
-//    }
-
-
-//    if(BasicInfo.TYPE.equals("T")){
-//      teacherNumber.setText(mTeacherNumber);
-//    } else {
-//      studentNumber.setText(mStudentNumber);
-//    }
-//    idNumber.setText(mIdNumber);
-//    phone.setText(wholeProfile.phone);
-//    email.setText(wholeProfile.email);
-//    homepage.setText(wholeProfile.homepage);
-//    address.setText(wholeProfile.address);
-//    introduction.setText(wholeProfile.introduction);
-
         return view;
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        System.out.println("SelfInfoonActivityCreated");
-//    getInfo();
-//    setInfo();
-    }
 
     @Override
     public void onStart() {
@@ -197,7 +132,6 @@ public class SelfInfoFragment extends Fragment {
     public void setInfo() {
         Activity activity = getActivity();
         if (activity instanceof MainActivity) {
-//      DashboardFragment fragment = (DashboardFragment) SelfInfoBasicInfo.this.getParentFragment();
             name.setText(BasicInfo.mName);
             if (BasicInfo.mGender.equals("M")){
                 gender.setText("男");
@@ -265,154 +199,8 @@ public class SelfInfoFragment extends Fragment {
             address.setText(activity_.mAddress);
             introduction.setText(activity_.mIntroduction);
         }
-
-
-
     }
 
-    protected void getInfo() {
-        String type_ = "I";
-        String teacher_id = null;
-        String student_id = null;
-        if (id == -1) {
-            type_ = "I";
-            teacher_id = null;
-            student_id = null;
-        } else if (type.equals("S")) {
-            type_ = "S";
-            teacher_id = null;
-            student_id = String.valueOf(id);
-        } else {
-            type_ = "T";
-            teacher_id = String.valueOf(id);
-            student_id = null;
-        }
-
-        // 获取用户名和类型
-        new GetInfoRequest(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.e("error", e.toString());
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String resStr = response.body().string();
-                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-                Log.e("response", resStr);
-                try {
-                    // 解析json，然后进行自己的内部逻辑处理
-                    JSONObject jsonObject = new JSONObject(resStr);
-
-                    Boolean status = jsonObject.getBoolean("status");
-                    if(status){
-                        mName = jsonObject.getString("name");
-                        mGender = jsonObject.getString("gender");
-                        mSchool = jsonObject.getString("school");
-                        mDepartment = jsonObject.getString("department");
-                        if(type.equals("S")){
-                            mMajor = jsonObject.getString("major");
-                            mDegree = jsonObject.getString("degree");
-                        }else {
-                            mTitle = jsonObject.getString("title");
-                        }
-
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                name.setText(mName);
-                                if(mGender.equals("M")){
-                                    gender.setText("男");
-                                } else if(mGender.equals("F")){
-                                    gender.setText("女");
-                                } else {
-                                    gender.setText("未设置");
-                                }
-                                school.setText(mSchool);
-                                department.setText(mDepartment);
-                                if(type.equals("T")){
-                                    title.setText(mTitle);
-                                    layoutMajor.setVisibility(View.GONE);
-                                    layoutDegree.setVisibility(View.GONE);
-                                    layoutStudentNumber.setVisibility(View.GONE);
-                                } else {
-                                    major.setText(mMajor);
-                                    degree.setText(mDegree);
-                                    layoutTitle.setVisibility(View.GONE);
-                                    layoutTeacherNumber.setVisibility(View.GONE);
-                                }
-                            }
-                        });
-
-                    }else{
-                        String info = jsonObject.getString("info");
-                        getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
-                    }
-                } catch (JSONException e) {
-
-                }
-            }
-        }, type_, teacher_id, student_id).send();
-
-        // 获取个性签名
-        new GetInfoPlusRequest(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.e("error", e.toString());
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String resStr = response.body().string();
-                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-                Log.e("response", resStr);
-                try {
-                    // 解析json，然后进行自己的内部逻辑处理
-                    JSONObject jsonObject = new JSONObject(resStr);
-
-                    Boolean status = jsonObject.getBoolean("status");
-                    if(status){
-                        mSignature = jsonObject.getString("signature");
-                        mPhone = jsonObject.getString("phone");
-                        mEmail = jsonObject.getString("email");
-                        mHomepage = jsonObject.getString("homepage");
-                        mAddress = jsonObject.getString("address");
-                        mIntroduction = jsonObject.getString("introduction");
-                        mIdNumber = jsonObject.getString("id_number");
-                        if(type.equals("S")){
-                            mStudentNumber = jsonObject.getString("student_number");
-                        }else{
-                            mTeacherNumber = jsonObject.getString("teacher_number");
-                        }
-
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if(type.equals("T")){
-                                    teacherNumber.setText(mTeacherNumber);
-                                } else {
-                                    studentNumber.setText(mStudentNumber);
-                                }
-
-                                idNumber.setText(mIdNumber);
-                                phone.setText(mPhone);
-                                email.setText(mEmail);
-                                homepage.setText(mHomepage);
-                                address.setText(mAddress);
-                                introduction.setText(mIntroduction);
-                            }
-                        });
-
-                    }else{
-                        String info = jsonObject.getString("info");
-                        getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
-                    }
-                } catch (JSONException e) {
-
-                }
-            }
-        }, type_, teacher_id, student_id).send();
-    }
 
     @Override
     public void onDestroyView() {
