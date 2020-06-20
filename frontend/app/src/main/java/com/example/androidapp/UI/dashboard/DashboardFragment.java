@@ -22,15 +22,13 @@ import com.example.androidapp.activity.EditInfoActivity;
 import com.example.androidapp.adapter.HomepagePagerAdapter;
 import com.example.androidapp.chatTest.GifSizeFilter;
 import com.example.androidapp.entity.ApplicationInfo;
-import com.example.androidapp.entity.EnrollmentInfo;
+import com.example.androidapp.entity.RecruitmentInfo;
 import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.entity.WholeProfile;
 import com.example.androidapp.fragment.homepage.ApplicationInfoFragment;
 import com.example.androidapp.fragment.homepage.RecruitmentInfoFragment;
 import com.example.androidapp.fragment.homepage.SelfInfoFragment;
 import com.example.androidapp.fragment.homepage.StudyInfoFragment;
-import com.example.androidapp.request.follow.GetFanlistRequest;
-import com.example.androidapp.request.follow.GetWatchlistRequest;
 import com.example.androidapp.request.intention.GetApplyIntentionDetailRequest;
 import com.example.androidapp.request.intention.GetApplyIntentionRequest;
 import com.example.androidapp.request.intention.GetRecruitIntentionDetailRequest;
@@ -140,7 +138,7 @@ public class DashboardFragment
     public String mExperience;
 
     public ArrayList<ApplicationInfo> mApplicationList;
-    public ArrayList<EnrollmentInfo> mRecruitmentList;
+    public ArrayList<RecruitmentInfo> mRecruitmentList;
 
     private DashboardViewModel dashboardViewModel;
 
@@ -246,6 +244,7 @@ public class DashboardFragment
         });
         numFocus.setText(String.valueOf(BasicInfo.WATCH_LIST.size()));
         numFocused.setText(String.valueOf(BasicInfo.FAN_LIST.size()));
+        signature.setText(BasicInfo.mSignature);
 
         //显示
 //        name.setText(BasicInfo.ACCOUNT);
@@ -290,7 +289,7 @@ public class DashboardFragment
             if (type.equals("S")) request = new GetInfoPictureRequest(type, null, String.valueOf(id));
             else request = new GetInfoPictureRequest(type, String.valueOf(id), null);
             try {
-                MyImageLoader.loadImage(imgAvatar);
+                MyImageLoader.loadImage(imgAvatar, request.getWholeUrl());
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -310,6 +309,7 @@ public class DashboardFragment
         super.onActivityCreated(savedInstanceState);
 //    setInfo();
         System.out.println("onActivityCreated");
+
 //        getInfo();
     }
 
@@ -318,258 +318,264 @@ public class DashboardFragment
         super.onStart();
 //    setInfo();
         System.out.println("onSTART");
-        getInfo();
+//        ((SelfInfoFragment) pagerAdapter.getRegisteredFragment(0)).setInfo();
+//        ((StudyInfoFragment) pagerAdapter.getRegisteredFragment(1)).setInfo();
+//        if (type.equals("S"))
+//            ((ApplicationInfoFragment) pagerAdapter.getRegisteredFragment(2)).setInfo();
+//        else
+//            ((RecruitmentInfoFragment) pagerAdapter.getRegisteredFragment(2)).setInfo();
+        //getInfo();
     }
 
     private void setFragmentInfo() {
 
     }
 
-    protected void getInfo() {
-        final int[] count = {0};
-
-        // 获取用户名和类型
-        new GetInfoRequest(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.e("error", e.toString());
-                count[0]++;
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String resStr = response.body().string();
-                Log.e("response", resStr);
-                try {
-                    // 解析json，然后进行自己的内部逻辑处理
-                    JSONObject jsonObject = new JSONObject(resStr);
-
-                    Boolean status = jsonObject.getBoolean("status");
-                    if (status) {
-                        mName = jsonObject.getString("name");
-                        mGender = jsonObject.getString("gender");
-                        mSchool = jsonObject.getString("school");
-                        mDepartment = jsonObject.getString("department");
-                        if (type.equals("S")) {
-                            mMajor = jsonObject.getString("major");
-                            mDegree = jsonObject.getString("degree");
-                        }else {
-                            mTitle = jsonObject.getString("title");
-                        }
-
-                        count[0]++;
-                    } else {
-                        String info = jsonObject.getString("info");
-                        count[0]++;
-                    }
-                } catch (JSONException e) {
-                    count[0]++;
-                }
-            }
-        }, "I", null, null).send();
-
-// 获取个性签名
-        new GetInfoPlusRequest(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.e("error", e.toString());
-                count[0]++;
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String resStr = response.body().string();
-                Log.e("response", resStr);
-                try {
-                    // 解析json，然后进行自己的内部逻辑处理
-                    JSONObject jsonObject = new JSONObject(resStr);
-
-                    Boolean status = jsonObject.getBoolean("status");
-                    if (status) {
-                        mSignature = jsonObject.getString("signature");
-                        mPhone = jsonObject.getString("phone");
-                        mEmail = jsonObject.getString("email");
-                        mHomepage = jsonObject.getString("homepage");
-                        mAddress = jsonObject.getString("address");
-                        mIntroduction = jsonObject.getString("introduction");
-                        mIdNumber = jsonObject.getString("id_number");
-                        if (type.equals("S")) {
-                            mStudentNumber = jsonObject.getString("student_number");
-                            mInterest = jsonObject.getString("research_interest");
-                            mExperience = jsonObject.getString("research_experience");
-                            mUrl = jsonObject.getString("promotional_video_url");
-                        } else {
-                            mTeacherNumber = jsonObject.getString("teacher_number");
-                            mDirection = jsonObject.getString("research_fields");
-                            mResult = jsonObject.getString("research_achievements");
-                            mUrl = jsonObject.getString("promotional_video_url");
-                        }
-
-                        count[0]++;
-                        while (count[0] != 2) {
-
-                        }
-                        getActivity().runOnUiThread(() -> {
-                            signature.setText(mSignature);
-                            ((SelfInfoFragment) pagerAdapter.getRegisteredFragment(0)).setInfo();
-                        });
-
-                        // ((StudyInfoFragment) pagerAdapter.getRegisteredFragment(1)).setInfo();
-                    } else {
-                        String info = jsonObject.getString("info");
-                        count[0]++;
-                    }
-                } catch (JSONException e) {
-                    count[0]++;
-                }
-            }
-        }, "I", null, null).send();
-        getIntentionInfo();
-    }
-
-
-    private void getIntentionInfo() {
-        mApplicationList.clear();
-        mRecruitmentList.clear();
-        if (type.equals("T")) {
-            // 获取招收意向id列表
-            new GetRecruitIntentionRequest(new okhttp3.Callback() {
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    Log.e("error", e.toString());
-                }
-
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    String resStr = response.body().string();
-                    Log.e("response", resStr);
-                    try {
-                        // 解析json，然后进行自己的内部逻辑处理
-                        JSONObject jsonObject = new JSONObject(resStr);
-
-                        Boolean status = jsonObject.getBoolean("status");
-                        if(status){
-                            JSONArray array = jsonObject.getJSONArray("recruitment_id_list");
-                            List<Integer> enrollmentIdList = new ArrayList<>();
-                            for (int i=0;i<array.length();i++){
-                                enrollmentIdList.add(array.getInt(i));
-                            }
-
-                            // 按id获取招收意向
-
-                            if(enrollmentIdList!=null){
-                                for(int i=0;i<enrollmentIdList.size();i++){
-                                    new GetRecruitIntentionDetailRequest(new okhttp3.Callback() {
-                                        @Override
-                                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                                            Log.e("error", e.toString());
-                                        }
-
-                                        @Override
-                                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                                            String resStr = response.body().string();
-                                            Log.e("response", resStr);
-                                            try {
-                                                // 解析json，然后进行自己的内部逻辑处理
-                                                JSONObject jsonObject = new JSONObject(resStr);
-
-                                                Boolean status = jsonObject.getBoolean("status");
-                                                if(status){
-                                                    EnrollmentInfo enrollmentInfo = new EnrollmentInfo(
-                                                            jsonObject.getString("research_fields"),
-                                                            jsonObject.getString("recruitment_type"),
-                                                            String.valueOf(jsonObject.getInt("recruitment_number")),
-                                                            jsonObject.getString("intention_state"),
-                                                            jsonObject.getString("introduction")
-                                                    );
-                                                    mRecruitmentList.add(enrollmentInfo);
-
-                                                } else {
-                                                    String info = jsonObject.getString("info");
-                                                }
-                                            } catch (JSONException e) {
-
-                                            }
-                                        }
-                                    },String.valueOf(enrollmentIdList.get(i))).send();
-                                }
-                            }
-
-                        }else{
-                            String info = jsonObject.getString("info");
-                        }
-                    } catch (JSONException e) {
-
-                    }
-                }
-            },String.valueOf(BasicInfo.ID)).send();
-        } else {
-            // 获取申请意向id列表
-            new GetApplyIntentionRequest(new okhttp3.Callback() {
-                @Override
-                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    Log.e("error", e.toString());
-                }
-
-                @Override
-                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                    String resStr = response.body().string();
-                    Log.e("response", resStr);
-                    try {
-                        // 解析json，然后进行自己的内部逻辑处理
-                        JSONObject jsonObject = new JSONObject(resStr);
-
-                        Boolean status = jsonObject.getBoolean("status");
-                        if(status){
-                            JSONArray array = jsonObject.getJSONArray("application_id_list");
-                            List<Integer> applicationIdList = new ArrayList<>();
-                            for (int i=0;i<array.length();i++){
-                                applicationIdList.add(array.getInt(i));
-                            }
-                            // 按id获取申请意向
-                            if(applicationIdList != null){
-                                for(int i=0;i<applicationIdList.size();i++){
-                                    new GetApplyIntentionDetailRequest(new okhttp3.Callback() {
-                                        @Override
-                                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                                            Log.e("error", e.toString());
-                                        }
-
-                                        @Override
-                                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                                            String resStr = response.body().string();
-                                            Log.e("response", resStr);
-                                            try {
-                                                // 解析json，然后进行自己的内部逻辑处理
-                                                JSONObject jsonObject = new JSONObject(resStr);
-                                                Boolean status = jsonObject.getBoolean("status");
-                                                if(status){
-                                                    ApplicationInfo applicationInfo = new ApplicationInfo(
-                                                            jsonObject.getString("research_interests"),
-                                                            jsonObject.getString("intention_state"),
-                                                            jsonObject.getString("introduction")
-                                                    );
-                                                    mApplicationList.add(applicationInfo);
-                                                } else {
-                                                    String info = jsonObject.getString("info");
-                                                }
-                                            } catch (JSONException e) {
-
-                                            }
-                                        }
-                                    }, String.valueOf(applicationIdList.get(i))).send();
-                                }
-                            }
-                        } else {
-                            String info = jsonObject.getString("info");
-                        }
-                    } catch (JSONException e) {
-
-                    }
-                }
-            },String.valueOf(BasicInfo.ID)).send();
-        }
-    }
+//    protected void getInfo() {
+//        final int[] count = {0};
+//
+//        // 获取用户名和类型
+//        new GetInfoRequest(new okhttp3.Callback() {
+//            @Override
+//            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//                Log.e("error", e.toString());
+//                count[0]++;
+//            }
+//
+//            @Override
+//            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//                String resStr = response.body().string();
+//                Log.e("response", resStr);
+//                try {
+//                    // 解析json，然后进行自己的内部逻辑处理
+//                    JSONObject jsonObject = new JSONObject(resStr);
+//
+//                    Boolean status = jsonObject.getBoolean("status");
+//                    if (status) {
+//                        mName = jsonObject.getString("name");
+//                        mGender = jsonObject.getString("gender");
+//                        mSchool = jsonObject.getString("school");
+//                        mDepartment = jsonObject.getString("department");
+//                        if (type.equals("S")) {
+//                            mMajor = jsonObject.getString("major");
+//                            mDegree = jsonObject.getString("degree");
+//                        }else {
+//                            mTitle = jsonObject.getString("title");
+//                        }
+//
+//                        count[0]++;
+//                    } else {
+//                        String info = jsonObject.getString("info");
+//                        count[0]++;
+//                    }
+//                } catch (JSONException e) {
+//                    count[0]++;
+//                }
+//            }
+//        }, "I", null, null).send();
+//
+//// 获取个性签名
+//        new GetInfoPlusRequest(new okhttp3.Callback() {
+//            @Override
+//            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//                Log.e("error", e.toString());
+//                count[0]++;
+//            }
+//
+//            @Override
+//            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//                String resStr = response.body().string();
+//                Log.e("response", resStr);
+//                try {
+//                    // 解析json，然后进行自己的内部逻辑处理
+//                    JSONObject jsonObject = new JSONObject(resStr);
+//
+//                    Boolean status = jsonObject.getBoolean("status");
+//                    if (status) {
+//                        mSignature = jsonObject.getString("signature");
+//                        mPhone = jsonObject.getString("phone");
+//                        mEmail = jsonObject.getString("email");
+//                        mHomepage = jsonObject.getString("homepage");
+//                        mAddress = jsonObject.getString("address");
+//                        mIntroduction = jsonObject.getString("introduction");
+//                        mIdNumber = jsonObject.getString("id_number");
+//                        if (type.equals("S")) {
+//                            mStudentNumber = jsonObject.getString("student_number");
+//                            mInterest = jsonObject.getString("research_interest");
+//                            mExperience = jsonObject.getString("research_experience");
+//                            mUrl = jsonObject.getString("promotional_video_url");
+//                        } else {
+//                            mTeacherNumber = jsonObject.getString("teacher_number");
+//                            mDirection = jsonObject.getString("research_fields");
+//                            mResult = jsonObject.getString("research_achievements");
+//                            mUrl = jsonObject.getString("promotional_video_url");
+//                        }
+//
+//                        count[0]++;
+//                        while (count[0] != 2) {
+//
+//                        }
+//                        getActivity().runOnUiThread(() -> {
+//                            signature.setText(mSignature);
+//                            ((SelfInfoFragment) pagerAdapter.getRegisteredFragment(0)).setInfo();
+//                        });
+//
+//                        // ((StudyInfoFragment) pagerAdapter.getRegisteredFragment(1)).setInfo();
+//                    } else {
+//                        String info = jsonObject.getString("info");
+//                        count[0]++;
+//                    }
+//                } catch (JSONException e) {
+//                    count[0]++;
+//                }
+//            }
+//        }, "I", null, null).send();
+//        getIntentionInfo();
+//    }
+//
+//
+//    private void getIntentionInfo() {
+//        mApplicationList.clear();
+//        mRecruitmentList.clear();
+//        if (type.equals("T")) {
+//            // 获取招收意向id列表
+//            new GetRecruitIntentionRequest(new okhttp3.Callback() {
+//                @Override
+//                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//                    Log.e("error", e.toString());
+//                }
+//
+//                @Override
+//                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//                    String resStr = response.body().string();
+//                    Log.e("response", resStr);
+//                    try {
+//                        // 解析json，然后进行自己的内部逻辑处理
+//                        JSONObject jsonObject = new JSONObject(resStr);
+//
+//                        Boolean status = jsonObject.getBoolean("status");
+//                        if(status){
+//                            JSONArray array = jsonObject.getJSONArray("recruitment_id_list");
+//                            List<Integer> enrollmentIdList = new ArrayList<>();
+//                            for (int i=0;i<array.length();i++){
+//                                enrollmentIdList.add(array.getInt(i));
+//                            }
+//
+//                            // 按id获取招收意向
+//
+//                            if(enrollmentIdList!=null){
+//                                for(int i=0;i<enrollmentIdList.size();i++){
+//                                    new GetRecruitIntentionDetailRequest(new okhttp3.Callback() {
+//                                        @Override
+//                                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//                                            Log.e("error", e.toString());
+//                                        }
+//
+//                                        @Override
+//                                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//                                            String resStr = response.body().string();
+//                                            Log.e("response", resStr);
+//                                            try {
+//                                                // 解析json，然后进行自己的内部逻辑处理
+//                                                JSONObject jsonObject = new JSONObject(resStr);
+//
+//                                                Boolean status = jsonObject.getBoolean("status");
+//                                                if(status){
+//                                                    RecruitmentInfo recruitmentInfo = new RecruitmentInfo(
+//                                                            jsonObject.getString("research_fields"),
+//                                                            jsonObject.getString("recruitment_type"),
+//                                                            String.valueOf(jsonObject.getInt("recruitment_number")),
+//                                                            jsonObject.getString("intention_state"),
+//                                                            jsonObject.getString("introduction")
+//                                                    );
+//                                                    mRecruitmentList.add(recruitmentInfo);
+//
+//                                                } else {
+//                                                    String info = jsonObject.getString("info");
+//                                                }
+//                                            } catch (JSONException e) {
+//
+//                                            }
+//                                        }
+//                                    },String.valueOf(enrollmentIdList.get(i))).send();
+//                                }
+//                            }
+//
+//                        }else{
+//                            String info = jsonObject.getString("info");
+//                        }
+//                    } catch (JSONException e) {
+//
+//                    }
+//                }
+//            },String.valueOf(BasicInfo.ID)).send();
+//        } else {
+//            // 获取申请意向id列表
+//            new GetApplyIntentionRequest(new okhttp3.Callback() {
+//                @Override
+//                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//                    Log.e("error", e.toString());
+//                }
+//
+//                @Override
+//                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//                    String resStr = response.body().string();
+//                    Log.e("response", resStr);
+//                    try {
+//                        // 解析json，然后进行自己的内部逻辑处理
+//                        JSONObject jsonObject = new JSONObject(resStr);
+//
+//                        Boolean status = jsonObject.getBoolean("status");
+//                        if(status){
+//                            JSONArray array = jsonObject.getJSONArray("application_id_list");
+//                            List<Integer> applicationIdList = new ArrayList<>();
+//                            for (int i=0;i<array.length();i++){
+//                                applicationIdList.add(array.getInt(i));
+//                            }
+//                            // 按id获取申请意向
+//                            if(applicationIdList != null){
+//                                for(int i=0;i<applicationIdList.size();i++){
+//                                    new GetApplyIntentionDetailRequest(new okhttp3.Callback() {
+//                                        @Override
+//                                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//                                            Log.e("error", e.toString());
+//                                        }
+//
+//                                        @Override
+//                                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//                                            String resStr = response.body().string();
+//                                            Log.e("response", resStr);
+//                                            try {
+//                                                // 解析json，然后进行自己的内部逻辑处理
+//                                                JSONObject jsonObject = new JSONObject(resStr);
+//                                                Boolean status = jsonObject.getBoolean("status");
+//                                                if(status){
+//                                                    ApplicationInfo applicationInfo = new ApplicationInfo(
+//                                                            jsonObject.getString("research_interests"),
+//                                                            jsonObject.getString("intention_state"),
+//                                                            jsonObject.getString("introduction")
+//                                                    );
+//                                                    mApplicationList.add(applicationInfo);
+//                                                } else {
+//                                                    String info = jsonObject.getString("info");
+//                                                }
+//                                            } catch (JSONException e) {
+//
+//                                            }
+//                                        }
+//                                    }, String.valueOf(applicationIdList.get(i))).send();
+//                                }
+//                            }
+//                        } else {
+//                            String info = jsonObject.getString("info");
+//                        }
+//                    } catch (JSONException e) {
+//
+//                    }
+//                }
+//            },String.valueOf(BasicInfo.ID)).send();
+//        }
+//    }
 
 
 }

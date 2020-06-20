@@ -4,11 +4,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.andreabaccega.widget.FormEditText;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
@@ -16,7 +13,7 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.androidapp.R;
-import com.example.androidapp.entity.EnrollmentInfo;
+import com.example.androidapp.entity.RecruitmentInfo;
 import com.example.androidapp.util.OptionItems;
 
 import java.util.List;
@@ -34,7 +31,7 @@ public class EditEnrollmentListAdapter<T> extends MyBaseAdapter {
   @Override
   protected void initData(BaseViewHolder viewHolder, Object o) {
     // 在这里链式赋值就可以了
-    EnrollmentInfo data = (EnrollmentInfo) o;
+    RecruitmentInfo data = (RecruitmentInfo) o;
     viewHolder.setText(R.id.direction, data.direction)
             .setText(R.id.number, data.number)
             .setText(R.id.introduction,data.introduction);
@@ -60,7 +57,7 @@ public class EditEnrollmentListAdapter<T> extends MyBaseAdapter {
     viewHolder.addOnClickListener(R.id.delete);
     viewHolder.addOnClickListener(R.id.student_type);
 
-    EnrollmentInfo data = (EnrollmentInfo) o;
+    RecruitmentInfo data = (RecruitmentInfo) o;
 
     FormEditText direction = viewHolder.getView(R.id.direction);
     direction.addTextChangedListener(new TextWatcher() {

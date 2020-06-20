@@ -29,7 +29,7 @@ import java.util.List;
 import razerdp.basepopup.BasePopupWindow;
 
 public class SelectList extends BasePopupWindow {
-    private final int num = 4;
+    private int num;
     private String[] options;
     private boolean[] selected;
     FlexboxLayout flexboxLayout;
@@ -54,9 +54,11 @@ public class SelectList extends BasePopupWindow {
         if (fragment instanceof ProfileFragment) {
             filters = ((ProfileFragment) fragment).getFilters();
             options = new String[] {"男 ", "女 ", "已认证"};
+            num = 3;
         } else {
             filters = ((IntentFragment) fragment).getFilters();
             options = new String[] {"正在进行"};
+            num = 1;
 //            if (fragment instanceof Recruit) options = new String[] {"男 ", "女 ", "已认证"};
         }
         int i = 0;

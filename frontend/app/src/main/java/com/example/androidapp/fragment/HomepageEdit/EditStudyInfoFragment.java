@@ -36,231 +36,153 @@ public class EditStudyInfoFragment extends Fragment {
 //  @BindView(R.id.btn_concern)
 //  Button btnConcern;
 
-  @BindView(R.id.text_direction_or_interest)
-  TextView textDirOrInt;
+    @BindView(R.id.text_direction_or_interest)
+    TextView textDirOrInt;
 
-  @BindView(R.id.edit_direction_or_interest)
-  FormEditText dirOrInt;
+    @BindView(R.id.edit_direction_or_interest)
+    FormEditText dirOrInt;
 
-  @BindView(R.id.text_result_or_experience)
-  TextView textResOrExp;
+    @BindView(R.id.text_result_or_experience)
+    TextView textResOrExp;
 
-  @BindView(R.id.edit_result_or_experience)
-  FormEditText resOrExp;
+    @BindView(R.id.edit_result_or_experience)
+    FormEditText resOrExp;
 
-  @BindView(R.id.edit_url)
-  FormEditText url;
+    @BindView(R.id.edit_url)
+    FormEditText url;
 
-  private String mSignature;
-  private String mPhone;
-  private String mEmail;
-  private String mHomepage;
-  private String mAddress;
-  private String mIntroduction;
-  private String mTeacherNumber;
-  private String mStudentNumber;
-  private String mIdNumber;
+    private String mDirection;
+    private String mResult;
+    private String mInterest;
+    private String mExperience;
+    private String mUrl;
 
-  private String mDirection;
-  private String mResult;
-  private String mInterest;
-  private String mExperience;
-  private String mUrl;
+    private Unbinder unbinder;
 
-  private Unbinder unbinder;
+    //To do
+    public EditStudyInfoFragment() {
 
-  //To do
-  public EditStudyInfoFragment() {
-
-  }
-
-  @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.activity_edit_study_info, container, false);
-    unbinder = ButterKnife.bind(this,view);
-
-    // 获取并显示当前信息
-    new GetInfoPlusRequest(new okhttp3.Callback() {
-      @Override
-      public void onFailure(@NotNull Call call, @NotNull IOException e) {
-        Log.e("error", e.toString());
-      }
-
-      @Override
-      public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-        String resStr = response.body().string();
-        getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-        Log.e("response", resStr);
-        try {
-          // 解析json，然后进行自己的内部逻辑处理
-          JSONObject jsonObject = new JSONObject(resStr);
-
-          Boolean status = jsonObject.getBoolean("status");
-          if(status){
-            mSignature = jsonObject.getString("signature");
-            mPhone = jsonObject.getString("phone");
-            mEmail = jsonObject.getString("email");
-            mHomepage = jsonObject.getString("homepage");
-            mAddress = jsonObject.getString("address");
-            mIntroduction = jsonObject.getString("introduction");
-            mIdNumber = jsonObject.getString("id_number");
-            mUrl = jsonObject.getString("promotional_video_url");
-            if(BasicInfo.TYPE.equals("S")){
-              mStudentNumber = jsonObject.getString("student_number");
-              mInterest = jsonObject.getString("research_interest");
-              mExperience = jsonObject.getString("research_experience");
-            } else {
-              mTeacherNumber = jsonObject.getString("teacher_number");
-              mDirection = jsonObject.getString("research_fields");
-              mResult = jsonObject.getString("research_achievements");
-            }
-
-            getActivity().runOnUiThread(new Runnable() {
-              @Override
-              public void run() {
-                if(BasicInfo.TYPE.equals("S")){
-                  textDirOrInt.setText("兴趣方向");
-                  textResOrExp.setText("研究经历");
-                  dirOrInt.setText(mInterest);
-                  resOrExp.setText(mExperience);
-                  url.setText(mUrl);
-                } else {
-                  textDirOrInt.setText("研究方向");
-                  textResOrExp.setText("研究成果");
-                  dirOrInt.setText(mDirection);
-                  resOrExp.setText(mResult);
-                  url.setText(mUrl);
-                }
-              }
-            });
-
-          }else{
-            String info = jsonObject.getString("info");
-            getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
-          }
-        } catch (JSONException e) {
-
-        }
-      }
-    },"I",null,null).send();
-
-//
-//    // 显示当前信息
-//    if(BasicInfo.TYPE.equals("S")){
-//      textDirOrInt.setText("兴趣方向");
-//      dirOrInt.setText(wholeProfile.research_interest);
-//      textResOrExp.setText("研究经历");
-//      resOrExp.setText(wholeProfile.research_experience);
-//      url.setText(wholeProfile.promotional_video_url);
-//    } else {
-//      textDirOrInt.setText("研究方向");
-//      dirOrInt.setText(wholeProfile.research_fields);
-//      textResOrExp.setText("研究成果");
-//      resOrExp.setText(wholeProfile.research_achievements);
-//      url.setText(wholeProfile.promotional_video_url);
-//    }
-
-//    btnConcern.setOnClickListener(this);
-
-
-    return view;
-  }
-
-//  @Override
-//  public void onClick(View v) {
-//    switch (v.getId()){
-//      case R.id.btn_concern:
-//      {
-//
-//
-//      }
-//    }
-//  }
-
-  public void update() {
-    if(BasicInfo.TYPE.equals("S")){
-      // 提交信息
-      new UpdateInfoPlusRequest(new okhttp3.Callback() {
-        @Override
-        public void onFailure(@NotNull Call call, @NotNull IOException e) {
-          Log.e("error", e.toString());
-        }
-
-        @Override
-        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-          String resStr = response.body().string();
-          getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-          Log.e("response", resStr);
-          try {
-            // 解析json，然后进行自己的内部逻辑处理
-            JSONObject jsonObject = new JSONObject(resStr);
-
-            Boolean status = jsonObject.getBoolean("status");
-            if(status){
-
-            }else{
-            }
-          } catch (JSONException e) {
-
-          }
-        }
-      },
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              dirOrInt.getText().toString(),
-              resOrExp.getText().toString(),
-              url.getText().toString()).send();
-
-    } else {
-      new UpdateInfoPlusRequest(new okhttp3.Callback() {
-        @Override
-        public void onFailure(@NotNull Call call, @NotNull IOException e) {
-          Log.e("error", e.toString());
-        }
-
-        @Override
-        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-          String resStr = response.body().string();
-          getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
-          Log.e("response", resStr);
-          try {
-            // 解析json，然后进行自己的内部逻辑处理
-            JSONObject jsonObject = new JSONObject(resStr);
-
-            Boolean status = jsonObject.getBoolean("status");
-            if(status){
-
-            }else{
-            }
-          } catch (JSONException e) {
-
-          }
-        }
-      },
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              dirOrInt.getText().toString(),
-              resOrExp.getText().toString(),
-              null,
-              null,
-              url.getText().toString()).send();
-      System.out.println("fwuwuuw" + dirOrInt.getText().toString());
     }
-  }
 
-  @Override
-  public void onDestroyView() {
-    super.onDestroyView();
-    unbinder.unbind();
-  }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_edit_study_info, container, false);
+        unbinder = ButterKnife.bind(this,view);
+
+
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        setInfo();
+    }
+
+    public void setInfo() {
+        if(BasicInfo.TYPE.equals("S")){
+            textDirOrInt.setText("兴趣方向");
+            textResOrExp.setText("研究经历");
+            dirOrInt.setText(BasicInfo.mInterest);
+            resOrExp.setText(BasicInfo.mExperience);
+            url.setText(BasicInfo.mUrl);
+        } else {
+            textDirOrInt.setText("研究方向");
+            textResOrExp.setText("研究成果");
+            dirOrInt.setText(BasicInfo.mDirection);
+            resOrExp.setText(BasicInfo.mResult);
+            url.setText(BasicInfo.mUrl);
+        }
+    }
+
+
+    public void update() {
+        if(BasicInfo.TYPE.equals("S")){
+            BasicInfo.mInterest = dirOrInt.getText().toString();
+            BasicInfo.mExperience = resOrExp.getText().toString();
+            BasicInfo.mUrl = url.getText().toString();
+            // 提交信息
+            new UpdateInfoPlusRequest(new okhttp3.Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    Log.e("error", e.toString());
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    String resStr = response.body().string();
+                    Log.e("response", resStr);
+                    try {
+                        // 解析json，然后进行自己的内部逻辑处理
+                        JSONObject jsonObject = new JSONObject(resStr);
+
+                        Boolean status = jsonObject.getBoolean("status");
+                        if(status){
+
+                        }else{
+                        }
+                    } catch (JSONException e) {
+
+                    }
+                }
+            },
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    dirOrInt.getText().toString(),
+                    resOrExp.getText().toString(),
+                    url.getText().toString()).send();
+
+        } else {
+            BasicInfo.mDirection = dirOrInt.getText().toString();
+            BasicInfo.mResult = resOrExp.getText().toString();
+            BasicInfo.mUrl = url.getText().toString();
+            new UpdateInfoPlusRequest(new okhttp3.Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    Log.e("error", e.toString());
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    String resStr = response.body().string();
+                    Log.e("response", resStr);
+                    try {
+                        // 解析json，然后进行自己的内部逻辑处理
+                        JSONObject jsonObject = new JSONObject(resStr);
+
+                        Boolean status = jsonObject.getBoolean("status");
+                        if(status){
+
+                        }else{
+                        }
+                    } catch (JSONException e) {
+
+                    }
+                }
+            },
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    dirOrInt.getText().toString(),
+                    resOrExp.getText().toString(),
+                    null,
+                    null,
+                    url.getText().toString()).send();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 }

@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.example.androidapp.fragment.HomepageEdit.EditApplicationInfoFragment;
-import com.example.androidapp.fragment.HomepageEdit.EditEnrollmentInfoFragment;
+import com.example.androidapp.fragment.HomepageEdit.EditRecruitmentInfoFragment;
 import com.example.androidapp.fragment.HomepageEdit.EditSelfInfoFragment;
 import com.example.androidapp.fragment.HomepageEdit.EditStudyInfoFragment;
 import com.example.androidapp.util.BasicInfo;
@@ -37,7 +37,7 @@ public class EditInfoPagerAdapter extends FragmentStatePagerAdapter {
         if(BasicInfo.TYPE.equals("S"))
           return new EditApplicationInfoFragment();
         else
-          return new EditEnrollmentInfoFragment();
+          return new EditRecruitmentInfoFragment();
       default: return null;
   }
   }

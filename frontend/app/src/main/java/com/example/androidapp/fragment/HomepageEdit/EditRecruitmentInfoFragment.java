@@ -9,17 +9,16 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.androidapp.R;
-import com.example.androidapp.adapter.EditApplicationListAdapter;
-import com.example.androidapp.entity.ApplicationInfo;
+import com.example.androidapp.adapter.EditEnrollmentListAdapter;
+import com.example.androidapp.entity.RecruitmentInfo;
 import com.example.androidapp.request.intention.ClearAllIntentionRequest;
-import com.example.androidapp.request.intention.CreateApplyIntentionRequest;
-import com.example.androidapp.request.intention.GetApplyIntentionDetailRequest;
-import com.example.androidapp.request.intention.GetApplyIntentionRequest;
+import com.example.androidapp.request.intention.CreateRecruitIntentionRequest;
+import com.example.androidapp.request.intention.GetRecruitIntentionDetailRequest;
+import com.example.androidapp.request.intention.GetRecruitIntentionRequest;
 import com.example.androidapp.util.BasicInfo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -38,7 +37,8 @@ import butterknife.Unbinder;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class EditApplicationInfoFragment extends Fragment implements View.OnClickListener {
+public class EditRecruitmentInfoFragment extends Fragment
+        implements View.OnClickListener{
 
     @BindView(R.id.btn_add)
     FloatingActionButton btn_add;
@@ -47,16 +47,17 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
 //  Button btn_concern;
 
     RecyclerView recyclerView;
-    EditApplicationListAdapter adapter;
 
-    ArrayList<ApplicationInfo> mApplicationList;
+    EditEnrollmentListAdapter adapter;
 
-    private List<Integer> applicationIdList;
+    private ArrayList<RecruitmentInfo> mRecruitmentList;
+
+    private List<Integer> enrollmentIdList;
 
     private Unbinder unbinder;
 
     //To do
-    public EditApplicationInfoFragment() {
+    public EditRecruitmentInfoFragment() {
 
     }
 
@@ -66,23 +67,19 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
         unbinder = ButterKnife.bind(this,view);
 
         recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-        mApplicationList = new ArrayList<>();
-        adapter = new EditApplicationListAdapter(mApplicationList, getContext());//初始化NameAdapter
+        mRecruitmentList = new ArrayList<>();
+        adapter = new EditEnrollmentListAdapter(mRecruitmentList, getContext());//初始化NameAdapter
         adapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
+
+
 
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+                Log.d("index",String.valueOf(i));
                 ImageView imageView = (ImageView)view;
-                mApplicationList.remove(i);
+                mRecruitmentList.remove(i);
                 adapter.notifyDataSetChanged();
-            }
-        });
-
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
             }
         });
 
@@ -98,7 +95,7 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
     }
 
     public void setInfo() {
-        mApplicationList.addAll(BasicInfo.mApplicationList);
+        mRecruitmentList.addAll(BasicInfo.mRecruitmentList);
         adapter.notifyDataSetChanged();
     }
 
@@ -108,32 +105,12 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
         unbinder.unbind();
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btn_add:
-            {
-                if(mApplicationList.size()>= BasicInfo.MAX_INTENTION_NUMBER){
-                    Toast.makeText(getContext(),"已达到意向数量上限",Toast.LENGTH_SHORT).show();
-                    break;
-                }
-                Toast.makeText(getActivity(),"添加",Toast.LENGTH_SHORT).show();
-                ApplicationInfo applicationInfo = new ApplicationInfo("","进行","");
-                mApplicationList.add(applicationInfo);
-                adapter.notifyDataSetChanged();
-                break;
-            }
-        }
-
-    }
-
     public void update() {
-        BasicInfo.mApplicationList.clear();
-        for(int i = 0; i < mApplicationList.size();i++) {
-            ApplicationInfo applicationInfo = mApplicationList.get(i);
-            BasicInfo.mApplicationList.add(applicationInfo);
+        BasicInfo.mRecruitmentList.clear();
+        for(int i = 0; i < mRecruitmentList.size(); i++) {
+            RecruitmentInfo recruitmentInfo = mRecruitmentList.get(i);
+            BasicInfo.mRecruitmentList.add(recruitmentInfo);
         }
-
         new ClearAllIntentionRequest(new okhttp3.Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -143,19 +120,19 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String resStr = response.body().string();
+                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
                 Log.e("response", resStr);
                 try {
                     // 解析json，然后进行自己的内部逻辑处理
                     JSONObject jsonObject = new JSONObject(resStr);
                     Boolean status = jsonObject.getBoolean("status");
                     String info = jsonObject.getString("info");
-
+                    getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
 
                     // 全部删除以后再插入
-                    for(int i = 0; i < mApplicationList.size();i++){
-                        ApplicationInfo applicationInfo = mApplicationList.get(i);
-
-                        new CreateApplyIntentionRequest(new okhttp3.Callback() {
+                    for(int i = 0; i< mRecruitmentList.size(); i++){
+                        RecruitmentInfo recruitmentInfo = mRecruitmentList.get(i);
+                        new CreateRecruitIntentionRequest(new okhttp3.Callback() {
                             @Override
                             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                                 Log.e("response", "res");
@@ -163,26 +140,51 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
 
                             @Override
                             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+
                                 String resStr = response.body().string();
+                                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
                                 Log.e("response", resStr);
                                 try {
                                     // 解析json，然后进行自己的内部逻辑处理
                                     JSONObject jsonObject = new JSONObject(resStr);
                                     Boolean status = jsonObject.getBoolean("status");
                                     String info = jsonObject.getString("info");
+                                    getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
                                 } catch (JSONException e) {
                                 }
                             }
                         },
-                                applicationInfo.direction,
-                                applicationInfo.profile,
-                                applicationInfo.state,
+                                recruitmentInfo.studentType,
+                                recruitmentInfo.number,
+                                recruitmentInfo.direction,
+                                recruitmentInfo.introduction,
+                                recruitmentInfo.state,
                                 null).send();
                     }
+
 
                 } catch (JSONException e) {
                 }
             }
         }).send();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btn_add:
+            {
+                if(mRecruitmentList.size()>= BasicInfo.MAX_INTENTION_NUMBER){
+                    Toast.makeText(getContext(),"已达到意向数量上限",Toast.LENGTH_SHORT).show();
+                    break;
+                }
+                Toast.makeText(getActivity(),"添加",Toast.LENGTH_SHORT).show();
+                RecruitmentInfo recruitmentInfo = new RecruitmentInfo("","本科生","","进行","",-1, RecruitmentInfo.Type.ADD);
+                mRecruitmentList.add(recruitmentInfo);
+                adapter.notifyDataSetChanged();
+                break;
+            }
+        }
+
     }
 }

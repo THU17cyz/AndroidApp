@@ -76,12 +76,18 @@ public class ApplicationInfoFragment extends Fragment {
     return view;
   }
 
+  @Override
+  public void onStart() {
+    super.onStart();
+    setInfo();
+  }
+
   public void setInfo() {
     mApplicationList.clear();
     Activity activity = getActivity();
     if (activity instanceof MainActivity) {
-      DashboardFragment fragment = (DashboardFragment) ApplicationInfoFragment.this.getParentFragment();
-      mApplicationList.addAll(fragment.mApplicationList);
+//      DashboardFragment fragment = (DashboardFragment) ApplicationInfoFragment.this.getParentFragment();
+      mApplicationList.addAll(BasicInfo.mApplicationList);
     }
     else {
       VisitHomePageActivity activity_ = (VisitHomePageActivity) activity;

@@ -6,22 +6,26 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.andreabaccega.formedittextvalidator.Validator;
 import com.andreabaccega.widget.FormEditText;
 import com.example.androidapp.R;
+import com.example.androidapp.entity.ApplicationInfo;
+import com.example.androidapp.entity.RecruitmentInfo;
 import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.request.follow.GetFanlistRequest;
 import com.example.androidapp.request.follow.GetWatchlistRequest;
+import com.example.androidapp.request.intention.GetApplyIntentionDetailRequest;
+import com.example.androidapp.request.intention.GetApplyIntentionRequest;
+import com.example.androidapp.request.intention.GetRecruitIntentionDetailRequest;
+import com.example.androidapp.request.intention.GetRecruitIntentionRequest;
+import com.example.androidapp.request.user.GetInfoPlusRequest;
 import com.example.androidapp.request.user.GetInfoRequest;
 import com.example.androidapp.request.user.LoginRequest;
 import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Hint;
-import com.example.androidapp.util.SoftKeyBoardListener;
 import com.example.androidapp.util.Valid;
 import com.rubengees.introduction.IntroductionBuilder;
 import com.rubengees.introduction.Slide;
@@ -157,16 +161,25 @@ public class LoginActivity extends BaseActivity {
                     // 解析json，然后进行自己的内部逻辑处理
                     JSONObject jsonObject = new JSONObject(resStr);
                     Boolean status = jsonObject.getBoolean("status");
-                    if(status){
+                    if (status) {
                         BasicInfo.ACCOUNT = jsonObject.getString("account");
+                        BasicInfo.mName = jsonObject.getString("name");
+                        BasicInfo.mGender = jsonObject.getString("gender");
+                        BasicInfo.mSchool = jsonObject.getString("school");
+                        BasicInfo.mDepartment = jsonObject.getString("department");
+
                         if(jsonObject.has("student_id")){
                             BasicInfo.ID = jsonObject.getInt("student_id");
                             BasicInfo.TYPE = "S";
                             BasicInfo.IS_TEACHER = false;
+                            BasicInfo.mMajor = jsonObject.getString("major");
+                            BasicInfo.mDegree = jsonObject.getString("degree");
                         }else {
                             BasicInfo.ID = jsonObject.getInt("teacher_id");
                             BasicInfo.TYPE = "T";
                             BasicInfo.IS_TEACHER = true;
+                            BasicInfo.mTitle = jsonObject.getString("title");
+
                             // BasicInfo.PATH = loadImageCache();
                         }
                         Log.d("basic info",BasicInfo.ACCOUNT);
@@ -198,6 +211,7 @@ public class LoginActivity extends BaseActivity {
                     JSONObject jsonObject = new JSONObject(resStr);
                     JSONArray jsonArray;
                     jsonArray = (JSONArray) jsonObject.get("watchlist_teachers");
+                    BasicInfo.FAN_LIST.clear();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         ShortProfile shortProfile = new ShortProfile(jsonArray.getJSONObject(i), true);
                         BasicInfo.FAN_LIST.add(shortProfile);
@@ -205,6 +219,7 @@ public class LoginActivity extends BaseActivity {
                     jsonArray = (JSONArray) jsonObject.get("watchlist_students");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         ShortProfile shortProfile = new ShortProfile(jsonArray.getJSONObject(i), false);
+
                         BasicInfo.FAN_LIST.add(shortProfile);
                     }
                     count[0]++;
@@ -230,6 +245,7 @@ public class LoginActivity extends BaseActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(resStr);
                     JSONArray jsonArray;
+                    BasicInfo.WATCH_LIST.clear();
                     jsonArray = (JSONArray) jsonObject.get("watchlist_teachers");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         ShortProfile shortProfile = new ShortProfile(jsonArray.getJSONObject(i), true);
@@ -241,10 +257,6 @@ public class LoginActivity extends BaseActivity {
                         BasicInfo.addToWatchList(shortProfile);
                     }
                     count[0]++;
-                    while (count[0] != 2) {
-
-                    }
-                    onJumpToMain();
                 } catch (JSONException e) {
                     Log.e("error2", e.toString());
                     count[0]++;
@@ -252,6 +264,204 @@ public class LoginActivity extends BaseActivity {
 
             }
         }).send();
+
+// 获取个性签名
+        new GetInfoPlusRequest(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.e("error", e.toString());
+                count[0]++;
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String resStr = response.body().string();
+                Log.e("response", resStr);
+                try {
+                    // 解析json，然后进行自己的内部逻辑处理
+                    JSONObject jsonObject = new JSONObject(resStr);
+
+                    Boolean status = jsonObject.getBoolean("status");
+                    if (status) {
+                        BasicInfo.mSignature = jsonObject.getString("signature");
+                        BasicInfo.mPhone = jsonObject.getString("phone");
+                        BasicInfo.mEmail = jsonObject.getString("email");
+                        BasicInfo. mHomepage = jsonObject.getString("homepage");
+                        BasicInfo.mAddress = jsonObject.getString("address");
+                        BasicInfo.mIntroduction = jsonObject.getString("introduction");
+                        BasicInfo.mIdNumber = jsonObject.getString("id_number");
+                        if (BasicInfo.TYPE.equals("S")) {
+                            BasicInfo.mStudentNumber = jsonObject.getString("student_number");
+                            BasicInfo.mInterest = jsonObject.getString("research_interest");
+                            BasicInfo.mExperience = jsonObject.getString("research_experience");
+                            BasicInfo.mUrl = jsonObject.getString("promotional_video_url");
+                        } else {
+                            BasicInfo.mTeacherNumber = jsonObject.getString("teacher_number");
+                            BasicInfo.mDirection = jsonObject.getString("research_fields");
+                            BasicInfo.mResult = jsonObject.getString("research_achievements");
+                            BasicInfo.mUrl = jsonObject.getString("promotional_video_url");
+                        }
+
+                        count[0]++;
+                        while (count[0] != 4) {
+
+                        }
+                        onJumpToMain();
+                    } else {
+                        String info = jsonObject.getString("info");
+                        count[0]++;
+                    }
+                } catch (JSONException e) {
+                    count[0]++;
+                }
+            }
+        }, "I", null, null).send();
+
+        BasicInfo.mApplicationList.clear();
+        BasicInfo.mRecruitmentList.clear();
+        if (BasicInfo.TYPE.equals("T")) {
+            // 获取招收意向id列表
+            new GetRecruitIntentionRequest(new okhttp3.Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    Log.e("error", e.toString());
+                    count[0]++;
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    String resStr = response.body().string();
+                    Log.e("response", resStr);
+                    try {
+                        // 解析json，然后进行自己的内部逻辑处理
+                        JSONObject jsonObject = new JSONObject(resStr);
+
+                        Boolean status = jsonObject.getBoolean("status");
+                        if(status){
+                            JSONArray array = jsonObject.getJSONArray("recruitment_id_list");
+                            List<Integer> enrollmentIdList = new ArrayList<>();
+                            for (int i=0;i<array.length();i++){
+                                enrollmentIdList.add(array.getInt(i));
+                            }
+
+                            // 按id获取招收意向
+
+                            if(enrollmentIdList!=null){
+                                for(int i=0;i<enrollmentIdList.size();i++){
+                                    new GetRecruitIntentionDetailRequest(new okhttp3.Callback() {
+                                        @Override
+                                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                            Log.e("error", e.toString());
+                                        }
+
+                                        @Override
+                                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                            String resStr = response.body().string();
+                                            Log.e("response", resStr);
+                                            try {
+                                                // 解析json，然后进行自己的内部逻辑处理
+                                                JSONObject jsonObject = new JSONObject(resStr);
+
+                                                Boolean status = jsonObject.getBoolean("status");
+                                                if(status){
+                                                    RecruitmentInfo recruitmentInfo = new RecruitmentInfo(
+                                                            jsonObject.getString("research_fields"),
+                                                            jsonObject.getString("recruitment_type"),
+                                                            String.valueOf(jsonObject.getInt("recruitment_number")),
+                                                            jsonObject.getString("intention_state"),
+                                                            jsonObject.getString("introduction")
+                                                    );
+                                                    BasicInfo.mRecruitmentList.add(recruitmentInfo);
+
+                                                } else {
+                                                    String info = jsonObject.getString("info");
+                                                }
+                                            } catch (JSONException e) {
+
+                                            }
+                                        }
+                                    },String.valueOf(enrollmentIdList.get(i))).send();
+                                }
+                            }
+                            count[0]++;
+                        }else{
+                            String info = jsonObject.getString("info");
+                            count[0]++;
+                        }
+                    } catch (JSONException e) {
+                        count[0]++;
+                    }
+                }
+            },String.valueOf(BasicInfo.ID)).send();
+        } else {
+            // 获取申请意向id列表
+            new GetApplyIntentionRequest(new okhttp3.Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    Log.e("error", e.toString());
+                    count[0]++;
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    String resStr = response.body().string();
+                    Log.e("response", resStr);
+                    try {
+                        // 解析json，然后进行自己的内部逻辑处理
+                        JSONObject jsonObject = new JSONObject(resStr);
+
+                        Boolean status = jsonObject.getBoolean("status");
+                        if(status){
+                            JSONArray array = jsonObject.getJSONArray("application_id_list");
+                            List<Integer> applicationIdList = new ArrayList<>();
+                            for (int i=0;i<array.length();i++){
+                                applicationIdList.add(array.getInt(i));
+                            }
+                            // 按id获取申请意向
+                            if(applicationIdList != null){
+                                for(int i=0;i<applicationIdList.size();i++){
+                                    new GetApplyIntentionDetailRequest(new okhttp3.Callback() {
+                                        @Override
+                                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                            Log.e("error", e.toString());
+                                        }
+
+                                        @Override
+                                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                            String resStr = response.body().string();
+                                            Log.e("response", resStr);
+                                            try {
+                                                // 解析json，然后进行自己的内部逻辑处理
+                                                JSONObject jsonObject = new JSONObject(resStr);
+                                                Boolean status = jsonObject.getBoolean("status");
+                                                if(status){
+                                                    ApplicationInfo applicationInfo = new ApplicationInfo(
+                                                            jsonObject.getString("research_interests"),
+                                                            jsonObject.getString("intention_state"),
+                                                            jsonObject.getString("introduction")
+                                                    );
+                                                    BasicInfo.mApplicationList.add(applicationInfo);
+                                                } else {
+                                                    String info = jsonObject.getString("info");
+                                                }
+                                            } catch (JSONException e) {
+
+                                            }
+                                        }
+                                    }, String.valueOf(applicationIdList.get(i))).send();
+                                }
+                            }
+                            count[0]++;
+                        } else {
+                            String info = jsonObject.getString("info");
+                            count[0]++;
+                        }
+                    } catch (JSONException e) {
+                        count[0]++;
+                    }
+                }
+            }, String.valueOf(BasicInfo.ID)).send();
+        }
     }
 
     /******************************

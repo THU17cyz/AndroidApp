@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidapp.R;
-import com.example.androidapp.UI.dashboard.DashboardFragment;
 import com.example.androidapp.activity.MainActivity;
 import com.example.androidapp.activity.VisitHomePageActivity;
 import com.example.androidapp.adapter.EnrollmentListAdapter;
-import com.example.androidapp.entity.EnrollmentInfo;
+import com.example.androidapp.entity.RecruitmentInfo;
+import com.example.androidapp.util.BasicInfo;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class RecruitmentInfoFragment extends Fragment {
 
     RecyclerView recyclerView;
     EnrollmentListAdapter adapter;
-    ArrayList<EnrollmentInfo> mRecruitmentList;
+    ArrayList<RecruitmentInfo> mRecruitmentList;
 
 
 
@@ -45,12 +45,18 @@ public class RecruitmentInfoFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        setInfo();
+    }
+
     public void setInfo() {
         mRecruitmentList.clear();
         Activity activity = getActivity();
         if (activity instanceof MainActivity) {
-            DashboardFragment fragment = (DashboardFragment) RecruitmentInfoFragment.this.getParentFragment();
-            mRecruitmentList.addAll(fragment.mRecruitmentList);
+//            DashboardFragment fragment = (DashboardFragment) RecruitmentInfoFragment.this.getParentFragment();
+            mRecruitmentList.addAll(BasicInfo.mRecruitmentList);
         }
         else {
             VisitHomePageActivity activity_ = (VisitHomePageActivity) activity;

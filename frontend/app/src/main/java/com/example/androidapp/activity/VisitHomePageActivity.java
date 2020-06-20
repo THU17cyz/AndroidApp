@@ -16,7 +16,7 @@ import com.example.androidapp.R;
 import com.example.androidapp.adapter.HomepagePagerAdapter;
 import com.example.androidapp.component.FocusButton;
 import com.example.androidapp.entity.ApplicationInfo;
-import com.example.androidapp.entity.EnrollmentInfo;
+import com.example.androidapp.entity.RecruitmentInfo;
 import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.entity.WholeProfile;
 import com.example.androidapp.fragment.homepage.ApplicationInfoFragment;
@@ -132,7 +132,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
     public String mExperience;
 
     public ArrayList<ApplicationInfo> mApplicationList;
-    public ArrayList<EnrollmentInfo> mRecruitmentList;
+    public ArrayList<RecruitmentInfo> mRecruitmentList;
 
 
     @Override
@@ -471,14 +471,14 @@ public class VisitHomePageActivity extends AppCompatActivity {
 
                                                 Boolean status = jsonObject.getBoolean("status");
                                                 if(status){
-                                                    EnrollmentInfo enrollmentInfo = new EnrollmentInfo(
+                                                    RecruitmentInfo recruitmentInfo = new RecruitmentInfo(
                                                             jsonObject.getString("research_fields"),
                                                             jsonObject.getString("recruitment_type"),
                                                             String.valueOf(jsonObject.getInt("recruitment_number")),
                                                             jsonObject.getString("intention_state"),
                                                             jsonObject.getString("introduction")
                                                     );
-                                                    mRecruitmentList.add(enrollmentInfo);
+                                                    mRecruitmentList.add(recruitmentInfo);
 
                                                 } else {
                                                     String info = jsonObject.getString("info");

@@ -13,6 +13,7 @@ import com.example.androidapp.R;
 import com.example.androidapp.UI.dashboard.DashboardFragment;
 import com.example.androidapp.activity.MainActivity;
 import com.example.androidapp.activity.VisitHomePageActivity;
+import com.example.androidapp.util.BasicInfo;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,6 +61,7 @@ public class StudyInfoFragment extends Fragment {
     unbinder = ButterKnife.bind(this,view);
     System.out.println("?????????");
 
+//    setInfo();
 //    // 获取信息
 //    new GetInfoPlusRequest(new okhttp3.Callback() {
 //      @Override
@@ -131,21 +133,21 @@ public class StudyInfoFragment extends Fragment {
 
     Activity activity = getActivity();
     if (activity instanceof MainActivity) {
-      DashboardFragment fragment = (DashboardFragment) StudyInfoFragment.this.getParentFragment();
+//      DashboardFragment fragment = (DashboardFragment) StudyInfoFragment.this.getParentFragment();
       if (type.equals("S")) {
         textDirOrInt.setText("兴趣方向");
         textResOrExp.setText("研究经历");
-        dirOrInt.setText(fragment.mInterest);
-        resOrExp.setText(fragment.mExperience);
+        dirOrInt.setText(BasicInfo.mInterest);
+        resOrExp.setText(BasicInfo.mExperience);
       }
       else {
         textDirOrInt.setText("研究方向");
         textResOrExp.setText("研究成果");
-        dirOrInt.setText(fragment.mDirection);
-        resOrExp.setText(fragment.mResult);
+        dirOrInt.setText(BasicInfo.mDirection);
+        resOrExp.setText(BasicInfo.mResult);
       }
 
-      videoPlayer.setUp(fragment.mUrl, JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "宣传视频");
+      videoPlayer.setUp(BasicInfo.mUrl, JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "宣传视频");
     }
     else {
       VisitHomePageActivity activity_ = (VisitHomePageActivity) activity;
@@ -167,6 +169,12 @@ public class StudyInfoFragment extends Fragment {
 
 
 
+  }
+
+  @Override
+  public void onStart() {
+    super.onStart();
+    setInfo();
   }
 
 

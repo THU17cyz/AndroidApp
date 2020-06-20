@@ -5,8 +5,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.androidapp.R;
-import com.example.androidapp.entity.ApplicationInfo;
-import com.example.androidapp.entity.EnrollmentInfo;
+import com.example.androidapp.entity.RecruitmentInfo;
 
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class EnrollmentListAdapter<T> extends MyBaseAdapter {
   @Override
   protected void initData(BaseViewHolder viewHolder, Object o) {
 
-    EnrollmentInfo data = (EnrollmentInfo) o;
+    RecruitmentInfo data = (RecruitmentInfo) o;
     viewHolder.setText(R.id.direction, data.direction)
               .setText(R.id.number,data.number)
               .setText(R.id.introduction,data.introduction);

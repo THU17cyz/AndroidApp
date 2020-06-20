@@ -1,5 +1,7 @@
 package com.example.androidapp.util;
 
+import com.example.androidapp.entity.ApplicationInfo;
+import com.example.androidapp.entity.RecruitmentInfo;
 import com.example.androidapp.entity.ShortProfile;
 
 import java.util.ArrayList;
@@ -17,6 +19,33 @@ public class BasicInfo {
   public static String TYPE = "S";
 
   public static String SIGNATURE = "";
+
+  public static String mTitle;
+  public static String mMajor;
+  public static String mDegree;
+  public static String mTeacherNumber;
+  public static String mStudentNumber;
+  public static String mIdNumber;
+  public static String mGender;
+
+  public static String mName;
+  public static String mSchool;
+  public static String mDepartment;
+
+  public static String mSignature;
+  public static String mPhone;
+  public static String mEmail;
+  public static String mHomepage;
+  public static String mAddress;
+  public static String mIntroduction;
+  public static String mUrl;
+  public static String mDirection;
+  public static String mInterest;
+  public static String mResult;
+  public static String mExperience;
+
+  public static ArrayList<ApplicationInfo> mApplicationList= new ArrayList<>();
+  public static ArrayList<RecruitmentInfo> mRecruitmentList= new ArrayList<>();
 
   public static final int MAX_INTENTION_NUMBER = 10;
 

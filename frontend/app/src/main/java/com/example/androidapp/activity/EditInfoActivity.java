@@ -5,16 +5,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 
 import com.example.androidapp.R;
 import com.example.androidapp.adapter.EditInfoPagerAdapter;
-import com.example.androidapp.adapter.HomepagePagerAdapter;
 import com.example.androidapp.fragment.HomepageEdit.EditApplicationInfoFragment;
-import com.example.androidapp.fragment.HomepageEdit.EditEnrollmentInfoFragment;
+import com.example.androidapp.fragment.HomepageEdit.EditRecruitmentInfoFragment;
 import com.example.androidapp.fragment.HomepageEdit.EditSelfInfoFragment;
 import com.example.androidapp.fragment.HomepageEdit.EditStudyInfoFragment;
 import com.google.android.material.tabs.TabLayout;
@@ -90,8 +86,8 @@ public class EditInfoActivity extends AppCompatActivity {
     if (second_one != null) ((EditStudyInfoFragment) second_one).update();
     Fragment third_one = pagerAdapter.getRegisteredFragment(2);
     if (third_one != null) {
-      if (third_one instanceof EditEnrollmentInfoFragment) {
-        ((EditEnrollmentInfoFragment) third_one).update();
+      if (third_one instanceof EditRecruitmentInfoFragment) {
+        ((EditRecruitmentInfoFragment) third_one).update();
       } else {
         ((EditApplicationInfoFragment) third_one).update();
       }

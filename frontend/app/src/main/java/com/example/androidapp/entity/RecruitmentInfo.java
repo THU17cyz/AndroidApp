@@ -1,6 +1,6 @@
 package com.example.androidapp.entity;
 
-public class EnrollmentInfo {
+public class RecruitmentInfo {
   public String direction;
   public String studentType;
   public String number;
@@ -18,7 +18,7 @@ public class EnrollmentInfo {
     this.type=type;
   }
 
-  public EnrollmentInfo(String direction, String studentType, String number, String state, String introduction) {
+  public RecruitmentInfo(String direction, String studentType, String number, String state, String introduction) {
     this.direction = direction;
     this.studentType = studentType;
     this.number = number;
@@ -26,7 +26,7 @@ public class EnrollmentInfo {
     this.introduction = introduction;
   }
 
-  public EnrollmentInfo(String direction, String studentType, String number, String state, String introduction, int enrollmentId, Type type) {
+  public RecruitmentInfo(String direction, String studentType, String number, String state, String introduction, int enrollmentId, Type type) {
     this.direction = direction;
     this.studentType = studentType;
     this.number = number;
