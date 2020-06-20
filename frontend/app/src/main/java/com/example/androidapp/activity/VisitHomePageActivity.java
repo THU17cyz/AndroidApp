@@ -243,6 +243,8 @@ public class VisitHomePageActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(v -> {
             this.finish();
         });
+
+        System.out.println("hasijfkhasnfj");
         getInfo();
     }
 
@@ -360,11 +362,13 @@ public class VisitHomePageActivity extends AppCompatActivity {
                         count[0]++;
                     } else {
                         String info = jsonObject.getString("info");
+                        System.out.println(info);
                         count[0]++;
                         // getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
                     }
                 } catch (JSONException e) {
                     count[0]++;
+                    Log.e("error", e.toString());
                 }
             }
         }, type_, teacher_id, student_id).send();
@@ -407,6 +411,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
                         while (count[0] != 2) {
 
                         }
+                        System.out.println("first" + mName);
                         runOnUiThread(() -> {
                             title.setText(mName + "的个人主页");
                             signature.setText(mSignature);
@@ -415,10 +420,12 @@ public class VisitHomePageActivity extends AppCompatActivity {
                     } else {
                         String info = jsonObject.getString("info");
                         count[0]++;
+                        Log.e("error", info);
                     }
 
                 } catch (JSONException e) {
                     count[0]++;
+                    Log.e("error", e.toString());
                 }
             }
         }, type_, teacher_id, student_id).send();

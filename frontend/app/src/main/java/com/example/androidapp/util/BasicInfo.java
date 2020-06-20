@@ -1,5 +1,6 @@
 package com.example.androidapp.util;
 
+import com.example.androidapp.chatTest.model.Message;
 import com.example.androidapp.entity.ApplicationInfo;
 import com.example.androidapp.entity.RecruitmentInfo;
 import com.example.androidapp.entity.ShortProfile;
@@ -46,6 +47,11 @@ public class BasicInfo {
 
   public static ArrayList<ApplicationInfo> mApplicationList= new ArrayList<>();
   public static ArrayList<RecruitmentInfo> mRecruitmentList= new ArrayList<>();
+
+  public static ArrayList<Message> WELCOME_NOTIFICATIONS = new ArrayList<>();
+  public static ArrayList<Message> FOLLOW_NOTIFICATIONS = new ArrayList<>();
+  public static ArrayList<Message> PWD_CHANGE_NOTIFICATIONS = new ArrayList<>();
+  public static ArrayList<Message> INTENTION_NOTIFICATIONS = new ArrayList<>();
 
   public static final int MAX_INTENTION_NUMBER = 10;
 

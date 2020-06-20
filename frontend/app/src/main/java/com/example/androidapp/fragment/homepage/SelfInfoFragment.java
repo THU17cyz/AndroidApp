@@ -126,7 +126,7 @@ public class SelfInfoFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        setInfo();
+        if (getActivity() instanceof MainActivity) setInfo();
     }
 
     public void setInfo() {

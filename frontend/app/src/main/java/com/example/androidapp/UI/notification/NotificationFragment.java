@@ -29,6 +29,7 @@ import com.example.androidapp.chatTest.model.User;
 import com.example.androidapp.request.information.GetInformationDetailRequest;
 import com.example.androidapp.request.information.GetInformationRequest;
 import com.example.androidapp.request.information.SetInformationStateRequest;
+import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.LocalPicx;
 import com.example.androidapp.util.MyImageLoader;
 import com.kingja.loadsir.core.LoadService;
@@ -188,95 +189,35 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
 
 
     private void refreshData() {
-        // 获取消息id列表
-        new GetInformationRequest(new okhttp3.Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.e("error", e.toString());
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String resStr = response.body().string();
-                Log.e("response", resStr);
-                try {
-                    // 解析json，然后进行自己的内部逻辑处理
-                    JSONObject jsonObject = new JSONObject(resStr);
-                    JSONArray jsonArray = (JSONArray) jsonObject.get("information_id_list");
-                    informationIdList = new ArrayList<>();
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        informationIdList.add(jsonArray.getInt(i));
-                    }
-
-                    //在获取id列表的基础上获取每条消息
-                    messages = new ArrayList<>();
-                    for(int i = 0; i < informationIdList.size(); i++){
-
-                        String id = informationIdList.get(i).toString();
-                        new GetInformationDetailRequest(new okhttp3.Callback() {
-                            @Override
-                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                                String resStr = response.body().string();
-
-                                Log.e("response", resStr);
-                                try {
-                                    // 解析json，然后进行自己的内部逻辑处理
-                                    JSONObject jsonObject = new JSONObject(resStr);
-
-                                    Boolean status = jsonObject.getBoolean("status");
-                                    if (status) {
-                                        String time = jsonObject.getString("information_time");
-                                        String state = jsonObject.getString("information_state");
-                                        String content = (String)jsonObject.get("information_content");
-                                        Message message;
-                                        SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm" );
-                                        if(state.equals("N")){
-                                            message = new Message(id,user,content,sdf.parse(time),false);
-                                        } else {
-                                            message = new Message(id,user,content,sdf.parse(time),true);
-                                        }
-                                        message.setDateString(time);
-                                        Log.e("消息内容",sdf.parse(time).toString()+" "+state);
-
-                                        getActivity().runOnUiThread(() -> {
-                                            boolean hasMatch = false;
-                                            for(int i1 = 0; i1 <dialogs.size(); i1++){
-                                                if(id.equals(dialogs.get(i1).getLastMessage().getId())){
-                                                    hasMatch = true;
-                                                }
-                                            }
-                                            if(!hasMatch){
-                                                if(message.isRead()){
-                                                    // 头像应该在第三个参数设置
-                                                    dialogs.add(0, new Dialog("1","系统通知", LocalPicx.NOTIFICATION_PASSWORD_CHANGE, new ArrayList<User>(Arrays.asList(user)),message,0));
-                                                } else {
-                                                    dialogs.add(0, new Dialog("1","系统通知",LocalPicx.NOTIFICATION_PASSWORD_CHANGE, new ArrayList<User>(Arrays.asList(user)),message,1));
-
-                                                }
-                                            }
-                                            // 排序
-                                            // Arrays.sort(dialogs.toArray());
-                                            dialogsAdapter.notifyDataSetChanged();;
-                                        });
-
-                                    } else {
-                                        String info = jsonObject.getString("info");
-                                    }
-                                } catch (JSONException | ParseException e) {
-
-                                }
-                            }
-                            @Override
-                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                            }
-                        }, String.valueOf(informationIdList.get(i))).send();
-                    }
-
-                } catch (JSONException e) {
-
-                }
-            }
-        }).send();
+        System.out.println(LocalPicx.NOTIFICATION_PASSWORD_CHANGE);
+        dialogs.clear();
+        if (!BasicInfo.WELCOME_NOTIFICATIONS.isEmpty()) {
+            Message m = BasicInfo.WELCOME_NOTIFICATIONS.get(BasicInfo.WELCOME_NOTIFICATIONS.size() - 1);
+            dialogs.add(new Dialog("1","小管家",
+                    LocalPicx.NOTIFICATION_PASSWORD_CHANGE,
+                    new ArrayList<>(Arrays.asList(user)), m, m.isRead() ? 0 : 1));
+        }
+        if (!BasicInfo.FOLLOW_NOTIFICATIONS.isEmpty()) {
+            Message m = BasicInfo.FOLLOW_NOTIFICATIONS.get(BasicInfo.FOLLOW_NOTIFICATIONS.size() - 1);
+            dialogs.add(new Dialog("1","新关注提醒",
+                    LocalPicx.NOTIFICATION_PASSWORD_CHANGE,
+                    new ArrayList<>(Arrays.asList(user)), m, m.isRead() ? 0 : 1));
+        }
+        if (!BasicInfo.INTENTION_NOTIFICATIONS.isEmpty()) {
+            Message m = BasicInfo.INTENTION_NOTIFICATIONS.get(BasicInfo.INTENTION_NOTIFICATIONS.size() - 1);
+            dialogs.add(new Dialog("1","大管家",
+                    LocalPicx.NOTIFICATION_PASSWORD_CHANGE,
+                    new ArrayList<>(Arrays.asList(user)), m, m.isRead() ? 0 : 1));
+        }
+        if (!BasicInfo.PWD_CHANGE_NOTIFICATIONS.isEmpty()) {
+            Message m = BasicInfo.PWD_CHANGE_NOTIFICATIONS.get(BasicInfo.PWD_CHANGE_NOTIFICATIONS.size() - 1);
+            dialogs.add(new Dialog("1","密码更新",
+                    LocalPicx.NOTIFICATION_PASSWORD_CHANGE,
+                    new ArrayList<>(Arrays.asList(user)), m, m.isRead() ? 0 : 1));
+        }
+        Collections.sort(dialogs, (p1, p2) -> Integer.valueOf(p2.getLastMessage().getId())
+                .compareTo(Integer.valueOf(p2.getLastMessage().getId())));
+        dialogsAdapter.notifyDataSetChanged();;
 
     }
 
@@ -301,10 +242,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
     public void onActivityCreated(Bundle savedInstanceState) {
         Log.d("Life","onactivitycreated");
         super.onActivityCreated(savedInstanceState);
-
-
         mTimeCounterRunnable.run();
-
     }
 
     @Override
@@ -320,7 +258,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
             Log.e("消息列表轮询","+1");
             refreshData();
             // 每30秒刷新一次
-            mHandler.postDelayed(this, 30 * 1000);
+            mHandler.postDelayed(this, 5 * 1000);
         }
     };
 

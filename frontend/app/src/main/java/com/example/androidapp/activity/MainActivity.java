@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -34,7 +35,11 @@ import com.example.androidapp.R;
 import com.example.androidapp.UI.dashboard.DashboardFragment;
 import com.example.androidapp.UI.home.HomeFragment;
 import com.example.androidapp.application.App;
+import com.example.androidapp.chatTest.model.Dialog;
+import com.example.androidapp.chatTest.model.User;
 import com.example.androidapp.repository.chathistory.ChatHistory;
+import com.example.androidapp.request.information.GetInformationDetailRequest;
+import com.example.androidapp.request.information.GetInformationRequest;
 import com.example.androidapp.request.user.GetInfoPictureRequest;
 import com.example.androidapp.request.user.GetInfoRequest;
 import com.example.androidapp.request.user.LogoutRequest;
@@ -60,6 +65,7 @@ import com.squareup.picasso.Picasso;
 import com.zhihu.matisse.Matisse;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -67,6 +73,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -96,6 +107,8 @@ public class MainActivity extends BaseActivity {
     private Drawer drawer;
 
     public static Handler msgHandler;
+
+    private static Handler mHandler = new Handler(Looper.getMainLooper());
 
     private NavController navController;
 
@@ -145,7 +158,108 @@ public class MainActivity extends BaseActivity {
 
 
         LocalPicx.loadAsset(this);
+
     }
+
+    private Runnable mTimeCounterRunnable = new Runnable() {
+        @Override
+        public void run() {//在此添加需轮寻的接口
+            Log.e("消息列表轮询","+1");
+            refreshData();
+            // 每30秒刷新一次
+            mHandler.postDelayed(this, 5 * 1000);
+        }
+    };
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mTimeCounterRunnable.run();
+    }
+
+    private void refreshData() {
+        User user = new User("0","","null",false);
+        // 获取消息id列表
+        new GetInformationRequest(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.e("error", e.toString());
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String resStr = response.body().string();
+                Log.e("response", resStr);
+                try {
+                    // 解析json，然后进行自己的内部逻辑处理
+                    JSONObject jsonObject = new JSONObject(resStr);
+                    JSONArray jsonArray = (JSONArray) jsonObject.get("information_id_list");
+                    ArrayList<Integer> informationIdList = new ArrayList<>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        informationIdList.add(jsonArray.getInt(i));
+                    }
+
+                    //在获取id列表的基础上获取每条消息
+                    for(int i = 0; i < informationIdList.size(); i++){
+
+                        String id = informationIdList.get(i).toString();
+                        new GetInformationDetailRequest(new okhttp3.Callback() {
+                            @Override
+                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                String resStr = response.body().string();
+
+                                Log.e("response", resStr);
+                                try {
+                                    // 解析json，然后进行自己的内部逻辑处理
+                                    JSONObject jsonObject = new JSONObject(resStr);
+
+                                    Boolean status = jsonObject.getBoolean("status");
+                                    if (status) {
+                                        String time = jsonObject.getString("information_time");
+                                        String state = jsonObject.getString("information_state");
+                                        String content = (String) jsonObject.get("information_content");
+                                        com.example.androidapp.chatTest.model.Message message;
+                                        SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm" );
+                                        if(state.equals("N")){
+                                            message = new com.example.androidapp.chatTest.model.Message(id, user,content,sdf.parse(time),false);
+                                        } else {
+                                            message = new com.example.androidapp.chatTest.model.Message(id, user,content,sdf.parse(time),true);
+                                        }
+                                        message.setDateString(time);
+                                        Log.e("消息内容",sdf.parse(time).toString()+" "+state);
+                                        String type = content.substring(2, 4);
+                                        if (type.equals("用户")) {
+                                            BasicInfo.WELCOME_NOTIFICATIONS.add(message);
+                                        } else if (type.equals("关注")) {
+                                            BasicInfo.FOLLOW_NOTIFICATIONS.add(message);
+                                        } else if (type.equals("意向")) {
+                                            BasicInfo.INTENTION_NOTIFICATIONS.add(message);
+                                        } else {
+                                            BasicInfo.PWD_CHANGE_NOTIFICATIONS.add(message);
+                                        }
+
+
+                                    } else {
+                                        String info = jsonObject.getString("info");
+                                    }
+                                } catch (JSONException | ParseException e) {
+
+                                }
+                            }
+                            @Override
+                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                            }
+                        }, String.valueOf(informationIdList.get(i))).send();
+                    }
+
+                } catch (JSONException e) {
+
+                }
+            }
+        }).send();
+
+    }
+
 
 
 
@@ -279,6 +393,7 @@ public class MainActivity extends BaseActivity {
                     JSONObject jsonObject = new JSONObject(resStr);
                     Boolean status = jsonObject.getBoolean("status");
                     if (status) {
+                        mHandler.removeCallbacks(mTimeCounterRunnable);
                         MainActivity.this.finish();
 //                        Intent intent = new Intent(MainActivity.this,LoginActivity.class);
 //                        startActivity(intent);
@@ -378,5 +493,7 @@ public class MainActivity extends BaseActivity {
             }, Uri2File.convert(path)).send();
         }
     }
+
+
 
 }
