@@ -1,17 +1,22 @@
 package com.example.androidapp.activity;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,15 +25,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.androidapp.chatTest.GifSizeFilter;
+import com.example.androidapp.chatTest.model.Dialog;
 import com.example.androidapp.chatTest.model.Message;
 import com.example.androidapp.chatTest.model.User;
 import com.example.androidapp.R;
 import com.example.androidapp.repository.chathistory.ChatHistory;
+import com.example.androidapp.request.conversation.GetMessageRequest;
+import com.example.androidapp.request.conversation.GetNewMessagesRequest;
 import com.example.androidapp.request.conversation.SendMessageRequest;
 import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Hint;
-import com.example.androidapp.util.MyImageLoader;
 import com.example.androidapp.util.Uri2File;
 import com.example.androidapp.viewmodel.ChatHistoryViewModel;
 import com.google.android.material.internal.NavigationMenu;
@@ -50,17 +57,22 @@ import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
@@ -104,6 +116,9 @@ public class ChatActivity
   private User thisUser;
   private User contactUser;
 
+
+  private Handler mHandler = new Handler(Looper.getMainLooper());
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -114,13 +129,13 @@ public class ChatActivity
 
     user = getIntent().getStringExtra("user");
     contact = getIntent().getStringExtra("contact");
-    contactId = getIntent().getStringExtra("contact_id");
+    contactId = getIntent().getStringExtra("contact_id");// 这里的id是用户id，用于传数据
     contactType = getIntent().getStringExtra("contact_type");
 
     // String.valueOf(BasicInfo.ID)
     thisUser = new User("0",user,"",user,BasicInfo.TYPE);
     // contactId
-    contactUser = new User("1",contact,"",contact,contactType);
+    contactUser = new User("1",contact,"",contact,contactType);//这里面的id是用于显示
 
     // 聊天记录
     chatHistoryViewModel = ViewModelProviders.of(this).get(ChatHistoryViewModel.class);
@@ -139,8 +154,8 @@ public class ChatActivity
     imageLoader = new ImageLoader() {
       @Override
       public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
-        MyImageLoader.loadImage(imageView, url);
-        Log.d("url", url);
+        Picasso.get().load(url).placeholder(R.drawable.ic_person_outline_black_24dp).into(imageView);
+
       }
     };
 
@@ -152,6 +167,8 @@ public class ChatActivity
     btn_return.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+        Log.e("返回","image在上面");
+        mHandler.removeCallbacks(mTimeCounterRunnable);
         finish();
       }
     });
@@ -161,19 +178,24 @@ public class ChatActivity
     name.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        // 查找并显示历史聊天记录
+        // 显示历史聊天记录
         LiveData<List<ChatHistory>> list = chatHistoryViewModel.getAllHistory();
         List<ChatHistory> historyList = list.getValue();
-        if(historyList!=null){
+        if(historyList!=null) {
           List<Message> messagesList = new ArrayList<>();
-          for(int i=0;i<historyList.size();i++){
+          for (int i = 0; i < historyList.size(); i++) {
             ChatHistory history = historyList.get(i);
-            if(history.getUser().equals(user)&& history.getContact().equals(contact)){
-              Message message = new Message(String.valueOf(i),thisUser,history.getContent(),history.getTime());
+            if (history.getUser().equals(user) && history.getContact().equals(contact)) {
+              Message message = null;
+              if(history.getSend().equals("S")){
+                message = new Message(String.valueOf(i), thisUser, history.getContent(), history.getTime());
+              } else {
+                message = new Message(String.valueOf(i), contactUser, history.getContent(), history.getTime());
+              }
               messagesList.add(message);
             }
           }
-          messagesAdapter.addToEnd(messagesList, false);
+          messagesAdapter.addToEnd(messagesList, true);
           messagesAdapter.notifyDataSetChanged();
         }
       }
@@ -233,19 +255,6 @@ public class ChatActivity
 
   }
 
-
-
-  @Override
-  protected void onStart() {
-    super.onStart();
-  }
-
-  /**
-   * 初始化视图
-   */
-  private void initView(){
-
-  }
 
 
   /**
@@ -324,7 +333,7 @@ public class ChatActivity
         Log.d("Matisse print", mUris.get(i).toString());
         messagesAdapter.addToStart(message, true);
         String path = "file://" + mUris.get(i).toString();
-        new SendMessageRequest(new okhttp3.Callback() {
+        new SendMessageRequest(new Callback() {
           @Override
           public void onFailure(@NotNull Call call, @NotNull IOException e) {
 
@@ -341,6 +350,8 @@ public class ChatActivity
 
               Boolean status = jsonObject.getBoolean("status");
               if (status) {
+                // 本地数据库是否应该插入
+                // chatHistoryViewModel.insert(new ChatHistory(new Date(),"","P","S",user,contact,contactId,contactType));
               } else {
               }
               String info = jsonObject.getString("info");
@@ -349,7 +360,7 @@ public class ChatActivity
               e.printStackTrace();
             }
           }
-        },contactUser.getId(), contactUser.getType(),"P", "",Uri2File.convert(path)).send();
+        },contactId, contactType,"P", "",Uri2File.convert(path)).send();
       }
     }
 
@@ -398,32 +409,12 @@ public class ChatActivity
     messagesAdapter.addToStart(
             new Message("0", thisUser, input.toString())
             , true);
-    chatHistoryViewModel.insert(new ChatHistory(new Date(), input.toString(),"T","S",user,contact));
-//    chatHistoryViewModel.insert(new ChatHistory(new Date(), input.toString(),"T","S",user,contact));
-//    chatHistoryViewModel.insert(new ChatHistory(new Date(), input.toString(),"T","R",user,contact));
 
-    LiveData<List<ChatHistory>> list = chatHistoryViewModel.getAllHistory();
-    List<ChatHistory> historyList = list.getValue();
-    if(historyList!=null) {
-      List<Message> messagesList = new ArrayList<>();
-      for (int i = 0; i < historyList.size(); i++) {
-        ChatHistory history = historyList.get(i);
-        if (history.getUser().equals(user) && history.getContact().equals(contact)) {
-          Message message = null;
-          if(history.getSend().equals("S")){
-            message = new Message(String.valueOf(i), thisUser, history.getContent(), history.getTime());
-          } else {
-            message = new Message(String.valueOf(i), contactUser, history.getContent(), history.getTime());
-          }
-          messagesList.add(message);
-        }
-      }
-      messagesAdapter.addToEnd(messagesList, true);
-      messagesAdapter.notifyDataSetChanged();
-    }
+    // 本地数据库是否应该插入
+    // chatHistoryViewModel.insert(new ChatHistory(new Date(), input.toString(),"T","S",user,contact,contactId,contactType));
 
 
-    new SendMessageRequest(new okhttp3.Callback() {
+    new SendMessageRequest(new Callback() {
       @Override
       public void onFailure(@NotNull Call call, @NotNull IOException e) {
 
@@ -448,7 +439,7 @@ public class ChatActivity
           e.printStackTrace();
         }
       }
-    },contactUser.getId(), contactUser.getType(),"T",input.toString(),null).send();
+    },contactId, contactType,"T",input.toString(),null).send();
     return true;
   }
 
@@ -461,6 +452,155 @@ public class ChatActivity
     new AlertDialog.Builder(ChatActivity.this)
             .setItems(R.array.view_types_dialog, ChatActivity.this)
             .show();
+  }
+
+
+  // resume中无法读取数据库
+  @Override
+  protected void onResume() {
+    super.onResume();
+    // 显示历史聊天记录
+    LiveData<List<ChatHistory>> list = chatHistoryViewModel.getAllHistory();
+    List<ChatHistory> historyList = list.getValue();
+    if(historyList!=null) {
+      List<Message> messagesList = new ArrayList<>();
+      for (int i = 0; i < historyList.size(); i++) {
+        ChatHistory history = historyList.get(i);
+        if (history.getUser().equals(user) && history.getContact().equals(contact)) {
+          Message message = null;
+          if(history.getSend().equals("S")){
+            message = new Message(String.valueOf(i), thisUser, history.getContent(), history.getTime());
+          } else {
+            message = new Message(String.valueOf(i), contactUser, history.getContent(), history.getTime());
+          }
+          messagesList.add(message);
+        }
+      }
+      messagesAdapter.addToEnd(messagesList, true);
+      messagesAdapter.notifyDataSetChanged();
+    }
+
+    // mTimeCounterRunnable.run();
+  }
+
+
+  private Runnable mTimeCounterRunnable = new Runnable() {
+    @Override
+    public void run() {//在此添加需轮寻的接口
+      Log.e("聊天界面轮询","+1");
+      newTest();//getUnreadCount()执行的任务
+      mHandler.postDelayed(this, 10 * 1000);
+    }
+  };
+
+  // 轮询要干的事
+  private void newTest(){
+    // 获取share的messageId
+    SharedPreferences sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE);
+    int currentMessageId = sharedPreferences.getInt(BasicInfo.ACCOUNT,0);
+    Log.e("当前id",String.valueOf(currentMessageId));
+
+    // 获取最新的messageId
+    new GetMessageRequest(new Callback() {
+      @Override
+      public void onFailure(@NotNull Call call, @NotNull IOException e) {
+        Log.e("error","获取最新id失败");
+      }
+
+      @Override
+      public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+        String resStr = response.body().string();
+        Log.e("收到回复",resStr);
+        JSONObject jsonObject = null;
+        try {
+          jsonObject = new JSONObject(resStr);
+          Boolean status = jsonObject.getBoolean("status");
+          if(status){
+            int messageId = jsonObject.getInt("message_id");// 最新id
+            Log.e("最新id",String.valueOf(messageId));
+            if(messageId==-1){
+              // 无消息
+              SharedPreferences sharedPreferences = getSharedPreferences("data",Context.MODE_PRIVATE);
+              SharedPreferences.Editor editor = sharedPreferences.edit();
+              editor.putInt(BasicInfo.ACCOUNT,0);
+              editor.commit();
+            } else if(messageId==currentMessageId){
+              // 无新操作
+            } else if(messageId>currentMessageId){
+              new GetNewMessagesRequest(new Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                  Log.e("error","获取最新消息失败");
+                }
+
+                @RequiresApi(api = Build.VERSION_CODES.O)
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                  String resStr = response.body().string();
+                  JSONObject jsonObject = null;
+                  try {
+                    jsonObject = new JSONObject(resStr);
+                    Boolean status = jsonObject.getBoolean("status");
+                    if (status) {
+                      JSONArray jsonArray = (JSONArray) jsonObject.get("message_info_list");
+                      for (int i = 0; i < jsonArray.length(); i++){
+                        JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                        int messageId = jsonObject1.getInt("message_id");
+                        String objectType = jsonObject1.getString("object_type");
+                        String objectId = jsonObject1.getString("object_id");
+                        String objectAccount = jsonObject1.getString("object_account");
+                        String objectName = jsonObject1.getString("object_name");
+                        String messageWay = jsonObject1.getString("message_way");
+                        String messageType = jsonObject1.getString("message_type");
+                        String messageContent = jsonObject1.getString("message_content");
+                        String messageTime = jsonObject1.getString("message_time");
+
+                        // SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm" );
+                        // LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                        // sdf.parse(messageTime)
+                        chatHistoryViewModel.insert(new ChatHistory(new Date(),messageContent,messageType,messageWay,BasicInfo.ACCOUNT,objectAccount,objectId,objectType));
+                        // 如果是对方的消息则显示
+                        if(objectAccount.equals(contact)&&messageWay.equals("R")){
+                          // sdf.parse(messageTime)
+                          Message message = new Message("",contactUser,messageContent,new Date());
+                          runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                              messagesAdapter.addToStart(message,true);
+                              messagesAdapter.notifyDataSetChanged();
+                            }
+                          });
+
+                        }
+
+                      }
+
+                      // tmp: 得到所有新消息后，直接更新currentMessageId
+                      SharedPreferences sharedPreferences = getSharedPreferences("data",Context.MODE_PRIVATE);
+                      SharedPreferences.Editor editor = sharedPreferences.edit();
+                      editor.putInt(BasicInfo.ACCOUNT,messageId);
+                      editor.commit();
+                      Log.e("已更新","当前id："+String.valueOf(sharedPreferences.getInt(BasicInfo.ACCOUNT,-1)));
+                    } else {
+                    }
+                  } catch (JSONException e) {
+                    e.printStackTrace();
+                  }
+
+
+                }
+              },String.valueOf(currentMessageId)).send();
+            }
+          } else {
+            String info = jsonObject.getString("info");
+            Log.e("error",info);
+          }
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+      }
+    }).send();
+
   }
 
 }

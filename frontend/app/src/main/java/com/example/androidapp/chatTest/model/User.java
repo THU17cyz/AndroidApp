@@ -13,7 +13,7 @@ public class User implements IUser {
     private boolean online;
 
     private String account;
-    private String type;
+    private String type;//用户类型 S/T
 
     public User(String id, String name, String avatar, boolean online) {
         this.id = id;

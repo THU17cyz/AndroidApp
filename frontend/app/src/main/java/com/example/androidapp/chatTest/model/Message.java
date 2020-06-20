@@ -34,7 +34,7 @@ public class Message implements IMessage,
 
         // todo 解决方案
         Date date = new Date();
-        date.setTime(date.getTime()+8*60*60*1000);
+        // date.setTime(date.getTime()+8*60*60*1000);
         this.id = id;
         this.text = text;
         this.user = user;
@@ -45,6 +45,7 @@ public class Message implements IMessage,
         this.id = id;
         this.text = text;
         this.user = user;
+        createdAt.setTime(createdAt.getTime()+8*60*60*1000);
         this.createdAt = createdAt;
     }
 

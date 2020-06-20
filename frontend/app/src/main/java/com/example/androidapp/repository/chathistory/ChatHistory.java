@@ -39,13 +39,23 @@ public class ChatHistory {
     @ColumnInfo(name = "contact")
     private String contact;
 
-    public ChatHistory(Date time, String content, String type, String send, String user, String contact) {
+    // 联系人id
+    @ColumnInfo(name = "contactId")
+    private String contactId;
+
+    // 联系人类型
+    @ColumnInfo(name = "contactType")
+    private String contactType;
+
+    public ChatHistory(Date time, String content, String type, String send, String user, String contact, String contactId, String contactType) {
         this.time = time;
         this.content = content;
         this.type = type;
         this.send = send;
         this.user = user;
         this.contact = contact;
+        this.contactId = contactId;
+        this.contactType = contactType;
     }
 
     public int getId() {
@@ -102,5 +112,21 @@ public class ChatHistory {
 
     public void setContact(String contact) {
         this.contact = contact;
+    }
+
+    public String getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(String contactId) {
+        this.contactId = contactId;
+    }
+
+    public String getContactType() {
+        return contactType;
+    }
+
+    public void setContactType(String contactType) {
+        this.contactType = contactType;
     }
 }
