@@ -3,45 +3,25 @@ package com.example.androidapp.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.androidapp.R;
 import com.example.androidapp.adapter.QueryResultPageAdapter;
-import com.example.androidapp.entity.queryInfo.ApplyQueryInfo;
-import com.example.androidapp.entity.queryInfo.RecruitQueryInfo;
-import com.example.androidapp.entity.queryInfo.StudentQueryInfo;
-import com.example.androidapp.entity.queryInfo.TeacherQueryInfo;
 import com.example.androidapp.fragment.QueryResult.Apply;
 import com.example.androidapp.fragment.QueryResult.Recruit;
 import com.example.androidapp.fragment.QueryResult.Student;
 import com.example.androidapp.fragment.QueryResult.Teacher;
-import com.example.androidapp.request.search.SearchStudentRequest;
-import com.example.androidapp.request.search.SearchTeacherRequest;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
-import com.kingja.loadsir.callback.Callback;
-import com.kingja.loadsir.core.LoadService;
-import com.kingja.loadsir.core.LoadSir;
 
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.Call;
-import okhttp3.Response;
 
 public class QueryResultActivity extends BaseActivity {
     @BindView(R.id.search_view)
@@ -56,17 +36,6 @@ public class QueryResultActivity extends BaseActivity {
     QueryResultPageAdapter pagerAdapter;
 
     String[] tabs = {"教师", "学生", "招生意向", "报考意向"};
-
-    List<Integer> teacherIdList;
-    List<Integer> studentIdList;
-    List<Integer> applyIdList;
-    List<Integer> recruitIdList;
-
-
-    List<TeacherQueryInfo> teacherQueryInfoList;
-    List<StudentQueryInfo> studentQueryInfoList;
-    List<ApplyQueryInfo> applyQueryInfoList;
-    List<RecruitQueryInfo> recruitQueryInfoList;
 
     boolean teacherInfo;
     boolean studentInfo;
@@ -224,21 +193,6 @@ public class QueryResultActivity extends BaseActivity {
         }
     }
 
-    public List<Integer> getApplyIdList() {
-        return applyIdList;
-    }
-
-    public List<Integer> getRecruitIdList() {
-        return recruitIdList;
-    }
-
-    public List<Integer> getStudentIdList() {
-        return studentIdList;
-    }
-
-    public List<Integer> getTeacherIdList() {
-        return teacherIdList;
-    }
 
     public String getQuery() {
         return query;
@@ -250,9 +204,6 @@ public class QueryResultActivity extends BaseActivity {
 
     @OnClick(R.id.returnButton)
     public void returnToParent() {
-//        Intent intent = new Intent(this, MainActivity.class);
-//        startActivity(intent);
         finish();
-
     }
 }

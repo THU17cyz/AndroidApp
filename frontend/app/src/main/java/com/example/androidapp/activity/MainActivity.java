@@ -6,12 +6,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
@@ -29,10 +35,12 @@ import com.example.androidapp.UI.dashboard.DashboardFragment;
 import com.example.androidapp.UI.home.HomeFragment;
 import com.example.androidapp.application.App;
 import com.example.androidapp.repository.chathistory.ChatHistory;
+import com.example.androidapp.request.user.GetInfoPictureRequest;
 import com.example.androidapp.request.user.GetInfoRequest;
 import com.example.androidapp.request.user.LogoutRequest;
 import com.example.androidapp.request.user.UpdateInfoPictureRequest;
 import com.example.androidapp.util.BasicInfo;
+import com.example.androidapp.util.LocalPicx;
 import com.example.androidapp.util.Uri2File;
 import com.example.androidapp.viewmodel.ChatHistoryViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -46,13 +54,19 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
+import com.mikepenz.materialdrawer.util.DrawerImageLoader;
+import com.squareup.picasso.Picasso;
 import com.zhihu.matisse.Matisse;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -104,91 +118,17 @@ public class MainActivity extends BaseActivity {
         // NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-//        fm.beginTransaction().add(R.id.nav_host_fragment, fragment5, "5").hide(fragment5).commit();
-//        fm.beginTransaction().add(R.id.nav_host_fragment, fragment4, "4").hide(fragment4).commit();
-//        fm.beginTransaction().add(R.id.nav_host_fragment, fragment3, "3").hide(fragment3).commit();
-//        fm.beginTransaction().add(R.id.nav_host_fragment, fragment2, "2").hide(fragment2).commit();
-
-
-//        fm.beginTransaction().add(R.id.nav_host_fragment,fragment1, "1").commit();
-//        navView.setOnNavigationItemSelectedListener(
-//                item -> {
-//                    switch (item.getItemId()) {
-//                        case R.id.navigation_home: {
-//                            fm.beginTransaction().hide(active).show(fragment1).commit();
-//                            active = fragment1;
-//                            return true;
-//                        }
-//                        case R.id.navigation_follow: {
-//                            if (fragment2 == null) {
-//                                fragment2 = new FollowFragment();
-//                                fm.beginTransaction().hide(active).add(R.id.nav_host_fragment, fragment2, "2").commit();
-//                            } else {
-//                                fm.beginTransaction().hide(active).show(fragment2).commit();
-//                            }
-//                            active = fragment2;
-//                            return true;
-//                        }
-//                        case R.id.navigation_conversations: {
-//                            if (fragment3 == null) {
-//                                fragment3 = new ConversationFragment();
-//                                fm.beginTransaction().add(R.id.nav_host_fragment, fragment3, "3").hide(active).commit();
-//                            } else {
-//                                fm.beginTransaction().hide(active).show(fragment3).commit();
-//                            }
-//                            active = fragment3;
-//                            return true;
-//                        }
-//                        case R.id.navigation_notifications: {
-//                            if (fragment4 == null) {
-//                                fragment4 = new NotificationFragment();
-//                                fm.beginTransaction().add(R.id.nav_host_fragment, fragment4, "4").hide(active).commit();
-//                            } else {
-//                                fm.beginTransaction().hide(active).show(fragment4).commit();
-//                            }
-//                            active = fragment4;
-//                            return true;
-//                        }
-//                        case R.id.navigation_dashboard: {
-//                            if (fragment5 == null) {
-//                                fragment5 = new DashboardFragment();
-//                                fm.beginTransaction().add(R.id.nav_host_fragment, fragment5, "5").hide(active).commit();
-//                            } else {
-//                                fm.beginTransaction().hide(active).show(fragment5).commit();
-//                            }
-//                            active = fragment5;
-//                            return true;
-//                        }
-//                    }
-//                    return false;
-//                });
-
-
-
         chatHistoryViewModel = ViewModelProviders.of(this).get(ChatHistoryViewModel.class);
-        chatHistoryViewModel.getAllHistory().observe(this, new Observer<List<ChatHistory>>() {
-            @Override
-            public void onChanged(List<ChatHistory> chatHistories) {
-            }
+        chatHistoryViewModel.getAllHistory().observe(this, chatHistories -> {
         });
 
         ImmersionBar.with(this)
                 .statusBarColor(R.color.white)
                 .init();
 
-        // setSupportActionBar(toolbar);
-        // toolbar.inflateMenu(R.menu.top_menu_home);
 
         // 初始化侧边栏
         initDrawer();
-
-//        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
-//                this, drawerLayout, toolbar, R.string.TEST, R.string.TEST
-//        );
-//        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-//        actionBarDrawerToggle.syncState();
-
-
 
         // 消息处理
         msgHandler = new Handler() {
@@ -204,92 +144,9 @@ public class MainActivity extends BaseActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
 
 
-        // 初始化websocket
-        // WebSocket.initSocket();
-
-
-//        CommonInterface.sendOkHttpGetRequest("/hello", new Callback() {
-//            @Override
-//            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-//                Log.e("error", e.toString());
-//            }
-//
-//            @Override
-//            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-//                String resStr = response.body().string();
-//                MainActivity.this.runOnUiThread(() -> Toast.makeText(MainActivity.this, resStr, Toast.LENGTH_LONG).show());
-//                Log.e("response", resStr);
-//                try {
-//                    // 解析json，然后进行自己的内部逻辑处理
-//                    JSONObject jsonObject = new JSONObject(resStr);
-//                } catch (JSONException e) {
-//
-//                }
-//            }
-//        });
-
-
-
-        // 获取account，id，type供全局使用
-        new GetInfoRequest(new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.e("error", e.toString());
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String resStr = response.body().string();
-                runOnUiThread(() -> Toast.makeText(getApplicationContext(), resStr, Toast.LENGTH_LONG).show());
-                Log.e("response", resStr);
-                try {
-                    // 解析json，然后进行自己的内部逻辑处理
-                    JSONObject jsonObject = new JSONObject(resStr);
-                    Boolean status = jsonObject.getBoolean("status");
-                    if(status){
-                        BasicInfo.ACCOUNT = jsonObject.getString("account");
-                        if(jsonObject.has("student_id")){
-                            BasicInfo.ID = jsonObject.getInt("student_id");
-                            BasicInfo.TYPE = "S";
-                        }else {
-                            BasicInfo.ID = jsonObject.getInt("teacher_id");
-                            BasicInfo.TYPE = "T";
-                        }
-                        Log.d("basic info",BasicInfo.ACCOUNT);
-                    }else{
-                        String info = jsonObject.getString("info");
-                    }
-                } catch (JSONException e) {
-
-                }
-            }
-        },"I",null,null).send();
-
-        // *** HTTP 测试 ***
-//        if (Global.HTTP_TEST_MODE) {
-//            Log.d("Test", "******************");
-//            new ClearAllIntentionRequest(Http.callbackExample_0).send();
-//        }
-
+        LocalPicx.loadAsset(this);
     }
-    private void loadImageCache() {
-//        String imageCacheDir = getExternalCacheDir().getPath()+"/image/";
-//
-//        Picasso picasso = new Picasso.Builder(this).downloader(new OkHttpDownloader(new File(imageCacheDir))).build();
-///**  setIndicatorsEnabled(true);
-//
-// * 左上角会显示个三角形，不同的颜色代表加载的来源
-//
-// * 红色：代表从网络下载的图片
-//
-// * 黄色：代表从磁盘缓存加载的图片
-//
-// * 绿色：代表从内存中加载的图片
-//
-// */
-//        picasso.setIndicatorsEnabled(true);
-//        Picasso.setSingletonInstance(picasso);
-    }
+
 
 
     public void openDrawer() {
@@ -301,27 +158,45 @@ public class MainActivity extends BaseActivity {
      * [method]初始化侧边栏
      */
     private void initDrawer(){
+        DrawerImageLoader.init(new AbstractDrawerImageLoader() {
+            @Override
+            public void set(ImageView imageView, Uri uri, Drawable placeholder) {
+                Picasso.get().load(uri).placeholder(placeholder).into(imageView);
+            }
+
+            @Override
+            public void cancel(ImageView imageView) {
+                Picasso.get().cancelRequest(imageView);
+            }
+
+        });
+
+        String url;
+        if (BasicInfo.TYPE.equals("S"))
+            url = new GetInfoPictureRequest("S", null, String.valueOf(BasicInfo.ID)).getWholeUrl();
+        else
+            url = new GetInfoPictureRequest("T", String.valueOf(BasicInfo.ID), null).getWholeUrl();
+
         // Create the AccountHeader
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.bg_login)
-                .addProfiles(
-                        new ProfileDrawerItem().withName("用户名").withEmail("个性签名").withIcon(getResources().getDrawable(R.drawable.ic_drawer_homepage_24dp))
-                )
-                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-                    @Override
-                    public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
-                        return false;
-                    }
-                })
+                .addProfiles(new ProfileDrawerItem().withName("用户名").withEmail("个性签名").withIcon(url))
+                .withOnAccountHeaderListener((view, profile, currentProfile) -> false)
                 .build();
 
-        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withIcon(getResources().getDrawable(R.drawable.ic_drawer_homepage_24dp)).withName("我的主页");
-        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2).withIcon(getResources().getDrawable(R.drawable.ic_drawer_chat_24dp)).withName("我的会话");
-        PrimaryDrawerItem item3 = new PrimaryDrawerItem().withIdentifier(3).withIcon(getResources().getDrawable(R.drawable.ic_drawer_focus_24dp)).withName("我的关注");
-        PrimaryDrawerItem item4 = new PrimaryDrawerItem().withIdentifier(4).withIcon(getResources().getDrawable(R.drawable.ic_drawer_info_24dp)).withName("我的通知");
-        PrimaryDrawerItem item5 = new PrimaryDrawerItem().withIdentifier(5).withIcon(getResources().getDrawable(R.drawable.ic_drawer_settings_24dp)).withName("设置");
-        PrimaryDrawerItem item6 = new PrimaryDrawerItem().withIdentifier(6).withIcon(getResources().getDrawable(R.drawable.ic_drawer_quit_24dp)).withName("退出登录");
+        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1)
+                .withIcon(getDrawable(R.drawable.ic_drawer_homepage_24dp)).withName("我的主页");
+        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2)
+                .withIcon(getDrawable(R.drawable.ic_drawer_chat_24dp)).withName("我的会话");
+        PrimaryDrawerItem item3 = new PrimaryDrawerItem().withIdentifier(3)
+                .withIcon(getDrawable(R.drawable.ic_drawer_focus_24dp)).withName("我的关注");
+        PrimaryDrawerItem item4 = new PrimaryDrawerItem().withIdentifier(4)
+                .withIcon(getDrawable(R.drawable.ic_drawer_info_24dp)).withName("我的通知");
+        PrimaryDrawerItem item5 = new PrimaryDrawerItem().withIdentifier(5)
+                .withIcon(getDrawable(R.drawable.ic_drawer_settings_24dp)).withName("设置");
+        PrimaryDrawerItem item6 = new PrimaryDrawerItem().withIdentifier(6)
+                .withIcon(getDrawable(R.drawable.ic_drawer_quit_24dp)).withName("退出登录");
 
         drawer = new DrawerBuilder()
                 .withAccountHeader(headerResult)
@@ -493,7 +368,7 @@ public class MainActivity extends BaseActivity {
                         JSONObject jsonObject = new JSONObject(resStr);
                         Boolean status = jsonObject.getBoolean("status");
                         if (status) {
-
+                            Picasso.get().invalidate(BasicInfo.PATH);
                         } else {
                             String info = jsonObject.getString("info");
                         }
