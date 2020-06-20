@@ -2,12 +2,15 @@ package com.example.androidapp.chatTest.model;
 
 import com.stfalcon.chatkit.commons.models.IDialog;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /*
  * Created by troy379 on 04.04.17.
  */
-public class Dialog implements IDialog<Message> {
+public class Dialog implements IDialog<Message>, Comparable<Dialog> {
 
     private String id;
     private String dialogPhoto;
@@ -65,5 +68,11 @@ public class Dialog implements IDialog<Message> {
 
     public void setUnreadCount(int unreadCount) {
         this.unreadCount = unreadCount;
+    }
+
+
+    @Override
+    public int compareTo(Dialog o) {
+        return o.getLastMessage().getCreatedAt().compareTo(this.getLastMessage().getCreatedAt());
     }
 }

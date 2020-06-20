@@ -410,10 +410,6 @@ public class ChatActivity
             new Message("0", thisUser, input.toString())
             , true);
 
-    // 本地数据库是否应该插入
-    // chatHistoryViewModel.insert(new ChatHistory(new Date(), input.toString(),"T","S",user,contact,contactId,contactType));
-
-
     new SendMessageRequest(new Callback() {
       @Override
       public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -459,27 +455,6 @@ public class ChatActivity
   @Override
   protected void onResume() {
     super.onResume();
-    // 显示历史聊天记录
-    LiveData<List<ChatHistory>> list = chatHistoryViewModel.getAllHistory();
-    List<ChatHistory> historyList = list.getValue();
-    if(historyList!=null) {
-      List<Message> messagesList = new ArrayList<>();
-      for (int i = 0; i < historyList.size(); i++) {
-        ChatHistory history = historyList.get(i);
-        if (history.getUser().equals(user) && history.getContact().equals(contact)) {
-          Message message = null;
-          if(history.getSend().equals("S")){
-            message = new Message(String.valueOf(i), thisUser, history.getContent(), history.getTime());
-          } else {
-            message = new Message(String.valueOf(i), contactUser, history.getContent(), history.getTime());
-          }
-          messagesList.add(message);
-        }
-      }
-      messagesAdapter.addToEnd(messagesList, true);
-      messagesAdapter.notifyDataSetChanged();
-    }
-
     // mTimeCounterRunnable.run();
   }
 

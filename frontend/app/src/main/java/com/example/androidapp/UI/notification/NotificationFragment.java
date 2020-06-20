@@ -1,7 +1,10 @@
 package com.example.androidapp.UI.notification;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +50,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -85,6 +90,8 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
 
   private Unbinder unbinder;
 
+  private Handler mHandler = new Handler(Looper.getMainLooper());
+
   // 全标已读
   @BindView(R.id.btn_all_read)
   TextView btnAllRead;
@@ -95,6 +102,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
     View root = inflater.inflate(R.layout.fragment_notification, container, false);
     unbinder = ButterKnife.bind(this,root);
     MyImageLoader.loadImage(drawerBtn);
+    Log.d("Life","oncreateview");
 
 
     //设置头像
@@ -106,39 +114,19 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
     };
     dialogsAdapter = new DialogsListAdapter<>(imageLoader);
 
-    user  =new User("0","","zx",false);
+    user  =new User("0","","xz",false);
 
     dialogs = new ArrayList<>();
-//    Dialog dialog = new Dialog("0","联系人一","zx",
-//            new ArrayList<User>(Arrays.asList(user)),
-//            new Message("0",user,"一句话"),0);
-//    dialogs.add(dialog);
-
     dialogsAdapter.setItems(dialogs);
     dialogsAdapter.setDatesFormatter(this);
 
-    dialogsAdapter.setOnDialogClickListener(new DialogsListAdapter.OnDialogClickListener() {
-      @Override
-      public void onDialogClick(IDialog dialog) {
-        // todo
-        Intent intent = new Intent(getActivity(), InfoActivity.class);
-        intent.putExtra("text", "ok");
-//        intent.putExtra("text", messages.get(Integer.parseInt(dialog.getId())).getText());
-        startActivity(intent);
-      }
-    });
     dialogsList.setAdapter(dialogsAdapter);
-
-
-
-    refreshData(false);
-
 
     refreshLayout = (RefreshLayout) root.findViewById(R.id.refreshLayout);
     refreshLayout.setOnRefreshListener(new OnRefreshListener() {
       @Override
       public void onRefresh(RefreshLayout refreshlayout) {
-        refreshData(true);
+        refreshData();
         refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
       }
     });
@@ -175,21 +163,30 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
       @Override
       public void onDialogClick(IDialog dialog) {
 
-        // 更新未读条数
-        Dialog d = (Dialog)dialog;
-        d.setUnreadCount(0);
-        dialogsAdapter.notifyDataSetChanged();
-
         // 修改消息状态
         new SetInformationStateRequest(new okhttp3.Callback() {
           @Override
           public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
+            getActivity().runOnUiThread(new Runnable() {
+              @Override
+              public void run() {
+                Toast.makeText(getContext(),"更新消息状态失败",Toast.LENGTH_SHORT).show();
+                Log.e("e","更新消息状态失败");
+              }
+            });
           }
 
           @Override
           public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-
+              getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                  Log.e("s","更新消息状态成功");
+                  Dialog d = (Dialog)dialog;
+                  d.setUnreadCount(0);
+                  dialogsAdapter.notifyDataSetChanged();
+                }
+              });
           }
         },dialog.getLastMessage().getId(),"R").send();
 
@@ -198,22 +195,15 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
         intent.putExtra("text",dialog.getLastMessage().getText());
         intent.putExtra("dateString",((Message)dialog.getLastMessage()).getDateString());
         startActivity(intent);
-
-
       }
-
     });
-
 
     return root;
   }
 
 
-  private void refreshData(boolean isRefresh){
-//    if (!isRefresh) {
-//      loadService = LoadSir.getDefault().register(dialogList, (com.kingja.loadsir.callback.Callback.OnReloadListener) v -> {
-//      });
-//    }
+  private void refreshData(){
+
     // 获取消息id列表
     new GetInformationRequest(new okhttp3.Callback() {
       @Override
@@ -241,12 +231,13 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
             messages = new ArrayList<>();
 
             for(int i=0;i<informationIdList.size();i++){
+
               String id = informationIdList.get(i).toString();
               new GetInformationDetailRequest(new okhttp3.Callback(){
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                   String resStr = response.body().string();
-                  getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+
                   Log.e("response", resStr);
                   try {
                     // 解析json，然后进行自己的内部逻辑处理
@@ -256,7 +247,6 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
                     if(status){
                       String time = jsonObject.getString("information_time");
                       String state = jsonObject.getString("information_state");
-                      // todo 解析byte
                       String content = (String)jsonObject.get("information_content");
 
                       Message message;
@@ -273,13 +263,24 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
                         @Override
                         public void run() {
 
-                          if(message.isRead()){
-                            dialogs.add(new Dialog("1","系统通知",null,new ArrayList<User>(Arrays.asList(user)),message,0));
-                            dialogsAdapter.notifyDataSetChanged();;
-                          } else {
-                            dialogs.add(new Dialog("1","系统通知",null,new ArrayList<User>(Arrays.asList(user)),message,1));
-                            dialogsAdapter.notifyDataSetChanged();;
+                          boolean hasMatch = false;
+                          for(int i=0;i<dialogs.size();i++){
+                            if(id.equals(dialogs.get(i).getLastMessage().getId())){
+                              hasMatch = true;
+                            }
                           }
+                          if(!hasMatch){
+                            if(message.isRead()){
+                              // 头像应该在第三个参数设置
+                              dialogs.add(new Dialog("1","系统通知","http://imgsrc.baidu.com/forum/w=580/sign=09b795cc9e2f07085f052a08d925b865/75dffbf2b21193133e1f783365380cd790238d75.jpg",new ArrayList<User>(Arrays.asList(user)),message,0));
+                            } else {
+                              dialogs.add(new Dialog("1","系统通知","http://tupian.qqjay.com/tou2/2018/1106/60bdf5b88754650e51ccee32bb6ac8ae.jpg",new ArrayList<User>(Arrays.asList(user)),message,1));
+
+                            }
+                          }
+                          // 排序
+                          // Arrays.sort(dialogs.toArray());
+                          dialogsAdapter.notifyDataSetChanged();;
                         }
                       });
 
@@ -306,27 +307,28 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
       }
     }).send();
 
-    // 根据id列表获取消息
-
   }
-
 
   @Override
   public String format(Date date) {
-    if (DateFormatter.isToday(date)) {
-      return DateFormatter.format(date, DateFormatter.Template.TIME);
-      //return "今天";
-    } else if (DateFormatter.isYesterday(date)) {
-      return "昨天";
-    } else if (DateFormatter.isCurrentYear(date)) {
-      return DateFormatter.format(date, DateFormatter.Template.STRING_DAY_MONTH);
-    } else {
-      return DateFormatter.format(date, DateFormatter.Template.STRING_DAY_MONTH_YEAR);
-    }
+
+    return date.toString();
+
+//    if (DateFormatter.isToday(date)) {
+//      return DateFormatter.format(date, DateFormatter.Template.TIME);
+//      //return "今天";
+//    } else if (DateFormatter.isYesterday(date)) {
+//      return "昨天";
+//    } else if (DateFormatter.isCurrentYear(date)) {
+//      return DateFormatter.format(date, DateFormatter.Template.STRING_DAY_MONTH);
+//    } else {
+//      return DateFormatter.format(date, DateFormatter.Template.STRING_DAY_MONTH_YEAR);
+//    }
   }
 
   @Override
   public void onActivityCreated(Bundle savedInstanceState) {
+    Log.d("Life","onactivitycreated");
     super.onActivityCreated(savedInstanceState);
     drawerBtn.setOnClickListener(v -> {
       MainActivity parentActivity = (MainActivity) getActivity();
@@ -336,11 +338,32 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
       Intent intent = new Intent(getActivity(), QueryActivity.class);
       startActivity(intent);
     });
+
+    mTimeCounterRunnable.run();
+
   }
 
   @Override
   public void onDestroyView() {
     super.onDestroyView();
     unbinder.unbind();
+    mHandler.removeCallbacks(mTimeCounterRunnable);
   }
+
+  private Runnable mTimeCounterRunnable = new Runnable() {
+    @Override
+    public void run() {//在此添加需轮寻的接口
+        Log.e("消息列表轮询","+1");
+        refreshData();
+        // 每30秒刷新一次
+        mHandler.postDelayed(this, 30 * 1000);
+    }
+  };
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    mHandler.removeCallbacks(mTimeCounterRunnable);
+  }
+
 }

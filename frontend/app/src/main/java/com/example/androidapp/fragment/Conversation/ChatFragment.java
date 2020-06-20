@@ -331,7 +331,13 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
                                                 // LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 
                                                 Log.e("插入",new Date().toString()+" "+messageContent+" "+ messageType+" "+messageWay+" "+BasicInfo.ACCOUNT+" "+objectAccount+" "+ objectId+ " "+objectType);
-                                                chatHistoryViewModel.insert(new ChatHistory(new Date(),messageContent,messageType,messageWay,BasicInfo.ACCOUNT,objectAccount,objectId,objectType));
+
+                                                getActivity().runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        chatHistoryViewModel.insert(new ChatHistory(new Date(),messageContent,messageType,messageWay,BasicInfo.ACCOUNT,objectAccount,objectId,objectType));
+                                                    }
+                                                });
 
                                                 boolean hasMatched = false;
                                                 for (int idx=0;idx<dialogs.size();idx++){

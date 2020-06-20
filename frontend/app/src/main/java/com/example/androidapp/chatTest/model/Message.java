@@ -45,7 +45,7 @@ public class Message implements IMessage,
         this.id = id;
         this.text = text;
         this.user = user;
-        createdAt.setTime(createdAt.getTime()+8*60*60*1000);
+        // createdAt.setTime(createdAt.getTime()+8*60*60*1000);
         this.createdAt = createdAt;
     }
 
