@@ -199,6 +199,11 @@ public class MainActivity extends BaseActivity {
                         informationIdList.add(jsonArray.getInt(i));
                     }
 
+                    // TODO 有待优化
+                    BasicInfo.WELCOME_NOTIFICATIONS.clear();
+                    BasicInfo.INTENTION_NOTIFICATIONS.clear();
+                    BasicInfo.FOLLOW_NOTIFICATIONS.clear();
+                    BasicInfo.PWD_CHANGE_NOTIFICATIONS.clear();
                     //在获取id列表的基础上获取每条消息
                     for(int i = 0; i < informationIdList.size(); i++){
 

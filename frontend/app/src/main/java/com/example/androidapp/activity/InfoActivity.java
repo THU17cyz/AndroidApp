@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.androidapp.R;
 import com.example.androidapp.chatTest.model.Message;
 import com.example.androidapp.chatTest.model.User;
+import com.example.androidapp.util.BasicInfo;
 import com.gyf.immersionbar.ImmersionBar;
 import com.stfalcon.chatkit.messages.MessageInput;
 import com.stfalcon.chatkit.messages.MessagesList;
@@ -29,16 +30,16 @@ import butterknife.ButterKnife;
 
 public class InfoActivity extends BaseActivity implements  DateFormatter.Formatter {
 
-//  private MessagesListAdapter messagesAdapter;
+  private MessagesListAdapter messagesAdapter;
 
-//  @BindView(R.id.messagesList)
-//  MessagesList messagesList;
+  @BindView(R.id.messagesList)
+  MessagesList messagesList;
 
-  @BindView(R.id.text)
-  TextView textContent;
-
-  @BindView(R.id.time)
-  TextView textTime;
+//  @BindView(R.id.text)
+//  TextView textContent;
+//
+//  @BindView(R.id.time)
+//  TextView textTime;
 
   @BindView(R.id.btn_return)
   ImageView btn_return;
@@ -53,17 +54,17 @@ public class InfoActivity extends BaseActivity implements  DateFormatter.Formatt
             .statusBarColor(R.color.colorPrimary)
             .init();
 
-    //消息列表
-//    messagesAdapter = new MessagesListAdapter<>("0", null);
-//    messagesAdapter.setDateHeadersFormatter(this);
-//    messagesList.setAdapter(messagesAdapter);
+    // 消息列表
+    messagesAdapter = new MessagesListAdapter<>("1", null);
+    messagesAdapter.setDateHeadersFormatter(this);
+    messagesList.setAdapter(messagesAdapter);
 
     Intent intent = getIntent();
     String text = intent.getStringExtra("text");
-    String dateString = intent.getStringExtra("dateString");
-    SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm" );
-    textContent.setText(text);
-    textTime.setText(dateString);
+//    String dateString = intent.getStringExtra("dateString");
+//    SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm" );
+//    textContent.setText(text);
+//    textTime.setText(dateString);
 
 //    Message message = null;
 //    try {
@@ -71,8 +72,20 @@ public class InfoActivity extends BaseActivity implements  DateFormatter.Formatt
 //    } catch (ParseException e) {
 //      e.printStackTrace();
 //    }
-//    messagesAdapter.addToEnd(new ArrayList(Arrays.asList(message)), false);
-//    messagesAdapter.updateAndMoveToStart(message);
+    String type = text.substring(2, 4);
+    if (type.equals("用户")) {
+      messagesAdapter.addToEnd(BasicInfo.WELCOME_NOTIFICATIONS, true);
+      // messagesAdapter.updateAndMoveToStart(BasicInfo.WELCOME_NOTIFICATIONS);
+    } else if (type.equals("关注")) {
+      messagesAdapter.addToEnd(BasicInfo.FOLLOW_NOTIFICATIONS, true);
+      // messagesAdapter.updateAndMoveToStart(message);
+    } else if (type.equals("意向")) {
+      messagesAdapter.addToEnd(BasicInfo.INTENTION_NOTIFICATIONS, true);
+      // messagesAdapter.updateAndMoveToStart(message);
+    } else {
+      messagesAdapter.addToEnd(BasicInfo.PWD_CHANGE_NOTIFICATIONS, true);
+      //messagesAdapter.updateAndMoveToStart(message);
+    }
 
 
     btn_return.setOnClickListener(new View.OnClickListener() {
