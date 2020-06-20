@@ -127,6 +127,12 @@ public class LogonFragment2 extends Fragment {
             Hint.showLongBottomToast(getContext(), "格式错误！");
             return;
         }
+        if (gender.equals("男"))
+            gender = "M";
+        else if (gender.equals("女"))
+            gender = "F";
+        else
+            gender = "U";
         new UpdateInfoRequest(handleUpdate, name, gender, school, department, null, null, null).send();
     }
 

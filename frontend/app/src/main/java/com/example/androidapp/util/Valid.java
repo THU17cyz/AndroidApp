@@ -89,7 +89,7 @@ public class Valid {
      * “男”、“女”或“保密”
      */
     public static boolean isGender(String s) {
-        return s.matches("男|女|保密");
+        return s.matches("^男|女|保密$");
     }
 
     public static class GenderValidator extends Validator {
