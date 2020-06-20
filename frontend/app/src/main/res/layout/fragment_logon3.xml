@@ -13,6 +13,7 @@
         android:layout_height="wrap_content" />
 
     <com.andreabaccega.widget.FormEditText
+        android:maxLines="1"
         android:id="@+id/logon3_ts_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,6 +30,7 @@
 
 
     <com.andreabaccega.widget.FormEditText
+        android:maxLines="1"
         android:id="@+id/logon3_id_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

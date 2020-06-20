@@ -178,4 +178,6 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
             }
         }).send();
     }
+
+
 }

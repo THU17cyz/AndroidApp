@@ -1,15 +1,23 @@
 package com.example.androidapp.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andreabaccega.widget.FormEditText;
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.example.androidapp.R;
 import com.example.androidapp.entity.ApplicationInfo;
 import com.example.androidapp.entity.RecruitmentInfo;
@@ -26,6 +34,7 @@ import com.example.androidapp.request.user.LoginRequest;
 import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Hint;
+import com.example.androidapp.util.OptionItems;
 import com.example.androidapp.util.Valid;
 import com.rubengees.introduction.IntroductionBuilder;
 import com.rubengees.introduction.Slide;
@@ -62,7 +71,7 @@ public class LoginActivity extends BaseActivity {
     Button forgetPasswordButton;
 
     @BindView(R.id.login_type)
-    Spinner typeSpinner;
+    TextView typeSelector;
 
     @BindView(R.id.login_account)
     FormEditText accountEditText;
@@ -448,7 +457,12 @@ public class LoginActivity extends BaseActivity {
      ******************************/
     @OnClick(R.id.login)
     public void onClickLogin() {
-        String type = typeSpinner.getSelectedItem().toString().equals(getResources().getStringArray(R.array.t_s_type)[0]) ? "T" : "S";
+        String type = "";
+        if(typeSelector.getText().toString().equals(OptionItems.optionsType.get(0))){
+            type = "T";
+        } else if(typeSelector.getText().toString().equals(OptionItems.optionsType.get(1))){
+            type = "S";
+        }
         String account = accountEditText.getText().toString();
         String password = passwordEditText.getText().toString();
         // 后门儿
@@ -477,6 +491,32 @@ public class LoginActivity extends BaseActivity {
         Intent intent = new Intent(this, ResetPasswordActivity.class);
         startActivity(intent);
     }
+
+    @OnClick(R.id.login_type)
+    public void onClickTypeSelector(){
+
+        // 隐藏软键盘
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(typeSelector.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+
+        OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                String type = OptionItems.optionsType.get(options1);
+                typeSelector.setText(type);
+            }
+        })
+                .setTitleText("选择类型")
+                .setSubmitText("确定")
+                .setCancelText("取消")
+                .setContentTextSize(18)
+                .setDividerColor(Color.GRAY)
+                .setSelectOptions(0)
+                .build();
+        pvOptions.setPicker(OptionItems.optionsType);
+        pvOptions.show();
+    }
+
 
     /******************************
      ************ 回调 ************

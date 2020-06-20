@@ -1,13 +1,16 @@
 package com.example.androidapp.fragment.HomepageEdit;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.icu.text.CaseMap;
+import android.inputmethodservice.InputMethodService;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -42,6 +45,8 @@ import butterknife.Unbinder;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+
+import static androidx.core.content.ContextCompat.getSystemService;
 
 public class EditSelfInfoFragment extends Fragment implements View.OnClickListener
 {
@@ -195,6 +200,11 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.choose_gender: {
+
+                // 隐藏软键盘
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+
                 OptionsPickerView pvOptions = new OptionsPickerBuilder(getActivity(), new OnOptionsSelectListener() {
                     @Override
                     public void onOptionsSelect(int options1, int option2, int options3, View v) {
@@ -214,6 +224,11 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
                 break;
             }
             case R.id.choose_title: {
+
+                // 隐藏软键盘
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+
                 OptionsPickerView pvOptions = new OptionsPickerBuilder(getActivity(), new OnOptionsSelectListener() {
                     @Override
                     public void onOptionsSelect(int options1, int option2, int options3, View v) {
@@ -233,6 +248,11 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
                 break;
             }
             case R.id.choose_degree: {
+
+                // 隐藏软键盘
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+
                 OptionsPickerView pvOptions = new OptionsPickerBuilder(getActivity(), new OnOptionsSelectListener() {
                     @Override
                     public void onOptionsSelect(int options1, int option2, int options3, View v) {

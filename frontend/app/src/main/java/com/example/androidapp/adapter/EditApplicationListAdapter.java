@@ -6,6 +6,7 @@ import android.opengl.Visibility;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -98,6 +99,11 @@ public class EditApplicationListAdapter<T> extends MyBaseAdapter {
     state.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+
+        // 隐藏软键盘
+        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(v.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+
         OptionsPickerView pvOptions = new OptionsPickerBuilder(mContext, new OnOptionsSelectListener() {
           @Override
           public void onOptionsSelect(int options1, int option2, int options3 ,View v) {

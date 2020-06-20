@@ -29,10 +29,10 @@ import butterknife.ButterKnife;
 
 public class InfoActivity extends BaseActivity implements  DateFormatter.Formatter {
 
-//  private MessagesListAdapter messagesAdapter;
+  private MessagesListAdapter messagesAdapter;
 
-//  @BindView(R.id.messagesList)
-//  MessagesList messagesList;
+  @BindView(R.id.messagesList)
+  MessagesList messagesList;
 
   @BindView(R.id.text)
   TextView textContent;
@@ -54,9 +54,9 @@ public class InfoActivity extends BaseActivity implements  DateFormatter.Formatt
             .init();
 
     //消息列表
-//    messagesAdapter = new MessagesListAdapter<>("0", null);
-//    messagesAdapter.setDateHeadersFormatter(this);
-//    messagesList.setAdapter(messagesAdapter);
+    messagesAdapter = new MessagesListAdapter<>("0", null);
+    messagesAdapter.setDateHeadersFormatter(this);
+    messagesList.setAdapter(messagesAdapter);
 
     Intent intent = getIntent();
     String text = intent.getStringExtra("text");
@@ -65,14 +65,14 @@ public class InfoActivity extends BaseActivity implements  DateFormatter.Formatt
     textContent.setText(text);
     textTime.setText(dateString);
 
-//    Message message = null;
-//    try {
-//      message = new Message("0", new User("1", "", null, true), text,sdf.parse(dateString));
-//    } catch (ParseException e) {
-//      e.printStackTrace();
-//    }
-//    messagesAdapter.addToEnd(new ArrayList(Arrays.asList(message)), false);
-//    messagesAdapter.updateAndMoveToStart(message);
+    Message message = null;
+    try {
+      message = new Message("0", new User("1", "", null, true), text,sdf.parse(dateString));
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    messagesAdapter.addToEnd(new ArrayList(Arrays.asList(message)), false);
+    messagesAdapter.updateAndMoveToStart(message);
 
 
     btn_return.setOnClickListener(new View.OnClickListener() {
