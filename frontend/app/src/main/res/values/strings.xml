@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AndroidApp</string>
+    <string name="app_name">T2S-APP</string>
     <string name="title_home">首页</string>
     <string name="title_dashboard">我的</string>
     <string name="title_notifications">消息</string>
