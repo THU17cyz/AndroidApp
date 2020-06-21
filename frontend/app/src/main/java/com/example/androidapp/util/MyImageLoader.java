@@ -10,7 +10,7 @@ public class MyImageLoader {
 
     public static void loadImage(ImageView view, String url) {
         Picasso.get().load(url).
-                placeholder(R.drawable.ic_person_outline_black_24dp).into(view);
+                placeholder(R.drawable.ic_avatarholder).into(view);
     }
 
     public static void loadImage(ImageView view) {
@@ -22,7 +22,7 @@ public class MyImageLoader {
         else
             url = new GetInfoPictureRequest("T", String.valueOf(BasicInfo.ID), null).getWholeUrl();
         Picasso.get().load(url).
-                placeholder(R.drawable.ic_person_black_24dp).into(view);
+                placeholder(R.drawable.ic_avatarholder).into(view);
     }
 
     public static void invalidate(String url) {

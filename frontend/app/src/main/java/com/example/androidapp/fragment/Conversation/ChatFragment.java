@@ -95,6 +95,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
                 // todo
                 User contact = (User) dialog.getUsers().get(0);
                 ((Dialog) dialog).getLastMessage().setRead();
+                BasicInfo.subFromBadge(dialog.getUnreadCount());
                 System.out.println(contact.getAccount() + contact.getId() + contact.getName());
                 String s = contact.getName();
                 Intent intent = new Intent(getActivity(), ChatActivity.class);

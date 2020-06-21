@@ -5,6 +5,7 @@ import com.example.androidapp.chatTest.model.Message;
 import com.example.androidapp.entity.ApplicationInfo;
 import com.example.androidapp.entity.RecruitmentInfo;
 import com.example.androidapp.entity.ShortProfile;
+import com.google.android.material.badge.BadgeDrawable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -69,6 +70,8 @@ public class BasicInfo {
   public static List<ShortProfile> WATCH_LIST = Collections.synchronizedList(new ArrayList<>());
   public static List<ShortProfile> FAN_LIST = Collections.synchronizedList(new ArrayList<>());
 
+  public static BadgeDrawable BADGE_CHAT;
+
   public static void addToWatchList(ShortProfile shortProfile) {
     shortProfile.isFan = true;
     WATCH_LIST.add(shortProfile);
@@ -115,5 +118,19 @@ public class BasicInfo {
     WATCH_LIST.clear();
     FAN_LIST.clear();
     CHAT_HISTORY.clear();
+  }
+
+  public static void addToBadge (int num) {
+    if (BADGE_CHAT.hasNumber()) BADGE_CHAT.setNumber(BADGE_CHAT.getNumber() + num);
+    else BADGE_CHAT.setNumber(num);
+  }
+
+  public static void subFromBadge (int num) {
+    if (BADGE_CHAT.hasNumber()) {
+      int new_num;
+      if (BADGE_CHAT.getNumber() < num) new_num = 0;
+      else new_num = BADGE_CHAT.getNumber() - num;
+      BADGE_CHAT.setNumber(new_num);
+    }
   }
 }

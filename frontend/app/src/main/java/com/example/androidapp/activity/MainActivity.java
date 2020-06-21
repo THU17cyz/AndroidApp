@@ -129,6 +129,7 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
         navView = findViewById(R.id.nav_view);
 
+        BasicInfo.BADGE_CHAT = navView.getOrCreateBadge(R.id.navigation_conversations);
 //        Window window = getWindow();
 //        window.setStatusBarColor(Color.TRANSPARENT);
         navView.setOnNavigationItemSelectedListener(menuItem -> {
@@ -496,10 +497,10 @@ public class MainActivity extends BaseActivity {
                                     BasicInfo.CHAT_HISTORY.put(objectAccount, msgs);
                                 }
                                 msgs.add(message);
+                                BasicInfo.addToBadge(1);
                             }
-                            BadgeDrawable badge = navView.getOrCreateBadge(R.id.navigation_conversations);
-                            if (badge.hasNumber()) badge.setNumber(badge.getNumber() + 1);
-                            else badge.setNumber(1);
+
+
 
                         }
 

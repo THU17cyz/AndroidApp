@@ -244,7 +244,10 @@ public class ChatActivity
             for (int i = current; i < tmp.size(); i++) {
                 Message m = tmp.get(i);
                 msgs.add(m);
-                if (m.getUser().getId().equals("1")) messagesAdapter.addToStart(m, true);
+                if (m.getUser().getId().equals("1")) {
+                    messagesAdapter.addToStart(m, true);
+                    BasicInfo.subFromBadge(1);
+                }
             }
             messagesAdapter.notifyDataSetChanged();
         }

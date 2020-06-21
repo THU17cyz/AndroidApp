@@ -12,6 +12,7 @@
         <!-- Customize your theme here. -->
         <!-- 去除顶端紫色 -->
 <!--        <item name="android:statusBarColor">@color/white</item>-->
+<!--        <item name="android:windowBackground">@color/white</item>-->
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
