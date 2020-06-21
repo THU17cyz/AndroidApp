@@ -164,7 +164,15 @@ public class SelfInfoFragment extends Fragment {
                 layoutStudentNumber.setVisibility(View.GONE);
             } else {
                 major.setText(BasicInfo.mMajor);
-                degree.setText(BasicInfo.mDegree);
+
+                if(BasicInfo.mDegree.equals("UG")){
+                    degree.setText("本科生");
+                } else if(BasicInfo.mDegree.equals("MT")){
+                    degree.setText("硕士生");
+                } else {
+                    degree.setText("博士生");
+                }
+
                 layoutTitle.setVisibility(View.GONE);
                 layoutTeacherNumber.setVisibility(View.GONE);
             }
