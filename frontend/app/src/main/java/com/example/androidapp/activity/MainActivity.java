@@ -2,6 +2,7 @@ package com.example.androidapp.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -46,6 +47,7 @@ import com.example.androidapp.request.user.GetInfoPictureRequest;
 import com.example.androidapp.request.user.LogoutRequest;
 import com.example.androidapp.request.user.UpdateInfoPictureRequest;
 import com.example.androidapp.util.BasicInfo;
+import com.example.androidapp.util.Hint;
 import com.example.androidapp.util.LocalPicx;
 import com.example.androidapp.util.LoginCache;
 import com.example.androidapp.util.StringCutter;
@@ -128,8 +130,8 @@ public class MainActivity extends BaseActivity {
         chatHistoryViewModel = new ViewModelProvider(this).get(ChatHistoryViewModel.class);
 //        chatHistoryViewModel = ViewModelProviders.of(this).get(ChatHistoryViewModel.class);
         chatHistoryViewModel.getAllHistory().observe(this, chatHistories -> {
-            if (!loaded) {
-                loaded = true;
+            if (!BasicInfo.LOADED) {
+                BasicInfo.LOADED = true;
                 getDatabase();
                 mTimeCounterRunnable.run();
             }
@@ -171,6 +173,11 @@ public class MainActivity extends BaseActivity {
             mHandler.postDelayed(this, 30 * 1000);
         }
     };
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
 
     @Override
     public void onDestroy() {
@@ -451,7 +458,6 @@ public class MainActivity extends BaseActivity {
 
     public void openDrawer() {
         drawer.openDrawer();
-        getDatabase();
     }
 
 
@@ -482,7 +488,7 @@ public class MainActivity extends BaseActivity {
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.bg_login)
-                .addProfiles(new ProfileDrawerItem().withName("用户名").withEmail("个性签名").withIcon(url))
+                .addProfiles(new ProfileDrawerItem().withName(BasicInfo.mName).withEmail(BasicInfo.mSignature).withIcon(url))
                 .withOnAccountHeaderListener((view, profile, currentProfile) -> false)
                 .build();
 
@@ -587,6 +593,7 @@ public class MainActivity extends BaseActivity {
                     if (status) {
                         // 登出时清除share中的信息
                         LoginCache.removeCache(getApplicationContext());
+                        BasicInfo.reset();
                         MainActivity.this.finish();
 //                        Intent intent = new Intent(MainActivity.this,LoginActivity.class);
 //                        startActivity(intent);

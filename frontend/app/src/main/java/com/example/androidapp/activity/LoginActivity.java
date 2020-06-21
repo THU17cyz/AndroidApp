@@ -170,7 +170,7 @@ public class LoginActivity extends BaseActivity {
                             BasicInfo.IS_TEACHER = false;
                             BasicInfo.mMajor = jsonObject.getString("major");
                             BasicInfo.mDegree = jsonObject.getString("degree");
-                        }else {
+                        } else {
                             BasicInfo.ID = jsonObject.getInt("teacher_id");
                             BasicInfo.TYPE = "T";
                             BasicInfo.IS_TEACHER = true;
@@ -478,6 +478,7 @@ public class LoginActivity extends BaseActivity {
         if (account.length() == 0) {
             Hint.startActivityLoad(this);
             new LoginRequest(this.handleLogin, "T", "T4", "P12345").send();
+            return;
         }
 
         // 后门儿2

@@ -35,4 +35,11 @@ public class ActivityCollector {
             }
         }
     }
+
+    /**
+     * 获取 Activity
+     */
+    static BaseActivity getActivity(int position) {
+        return (BaseActivity) activities.get(position);
+    }
 }

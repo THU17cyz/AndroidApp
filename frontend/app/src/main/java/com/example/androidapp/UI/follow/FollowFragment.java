@@ -43,16 +43,6 @@ public class FollowFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_follow_nav, container, false);
         unbinder = ButterKnife.bind(this, root);
 
-//    followViewModel =
-//            ViewModelProviders.of(this).get(FollowViewModel.class);
-//        final TextView textView = root.findViewById(R.id.text_query);
-//    followViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-//      @Override
-//      public void onChanged(@Nullable String s) {
-//        textView.setText(s);
-//      }
-//    });
-
         TabLayout tabLayout = root.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.WATCH)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.FOLLOWER)));
@@ -63,7 +53,7 @@ public class FollowFragment extends Fragment {
         FollowPagerAdapter pagerAdapter = new FollowPagerAdapter(getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
+        viewPager.setOffscreenPageLimit(2);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

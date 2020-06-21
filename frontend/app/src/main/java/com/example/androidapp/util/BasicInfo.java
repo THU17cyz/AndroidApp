@@ -1,5 +1,6 @@
 package com.example.androidapp.util;
 
+import com.example.androidapp.activity.MainActivity;
 import com.example.androidapp.chatTest.model.Message;
 import com.example.androidapp.entity.ApplicationInfo;
 import com.example.androidapp.entity.RecruitmentInfo;
@@ -14,6 +15,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class BasicInfo {
 
+  public static boolean LOADED = false;
   public static String PATH;
   public static String ACCOUNT = "account";
   public static String PASSWORD = "";
@@ -100,5 +102,18 @@ public class BasicInfo {
     for (ShortProfile shortProfile: WATCH_LIST) {
       System.out.println(shortProfile.name + shortProfile.isFan);
     }
+  }
+
+  public static void reset() {
+    LOADED = false;
+    mApplicationList.clear();
+    mRecruitmentList.clear();
+    INTENTION_NOTIFICATIONS.clear();
+    FOLLOW_NOTIFICATIONS.clear();
+    WELCOME_NOTIFICATIONS.clear();
+    PWD_CHANGE_NOTIFICATIONS.clear();
+    WATCH_LIST.clear();
+    FAN_LIST.clear();
+    CHAT_HISTORY.clear();
   }
 }
