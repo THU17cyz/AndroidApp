@@ -47,7 +47,7 @@ import com.example.androidapp.request.user.LogoutRequest;
 import com.example.androidapp.request.user.UpdateInfoPictureRequest;
 import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.LocalPicx;
-import com.example.androidapp.util.MyImageLoader;
+import com.example.androidapp.util.LoginCache;
 import com.example.androidapp.util.StringCutter;
 import com.example.androidapp.util.Uri2File;
 import com.example.androidapp.viewmodel.ChatHistoryViewModel;
@@ -157,6 +157,9 @@ public class MainActivity extends BaseActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
 
         LocalPicx.loadAsset(this);
+
+        //保存登录信息
+        LoginCache.saveCache(getApplicationContext());
     }
 
     private Runnable mTimeCounterRunnable = new Runnable() {
@@ -582,6 +585,8 @@ public class MainActivity extends BaseActivity {
                     JSONObject jsonObject = new JSONObject(resStr);
                     Boolean status = jsonObject.getBoolean("status");
                     if (status) {
+                        // 登出时清除share中的信息
+                        LoginCache.removeCache(getApplicationContext());
                         MainActivity.this.finish();
 //                        Intent intent = new Intent(MainActivity.this,LoginActivity.class);
 //                        startActivity(intent);
