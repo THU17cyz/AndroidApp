@@ -158,6 +158,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
             if (msgs.isEmpty()) continue;
             Message message = msgs.get(msgs.size() - 1);
             User user = message.getUser();
+            if (message.getImageUrl() != null) message.setText("[图片]");
             System.out.println(user.getAccount() + user.getId() + user.getName());
             Dialog dialog = new Dialog(String.valueOf(i), user.getName(), "",
                     new ArrayList<>(Arrays.asList(user)),
@@ -175,24 +176,12 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
 
     @Override
     public String format(Date date) {
-
-//        if (DateFormatter.isToday(date)) {
-//            return DateFormatter.format(date, DateFormatter.Template.TIME);
-//            //return "今天";
-//        } else if (DateFormatter.isYesterday(date)) {
-//            return "昨天";
-//        } else if (DateFormatter.isCurrentYear(date)) {
-//            return DateFormatter.format(date, DateFormatter.Template.STRING_DAY_MONTH);
-//        } else {
-//            return DateFormatter.format(date, DateFormatter.Template.STRING_DAY_MONTH_YEAR);
-//        }
         try {
             String s =  DateUtil3.formatDate(date);
             return s;
         } catch (ParseException e) {
-            e.printStackTrace();
+            return "";
         }
-        return "wrong";
     }
 
     private Runnable mTimeCounterRunnable = new Runnable() {

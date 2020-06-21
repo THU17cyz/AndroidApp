@@ -30,6 +30,7 @@ import com.example.androidapp.request.information.GetInformationDetailRequest;
 import com.example.androidapp.request.information.GetInformationRequest;
 import com.example.androidapp.request.information.SetInformationStateRequest;
 import com.example.androidapp.util.BasicInfo;
+import com.example.androidapp.util.DateUtil3;
 import com.example.androidapp.util.LocalPicx;
 import com.example.androidapp.util.MyImageLoader;
 import com.kingja.loadsir.core.LoadService;
@@ -222,19 +223,12 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
 
     @Override
     public String format(Date date) {
-
-        return date.toString();
-
-//    if (DateFormatter.isToday(date)) {
-//      return DateFormatter.format(date, DateFormatter.Template.TIME);
-//      //return "今天";
-//    } else if (DateFormatter.isYesterday(date)) {
-//      return "昨天";
-//    } else if (DateFormatter.isCurrentYear(date)) {
-//      return DateFormatter.format(date, DateFormatter.Template.STRING_DAY_MONTH);
-//    } else {
-//      return DateFormatter.format(date, DateFormatter.Template.STRING_DAY_MONTH_YEAR);
-//    }
+        try {
+            String s =  DateUtil3.formatDate(date);
+            return s;
+        } catch (ParseException e) {
+            return "";
+        }
     }
 
     @Override

@@ -33,6 +33,7 @@ import com.stfalcon.chatkit.messages.MessageInput;
 import com.stfalcon.chatkit.messages.MessagesList;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
 import com.stfalcon.chatkit.utils.DateFormatter;
+import com.stfalcon.chatkit.utils.RoundedImageView;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
@@ -133,7 +134,8 @@ public class ChatActivity
         imageLoader = new ImageLoader() {
             @Override
             public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
-                Picasso.get().load(url).placeholder(R.drawable.ic_photoholder).into(imageView);
+                if (imageView instanceof RoundedImageView) Picasso.get().load(url).placeholder(R.drawable.ic_photoholder).into(imageView);
+                else Picasso.get().load(url).placeholder(R.drawable.ic_avatarholder).into(imageView);
 
             }
         };
@@ -228,20 +230,16 @@ public class ChatActivity
 
     // 轮询要干的事
     private synchronized void newTest() {
-        Log.e("????????????????", String.valueOf(msgs.size()));
         int current = msgs.size();
-        System.out.println(current);
         ArrayList<Message> tmp = BasicInfo.CHAT_HISTORY.get(contact); // 账号
-        Log.e("????++++++", String.valueOf(msgs.size()));
-        for (int i = current; i < tmp.size(); i++) {
-            Message m = tmp.get(i);
-            msgs.add(m);
-            if (m.getUser().getId().equals("1")) messagesAdapter.addToStart(m, true);
+        if (tmp != null) {
+            for (int i = current; i < tmp.size(); i++) {
+                Message m = tmp.get(i);
+                msgs.add(m);
+                if (m.getUser().getId().equals("1")) messagesAdapter.addToStart(m, true);
+            }
+            messagesAdapter.notifyDataSetChanged();
         }
-        Log.e("????????????????++++++", String.valueOf(msgs.size()));
-        System.out.println(tmp.size());
-        System.out.println(msgs.size());
-        messagesAdapter.notifyDataSetChanged();
     }
 
 

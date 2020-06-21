@@ -42,6 +42,12 @@ public class SelfInfoFragment extends Fragment {
     @BindView(R.id.name)
     TextView name;
 
+    @BindView(R.id.account)
+    TextView account;
+
+    @BindView(R.id.layout_username)
+    LinearLayout layoutAccount;
+
     @BindView(R.id.gender)
     TextView gender;
 
@@ -132,6 +138,7 @@ public class SelfInfoFragment extends Fragment {
     public void setInfo() {
         Activity activity = getActivity();
         if (activity instanceof MainActivity) {
+            account.setText(BasicInfo.ACCOUNT);
             name.setText(BasicInfo.mName);
             if (BasicInfo.mGender.equals("M")){
                 gender.setText("男");
@@ -176,6 +183,7 @@ public class SelfInfoFragment extends Fragment {
         }
         else {
             VisitHomePageActivity activity_ = (VisitHomePageActivity) activity;
+            layoutAccount.setVisibility(View.GONE);
             name.setText(activity_.mName);
             if (activity_.mGender.equals("M")){
                 gender.setText("男");

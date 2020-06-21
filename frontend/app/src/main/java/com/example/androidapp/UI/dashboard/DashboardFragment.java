@@ -151,7 +151,6 @@ public class DashboardFragment
 
         ButterKnife.bind(this,root);
 
-        ImmersionBar.with(this).statusBarColor(R.color.transparent).init();
 
         tabLayout.addTab(tabLayout.newTab().setText("个人信息"));
         tabLayout.addTab(tabLayout.newTab().setText("科研信息"));
@@ -187,36 +186,6 @@ public class DashboardFragment
             }
         });
 
-//        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//            }
-//            @Override
-//            public void onPageSelected(int position) {
-//                switch (position) {
-//                    case 0: {
-//                        ((SelfInfoFragment) pagerAdapter.getRegisteredFragment(0)).setInfo();
-//                        break;
-//                    }
-//                    case 1: {
-//                        ((StudyInfoFragment) pagerAdapter.getRegisteredFragment(1)).setInfo();
-//                        break;
-//                    }
-//                    default: {
-//                        if (type.equals("S"))
-//                            ((ApplicationInfoFragment) pagerAdapter.getRegisteredFragment(2)).setInfo();
-//                        else
-//                            ((RecruitmentInfoFragment) pagerAdapter.getRegisteredFragment(2)).setInfo();
-////                        ((SelfInfoFragment) pagerAdapter.getRegisteredFragment(0)).setInfo();
-//                        break;
-//                    }
-//                }
-//            }
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//            }
-//        });
-
         // 编辑信息按钮点击事件
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -227,6 +196,7 @@ public class DashboardFragment
         });
 
         title.setText("我的个人主页");
+        name.setText(BasicInfo.mName);
 
         final int alphaMaxOffset = SizeConverter.dpToPx(150);
         toolbar.getBackground().setAlpha(0);

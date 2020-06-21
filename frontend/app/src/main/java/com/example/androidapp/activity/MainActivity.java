@@ -47,6 +47,7 @@ import com.example.androidapp.request.user.LogoutRequest;
 import com.example.androidapp.request.user.UpdateInfoPictureRequest;
 import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.LocalPicx;
+import com.example.androidapp.util.MyImageLoader;
 import com.example.androidapp.util.StringCutter;
 import com.example.androidapp.util.Uri2File;
 import com.example.androidapp.viewmodel.ChatHistoryViewModel;
@@ -60,6 +61,7 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
@@ -91,6 +93,8 @@ public class MainActivity extends BaseActivity {
     private boolean loaded = false;
 
     private Drawer drawer;
+
+    private List<IProfile> drawerHead;
 
     public static Handler msgHandler;
 
@@ -302,7 +306,7 @@ public class MainActivity extends BaseActivity {
                                         } else {
                                             message = new com.example.androidapp.chatTest.model.Message(id, user,content,sdf.parse(time),true);
                                         }
-                                        message.setDateString(time);
+                                        // message.setDateString(time);
                                         Log.e("消息内容",sdf.parse(time).toString()+" "+state);
                                         String type = content.substring(2, 4);
                                         if (type.equals("用户")) {
@@ -479,6 +483,8 @@ public class MainActivity extends BaseActivity {
                 .withOnAccountHeaderListener((view, profile, currentProfile) -> false)
                 .build();
 
+        drawerHead = headerResult.getProfiles();
+
         PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1)
                 .withIcon(getDrawable(R.drawable.ic_drawer_homepage_24dp)).withName("我的主页");
         PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2)
@@ -556,6 +562,7 @@ public class MainActivity extends BaseActivity {
                 })
                 .build();
         drawer.getDrawerLayout().setStatusBarBackgroundColor(Color.TRANSPARENT);
+        System.out.println(getWindow().getDecorView().getSystemUiVisibility() + ">>>>>>>>>>>>>>>>>>>>>>>>>");
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
     }
 
@@ -664,7 +671,12 @@ public class MainActivity extends BaseActivity {
                         JSONObject jsonObject = new JSONObject(resStr);
                         Boolean status = jsonObject.getBoolean("status");
                         if (status) {
-                            Picasso.get().invalidate(BasicInfo.PATH);
+                            drawerHead.remove(0);
+                            drawerHead.add(0,
+                                    new ProfileDrawerItem().withName("用户名").withEmail("个性签名")
+                                            .withIcon(new GetInfoPictureRequest("I", null, null).getWholeUrl())
+                                            );
+//                            MyImageLoader.loadImage(, );
                         } else {
                             String info = jsonObject.getString("info");
                         }

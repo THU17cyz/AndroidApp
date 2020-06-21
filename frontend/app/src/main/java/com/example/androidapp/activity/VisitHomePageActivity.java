@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -158,6 +159,8 @@ public class VisitHomePageActivity extends AppCompatActivity {
         mRecruitmentList = new ArrayList<>();
 
         ImmersionBar.with(this).statusBarColor(R.color.transparent).init();
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
 
         tabLayout.addTab(tabLayout.newTab().setText("个人信息"));
         tabLayout.addTab(tabLayout.newTab().setText("科研信息"));
@@ -223,12 +226,14 @@ public class VisitHomePageActivity extends AppCompatActivity {
             // TODO
             Intent intent1 =new Intent(VisitHomePageActivity.this, ChatActivity.class);
             intent1.putExtra("user",BasicInfo.ACCOUNT);
-            intent1.putExtra("contact",mAccount);
-            intent1.putExtra("contact_id",String.valueOf(id));
-            intent1.putExtra("contact_type",type);
+            intent1.putExtra("real_name", mName);
+            intent1.putExtra("contact", mAccount);
+            intent1.putExtra("contact_id", String.valueOf(id));
+            intent1.putExtra("contact_type", type);
             startActivity(intent1);
         });
         btn_focus.setPressed_(isFan);
+        name.setText(mAccount);
 
         final int alphaMaxOffset = SizeConverter.dpToPx(150);
         toolbar.getBackground().setAlpha(0);
@@ -421,6 +426,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
                         runOnUiThread(() -> {
                             title.setText(mName + "的个人主页");
                             signature.setText(mSignature);
+                            name.setText(mAccount);
                             ((SelfInfoFragment) pagerAdapter.getRegisteredFragment(0)).setInfo();
                         });
                     } else {

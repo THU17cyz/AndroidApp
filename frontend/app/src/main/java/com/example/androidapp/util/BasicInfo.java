@@ -62,7 +62,7 @@ public class BasicInfo {
 
   public static String AVATAR = "";
 
-  public static Lock lock = new ReentrantLock();;
+  public static Lock lock = new ReentrantLock();
   public static List<ShortProfile> WATCH_LIST = Collections.synchronizedList(new ArrayList<>());
   public static List<ShortProfile> FAN_LIST = Collections.synchronizedList(new ArrayList<>());
 
