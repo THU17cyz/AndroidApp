@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.cardview.widget.CardView
-    android:id="@+id/card"
     app:cardCornerRadius="5dp"
     app:contentPaddingBottom="4dp"
     app:contentPaddingTop="4dp"
@@ -48,7 +47,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:background="@drawable/ic_clear_black_24dp"
+                android:foreground="@drawable/ic_clear_white_24dp"
+                android:background="@color/md_red_300"
                 ></ImageView>
 
         </RelativeLayout>
