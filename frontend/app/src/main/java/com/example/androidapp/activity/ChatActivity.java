@@ -154,6 +154,7 @@ public class ChatActivity
         if (tmp != null) {
             for (Message m: tmp) {
                 msgs.add(m);
+                if (!m.isRead() && m.getUser().getId().equals("1")) BasicInfo.subFromBadgeChat(1);
                 m.setRead();
             }
             messagesAdapter.addToEnd(msgs, true);
@@ -212,9 +213,12 @@ public class ChatActivity
                         // 发送成功后显示消息
                         runOnUiThread(() -> {
                             User user = new User("0", realName,
-                                    new GetInfoPictureRequest("I", null, null).getWholeUrl(),
+                                    new GetInfoPictureRequest(contactType, contactId, contactId).getWholeUrl(),
                                     contact, contactType, contactId);
-                            Message m = new Message("0", user, input.toString(), new Date(), true);
+                            Date trueDate = new Date();
+                            Date falseDate = new Date();
+                            falseDate.setTime(trueDate.getTime() - 8 * 60 * 60 * 1000);
+                            Message m = new Message("0", user, input.toString(), falseDate, true);
                             messagesAdapter.addToStart(m, true);
                             ArrayList<Message> tmp = BasicInfo.CHAT_HISTORY.get(contact); // 账号
                             if (tmp != null) {
@@ -244,6 +248,7 @@ public class ChatActivity
         if (tmp != null) {
             for (int i = current; i < tmp.size(); i++) {
                 Message m = tmp.get(i);
+                m.setRead();
                 msgs.add(m);
                 if (m.getUser().getId().equals("1")) {
                     messagesAdapter.addToStart(m, true);
@@ -336,11 +341,8 @@ public class ChatActivity
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
                         Log.e("error","发送图片失败");
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // Toast.makeText(getApplicationContext(),"发送图片失败",Toast.LENGTH_SHORT).show();
-                            }
+                        runOnUiThread(() -> {
+                            // Toast.makeText(getApplicationContext(),"发送图片失败",Toast.LENGTH_SHORT).show();
                         });
                     }
 
@@ -358,9 +360,12 @@ public class ChatActivity
                                 // 发送成功之后显示图片
                                 runOnUiThread(() -> {
                                     User user = new User("0", realName,
-                                            new GetInfoPictureRequest("I", null, null).getWholeUrl(),
+                                            new GetInfoPictureRequest(contactType, contactId, contactId).getWholeUrl(),
                                             contact, contactType, contactId);
-                                    Message m = new Message("0", user, null, new Date(), true);
+                                    Date trueDate = new Date();
+                                    Date falseDate = new Date();
+                                    falseDate.setTime(trueDate.getTime() - 8 * 60 * 60 * 1000);
+                                    Message m = new Message("0", user, null, falseDate, true);
                                     m.setImage(new Message.Image(uri));
                                     messagesAdapter.addToStart(m, true);
                                     ArrayList<Message> tmp = BasicInfo.CHAT_HISTORY.get(contact); // 账号
@@ -431,7 +436,7 @@ public class ChatActivity
         public void run() {
             Log.e("聊天界面轮询","+1");
             newTest();//getUnreadCount()执行的任务
-            mHandler.postDelayed(this, 5 * 1000);
+            mHandler.postDelayed(this, 2 * 1000);
         }
     };
 

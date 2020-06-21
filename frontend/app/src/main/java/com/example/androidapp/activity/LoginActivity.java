@@ -156,9 +156,13 @@ public class LoginActivity extends BaseActivity {
         }
 
 
-        // 引导页设置
-        introductionBuilder = new IntroductionBuilder(this);
-        introductionBuilder.withSlides(Hint.generateSlides()).introduceMyself();
+        if (Global.INTRO) {
+            // 引导页设置
+            introductionBuilder = new IntroductionBuilder(this);
+            introductionBuilder.withSlides(Hint.generateSlides()).introduceMyself();
+            Global.INTRO = false;
+        }
+
     }
 
 

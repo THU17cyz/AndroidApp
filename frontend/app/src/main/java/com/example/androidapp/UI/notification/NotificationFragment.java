@@ -244,7 +244,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
                 else count++;
                 size--;
             }
-            dialogs.add(new Dialog("1","大管家",
+            dialogs.add(new Dialog("1","意向变更",
                     LocalPicx.NOTIFICATION_INTENTION,
                     new ArrayList<>(Arrays.asList(user)), m, count));
         }

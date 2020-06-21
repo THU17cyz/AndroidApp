@@ -251,7 +251,7 @@ public class MainActivity extends BaseActivity {
             Log.e("消息列表轮询","+1");
             refreshData();
             // 每30秒刷新一次
-            mHandler.postDelayed(this, 5 * 1000);
+            mHandler.postDelayed(this, 2 * 1000);
         }
     };
 

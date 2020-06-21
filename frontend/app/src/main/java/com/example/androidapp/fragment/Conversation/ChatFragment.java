@@ -248,7 +248,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
 //
 //            }
             newTest();//getUnreadCount()执行的任务
-            mHandler.postDelayed(this, 3 * 1000);
+            mHandler.postDelayed(this, 2 * 1000);
         }
     };
 }
