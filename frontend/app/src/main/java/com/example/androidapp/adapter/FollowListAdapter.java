@@ -99,7 +99,7 @@ public class FollowListAdapter extends RecyclerView.Adapter<FollowListAdapter.Vi
 
     @OnClick(R.id.logon1_type)
     void onNameClick(){
-      Toast.makeText(activity,"ok",Toast.LENGTH_LONG).show();
+      // Toast.makeText(activity,"ok",Toast.LENGTH_LONG).show();
     }
   }
 }

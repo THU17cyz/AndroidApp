@@ -95,7 +95,7 @@ public class EditStudyInfoFragment extends Fragment {
             }
         } else {
             if(dirOrInt.getText().toString()==null||dirOrInt.getText().toString().length()==0){
-                Toast.makeText(getContext(),"科研信息->研究方向不能为空",Toast.LENGTH_SHORT);
+                // Toast.makeText(getContext(),"科研信息->研究方向不能为空",Toast.LENGTH_SHORT);
                 return false;
             }
         }

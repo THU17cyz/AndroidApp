@@ -98,7 +98,8 @@
                     </LinearLayout>
 
                     <View
-                        android:layout_width="1dp"
+                        android:layout_weight="0.002"
+                        android:layout_width="2dp"
                         android:layout_height="match_parent"
                         android:background="@drawable/shape_signup_button">
                     </View>
@@ -190,10 +191,10 @@
 
                     <Button
                         android:id="@+id/btn_edit"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="15dp"
+                        android:layout_marginRight="18dp"
                         android:background="@drawable/ic_edit_black_24dp"></Button>
                 </RelativeLayout>
             </androidx.appcompat.widget.Toolbar>

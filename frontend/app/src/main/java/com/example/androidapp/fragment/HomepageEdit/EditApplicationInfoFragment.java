@@ -110,7 +110,7 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
                     Toast.makeText(getContext(),"已达到意向数量上限",Toast.LENGTH_SHORT).show();
                     break;
                 }
-                Toast.makeText(getActivity(),"添加",Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getActivity(),"添加",Toast.LENGTH_SHORT).show();
                 ApplicationInfo applicationInfo = new ApplicationInfo("","进行","");
                 mApplicationList.add(applicationInfo);
                 adapter.notifyDataSetChanged();

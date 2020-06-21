@@ -339,7 +339,7 @@ public class ChatActivity
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getApplicationContext(),"发送图片失败",Toast.LENGTH_SHORT).show();
+                                // Toast.makeText(getApplicationContext(),"发送图片失败",Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -418,7 +418,7 @@ public class ChatActivity
      */
     @Override
     public void onAddAttachments() {
-        Toast.makeText(getApplicationContext(), "attachment", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getApplicationContext(), "attachment", Toast.LENGTH_SHORT).show();
         new AlertDialog.Builder(ChatActivity.this)
                 .setItems(R.array.view_types_dialog, ChatActivity.this)
                 .show();

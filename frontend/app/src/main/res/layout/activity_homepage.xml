@@ -73,7 +73,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:orientation="horizontal"
-                            android:padding="16dp">
+                            android:padding="16dp"
+                            >
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -101,9 +102,10 @@
                             </LinearLayout>
 
                             <View
-                                android:layout_width="1dp"
+                                android:layout_width="2dp"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/shape_signup_button"></View>
+                                android:background="@drawable/shape_signup_button">
+                            </View>
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
