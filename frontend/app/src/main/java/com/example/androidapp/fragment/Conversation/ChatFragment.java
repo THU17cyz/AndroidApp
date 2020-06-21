@@ -3,8 +3,6 @@ package com.example.androidapp.fragment.Conversation;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.icu.util.LocaleData;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -12,38 +10,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
+import com.example.androidapp.R;
 import com.example.androidapp.activity.ChatActivity;
-import com.example.androidapp.chatTest.fixtures.DialogsFixtures;
 import com.example.androidapp.chatTest.model.Dialog;
 import com.example.androidapp.chatTest.model.Message;
 import com.example.androidapp.chatTest.model.User;
-import com.example.androidapp.R;
 import com.example.androidapp.repository.chathistory.ChatHistory;
-import com.example.androidapp.repository.chathistoryhasread.ChatHistoryHasRead;
-import com.example.androidapp.request.conversation.GetAllMessagesRequest;
-import com.example.androidapp.request.conversation.GetContactListRequest;
-import com.example.androidapp.request.conversation.GetMessageDetailRequest;
-import com.example.androidapp.request.conversation.GetMessageRequest;
-import com.example.androidapp.request.conversation.GetNewMessagesRequest;
-import com.example.androidapp.request.user.GetInfoRequest;
 import com.example.androidapp.util.BasicInfo;
-import com.example.androidapp.util.DateUtil1;
 import com.example.androidapp.util.DateUtil3;
-import com.example.androidapp.viewmodel.ChatHistoryHasReadViewModel;
-import com.example.androidapp.viewmodel.ChatHistoryViewModel;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.chatkit.commons.ImageLoader;
@@ -52,29 +31,12 @@ import com.stfalcon.chatkit.dialogs.DialogsList;
 import com.stfalcon.chatkit.dialogs.DialogsListAdapter;
 import com.stfalcon.chatkit.utils.DateFormatter;
 
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.nio.file.Watchable;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-
-import javax.microedition.khronos.egl.EGLDisplay;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 public class ChatFragment extends Fragment implements DateFormatter.Formatter {
     private DialogsList dialogsList;

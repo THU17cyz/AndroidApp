@@ -98,7 +98,7 @@ public class IntentFragment extends Fragment {
 //                test_url,999, true, false));
         mShortIntentAdapter = new ShortIntentAdapter(mIntentList, getContext());//初始化NameAdapter
         mShortIntentAdapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
-        mShortIntentAdapter.openLeftAnimation();//设置加载动画
+//        mShortIntentAdapter.openLeftAnimation();//设置加载动画
 
         mShortIntentAdapter.setOnItemClickListener((adapter, view, position) -> {
             visitHomePage(position);

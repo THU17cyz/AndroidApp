@@ -19,7 +19,7 @@ public class GetInfoPictureRequest {
     public String getWholeUrl() {
         if (type.equals("I")) {
             return Global.SERVER_URL + this.url + "?type=" + type;
-        } else if (student_id == null) {
+        } else if (type.equals("T") || student_id == null) {
             return Global.SERVER_URL + this.url + "?type=T&teacher_id=" + teacher_id;
         } else {
             return Global.SERVER_URL + this.url + "?type=S&student_id=" + student_id;
