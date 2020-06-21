@@ -138,9 +138,11 @@ public class ChatActivity
     contactType = getIntent().getStringExtra("contact_type");
 
     // String.valueOf(BasicInfo.ID)
-    thisUser = new User("0",user,"http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",user,BasicInfo.TYPE);
+    thisUser = new User("0",user,"http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
+            user,BasicInfo.TYPE, contactId);
     // contactId
-    contactUser = new User("1",contact,"http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",contact,contactType);//这里面的id是用于显示
+    contactUser = new User("1",contact,"http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
+            contact,contactType, contactId);//这里面的id是用于显示
 
 //    // 聊天记录
 //    chatHistoryViewModel = ViewModelProviders.of(this).get(ChatHistoryViewModel.class);

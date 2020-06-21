@@ -93,7 +93,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
     private ArrayList<ChatHistory> tmpChatHistoryList;
 
 
-    private int type;//0:老师 1：学生
+    private int type; //0:老师 1：学生
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
     boolean hasHandled = false;

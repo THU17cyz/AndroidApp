@@ -221,13 +221,13 @@ public class MainActivity extends BaseActivity {
 
                     if(send.equals("S")){
                         User user = new User("0", BasicInfo.ACCOUNT,
-                                "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
-                                account, otherUserType);
+                                new GetInfoPictureRequest("I", null, null).getWholeUrl(),
+                                account, otherUserType, id);
                         message = new com.example.androidapp.chatTest.model.Message("", user, msg, date);
                     } else {
                         User user = new User("1", account,
                                 "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
-                                account, otherUserType);
+                                account, otherUserType, id);
                         message = new com.example.androidapp.chatTest.model.Message("", user, msg, date);
                     }
                     if (type.equals("P")) {
@@ -399,12 +399,12 @@ public class MainActivity extends BaseActivity {
                             if(messageWay.equals("S")){
                                 User user = new User("0", BasicInfo.ACCOUNT,
                                         "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
-                                        objectAccount, objectType);
+                                        objectAccount, objectType, objectId);
                                 message = new com.example.androidapp.chatTest.model.Message(String.valueOf(messageId), user, messageContent, date, false);
                             } else {
                                 User user = new User("1", objectAccount,
                                         "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
-                                        objectAccount, objectType);
+                                        objectAccount, objectType, objectId);
                                 message = new com.example.androidapp.chatTest.model.Message(String.valueOf(messageId), user, messageContent, date, false);
                             }
                             if(messageType.equals("T")){

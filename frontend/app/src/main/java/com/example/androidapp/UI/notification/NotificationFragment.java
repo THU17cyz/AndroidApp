@@ -148,6 +148,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
                     public void onResponse(@NotNull Call call, @NotNull Response response) {
                         getActivity().runOnUiThread(() -> {
                             dialog.setUnreadCount(0);
+                            dialog.getLastMessage().setRead();
                             dialogsAdapter.notifyDataSetChanged();
                         });
                     }
@@ -173,6 +174,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
                         Log.e("s","更新消息状态成功");
                         Dialog d = (Dialog) dialog;
                         d.setUnreadCount(0);
+                        d.getLastMessage().setRead();
                         dialogsAdapter.notifyDataSetChanged();
                     });
                 }

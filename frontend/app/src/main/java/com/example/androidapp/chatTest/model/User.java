@@ -14,6 +14,7 @@ public class User implements IUser {
 
     private String account;
     private String type;//用户类型 S/T
+    private String userId; // 用于发送
 
     public User(String id, String name, String avatar, boolean online) {
         this.id = id;
@@ -22,7 +23,7 @@ public class User implements IUser {
         this.online = online;
     }
 
-    public User(String id, String name, String avatar, String account, String type) {
+    public User(String id, String name, String avatar, String account, String type, String userId) {
         this.id = id;
         this.name = name;
         this.avatar = avatar;

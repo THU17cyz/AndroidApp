@@ -95,6 +95,11 @@ public class Message implements IMessage,
         return "Sent";
     }
 
+    public void setRead() {
+        read = true;
+    }
+
+
     public void setText(String text) {
         this.text = text;
     }

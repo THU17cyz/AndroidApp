@@ -150,16 +150,22 @@ public class InfoActivity extends BaseActivity implements  DateFormatter.Formatt
       String id;
       if (type == 0) {
         messagesAdapter.addToEnd(BasicInfo.WELCOME_NOTIFICATIONS, true);
-        id = BasicInfo.WELCOME_NOTIFICATIONS.get(BasicInfo.WELCOME_NOTIFICATIONS.size() - 1).getId();
+        Message m = BasicInfo.WELCOME_NOTIFICATIONS.get(BasicInfo.WELCOME_NOTIFICATIONS.size() - 1);
+        m.setRead();
+        id = m.getId();
+
       } else if (type == 1) {
         messagesAdapter.addToEnd(BasicInfo.FOLLOW_NOTIFICATIONS, true);
-        id = BasicInfo.FOLLOW_NOTIFICATIONS.get(BasicInfo.FOLLOW_NOTIFICATIONS.size() - 1).getId();
+        Message m = BasicInfo.FOLLOW_NOTIFICATIONS.get(BasicInfo.FOLLOW_NOTIFICATIONS.size() - 1);
+        id = m.getId();
       } else if (type == 2) {
         messagesAdapter.addToEnd(BasicInfo.INTENTION_NOTIFICATIONS, true);
-        id = BasicInfo.INTENTION_NOTIFICATIONS.get(BasicInfo.INTENTION_NOTIFICATIONS.size() - 1).getId();
+        Message m = BasicInfo.INTENTION_NOTIFICATIONS.get(BasicInfo.INTENTION_NOTIFICATIONS.size() - 1);
+        id = m.getId();
       } else {
         messagesAdapter.addToEnd(BasicInfo.PWD_CHANGE_NOTIFICATIONS, true);
-        id = BasicInfo.PWD_CHANGE_NOTIFICATIONS.get(BasicInfo.PWD_CHANGE_NOTIFICATIONS.size() - 1).getId();
+        Message m = BasicInfo.PWD_CHANGE_NOTIFICATIONS.get(BasicInfo.PWD_CHANGE_NOTIFICATIONS.size() - 1);
+        id = m.getId();
       }
         messagesAdapter.notifyDataSetChanged();
       new SetInformationStateRequest(new okhttp3.Callback() {
@@ -170,7 +176,6 @@ public class InfoActivity extends BaseActivity implements  DateFormatter.Formatt
 
         @Override
         public void onResponse(@NotNull Call call, @NotNull Response response) {
-
         }
       }, id, "R").send();
     }
