@@ -98,11 +98,11 @@
                     </LinearLayout>
 
                     <View
-                        android:layout_weight="0.002"
                         android:layout_width="2dp"
                         android:layout_height="match_parent"
-                        android:background="@drawable/shape_signup_button">
-                    </View>
+                        android:layout_weight="0.002"
+                        android:background="@drawable/shape_signup_button"
+                        android:visibility="gone"></View>
 
 
                     <LinearLayout

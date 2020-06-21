@@ -61,6 +61,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -174,6 +175,7 @@ public class DashboardFragment
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                JCVideoPlayer.releaseAllVideos();
             }
 
             @Override
@@ -202,6 +204,7 @@ public class DashboardFragment
         final int alphaMaxOffset = SizeConverter.dpToPx(150);
         toolbar.getBackground().setAlpha(0);
         title.setAlpha(0);
+
 
         app_bar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             // 设置 toolbar 背景

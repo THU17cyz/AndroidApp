@@ -179,7 +179,6 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String resStr = response.body().string();
-                runOnUiThread(() -> Toast.makeText(getApplicationContext(), resStr, Toast.LENGTH_LONG).show());
                 Log.e("response", resStr);
                 try {
                     // 解析json，然后进行自己的内部逻辑处理

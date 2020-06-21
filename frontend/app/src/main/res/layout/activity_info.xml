@@ -61,6 +61,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
 
+        android:layout_marginBottom="30dp"
         app:dateHeaderFormat="dd MMMM yyyy"
         app:incomingDefaultBubbleColor="@color/ivory"
         app:incomingDefaultBubblePressedColor="@color/ivory_dark"

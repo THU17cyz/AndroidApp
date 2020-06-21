@@ -18,6 +18,7 @@ import com.example.androidapp.util.BasicInfo;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 public class StudyInfoFragment extends Fragment {
@@ -97,6 +98,11 @@ public class StudyInfoFragment extends Fragment {
 
             videoPlayer.setUp(activity_.mUrl, JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "宣传视频");
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
     @Override

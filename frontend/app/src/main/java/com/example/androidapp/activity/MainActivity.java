@@ -251,7 +251,7 @@ public class MainActivity extends BaseActivity {
             Log.e("消息列表轮询","+1");
             refreshData();
             // 每30秒刷新一次
-            mHandler.postDelayed(this, 30 * 1000);
+            mHandler.postDelayed(this, 5 * 1000);
         }
     };
 
@@ -712,8 +712,6 @@ public class MainActivity extends BaseActivity {
             // 主页双击返回退出程序
             if(current != null && current instanceof HomeFragment){
                 if(System.currentTimeMillis() - exitTime > 2000){
-                    Toast.makeText(getApplicationContext(),"再按一次退出程序",
-                            Toast.LENGTH_LONG).show();
                     exitTime = System.currentTimeMillis();
                 } else {
                     App.appExit(MainActivity.this);

@@ -52,6 +52,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -181,6 +182,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                JCVideoPlayer.releaseAllVideos();
             }
 
             @Override
