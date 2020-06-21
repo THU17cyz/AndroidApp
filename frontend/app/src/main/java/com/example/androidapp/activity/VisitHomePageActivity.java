@@ -528,7 +528,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
 
                     }
                 }
-            },String.valueOf(BasicInfo.ID)).send();
+            }, String.valueOf(id)).send();
         } else {
             // 获取申请意向id列表
             new GetApplyIntentionRequest(new okhttp3.Callback() {
@@ -593,7 +593,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
 
                     }
                 }
-            },String.valueOf(BasicInfo.ID)).send();
+            }, String.valueOf(id)).send();
         }
     }
 }

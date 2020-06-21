@@ -231,6 +231,7 @@ public class DashboardFragment
         numFocus.setText(String.valueOf(BasicInfo.WATCH_LIST.size()));
         numFocused.setText(String.valueOf(BasicInfo.FAN_LIST.size()));
         signature.setText(BasicInfo.mSignature);
+        name.setText(BasicInfo.mName);
     }
 
     @OnClick(R.id.img_avatar)

@@ -258,6 +258,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onStart() {
         super.onStart();
+        initDrawer();
 //        loadService.showSuccess();
     }
 

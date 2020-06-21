@@ -203,13 +203,28 @@ public class SelfInfoFragment extends Fragment {
             school.setText(activity_.mSchool);
             department.setText(activity_.mDepartment);
             if(type.equals("T")){
-                title.setText(activity_.mTitle);
+                if(activity_.mTitle.equals("TA")){
+                    title.setText("助理");
+                } else if(activity_.mTitle.equals("LT")){
+                    title.setText("讲师");
+                } else if(activity_.mTitle.equals("AP")){
+                    title.setText("助理教授");
+                } else if(activity_.mTitle.equals("PP")){
+                    title.setText("教授");
+                }
                 layoutMajor.setVisibility(View.GONE);
                 layoutDegree.setVisibility(View.GONE);
                 layoutStudentNumber.setVisibility(View.GONE);
             } else {
                 major.setText(activity_.mMajor);
-                degree.setText(activity_.mDegree);
+
+                if(activity_.mDegree.equals("UG")){
+                    degree.setText("本科生");
+                } else if(activity_.mDegree.equals("MT")){
+                    degree.setText("硕士生");
+                } else {
+                    degree.setText("博士生");
+                }
                 layoutTitle.setVisibility(View.GONE);
                 layoutTeacherNumber.setVisibility(View.GONE);
             }
