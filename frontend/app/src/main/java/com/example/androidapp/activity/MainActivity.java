@@ -62,6 +62,7 @@ import com.example.androidapp.util.MyImageLoader;
 import com.example.androidapp.util.StringCutter;
 import com.example.androidapp.util.Uri2File;
 import com.example.androidapp.viewmodel.ChatHistoryViewModel;
+import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gyf.immersionbar.ImmersionBar;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -496,6 +497,9 @@ public class MainActivity extends BaseActivity {
                                 }
                                 msgs.add(message);
                             }
+                            BadgeDrawable badge = navView.getOrCreateBadge(R.id.navigation_conversations);
+                            if (badge.hasNumber()) badge.setNumber(badge.getNumber() + 1);
+                            else badge.setNumber(1);
 
                         }
 
@@ -604,26 +608,30 @@ public class MainActivity extends BaseActivity {
                         switch (position){
                             case 1:
                             {
-                                navController.navigate(R.id.navigation_dashboard);
                                 drawer.closeDrawer();
+                                viewPager.setCurrentItem(4);
+                                navView.getMenu().findItem(R.id.navigation_dashboard).setChecked(true);
                                 break;
                             }
                             case 3:
                             {
-                                navController.navigate(R.id.navigation_conversations);
                                 drawer.closeDrawer();
+                                viewPager.setCurrentItem(2);
+                                navView.getMenu().findItem(R.id.navigation_conversations).setChecked(true);
                                 break;
                             }
                             case 5:
-                            {
-                                navController.navigate(R.id.navigation_follow);
+                            { ;
                                 drawer.closeDrawer();
+                                viewPager.setCurrentItem(1);
+                                navView.getMenu().findItem(R.id.navigation_follow).setChecked(true);
                                 break;
                             }
                             case 7:
                             {
-                                navController.navigate(R.id.navigation_notifications);
                                 drawer.closeDrawer();
+                                viewPager.setCurrentItem(3);
+                                navView.getMenu().findItem(R.id.navigation_notifications).setChecked(true);
                                 break;
                             }
                             case 9:{

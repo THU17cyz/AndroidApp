@@ -83,7 +83,6 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
 
         dialogsAdapter = new DialogsListAdapter<>(imageLoader);
 
-        User user  =new User("0","ming","http://i.imgur.com/pv1tBmT.png",false);
         dialogs = new ArrayList<>();
 
         dialogsAdapter.setItems(dialogs);
@@ -156,13 +155,22 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
         for (String account: BasicInfo.CHAT_HISTORY.keySet()) {
             ArrayList<Message> msgs = BasicInfo.CHAT_HISTORY.get(account);
             if (msgs.isEmpty()) continue;
-            Message message = msgs.get(msgs.size() - 1);
+
+            int size = msgs.size() - 1;
+            int count = 0;
+            Message message = msgs.get(size);
+            while (size >= 0) {
+                Message tmp = msgs.get(size);
+                if (tmp.isRead() && tmp.getUser().getId().equals("1")) break;
+                else if (!tmp.isRead()) count++;
+                size--;
+            }
             User user = message.getUser();
             if (message.getImageUrl() != null) message.setText("[图片]");
             System.out.println(user.getAccount() + user.getId() + user.getName());
             Dialog dialog = new Dialog(String.valueOf(i), user.getName(), "",
                     new ArrayList<>(Arrays.asList(user)),
-                    message, message.isRead() || message.getUser().getId().equals("0") ? 0 : 1);
+                    message, count);
             dialogs.add(dialog);
             i++;
         }

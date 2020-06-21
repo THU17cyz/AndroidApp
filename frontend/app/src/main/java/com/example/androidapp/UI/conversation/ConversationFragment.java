@@ -35,12 +35,6 @@ public class ConversationFragment extends Fragment {
     @BindView(R.id.search_view)
     EditText searchView;
 
-//    @BindView(R.id.tab_layout)
-//    TabLayout tabLayout;
-//
-//    private ViewPager viewPager;
-//    private ConversationPagerAdapter pagerAdapter;
-
 
     private Unbinder unbinder;
 
@@ -50,34 +44,8 @@ public class ConversationFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_conversation, container, false);
         unbinder = ButterKnife.bind(this,root);
         getAvatar();
-
-//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.TUTOR)));
-//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.STUDENT)));
-//        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-//
-//        viewPager = root.findViewById(R.id.pager);
-//        pagerAdapter = new ConversationPagerAdapter(getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
-//        viewPager.setAdapter(pagerAdapter);
-//        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
         return root;
     }
-
-
-//    @Override
-//    public void onTabSelected(TabLayout.Tab tab) {
-//        viewPager.setCurrentItem(tab.getPosition());
-//    }
-//
-//    @Override
-//    public void onTabUnselected(TabLayout.Tab tab) {
-//
-//    }
-//
-//    @Override
-//    public void onTabReselected(TabLayout.Tab tab) {
-//
-//    }
 
     public void getAvatar() {
         MyImageLoader.loadImage(drawerBtn);

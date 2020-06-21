@@ -196,28 +196,56 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
         System.out.println(LocalPicx.NOTIFICATION_PASSWORD_CHANGE);
         dialogs.clear();
         if (!BasicInfo.WELCOME_NOTIFICATIONS.isEmpty()) {
-            Message m = BasicInfo.WELCOME_NOTIFICATIONS.get(BasicInfo.WELCOME_NOTIFICATIONS.size() - 1);
+            int size = BasicInfo.WELCOME_NOTIFICATIONS.size() - 1;
+            int count = 0;
+            Message m = BasicInfo.WELCOME_NOTIFICATIONS.get(size);
+            while (size >= 0) {
+                if (BasicInfo.WELCOME_NOTIFICATIONS.get(size).isRead()) break;
+                else count++;
+                size--;
+            }
             dialogs.add(new Dialog("1","小管家",
-                    LocalPicx.NOTIFICATION_PASSWORD_CHANGE,
-                    new ArrayList<>(Arrays.asList(user)), m, m.isRead() ? 0 : 1));
+                    LocalPicx.NOTIFICATION_WELCOME,
+                    new ArrayList<>(Arrays.asList(user)), m, count));
         }
         if (!BasicInfo.FOLLOW_NOTIFICATIONS.isEmpty()) {
-            Message m = BasicInfo.FOLLOW_NOTIFICATIONS.get(BasicInfo.FOLLOW_NOTIFICATIONS.size() - 1);
+            int size = BasicInfo.FOLLOW_NOTIFICATIONS.size() - 1;
+            int count = 0;
+            Message m = BasicInfo.FOLLOW_NOTIFICATIONS.get(size);
+            while (size >= 0) {
+                if (BasicInfo.FOLLOW_NOTIFICATIONS.get(size).isRead()) break;
+                else count++;
+                size--;
+            }
             dialogs.add(new Dialog("1","新关注提醒",
-                    LocalPicx.NOTIFICATION_PASSWORD_CHANGE,
-                    new ArrayList<>(Arrays.asList(user)), m, m.isRead() ? 0 : 1));
+                    LocalPicx.NOTIFICATION_WATCH,
+                    new ArrayList<>(Arrays.asList(user)), m, count));
         }
         if (!BasicInfo.INTENTION_NOTIFICATIONS.isEmpty()) {
-            Message m = BasicInfo.INTENTION_NOTIFICATIONS.get(BasicInfo.INTENTION_NOTIFICATIONS.size() - 1);
+            int size = BasicInfo.INTENTION_NOTIFICATIONS.size() - 1;
+            int count = 0;
+            Message m = BasicInfo.INTENTION_NOTIFICATIONS.get(size);
+            while (size >= 0) {
+                if (BasicInfo.INTENTION_NOTIFICATIONS.get(size).isRead()) break;
+                else count++;
+                size--;
+            }
             dialogs.add(new Dialog("1","大管家",
-                    LocalPicx.NOTIFICATION_PASSWORD_CHANGE,
-                    new ArrayList<>(Arrays.asList(user)), m, m.isRead() ? 0 : 1));
+                    LocalPicx.NOTIFICATION_INTENTION,
+                    new ArrayList<>(Arrays.asList(user)), m, count));
         }
         if (!BasicInfo.PWD_CHANGE_NOTIFICATIONS.isEmpty()) {
-            Message m = BasicInfo.PWD_CHANGE_NOTIFICATIONS.get(BasicInfo.PWD_CHANGE_NOTIFICATIONS.size() - 1);
+            int size = BasicInfo.PWD_CHANGE_NOTIFICATIONS.size() - 1;
+            int count = 0;
+            Message m = BasicInfo.PWD_CHANGE_NOTIFICATIONS.get(size);
+            while (size >= 0) {
+                if (BasicInfo.PWD_CHANGE_NOTIFICATIONS.get(size).isRead()) break;
+                else count++;
+                size--;
+            }
             dialogs.add(new Dialog("1","密码更新",
                     LocalPicx.NOTIFICATION_PASSWORD_CHANGE,
-                    new ArrayList<>(Arrays.asList(user)), m, m.isRead() ? 0 : 1));
+                    new ArrayList<>(Arrays.asList(user)), m, count));
         }
         Collections.sort(dialogs, (p1, p2) -> p2.getLastMessage().getCreatedAt().compareTo(p1.getLastMessage().getCreatedAt()));
         dialogsAdapter.notifyDataSetChanged();

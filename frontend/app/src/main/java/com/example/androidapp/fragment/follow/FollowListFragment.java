@@ -105,26 +105,6 @@ public class FollowListFragment extends Fragment {
 
         sProfileList = new ArrayList<>();
         tProfileList = new ArrayList<>();
-//        sProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-//                test_url,999, true, false));
-//        tProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-//                test_url,999, true, false));
-//        sProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-//                test_url,999, true, false));
-//        tProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-//                test_url,999, true, false));
-//        sProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-//                test_url,999, true, false));
-//        tProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-//                test_url,999, true, false));
-//        sProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-//                test_url,999, true, false));
-//        tProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-//                test_url,999, true, false));
-//        sProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-//                test_url,999, true, false));
-//        tProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-//                test_url,999, true, false));
 
         tShortProfileAdapter = new ShortProfileAdapter(tProfileList, getContext());//初始化NameAdapter
         tShortProfileAdapter.setRecyclerManager(tRecyclerView);//设置RecyclerView特性
@@ -157,6 +137,12 @@ public class FollowListFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        int tSize = tProfileList.size();
+        int sSize = sProfileList.size();
+        tProfileList.clear();
+        sProfileList.clear();
+        tShortProfileAdapter.notifyItemRangeRemoved(0, tSize);
+        sShortProfileAdapter.notifyItemRangeRemoved(0, sSize);
         if (isWatchList) {
             for (ShortProfile shortProfile : BasicInfo.WATCH_LIST) {
                 if (shortProfile.isTeacher) tProfileList.add(shortProfile);
@@ -168,25 +154,27 @@ public class FollowListFragment extends Fragment {
                 else sProfileList.add(shortProfile);
             }
         }
-        int i = 0;
-        for (ShortProfile shortProfile: sProfileList) {
-            if (!BasicInfo.isInWatchList(shortProfile.id, false)) {
-                break;
-            }
-            i++;
-        }
-        if (i < sProfileList.size()) sProfileList.remove(i);
-        sShortProfileAdapter.notifyItemRemoved(i);
 
-        i = 0;
-        for (ShortProfile shortProfile: tProfileList) {
-            if (!BasicInfo.isInWatchList(shortProfile.id, true)) {
-                break;
-            }
-            i++;
-        }
-        if (i < tProfileList.size())tProfileList.remove(i);
-        tShortProfileAdapter.notifyItemRemoved(i);
+
+//        int i = 0;
+//        for (ShortProfile shortProfile: sProfileList) {
+//            if (!BasicInfo.isInWatchList(shortProfile.id, false)) {
+//                break;
+//            }
+//            i++;
+//        }
+//        if (i < sProfileList.size()) sProfileList.remove(i);
+//        sShortProfileAdapter.notifyItemRemoved(i);
+//
+//        i = 0;
+//        for (ShortProfile shortProfile: tProfileList) {
+//            if (!BasicInfo.isInWatchList(shortProfile.id, true)) {
+//                break;
+//            }
+//            i++;
+//        }
+//        if (i < tProfileList.size())tProfileList.remove(i);
+//        tShortProfileAdapter.notifyItemRemoved(i);
     }
 
     private void visitHomePage(boolean isTop,  int position) {
