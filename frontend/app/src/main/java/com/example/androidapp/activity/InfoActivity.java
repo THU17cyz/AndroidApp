@@ -41,93 +41,89 @@ import okhttp3.Response;
 
 public class InfoActivity extends BaseActivity implements  DateFormatter.Formatter {
 
-  private MessagesListAdapter messagesAdapter;
+    private MessagesListAdapter messagesAdapter;
 
-  @BindView(R.id.messagesList)
-  MessagesList messagesList;
+    @BindView(R.id.messagesList)
+    MessagesList messagesList;
 
-//  @BindView(R.id.text)
-//  TextView textContent;
-//
-//  @BindView(R.id.time)
-//  TextView textTime;
+    @BindView(R.id.btn_return)
+    ImageView btn_return;
 
-  @BindView(R.id.btn_return)
-  ImageView btn_return;
-
-  int type;
+    int type;
+    ArrayList<Message> note1;
+    ArrayList<Message> note2;
+    ArrayList<Message> note3;
+    ArrayList<Message> note4;
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_info);
-    ButterKnife.bind(this);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_info);
+        ButterKnife.bind(this);
 
-    ImmersionBar.with(this)
-            .statusBarColor(R.color.colorPrimary)
-            .init();
+        ImmersionBar.with(this)
+                .statusBarColor(R.color.transparent)
+                .init();
 
-    // 消息列表
-    messagesAdapter = new MessagesListAdapter<>("1", null);
-    messagesAdapter.setDateHeadersFormatter(this);
-    messagesList.setAdapter(messagesAdapter);
+        // 消息列表
+        messagesAdapter = new MessagesListAdapter<>("1", null);
+        messagesAdapter.setDateHeadersFormatter(this);
+        messagesList.setAdapter(messagesAdapter);
 
-    Intent intent = getIntent();
-    String text = intent.getStringExtra("text");
-//    String dateString = intent.getStringExtra("dateString");
-//    SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm" );
-//    textContent.setText(text);
-//    textTime.setText(dateString);
+        Intent intent = getIntent();
+        String text = intent.getStringExtra("text");
+        note1 = new ArrayList<>();
+        note2 = new ArrayList<>();
+        note3 = new ArrayList<>();
+        note4 = new ArrayList<>();
 
-//    Message message = null;
-//    try {
-//      message = new Message("0", new User("1", "", null, true), text,sdf.parse(dateString));
-//    } catch (ParseException e) {
-//      e.printStackTrace();
-//    }
-    String type = text.substring(2, 4);
-    if (type.equals("用户")) {
-      this.type = 0;
-      messagesAdapter.addToEnd(BasicInfo.WELCOME_NOTIFICATIONS, true);
-      // messagesAdapter.updateAndMoveToStart(BasicInfo.WELCOME_NOTIFICATIONS);
-    } else if (type.equals("关注")) {
-      this.type = 1;
-      messagesAdapter.addToEnd(BasicInfo.FOLLOW_NOTIFICATIONS, true);
-      // messagesAdapter.updateAndMoveToStart(message);
-    } else if (type.equals("意向")) {
-      this.type = 2;
-      messagesAdapter.addToEnd(BasicInfo.INTENTION_NOTIFICATIONS, true);
-      // messagesAdapter.updateAndMoveToStart(message);
-    } else {
-      this.type = 3;
-      messagesAdapter.addToEnd(BasicInfo.PWD_CHANGE_NOTIFICATIONS, true);
-      //messagesAdapter.updateAndMoveToStart(message);
-    }
+        String type = text.substring(2, 4);
+        if (type.equals("用户")) {
+            this.type = 0;
+            note1.addAll(BasicInfo.WELCOME_NOTIFICATIONS);
+            messagesAdapter.addToEnd(note1, true);
+            // messagesAdapter.updateAndMoveToStart(BasicInfo.WELCOME_NOTIFICATIONS);
+        } else if (type.equals("关注")) {
+            this.type = 1;
+            note2.addAll(BasicInfo.FOLLOW_NOTIFICATIONS);
+            messagesAdapter.addToEnd(note2, true);
+            // messagesAdapter.updateAndMoveToStart(message);
+        } else if (type.equals("意向")) {
+            this.type = 2;
+            note3.addAll(BasicInfo.INTENTION_NOTIFICATIONS);
+            messagesAdapter.addToEnd(note3, true);
+            // messagesAdapter.updateAndMoveToStart(message);
+        } else {
+            this.type = 3;
+            note4.addAll(BasicInfo.PWD_CHANGE_NOTIFICATIONS);
+            messagesAdapter.addToEnd(note4, true);
+            //messagesAdapter.updateAndMoveToStart(message);
+        }
 
 
-    btn_return.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
+        btn_return.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 //        Intent intent = new Intent(InfoActivity.this,MainActivity.class);
 //        startActivity(intent);
-        finish();
-      }
-    });
-      mTimeCounterRunnable.run();
-  }
-
-  @Override
-  public String format(Date date) {
-    if (DateFormatter.isToday(date)) {
-      return "今天";
-    } else if (DateFormatter.isYesterday(date)) {
-      return "昨天";
-    } else {
-      return DateFormatter.format(date, DateFormatter.Template.STRING_DAY_MONTH_YEAR);
+                finish();
+            }
+        });
+        mTimeCounterRunnable.run();
     }
-  }
+
+    @Override
+    public String format(Date date) {
+        if (DateFormatter.isToday(date)) {
+            return "今天";
+        } else if (DateFormatter.isYesterday(date)) {
+            return "昨天";
+        } else {
+            return DateFormatter.format(date, DateFormatter.Template.STRING_DAY_MONTH_YEAR);
+        }
+    }
 
     @Override
     public void onDestroy() {
@@ -146,37 +142,45 @@ public class InfoActivity extends BaseActivity implements  DateFormatter.Formatt
     };
 
     private void refreshData() {
-      messagesAdapter.clear();
-      String id;
-      if (type == 0) {
-        messagesAdapter.addToEnd(BasicInfo.WELCOME_NOTIFICATIONS, true);
-        Message m = BasicInfo.WELCOME_NOTIFICATIONS.get(BasicInfo.WELCOME_NOTIFICATIONS.size() - 1);
-        m.setRead();
-        id = m.getId();
-
-      } else if (type == 1) {
-        messagesAdapter.addToEnd(BasicInfo.FOLLOW_NOTIFICATIONS, true);
-        Message m = BasicInfo.FOLLOW_NOTIFICATIONS.get(BasicInfo.FOLLOW_NOTIFICATIONS.size() - 1);
-        id = m.getId();
-      } else if (type == 2) {
-        messagesAdapter.addToEnd(BasicInfo.INTENTION_NOTIFICATIONS, true);
-        Message m = BasicInfo.INTENTION_NOTIFICATIONS.get(BasicInfo.INTENTION_NOTIFICATIONS.size() - 1);
-        id = m.getId();
-      } else {
-        messagesAdapter.addToEnd(BasicInfo.PWD_CHANGE_NOTIFICATIONS, true);
-        Message m = BasicInfo.PWD_CHANGE_NOTIFICATIONS.get(BasicInfo.PWD_CHANGE_NOTIFICATIONS.size() - 1);
-        id = m.getId();
-      }
+        messagesAdapter.clear();
+        String id;
+        if (type == 0) {
+            note1.clear();
+            note1.addAll(BasicInfo.WELCOME_NOTIFICATIONS);
+            messagesAdapter.addToEnd(note1, true);
+            Message m = BasicInfo.WELCOME_NOTIFICATIONS.get(BasicInfo.WELCOME_NOTIFICATIONS.size() - 1);
+            m.setRead();
+            id = m.getId();
+        } else if (type == 1) {
+            note2.clear();
+            note2.addAll(BasicInfo.FOLLOW_NOTIFICATIONS);
+            messagesAdapter.addToEnd(note2, true);
+            Message m = BasicInfo.FOLLOW_NOTIFICATIONS.get(BasicInfo.FOLLOW_NOTIFICATIONS.size() - 1);
+            id = m.getId();
+        } else if (type == 2) {
+            note3.clear();
+            note3.addAll(BasicInfo.INTENTION_NOTIFICATIONS);
+            messagesAdapter.addToEnd(note3, true);
+            Message m = BasicInfo.INTENTION_NOTIFICATIONS.get(BasicInfo.INTENTION_NOTIFICATIONS.size() - 1);
+            id = m.getId();
+        } else {
+            note4.clear();
+            note4.addAll(BasicInfo.PWD_CHANGE_NOTIFICATIONS);
+            messagesAdapter.addToEnd(note4, true);
+            messagesAdapter.addToEnd(BasicInfo.PWD_CHANGE_NOTIFICATIONS, true);
+            Message m = BasicInfo.PWD_CHANGE_NOTIFICATIONS.get(BasicInfo.PWD_CHANGE_NOTIFICATIONS.size() - 1);
+            id = m.getId();
+        }
         messagesAdapter.notifyDataSetChanged();
-      new SetInformationStateRequest(new okhttp3.Callback() {
-        @Override
-        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+        new SetInformationStateRequest(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
 
-        }
+            }
 
-        @Override
-        public void onResponse(@NotNull Call call, @NotNull Response response) {
-        }
-      }, id, "R").send();
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) {
+            }
+        }, id, "R").send();
     }
 }

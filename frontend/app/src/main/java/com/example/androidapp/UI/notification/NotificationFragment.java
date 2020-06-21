@@ -244,12 +244,6 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
         mTimeCounterRunnable.run();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-        mHandler.removeCallbacks(mTimeCounterRunnable);
-    }
 
     private Runnable mTimeCounterRunnable = new Runnable() {
         @Override
@@ -263,8 +257,9 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         mHandler.removeCallbacks(mTimeCounterRunnable);
+        super.onDestroy();
+        unbinder.unbind();
     }
 
 }

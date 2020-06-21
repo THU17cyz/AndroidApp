@@ -13,6 +13,7 @@ import com.kingja.loadsir.core.LoadService;
 public class BaseActivity extends AppCompatActivity {
     public LoadService loadService;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

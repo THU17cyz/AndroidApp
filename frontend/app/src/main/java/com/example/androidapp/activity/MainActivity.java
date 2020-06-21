@@ -492,7 +492,7 @@ public class MainActivity extends BaseActivity {
         drawer = new DrawerBuilder()
                 .withAccountHeader(headerResult)
                 .withActivity(this)
-//                .withToolbar(toolbar)
+                .withTranslucentStatusBar(true)
                 .addDrawerItems(
                         item1,
                         new DividerDrawerItem(),
@@ -552,6 +552,8 @@ public class MainActivity extends BaseActivity {
                     }
                 })
                 .build();
+        drawer.getDrawerLayout().setStatusBarBackgroundColor(Color.TRANSPARENT);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
     }
 
     private void logout() {
