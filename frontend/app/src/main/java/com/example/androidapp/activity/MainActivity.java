@@ -298,12 +298,12 @@ public class MainActivity extends BaseActivity {
 
                     if(send.equals("S")){
                         User user = new User("0", realName,
-                                new GetInfoPictureRequest("I", null, null).getWholeUrl(),
+                                new GetInfoPictureRequest(otherUserType, id, id).getWholeUrl(),
                                 account, otherUserType, id);
                         message = new com.example.androidapp.chatTest.model.Message("", user, msg, date, true);
                     } else {
                         User user = new User("1", realName,
-                                new GetInfoPictureRequest(type, id, id).getWholeUrl(),
+                                new GetInfoPictureRequest(otherUserType, id, id).getWholeUrl(),
                                 account, otherUserType, id);
                         message = new com.example.androidapp.chatTest.model.Message("", user, msg, date, true);
                     }
@@ -476,7 +476,7 @@ public class MainActivity extends BaseActivity {
                             com.example.androidapp.chatTest.model.Message message;
                             if(messageWay.equals("S")){
                                 User user = new User("0", objectName,
-                                        new GetInfoPictureRequest("I", null, null).getWholeUrl(),
+                                        new GetInfoPictureRequest(objectType, objectId, objectId).getWholeUrl(),
 //                                        "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
                                         objectAccount, objectType, objectId);
                                 message = new com.example.androidapp.chatTest.model.Message(String.valueOf(messageId), user, messageContent, date, false);

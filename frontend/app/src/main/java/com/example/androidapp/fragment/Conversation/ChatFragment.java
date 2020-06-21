@@ -90,7 +90,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
 
         dialogsList = root.findViewById(R.id.dialogsList);
         imageLoader = (imageView, url, payload) -> {
-           Picasso.get().load("DDD").placeholder(R.drawable.ic_avatarholder).into(imageView);
+           Picasso.get().load(url).placeholder(R.drawable.ic_avatarholder).into(imageView);
             // Log.d("url",url);
         };
 
@@ -214,7 +214,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
             User user = message.getUser();
             if (message.getImageUrl() != null) message.setText("[图片]");
             System.out.println(user.getAccount() + user.getId() + user.getName());
-            Dialog dialog = new Dialog(String.valueOf(i), user.getName(), "",
+            Dialog dialog = new Dialog(String.valueOf(i), user.getName(), user.getAvatar(),
                     new ArrayList<>(Arrays.asList(user)),
                     message, count);
             dialogs.add(dialog);
