@@ -1,11 +1,13 @@
 package com.example.androidapp.util;
 
+import com.example.androidapp.R;
 import com.example.androidapp.activity.MainActivity;
 import com.example.androidapp.chatTest.model.Message;
 import com.example.androidapp.entity.ApplicationInfo;
 import com.example.androidapp.entity.RecruitmentInfo;
 import com.example.androidapp.entity.ShortProfile;
 import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -70,7 +72,7 @@ public class BasicInfo {
   public static List<ShortProfile> WATCH_LIST = Collections.synchronizedList(new ArrayList<>());
   public static List<ShortProfile> FAN_LIST = Collections.synchronizedList(new ArrayList<>());
 
-  public static BadgeDrawable BADGE_CHAT;
+  public static BottomNavigationView NAV_VIEW;
 
   public static void addToWatchList(ShortProfile shortProfile) {
     shortProfile.isFan = true;
@@ -120,17 +122,25 @@ public class BasicInfo {
     CHAT_HISTORY.clear();
   }
 
-  public static void addToBadge (int num) {
-    if (BADGE_CHAT.hasNumber()) BADGE_CHAT.setNumber(BADGE_CHAT.getNumber() + num);
-    else BADGE_CHAT.setNumber(num);
+  public static void addToBadgeChat(int num) {
+    BadgeDrawable badge = NAV_VIEW.getOrCreateBadge(R.id.navigation_conversations);
+    if (badge.hasNumber()) badge.setNumber(badge.getNumber() + num);
+    else badge.setNumber(num);
   }
 
-  public static void subFromBadge (int num) {
-    if (BADGE_CHAT.hasNumber()) {
+  public static void subFromBadgeChat (int num) {
+    BadgeDrawable badge = NAV_VIEW.getOrCreateBadge(R.id.navigation_conversations);
+    if (badge.hasNumber()) {
       int new_num;
-      if (BADGE_CHAT.getNumber() < num) new_num = 0;
-      else new_num = BADGE_CHAT.getNumber() - num;
-      BADGE_CHAT.setNumber(new_num);
+      if (badge.getNumber() <= num) {
+        NAV_VIEW.removeBadge(R.id.navigation_conversations);
+      }
+      else {
+        new_num = badge.getNumber() - num;
+        badge.setNumber(new_num);
+      }
+    } else {
+      NAV_VIEW.removeBadge(R.id.navigation_conversations);
     }
   }
 }

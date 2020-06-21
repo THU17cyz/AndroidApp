@@ -34,7 +34,7 @@ public class LocalPicx {
         d = (BitmapDrawable) activity.getDrawable(R.drawable.notifications_watch);
         img = d.getBitmap();
 
-        fn = "NOTIFICATION_PASSWORD_CHANGE.png";
+        fn = "NOTIFICATION_WATCH.png";
         path = activity.getFilesDir() + File.separator + fn;
         try{
             OutputStream os = new FileOutputStream(path);
@@ -48,7 +48,7 @@ public class LocalPicx {
         d = (BitmapDrawable) activity.getDrawable(R.drawable.notifications_welcome);
         img = d.getBitmap();
 
-        fn = "NOTIFICATION_PASSWORD_CHANGE.png";
+        fn = "NOTIFICATION_WELCOME.png";
         path = activity.getFilesDir() + File.separator + fn;
         try{
             OutputStream os = new FileOutputStream(path);
@@ -62,7 +62,7 @@ public class LocalPicx {
         d = (BitmapDrawable) activity.getDrawable(R.drawable.notifications_intention);
         img = d.getBitmap();
 
-        fn = "NOTIFICATION_PASSWORD_CHANGE.png";
+        fn = "NOTIFICATION_INTENTION.png";
         path = activity.getFilesDir() + File.separator + fn;
         try{
             OutputStream os = new FileOutputStream(path);

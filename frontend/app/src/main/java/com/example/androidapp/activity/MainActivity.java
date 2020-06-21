@@ -129,7 +129,8 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
         navView = findViewById(R.id.nav_view);
 
-        BasicInfo.BADGE_CHAT = navView.getOrCreateBadge(R.id.navigation_conversations);
+        BasicInfo.NAV_VIEW = navView;
+        navView.removeBadge(R.id.navigation_conversations);
 //        Window window = getWindow();
 //        window.setStatusBarColor(Color.TRANSPARENT);
         navView.setOnNavigationItemSelectedListener(menuItem -> {
@@ -490,14 +491,14 @@ public class MainActivity extends BaseActivity {
                                 message.setText(String.valueOf(messageId));
                             }
 
-                            if (!message.equals("S")) {
+                            if (!messageWay.equals("S")) {
                                 ArrayList<com.example.androidapp.chatTest.model.Message> msgs = BasicInfo.CHAT_HISTORY.get(objectAccount);
                                 if (msgs == null) {
                                     msgs = new ArrayList<>();
                                     BasicInfo.CHAT_HISTORY.put(objectAccount, msgs);
                                 }
                                 msgs.add(message);
-                                BasicInfo.addToBadge(1);
+                                BasicInfo.addToBadgeChat(1);
                             }
 
 
@@ -716,22 +717,23 @@ public class MainActivity extends BaseActivity {
         editor.commit();
 
 
-        if(keyCode==KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
 
             // 获取当前fragment
-            Fragment current = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment).getChildFragmentManager().getPrimaryNavigationFragment();
+            Fragment current = mViewPagerAdapter.getRegisteredFragment(viewPager.getCurrentItem());
 
             // 主页双击返回退出程序
             if(current != null && current instanceof HomeFragment){
-                if(System.currentTimeMillis()-exitTime>2000){
+                if(System.currentTimeMillis() - exitTime > 2000){
                     Toast.makeText(getApplicationContext(),"再按一次退出程序",
                             Toast.LENGTH_LONG).show();
                     exitTime = System.currentTimeMillis();
                 } else {
                     App.appExit(MainActivity.this);
                 }
-                return false;
+                return true;
             }
+            return true;
         }
         return super.onKeyDown(keyCode, event);
     }

@@ -30,9 +30,11 @@ import com.example.androidapp.request.intention.GetApplyIntentionDetailRequest;
 import com.example.androidapp.request.intention.GetApplyIntentionRequest;
 import com.example.androidapp.request.intention.GetRecruitIntentionDetailRequest;
 import com.example.androidapp.request.intention.GetRecruitIntentionRequest;
+import com.example.androidapp.request.user.GetInfoPictureRequest;
 import com.example.androidapp.request.user.GetInfoPlusRequest;
 import com.example.androidapp.request.user.GetInfoRequest;
 import com.example.androidapp.util.BasicInfo;
+import com.example.androidapp.util.MyImageLoader;
 import com.example.androidapp.util.SizeConverter;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
@@ -132,6 +134,8 @@ public class VisitHomePageActivity extends AppCompatActivity {
     public String mInterest;
     public String mResult;
     public String mExperience;
+    public String fanNum;
+    public String followNum;
 
     public ArrayList<ApplicationInfo> mApplicationList;
     public ArrayList<RecruitmentInfo> mRecruitmentList;
@@ -255,6 +259,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
         });
 
         System.out.println("hasijfkhasnfj");
+        MyImageLoader.loadImage(imgAvatar, new GetInfoPictureRequest(type, String.valueOf(id), String.valueOf(id)).getWholeUrl());
         getInfo();
     }
 
@@ -417,6 +422,8 @@ public class VisitHomePageActivity extends AppCompatActivity {
                             mResult = jsonObject.getString("research_achievements");
                             mUrl = jsonObject.getString("promotional_video_url");
                         }
+                        fanNum = jsonObject.getString("fan_number");
+                        followNum = jsonObject.getString("follow_number");
 
                         count[0]++;
                         while (count[0] != 2) {
@@ -426,7 +433,9 @@ public class VisitHomePageActivity extends AppCompatActivity {
                         runOnUiThread(() -> {
                             title.setText(mName + "的个人主页");
                             signature.setText(mSignature);
-                            name.setText(mAccount);
+                            name.setText(mName);
+                            numFocus.setText(followNum);
+                            numFocused.setText(fanNum);
                             ((SelfInfoFragment) pagerAdapter.getRegisteredFragment(0)).setInfo();
                         });
                     } else {

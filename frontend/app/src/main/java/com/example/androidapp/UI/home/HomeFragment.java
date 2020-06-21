@@ -40,6 +40,8 @@ public class HomeFragment extends Fragment {
 
     private Unbinder unbinder;
 
+    boolean searchFreeze = false;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -89,12 +91,31 @@ public class HomeFragment extends Fragment {
             parentActivity.openDrawer();
         });
         searchView.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), QueryActivity.class);
-            startActivity(intent);
+            if (!searchFreeze) {
+                searchFreeze = true;
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+
+                    } finally {
+                        searchFreeze = false;
+                    }
+                }).start();
+                Intent intent = new Intent(getActivity(), QueryActivity.class);
+                startActivity(intent);
+            }
+
         });
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }

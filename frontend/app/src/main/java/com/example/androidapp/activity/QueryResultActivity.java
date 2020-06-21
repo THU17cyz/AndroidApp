@@ -68,6 +68,7 @@ public class QueryResultActivity extends BaseActivity {
                 query = searchView.getQuery().toString();
                 queryReset();
                 loadQueryInfo(viewPager.getCurrentItem());
+                searchView.clearFocus();
                 return false;
             }
 

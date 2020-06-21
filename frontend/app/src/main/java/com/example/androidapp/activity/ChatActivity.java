@@ -154,6 +154,7 @@ public class ChatActivity
         if (tmp != null) {
             for (Message m: tmp) {
                 msgs.add(m);
+                m.setRead();
             }
             messagesAdapter.addToEnd(msgs, true);
             messagesAdapter.notifyDataSetChanged();
@@ -246,7 +247,7 @@ public class ChatActivity
                 msgs.add(m);
                 if (m.getUser().getId().equals("1")) {
                     messagesAdapter.addToStart(m, true);
-                    BasicInfo.subFromBadge(1);
+                    BasicInfo.subFromBadgeChat(1);
                 }
             }
             messagesAdapter.notifyDataSetChanged();
@@ -356,20 +357,29 @@ public class ChatActivity
                             if (status) {
                                 // 发送成功之后显示图片
                                 runOnUiThread(() -> {
-                                    Message message = new Message("0", thisUser, null);
-                                    message.setImage(new Message.Image(uri));
-                                    Log.d("Matisse print", uri);
-                                    messagesAdapter.addToStart(message, true);
+                                    User user = new User("0", realName,
+                                            new GetInfoPictureRequest("I", null, null).getWholeUrl(),
+                                            contact, contactType, contactId);
+                                    Message m = new Message("0", user, null, new Date(), true);
+                                    m.setImage(new Message.Image(uri));
+                                    messagesAdapter.addToStart(m, true);
+                                    ArrayList<Message> tmp = BasicInfo.CHAT_HISTORY.get(contact); // 账号
+                                    if (tmp != null) {
+                                        tmp.add(m);
+                                    } else {
+                                        tmp = new ArrayList<>();
+                                        tmp.add(m);
+                                    }
                                 });
 
                             } else {
-                                runOnUiThread(new Runnable() {
-                                    String info = jsonObject.getString("info");
-                                    @Override
-                                    public void run() {
-                                        runOnUiThread(() -> Toast.makeText(ChatActivity.this,info, Toast.LENGTH_LONG).show());
-                                    }
-                                });
+//                                runOnUiThread(new Runnable() {
+//                                    String info = jsonObject.getString("info");
+//                                    @Override
+//                                    public void run() {
+//                                        runOnUiThread(() -> Toast.makeText(ChatActivity.this,info, Toast.LENGTH_LONG).show());
+//                                    }
+//                                });
                             }
 
                         } catch (JSONException e) {
