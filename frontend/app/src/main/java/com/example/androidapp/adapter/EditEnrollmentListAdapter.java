@@ -54,9 +54,11 @@ public class EditEnrollmentListAdapter<T> extends MyBaseAdapter {
 
   @Override
   protected void setListener(BaseViewHolder viewHolder, Object o) {
-    viewHolder.addOnClickListener(R.id.state);
+
     viewHolder.addOnClickListener(R.id.delete);
-    viewHolder.addOnClickListener(R.id.student_type);
+//    viewHolder.addOnClickListener(R.id.direction);
+//    viewHolder.addOnClickListener(R.id.number);
+//    viewHolder.addOnClickListener(R.id.introduction);
 
     RecruitmentInfo data = (RecruitmentInfo) o;
 

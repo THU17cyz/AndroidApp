@@ -148,7 +148,7 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
         } else if(BasicInfo.mGender.equals("F")){
             chooseGender.setText("女");
         } else if(BasicInfo.mGender.equals("U")){
-            chooseGender.setText("未知");
+            chooseGender.setText("保密");
         }
         school.setText(BasicInfo.mSchool);
         department.setText(BasicInfo.mDepartment);
@@ -163,7 +163,7 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
             }
             layoutTitle.setVisibility(View.GONE);
             layoutTeacherNumber.setVisibility(View.GONE);
-        }else {
+        } else {
 
             if(BasicInfo.mTitle.equals("TA")){
                 chooseTitle.setText("助理");
@@ -201,7 +201,6 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
         switch (v.getId()) {
             case R.id.choose_gender: {
 
-                // 隐藏软键盘
                 InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
 
@@ -225,7 +224,6 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
             }
             case R.id.choose_title: {
 
-                // 隐藏软键盘
                 InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
 
@@ -249,7 +247,6 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
             }
             case R.id.choose_degree: {
 
-                // 隐藏软键盘
                 InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
 
@@ -298,7 +295,7 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
             tmpGender = "M";
         } else if(chooseGender.getText().toString().equals("女")){
             tmpGender = "F";
-        } else if(chooseGender.getText().toString().equals("未知")){
+        } else if(chooseGender.getText().toString().equals("保密")){
             tmpGender = "U";
         }
 

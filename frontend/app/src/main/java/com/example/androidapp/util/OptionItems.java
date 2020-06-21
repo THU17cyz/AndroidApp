@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public class OptionItems {
 
-  public static final ArrayList<String> optionsGender = new ArrayList<>(Arrays.asList("男","女","未知"));
+  public static final ArrayList<String> optionsGender = new ArrayList<>(Arrays.asList("男","女","保密"));
 
   public static final ArrayList<String> optionsTitle = new ArrayList<>(Arrays.asList("助理","讲师","助理教授","教授"));
 

@@ -5,10 +5,17 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.androidapp.R;
 import com.example.androidapp.adapter.EditInfoPagerAdapter;
+import com.example.androidapp.entity.EditApplication;
 import com.example.androidapp.fragment.HomepageEdit.EditApplicationInfoFragment;
 import com.example.androidapp.fragment.HomepageEdit.EditRecruitmentInfoFragment;
 import com.example.androidapp.fragment.HomepageEdit.EditSelfInfoFragment;
@@ -46,7 +53,7 @@ public class EditInfoActivity extends AppCompatActivity {
 
     tabLayout.addTab(tabLayout.newTab().setText("个人信息"));
     tabLayout.addTab(tabLayout.newTab().setText("科研信息"));
-    tabLayout.addTab(tabLayout.newTab().setText("招生信息"));
+    tabLayout.addTab(tabLayout.newTab().setText("意向信息"));
     tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
     pagerAdapter = new EditInfoPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
@@ -82,9 +89,30 @@ public class EditInfoActivity extends AppCompatActivity {
   void updateEdit() {
     Fragment first_one = pagerAdapter.getRegisteredFragment(0);
     Fragment second_one = pagerAdapter.getRegisteredFragment(1);
+    Fragment third_one = pagerAdapter.getRegisteredFragment(2);
+
+    if(second_one != null){
+      if(!((EditStudyInfoFragment) second_one).checkContent()){
+        Toast.makeText(this, "科研信息->方向不能为空", Toast.LENGTH_SHORT).show();
+        return;
+      }
+    }
+    if(third_one!=null){
+      if (third_one instanceof EditRecruitmentInfoFragment) {
+        if(!((EditRecruitmentInfoFragment) third_one).checkContent()){
+          Toast.makeText(this,"意向信息->方向不能为空",Toast.LENGTH_SHORT).show();
+          return;
+        }
+      } else {
+        if(!((EditApplicationInfoFragment) third_one).checkContent()){
+          Toast.makeText(this,"意向信息->方向不能为空",Toast.LENGTH_SHORT).show();
+          return;
+        }
+      }
+    }
+
     if (first_one != null) ((EditSelfInfoFragment) first_one).update();
     if (second_one != null) ((EditStudyInfoFragment) second_one).update();
-    Fragment third_one = pagerAdapter.getRegisteredFragment(2);
     if (third_one != null) {
       if (third_one instanceof EditRecruitmentInfoFragment) {
         ((EditRecruitmentInfoFragment) third_one).update();
@@ -92,8 +120,6 @@ public class EditInfoActivity extends AppCompatActivity {
         ((EditApplicationInfoFragment) third_one).update();
       }
     }
-
-
     finish();
   }
 }

@@ -138,12 +138,20 @@ public class SelfInfoFragment extends Fragment {
             } else if (BasicInfo.mGender.equals("F")){
                 gender.setText("女");
             } else {
-                gender.setText("未设置");
+                gender.setText("保密");
             }
             school.setText(BasicInfo.mSchool);
             department.setText(BasicInfo.mDepartment);
             if(type.equals("T")){
-                title.setText(BasicInfo.mTitle);
+                if(BasicInfo.mTitle.equals("TA")){
+                    title.setText("助理");
+                } else if(BasicInfo.mTitle.equals("LT")){
+                    title.setText("讲师");
+                } else if(BasicInfo.mTitle.equals("AP")){
+                    title.setText("助理教授");
+                } else if(BasicInfo.mTitle.equals("PP")){
+                    title.setText("教授");
+                }
                 layoutMajor.setVisibility(View.GONE);
                 layoutDegree.setVisibility(View.GONE);
                 layoutStudentNumber.setVisibility(View.GONE);
@@ -174,7 +182,7 @@ public class SelfInfoFragment extends Fragment {
             } else if (activity_.mGender.equals("F")){
                 gender.setText("女");
             } else {
-                gender.setText("未设置");
+                gender.setText("保密");
             }
             school.setText(activity_.mSchool);
             department.setText(activity_.mDepartment);

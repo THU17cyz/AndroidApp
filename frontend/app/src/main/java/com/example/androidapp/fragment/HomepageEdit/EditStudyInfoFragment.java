@@ -62,7 +62,6 @@ public class EditStudyInfoFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_edit_study_info, container, false);
         unbinder = ButterKnife.bind(this,view);
 
-
         return view;
     }
 
@@ -88,6 +87,20 @@ public class EditStudyInfoFragment extends Fragment {
         }
     }
 
+
+    public boolean checkContent(){
+        if(BasicInfo.TYPE.equals("S")) {
+            if (dirOrInt.getText().toString() == null || dirOrInt.getText().toString().length() == 0) {
+                return false;
+            }
+        } else {
+            if(dirOrInt.getText().toString()==null||dirOrInt.getText().toString().length()==0){
+                Toast.makeText(getContext(),"科研信息->研究方向不能为空",Toast.LENGTH_SHORT);
+                return false;
+            }
+        }
+        return true;
+    }
 
     public void update() {
         if(BasicInfo.TYPE.equals("S")){
@@ -178,4 +191,5 @@ public class EditStudyInfoFragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
+
 }

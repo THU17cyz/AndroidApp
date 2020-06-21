@@ -1,16 +1,21 @@
 package com.example.androidapp.fragment.HomepageEdit;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.andreabaccega.widget.FormEditText;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.androidapp.R;
 import com.example.androidapp.adapter.EditEnrollmentListAdapter;
@@ -62,19 +67,23 @@ public class EditRecruitmentInfoFragment extends Fragment
         unbinder = ButterKnife.bind(this,view);
 
         recyclerView = view.findViewById(R.id.recycler_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
         mRecruitmentList = new ArrayList<>();
-        adapter = new EditEnrollmentListAdapter(mRecruitmentList, getContext());//初始化NameAdapter
-        adapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
-
-
+        adapter = new EditEnrollmentListAdapter(mRecruitmentList, getContext());
+        adapter.setRecyclerManager(recyclerView);
 
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
                 Log.d("index",String.valueOf(i));
-                ImageView imageView = (ImageView)view;
-                mRecruitmentList.remove(i);
-                adapter.notifyDataSetChanged();
+
+                if(view.getId()==R.id.delete){
+                    mRecruitmentList.remove(i);
+                    adapter.notifyDataSetChanged();
+                }
             }
         });
 
@@ -98,6 +107,16 @@ public class EditRecruitmentInfoFragment extends Fragment
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    public boolean checkContent() {
+        for(int i = 0;i < mRecruitmentList.size(); i++){
+            RecruitmentInfo recruitmentInfo = mRecruitmentList.get(i);
+            if(recruitmentInfo.direction==null||recruitmentInfo.direction.length()==0){
+                return false;
+            }
+        }
+        return true;
     }
 
     public void update() {

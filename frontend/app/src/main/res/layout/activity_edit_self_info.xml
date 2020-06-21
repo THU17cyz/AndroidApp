@@ -53,6 +53,8 @@
                         android:text="姓名"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:inputType="textPersonName"
+                        android:textColor="?android:attr/textColorSecondary"
                         android:maxLines="1"
                         android:id="@+id/edit_name"
                         android:layout_width="match_parent"
@@ -80,6 +82,7 @@
                         android:text="个性签名"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:textColor="?android:attr/textColorSecondary"
                         android:maxLines="2"
                         android:id="@+id/edit_signature"
                         android:layout_width="match_parent"
@@ -132,6 +135,7 @@
                         android:text="学校"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:textColor="?android:attr/textColorSecondary"
                         android:maxLines="1"
                         android:id="@+id/edit_school"
                         android:layout_width="match_parent"
@@ -156,6 +160,7 @@
                         android:text="院系"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:textColor="?android:attr/textColorSecondary"
                         android:maxLines="1"
                         android:id="@+id/edit_department"
                         android:layout_width="match_parent"
@@ -208,6 +213,7 @@
                         android:text="专业"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:textColor="?android:attr/textColorSecondary"
                         android:maxLines="1"
                         android:id="@+id/edit_major"
                         android:layout_width="match_parent"
@@ -261,6 +267,8 @@
                         android:text="工号"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:inputType="number"
+                        android:textColor="?android:attr/textColorSecondary"
                         android:maxLines="1"
                         android:id="@+id/edit_teacher_number"
                         android:layout_width="match_parent"
@@ -286,6 +294,8 @@
                         android:text="学号"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:inputType="number"
+                        android:textColor="?android:attr/textColorSecondary"
                         android:maxLines="1"
                         android:id="@+id/edit_student_number"
                         android:layout_width="match_parent"
@@ -311,6 +321,8 @@
                         android:text="身份证号"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:inputType="number"
+                        android:textColor="?android:attr/textColorSecondary"
                         android:maxLines="1"
                         android:id="@+id/edit_id_number"
                         android:layout_width="match_parent"
@@ -335,6 +347,8 @@
                         android:text="电话"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:inputType="number"
+                        android:textColor="?android:attr/textColorSecondary"
                         android:maxLines="1"
                         android:id="@+id/edit_phone"
                         android:layout_width="match_parent"
@@ -359,6 +373,8 @@
                         android:text="邮箱"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:inputType="textEmailAddress"
+                        android:textColor="?android:attr/textColorSecondary"
                         android:maxLines="1"
                         android:id="@+id/edit_email"
                         android:layout_width="match_parent"
@@ -383,7 +399,9 @@
                         android:text="主页"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
-                        android:maxLines="1"
+                        android:inputType="textUri"
+                        android:textColor="?android:attr/textColorSecondary"
+                        android:maxLines="2"
                         android:id="@+id/edit_homepage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -407,6 +425,7 @@
                         android:text="地址"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:textColor="?android:attr/textColorSecondary"
                         android:maxLines="2"
                         android:id="@+id/edit_address"
                         android:layout_width="match_parent"
@@ -432,6 +451,7 @@
                         style="@style/personal_homepage_font_style"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:textColor="?android:attr/textColorSecondary"
                         android:maxLines="5"
                         android:id="@+id/edit_intro"
                         android:layout_width="match_parent"

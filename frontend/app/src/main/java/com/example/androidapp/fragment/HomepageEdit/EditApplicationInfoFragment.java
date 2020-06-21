@@ -120,7 +120,18 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
 
     }
 
+    public boolean checkContent(){
+        for(int i = 0; i < mApplicationList.size();i++) {
+            ApplicationInfo applicationInfo = mApplicationList.get(i);
+            if(applicationInfo.direction==null||applicationInfo.direction.length()==0){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void update() {
+
         BasicInfo.mApplicationList.clear();
         for(int i = 0; i < mApplicationList.size();i++) {
             ApplicationInfo applicationInfo = mApplicationList.get(i);
