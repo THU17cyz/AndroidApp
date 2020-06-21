@@ -40,7 +40,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:paddingLeft="20dp"
             android:paddingTop="5dp"
             android:paddingRight="20dp"
@@ -49,14 +49,18 @@
             <TextView
                 android:id="@+id/text_direction_or_interest"
                 android:textColor="?android:attr/textColorPrimary"
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_edit_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
                 android:text="研究方向/兴趣"></TextView>
 
             <com.andreabaccega.widget.FormEditText
-                android:maxLines="2"
+                android:background="@null"
+                android:inputType="textPersonName"
+                android:maxLength="40"
+                android:hint="填写研究方向 (必须)"
+                android:textColor="?android:attr/textColorSecondary"
+                style="@style/personal_homepage_edit_style"
                 android:id="@+id/edit_direction_or_interest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,7 +71,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:paddingLeft="20dp"
             android:paddingTop="5dp"
             android:paddingRight="20dp"
@@ -76,14 +80,15 @@
             <TextView
                 android:id="@+id/text_result_or_experience"
                 android:textColor="?android:attr/textColorPrimary"
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_edit_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
                 android:text="研究经历/成果"></TextView>
 
             <com.andreabaccega.widget.FormEditText
-                android:maxLines="5"
+                style="@style/personal_homepage_edit_style"
+                android:hint="点击编辑"
                 android:id="@+id/edit_result_or_experience"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -94,25 +99,31 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:paddingLeft="20dp"
             android:paddingTop="5dp"
             android:paddingRight="20dp"
             android:paddingBottom="5dp">
 
             <TextView
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_edit_style"
+                android:textColor="?android:attr/textColorPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
                 android:text="视频地址"></TextView>
 
             <com.andreabaccega.widget.FormEditText
-                android:maxLines="1"
+                android:hint="宣传视频链接"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textColor="?android:attr/textColorSecondary"
+                style="@style/personal_homepage_edit_style"
+                android:autoLink="web"
+                android:background="@null"
+                android:inputType="textUri"
                 android:id="@+id/edit_url"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:emptyErrorString="@string/CANNOT_BE_NULL"></com.andreabaccega.widget.FormEditText>
+                android:layout_height="wrap_content"></com.andreabaccega.widget.FormEditText>
         </LinearLayout>
 
 

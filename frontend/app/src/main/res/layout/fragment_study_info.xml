@@ -43,16 +43,17 @@
             android:paddingBottom="5dp">
 
             <TextView
+                android:textColor="?android:attr/textColorPrimary"
                 android:layout_marginBottom="3dp"
                 android:id="@+id/text_direction_or_interest"
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
                 android:text="研究方向/兴趣"></TextView>
 
             <TextView
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:id="@+id/direction_or_interest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,15 +72,16 @@
             android:paddingBottom="5dp">
 
             <TextView
+                android:textColor="?android:attr/textColorPrimary"
                 android:id="@+id/text_result_or_experience"
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
                 android:text="研究经历"></TextView>
 
             <TextView
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:id="@+id/result_or_experience"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -122,13 +124,14 @@
             android:paddingLeft="20dp"
             android:paddingTop="5dp"
             android:paddingRight="20dp"
-            android:paddingBottom="5dp">
+            android:paddingBottom="15dp">
 
             <TextView
-                style="@style/personal_homepage_font_style"
+                android:textColor="?android:attr/textColorPrimary"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
+                android:layout_marginBottom="8dp"
                 android:text="视频"></TextView>
             <!-- sample xml -->
 

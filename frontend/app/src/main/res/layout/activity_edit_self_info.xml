@@ -46,13 +46,15 @@
 
                     <TextView
                         android:textColor="?android:attr/textColorPrimary"
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
                         android:text="姓名"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:hint="输入姓名"
+                        style="@style/personal_homepage_edit_style"
+                        android:background="@null"
                         android:inputType="textPersonName"
                         android:textColor="?android:attr/textColorSecondary"
                         android:maxLines="1"
@@ -64,10 +66,9 @@
                 </LinearLayout>
 
                 <LinearLayout
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:paddingLeft="20dp"
                     android:paddingTop="5dp"
                     android:paddingRight="20dp"
@@ -75,15 +76,19 @@
 
                     <TextView
                         android:textColor="?android:attr/textColorPrimary"
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
                         android:text="个性签名"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:singleLine="true"
+                        android:inputType="textPersonName"
+                        android:hint="编辑个性签名 (20字以内)"
+                        style="@style/personal_homepage_edit_style"
+                        android:background="@null"
                         android:textColor="?android:attr/textColorSecondary"
-                        android:maxLines="2"
+                        android:maxLength="20"
                         android:id="@+id/edit_signature"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -101,16 +106,17 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:textColor="?android:attr/textColorPrimary"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
                         android:text="性别"></TextView>
                     <TextView
+
                         android:maxLines="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:textColor="?android:attr/textColorSecondary"
                         android:text="请选择"
                         android:id="@+id/choose_gender"
@@ -128,13 +134,17 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:textColor="?android:attr/textColorPrimary"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
                         android:text="学校"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:inputType="textPersonName"
+                        android:hint="填写学校"
+                        style="@style/personal_homepage_edit_style"
+                        android:background="@null"
                         android:textColor="?android:attr/textColorSecondary"
                         android:maxLines="1"
                         android:id="@+id/edit_school"
@@ -153,13 +163,17 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:textColor="?android:attr/textColorPrimary"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
                         android:text="院系"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:inputType="textPersonName"
+                        android:hint="填写院系"
+                        style="@style/personal_homepage_edit_style"
+                        android:background="@null"
                         android:textColor="?android:attr/textColorSecondary"
                         android:maxLines="1"
                         android:id="@+id/edit_department"
@@ -179,16 +193,16 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:textColor="?android:attr/textColorPrimary"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
                         android:text="职务"></TextView>
 
                     <TextView
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/personal_homepage_font_style"
                         android:textColor="?android:attr/textColorSecondary"
                         android:text="请选择"
                         android:id="@+id/choose_title"
@@ -206,13 +220,17 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:textColor="?android:attr/textColorPrimary"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
                         android:text="专业"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:inputType="textPersonName"
+                        android:hint="填写专业"
+                        style="@style/personal_homepage_edit_style"
+                        android:background="@null"
                         android:textColor="?android:attr/textColorSecondary"
                         android:maxLines="1"
                         android:id="@+id/edit_major"
@@ -232,17 +250,17 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:textColor="?android:attr/textColorPrimary"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
                         android:text="学位"></TextView>
 
                     <TextView
                         android:maxLines="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:textColor="?android:attr/textColorSecondary"
                         android:text="请选择"
                         android:id="@+id/choose_degree"
@@ -260,13 +278,16 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:textColor="?android:attr/textColorPrimary"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
                         android:text="工号"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:hint="输入工号"
+                        style="@style/personal_homepage_edit_style"
+                        android:background="@null"
                         android:inputType="number"
                         android:textColor="?android:attr/textColorSecondary"
                         android:maxLines="1"
@@ -287,13 +308,16 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:textColor="?android:attr/textColorPrimary"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
                         android:text="学号"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:hint="输入学号"
+                        style="@style/personal_homepage_edit_style"
+                        android:background="@null"
                         android:inputType="number"
                         android:textColor="?android:attr/textColorSecondary"
                         android:maxLines="1"
@@ -314,13 +338,16 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:textColor="?android:attr/textColorPrimary"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
                         android:text="身份证号"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:hint="输入身份证号"
+                        style="@style/personal_homepage_edit_style"
+                        android:background="@null"
                         android:inputType="number"
                         android:textColor="?android:attr/textColorSecondary"
                         android:maxLines="1"
@@ -340,13 +367,16 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:textColor="?android:attr/textColorPrimary"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
                         android:text="电话"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:hint="电话号码"
+                        style="@style/personal_homepage_edit_style"
+                        android:background="@null"
                         android:inputType="number"
                         android:textColor="?android:attr/textColorSecondary"
                         android:maxLines="1"
@@ -366,13 +396,16 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:textColor="?android:attr/textColorPrimary"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
                         android:text="邮箱"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:hint="设置邮箱"
+                        style="@style/personal_homepage_edit_style"
+                        android:background="@null"
                         android:inputType="textEmailAddress"
                         android:textColor="?android:attr/textColorSecondary"
                         android:maxLines="1"
@@ -392,16 +425,19 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:textColor="?android:attr/textColorPrimary"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
                         android:text="主页"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:autoLink="web"
+                        android:hint="个人主页地址"
+                        style="@style/personal_homepage_edit_style"
+                        android:background="@null"
                         android:inputType="textUri"
                         android:textColor="?android:attr/textColorSecondary"
-                        android:maxLines="2"
                         android:id="@+id/edit_homepage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -418,15 +454,20 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        android:textColor="?android:attr/textColorPrimary"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="6dp"
                         android:text="地址"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:hint="填写地址"
+                        android:maxLength="30"
+                        android:singleLine="true"
+                        android:inputType="textPersonName"
+                        style="@style/personal_homepage_edit_style"
+                        android:background="@null"
                         android:textColor="?android:attr/textColorSecondary"
-                        android:maxLines="2"
                         android:id="@+id/edit_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -444,13 +485,18 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textColor="?android:attr/textColorPrimary"
                         android:layout_marginRight="6dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="个人介绍"
-                        style="@style/personal_homepage_font_style"></TextView>
+                        style="@style/personal_homepage_edit_style"></TextView>
 
                     <com.andreabaccega.widget.FormEditText
+                        android:hint="填写个人介绍 (500字以内)"
+                        android:maxLength="500"
+                        style="@style/personal_homepage_edit_style"
+                        android:background="@null"
                         android:textColor="?android:attr/textColorSecondary"
                         android:maxLines="5"
                         android:id="@+id/edit_intro"

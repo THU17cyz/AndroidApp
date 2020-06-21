@@ -42,16 +42,15 @@
 
             <TextView
                 android:textColor="?android:attr/textColorPrimary"
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
                 android:text="姓名"></TextView>
 
             <TextView
                 android:id="@+id/name"
                 android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="张三"></TextView>
@@ -67,16 +66,16 @@
             android:paddingBottom="5dp">
 
             <TextView
-                style="@style/personal_homepage_font_style"
+                android:textColor="?android:attr/textColorPrimary"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
                 android:text="性别"></TextView>
 
             <TextView
                 android:id="@+id/gender"
                 android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="男"></TextView>
@@ -92,16 +91,16 @@
             android:paddingBottom="5dp">
 
             <TextView
-                style="@style/personal_homepage_font_style"
+                android:textColor="?android:attr/textColorPrimary"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
                 android:text="学校"></TextView>
 
             <TextView
                 android:id="@+id/school"
                 android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="清华"></TextView>
@@ -117,16 +116,16 @@
             android:paddingBottom="5dp">
 
             <TextView
-                style="@style/personal_homepage_font_style"
+                android:textColor="?android:attr/textColorPrimary"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
                 android:text="院系"></TextView>
 
             <TextView
                 android:id="@+id/department"
                 android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
@@ -144,19 +143,18 @@
             android:paddingBottom="5dp">
 
             <TextView
-                style="@style/personal_homepage_font_style"
+                android:textColor="?android:attr/textColorPrimary"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
                 android:text="职务"></TextView>
 
             <TextView
                 android:id="@+id/title"
                 android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
                 tools:text="教授"></TextView>
         </LinearLayout>
 
@@ -171,16 +169,16 @@
             android:paddingBottom="5dp">
 
             <TextView
-                style="@style/personal_homepage_font_style"
+                android:textColor="?android:attr/textColorPrimary"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
                 android:text="专业"></TextView>
 
             <TextView
                 android:id="@+id/major"
                 android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
@@ -198,19 +196,18 @@
             android:paddingBottom="5dp">
 
             <TextView
-                style="@style/personal_homepage_font_style"
+                android:textColor="?android:attr/textColorPrimary"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
                 android:text="学位"></TextView>
 
             <TextView
                 android:id="@+id/degree"
                 android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
                 tools:text="本科"></TextView>
         </LinearLayout>
 
@@ -225,19 +222,18 @@
             android:paddingBottom="5dp">
 
             <TextView
-                style="@style/personal_homepage_font_style"
+                android:textColor="?android:attr/textColorPrimary"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
                 android:text="工号"></TextView>
 
             <TextView
                 android:id="@+id/teacher_number"
                 android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
                 tools:text="4154315451"></TextView>
         </LinearLayout>
 
@@ -252,19 +248,18 @@
             android:paddingBottom="5dp">
 
             <TextView
-                style="@style/personal_homepage_font_style"
+                android:textColor="?android:attr/textColorPrimary"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
                 android:text="学号"></TextView>
 
             <TextView
                 android:id="@+id/student_number"
                 android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
                 tools:text="741947899"></TextView>
         </LinearLayout>
 
@@ -279,19 +274,18 @@
             android:paddingBottom="5dp">
 
             <TextView
-                style="@style/personal_homepage_font_style"
+                android:textColor="?android:attr/textColorPrimary"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
                 android:text="身份证号"></TextView>
 
             <TextView
                 android:id="@+id/id_number"
                 android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
                 tools:text="413985094183594385"></TextView>
         </LinearLayout>
 
@@ -305,15 +299,16 @@
             android:paddingBottom="5dp">
 
             <TextView
-                style="@style/personal_homepage_font_style"
+                android:textColor="?android:attr/textColorPrimary"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
                 android:text="电话"></TextView>
 
             <TextView
+                android:autoLink="phone"
                 android:id="@+id/phone"
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
@@ -331,16 +326,17 @@
             android:paddingBottom="5dp">
 
             <TextView
-                style="@style/personal_homepage_font_style"
+                android:textColor="?android:attr/textColorPrimary"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
                 android:text="邮箱"></TextView>
 
             <TextView
+                android:autoLink="email"
                 android:id="@+id/email"
                 android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
@@ -357,16 +353,17 @@
             android:paddingBottom="5dp">
 
             <TextView
-                style="@style/personal_homepage_font_style"
+                android:textColor="?android:attr/textColorPrimary"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
                 android:text="主页"></TextView>
 
             <TextView
+                android:autoLink="web"
                 android:id="@+id/homepage"
                 android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
@@ -383,16 +380,16 @@
             android:paddingBottom="5dp">
 
             <TextView
-                style="@style/personal_homepage_font_style"
+                android:textColor="?android:attr/textColorPrimary"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
                 android:text="地址"></TextView>
 
             <TextView
                 android:id="@+id/address"
                 android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
@@ -410,17 +407,18 @@
             android:orientation="vertical">
 
             <TextView
+                android:textColor="?android:attr/textColorPrimary"
                 android:layout_marginRight="6dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="个人介绍"
                 android:layout_marginBottom="3dp"
-                style="@style/personal_homepage_font_style"></TextView>
+                style="@style/personal_homepage_show_style"></TextView>
 
             <TextView
                 android:id="@+id/introduction"
                 android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"

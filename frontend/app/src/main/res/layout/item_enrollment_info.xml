@@ -29,8 +29,7 @@
             android:orientation="vertical">
 
             <TextView
-                style="@style/personal_homepage_font_style"
-                android:layout_marginBottom="3dp"
+                style="@style/personal_homepage_show_style"
                 android:textColor="?android:attr/textColorPrimary"
                 android:id="@+id/text_direction"
                 android:layout_width="wrap_content"
@@ -39,7 +38,7 @@
                 ></TextView>
 
             <TextView
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:id="@+id/direction"
                 android:textColor="?android:attr/textColorSecondary"
                 android:text="量子力学"
@@ -58,15 +57,14 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/personal_homepage_font_style"
-                android:layout_marginRight="6dp"
+                style="@style/personal_homepage_show_style"
                 android:textColor="?android:attr/textColorPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="招生类型"></TextView>
 
             <TextView
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:textColor="?android:attr/textColorSecondary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,14 +82,13 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/personal_homepage_font_style"
-                android:layout_marginRight="6dp"
+                style="@style/personal_homepage_show_style"
                 android:textColor="?android:attr/textColorPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="招生数量"></TextView>
             <TextView
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:textColor="?android:attr/textColorSecondary"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -112,15 +109,14 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/personal_homepage_font_style"
-                android:layout_marginRight="6dp"
+                style="@style/personal_homepage_show_style"
                 android:textColor="?android:attr/textColorPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="意向状态"></TextView>
 
             <TextView
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:textColor="?android:attr/textColorSecondary"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -139,8 +135,7 @@
             android:orientation="vertical">
 
             <TextView
-                style="@style/personal_homepage_font_style"
-                android:layout_marginBottom="3dp"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
@@ -148,7 +143,7 @@
                 android:textColor="?android:attr/textColorPrimary"></TextView>
 
             <TextView
-                style="@style/personal_homepage_font_style"
+                style="@style/personal_homepage_show_style"
                 android:id="@+id/introduction"
                 android:textColor="?android:attr/textColorSecondary"
                 android:layout_width="match_parent"
