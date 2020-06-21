@@ -105,7 +105,6 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
 
         View root = inflater.inflate(R.layout.fragment_notification, container, false);
         unbinder = ButterKnife.bind(this,root);
-        MyImageLoader.loadImage(drawerBtn);
         Log.d("Life","oncreateview");
 
 
@@ -185,9 +184,13 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
             intent.putExtra("dateString", ((Message)dialog.getLastMessage()).getDateString());
             startActivity(intent);
         });
+        getAvatar();
         return root;
     }
 
+    public void getAvatar() {
+        MyImageLoader.loadImage(drawerBtn);
+    }
 
     private void refreshData() {
         System.out.println(LocalPicx.NOTIFICATION_PASSWORD_CHANGE);

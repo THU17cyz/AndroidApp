@@ -17,25 +17,33 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.androidapp.R;
+import com.example.androidapp.UI.conversation.ConversationFragment;
 import com.example.androidapp.UI.dashboard.DashboardFragment;
+import com.example.androidapp.UI.follow.FollowFragment;
 import com.example.androidapp.UI.home.HomeFragment;
+import com.example.androidapp.UI.notification.NotificationFragment;
+import com.example.androidapp.adapter.ViewPagerAdapter;
 import com.example.androidapp.application.App;
 import com.example.androidapp.chatTest.model.User;
 import com.example.androidapp.repository.chathistory.ChatHistory;
@@ -104,6 +112,10 @@ public class MainActivity extends BaseActivity {
     private static Handler mHandler = new Handler(Looper.getMainLooper());
 
     private NavController navController;
+    private ViewPager viewPager;
+    private ViewPagerAdapter mViewPagerAdapter;
+    BottomNavigationView navView;
+
 
     private ChatHistoryViewModel chatHistoryViewModel;
 
@@ -114,19 +126,73 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView = findViewById(R.id.nav_view);
 
 //        Window window = getWindow();
 //        window.setStatusBarColor(Color.TRANSPARENT);
+        navView.setOnNavigationItemSelectedListener(menuItem -> {
+            switch (menuItem.getItemId()) {
+                case R.id.navigation_home:
+                    viewPager.setCurrentItem(0);
+                    break;
+                case R.id.navigation_follow:
+                    viewPager.setCurrentItem(1);
+                    break;
+                case R.id.navigation_conversations:
+                    viewPager.setCurrentItem(2);
+                    break;
+                case R.id.navigation_notifications:
+                    viewPager.setCurrentItem(3);
+                    break;
+                case R.id.navigation_dashboard:
+                    viewPager.setCurrentItem(4);
+                    break;
+            }
+            return true;
+        });
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-//        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-//                R.id.navigation_home, R.id.navigation_query, R.id.navigation_notifications, R.id.navigation_dashboard)
-//                .build();
-        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        // NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
+
+        viewPager = findViewById(R.id.nav_host_fragment);
+        mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(mViewPagerAdapter);
+        viewPager.setOffscreenPageLimit(5);
+
+
+//        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+//        NavigationUI.setupWithNavController(navView, navController);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                        navView.getMenu().findItem(R.id.navigation_home).setChecked(true);
+                        break;
+                    case 1:
+                        navView.getMenu().findItem(R.id.navigation_follow).setChecked(true);
+                        break;
+                    case 2:
+                        navView.getMenu().findItem(R.id.navigation_conversations).setChecked(true);
+                        break;
+                    case 3:
+                        navView.getMenu().findItem(R.id.navigation_notifications).setChecked(true);
+                        break;
+                    default:
+                        navView.getMenu().findItem(R.id.navigation_dashboard).setChecked(true);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
 
         chatHistoryViewModel = new ViewModelProvider(this).get(ChatHistoryViewModel.class);
 //        chatHistoryViewModel = ViewModelProviders.of(this).get(ChatHistoryViewModel.class);
@@ -669,9 +735,11 @@ public class MainActivity extends BaseActivity {
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             List<String> mSelected = Matisse.obtainPathResult(data);
             String path = mSelected.get(0);
-            DashboardFragment fragment = (DashboardFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.nav_host_fragment).getChildFragmentManager()
-                    .getPrimaryNavigationFragment();
+//            DashboardFragment fragment = (DashboardFragment) getSupportFragmentManager()
+//                    .findFragmentById(R.id.nav_host_fragment).getChildFragmentManager()
+//                    .getPrimaryNavigationFragment();
+
+            DashboardFragment fragment = ((DashboardFragment) mViewPagerAdapter.getRegisteredFragment(4));
             fragment.getAvatar("file://" + path);
             System.out.println(path);
             new UpdateInfoPictureRequest(new Callback() {
@@ -691,9 +759,20 @@ public class MainActivity extends BaseActivity {
                         if (status) {
                             System.out.println(BasicInfo.PATH);
                             MyImageLoader.invalidate();
-                            runOnUiThread(()->initDrawer());
-//                            drawerHead.remove(0);
-//                            drawerHead.add(new ProfileDrawerItem().withName(BasicInfo.mName).withEmail(BasicInfo.mSignature).withIcon(BasicInfo.PATH));
+                            runOnUiThread(()-> {
+                                initDrawer();
+                                HomeFragment fragment1 = ((HomeFragment) mViewPagerAdapter.getRegisteredFragment(0));
+                                fragment1.getAvatar();
+                                FollowFragment fragment2 = ((FollowFragment) mViewPagerAdapter.getRegisteredFragment(1));
+                                fragment2.getAvatar();
+                                ConversationFragment fragment3 = ((ConversationFragment) mViewPagerAdapter.getRegisteredFragment(2));
+                                fragment3.getAvatar();
+                                NotificationFragment fragment4 = ((NotificationFragment) mViewPagerAdapter.getRegisteredFragment(3));
+                                fragment4.getAvatar();
+                                DashboardFragment fragment5 = ((DashboardFragment) mViewPagerAdapter.getRegisteredFragment(4));
+                                fragment5.getAvatar(null);
+                            });
+//                            ((DashboardFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_dashboard)).getAvatar(null);
                             String info = jsonObject.getString("info");
                         }
                     } catch (JSONException e) {

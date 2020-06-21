@@ -73,8 +73,12 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        MyImageLoader.loadImage(drawerBtn);
+        getAvatar();
         return root;
+    }
+
+    public void getAvatar() {
+        MyImageLoader.loadImage(drawerBtn);
     }
 
     @Override

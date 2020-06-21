@@ -58,7 +58,7 @@
 
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/pager"
+        android:id="@+id/pager_follow"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_below="@id/tab_layout" />

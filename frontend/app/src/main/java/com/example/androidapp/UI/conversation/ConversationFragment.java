@@ -49,7 +49,7 @@ public class ConversationFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_conversation, container, false);
         unbinder = ButterKnife.bind(this,root);
-        MyImageLoader.loadImage(drawerBtn);
+        getAvatar();
 
 //        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.TUTOR)));
 //        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.STUDENT)));
@@ -78,6 +78,10 @@ public class ConversationFragment extends Fragment {
 //    public void onTabReselected(TabLayout.Tab tab) {
 //
 //    }
+
+    public void getAvatar() {
+        MyImageLoader.loadImage(drawerBtn);
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

@@ -35,6 +35,12 @@ public class FollowFragment extends Fragment {
 
     private FollowViewModel followViewModel;
 
+    @BindView(R.id.pager_follow)
+    ViewPager viewPager;
+
+    @BindView(R.id.tab_layout)
+    TabLayout tabLayout;
+
     private Unbinder unbinder;
 
 
@@ -43,13 +49,10 @@ public class FollowFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_follow_nav, container, false);
         unbinder = ButterKnife.bind(this, root);
 
-        TabLayout tabLayout = root.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.WATCH)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.FOLLOWER)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-
-        final ViewPager viewPager = root.findViewById(R.id.pager);
         FollowPagerAdapter pagerAdapter = new FollowPagerAdapter(getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -71,9 +74,19 @@ public class FollowFragment extends Fragment {
             }
         });
 
-        MyImageLoader.loadImage(drawerBtn);
+        getAvatar();
 
         return root;
+    }
+
+    public void getAvatar() {
+        MyImageLoader.loadImage(drawerBtn);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        System.out.println("Hiwdjskfzjhaso");
     }
 
     @Override

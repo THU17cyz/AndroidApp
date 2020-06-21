@@ -147,6 +147,16 @@ public class FollowListFragment extends Fragment {
 
 //        getFanList();
 //        getWatchList();
+
+
+        addDivider();
+
+        return root;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         if (isWatchList) {
             for (ShortProfile shortProfile : BasicInfo.WATCH_LIST) {
                 if (shortProfile.isTeacher) tProfileList.add(shortProfile);
@@ -158,15 +168,6 @@ public class FollowListFragment extends Fragment {
                 else sProfileList.add(shortProfile);
             }
         }
-
-        addDivider();
-
-        return root;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
         int i = 0;
         for (ShortProfile shortProfile: sProfileList) {
             if (!BasicInfo.isInWatchList(shortProfile.id, false)) {
