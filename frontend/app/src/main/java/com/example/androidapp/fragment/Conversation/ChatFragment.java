@@ -76,7 +76,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class ChatFragment extends Fragment implements DateFormatter.Formatter{
+public class ChatFragment extends Fragment implements DateFormatter.Formatter {
     private DialogsList dialogsList;
     private List<ChatItem> mNameList;
     private DialogsListAdapter dialogsAdapter;
@@ -85,7 +85,6 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
     private int currentMessageId;
     private int messageId;
     private List<Integer> messageIdList;
-    private ChatHistoryViewModel chatHistoryViewModel;
     private String userAccount;
 
     private ArrayList<Dialog> dialogs;
@@ -98,6 +97,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
     private Handler mHandler = new Handler(Looper.getMainLooper());
     boolean hasHandled = false;
 
+    public ChatFragment() { }
 
     public ChatFragment(int type) {
         this.type = type;
@@ -108,12 +108,9 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
         View root = inflater.inflate(R.layout.fragment_chat, container, false);
 
         dialogsList = root.findViewById(R.id.dialogsList);
-        imageLoader = new ImageLoader() {
-            @Override
-            public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
-               Picasso.get().load("DDD").placeholder(R.drawable.ic_avatarholder).into(imageView);
-                // Log.d("url",url);
-            }
+        imageLoader = (imageView, url, payload) -> {
+           Picasso.get().load("DDD").placeholder(R.drawable.ic_avatarholder).into(imageView);
+            // Log.d("url",url);
         };
 
         tmpChatHistoryList = new ArrayList<>();
@@ -157,23 +154,6 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
             public void onRefresh(RefreshLayout refreshlayout) {
                 newTest();
                 refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
-            }
-        });
-
-//        chatHistoryViewModel = ViewModelProviders.of(getActivity()).get(ChatHistoryViewModel.class);
-//        chatHistoryViewModel.getAllHistory().observe(getActivity(), new Observer<List<ChatHistory>>() {
-//            @Override
-//            public void onChanged(List<ChatHistory> chatHistories) {
-//
-//            }
-//        });
-
-        Button button = root.findViewById(R.id.btn_refresh);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // refreshData();
-                Log.d("d","");
             }
         });
 
@@ -262,7 +242,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
 //
 //            }
             newTest();//getUnreadCount()执行的任务
-            mHandler.postDelayed(this, 20 * 1000);
+            mHandler.postDelayed(this, 3 * 1000);
         }
     };
 }

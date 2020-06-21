@@ -189,6 +189,7 @@ public class ChatActivity
             messagesAdapter.addToEnd(msgs, true);
             messagesAdapter.notifyDataSetChanged();
         }
+        Log.e("siafjahk", String.valueOf(msgs.size()));
 
         // 设置联系人用户名
         name.setText(contact);
@@ -444,7 +445,7 @@ public class ChatActivity
         public void run() {
             Log.e("聊天界面轮询","+1");
             newTest();//getUnreadCount()执行的任务
-            mHandler.postDelayed(this, 10 * 1000);
+            mHandler.postDelayed(this, 3 * 1000);
         }
     };
 

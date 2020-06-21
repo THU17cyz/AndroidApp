@@ -27,8 +27,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ConversationFragment extends Fragment implements TabLayout.OnTabSelectedListener
-{
+public class ConversationFragment extends Fragment {
 
     @BindView(R.id.imageButton)
     CircleImageView drawerBtn;
@@ -36,11 +35,11 @@ public class ConversationFragment extends Fragment implements TabLayout.OnTabSel
     @BindView(R.id.search_view)
     EditText searchView;
 
-    @BindView(R.id.tab_layout)
-    TabLayout tabLayout;
-
-    private ViewPager viewPager;
-    private ConversationPagerAdapter pagerAdapter;
+//    @BindView(R.id.tab_layout)
+//    TabLayout tabLayout;
+//
+//    private ViewPager viewPager;
+//    private ConversationPagerAdapter pagerAdapter;
 
 
     private Unbinder unbinder;
@@ -52,33 +51,33 @@ public class ConversationFragment extends Fragment implements TabLayout.OnTabSel
         unbinder = ButterKnife.bind(this,root);
         MyImageLoader.loadImage(drawerBtn);
 
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.TUTOR)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.STUDENT)));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
-        viewPager = root.findViewById(R.id.pager);
-        pagerAdapter = new ConversationPagerAdapter(getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(pagerAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.TUTOR)));
+//        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.STUDENT)));
+//        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+//
+//        viewPager = root.findViewById(R.id.pager);
+//        pagerAdapter = new ConversationPagerAdapter(getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
+//        viewPager.setAdapter(pagerAdapter);
+//        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         return root;
     }
 
 
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-        viewPager.setCurrentItem(tab.getPosition());
-    }
-
-    @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-
-    }
-
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
-
-    }
+//    @Override
+//    public void onTabSelected(TabLayout.Tab tab) {
+//        viewPager.setCurrentItem(tab.getPosition());
+//    }
+//
+//    @Override
+//    public void onTabUnselected(TabLayout.Tab tab) {
+//
+//    }
+//
+//    @Override
+//    public void onTabReselected(TabLayout.Tab tab) {
+//
+//    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
