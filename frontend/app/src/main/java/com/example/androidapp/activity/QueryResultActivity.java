@@ -51,7 +51,7 @@ public class QueryResultActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         ImmersionBar.with(this)
-                .statusBarColor(R.color.colorPrimary)
+                .statusBarColor(R.color.transparent)
                 .init();
 
         Intent intent = getIntent();
@@ -59,7 +59,7 @@ public class QueryResultActivity extends BaseActivity {
 
         searchView.setIconifiedByDefault(false);
         searchView.setQuery(query, true);
-//        searchView.requestFocus();
+        searchView.clearFocus();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -123,20 +123,14 @@ public class QueryResultActivity extends BaseActivity {
     }
 
     private void queryReset() {
-//        teacherQueryInfoList = null;
-//        studentQueryInfoList = null;
-//        applyQueryInfoList = null;
-//        recruitQueryInfoList = null;
         ((Teacher) pagerAdapter.getRegisteredFragment(0)).clearQueryResult();
         ((Student) pagerAdapter.getRegisteredFragment(1)).clearQueryResult();
         ((Recruit) pagerAdapter.getRegisteredFragment(2)).clearQueryResult();
         ((Apply) pagerAdapter.getRegisteredFragment(3)).clearQueryResult();
-
         teacherInfo = false;
         studentInfo = false;
         recruitInfo = false;
         applyInfo = false;
-
     }
 
     public void querySet(int position) {

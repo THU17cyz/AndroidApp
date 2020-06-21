@@ -26,7 +26,9 @@
         <androidx.appcompat.widget.SearchView
             android:id="@+id/search_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="56dp"
+            tools:layout_editor_absoluteY="4dp">
 
         </androidx.appcompat.widget.SearchView>
     </androidx.appcompat.widget.Toolbar>

@@ -6,9 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -19,6 +17,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -28,9 +27,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
@@ -39,20 +36,16 @@ import com.example.androidapp.R;
 import com.example.androidapp.UI.dashboard.DashboardFragment;
 import com.example.androidapp.UI.home.HomeFragment;
 import com.example.androidapp.application.App;
-import com.example.androidapp.chatTest.model.Dialog;
 import com.example.androidapp.chatTest.model.User;
 import com.example.androidapp.repository.chathistory.ChatHistory;
 import com.example.androidapp.request.conversation.GetMessagePictureRequest;
-import com.example.androidapp.request.conversation.GetMessageRequest;
 import com.example.androidapp.request.conversation.GetNewMessagesRequest;
 import com.example.androidapp.request.information.GetInformationDetailRequest;
 import com.example.androidapp.request.information.GetInformationRequest;
 import com.example.androidapp.request.user.GetInfoPictureRequest;
-import com.example.androidapp.request.user.GetInfoRequest;
 import com.example.androidapp.request.user.LogoutRequest;
 import com.example.androidapp.request.user.UpdateInfoPictureRequest;
 import com.example.androidapp.util.BasicInfo;
-import com.example.androidapp.util.DateUtil3;
 import com.example.androidapp.util.LocalPicx;
 import com.example.androidapp.util.Uri2File;
 import com.example.androidapp.viewmodel.ChatHistoryViewModel;
@@ -66,7 +59,6 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
@@ -77,15 +69,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -96,23 +83,12 @@ import okhttp3.Response;
 
 public class MainActivity extends BaseActivity {
 
-//    Fragment fragment1 = new HomeFragment();
-//    Fragment fragment2 = null;// = new FollowFragment();
-//    Fragment fragment3 = null;// = new ConversationFragment();
-//    Fragment fragment4 = null;// = new NotificationFragment();
-//    Fragment fragment5 = null;// = new DashboardFragment();
-//    Fragment active = fragment1;
-
     final FragmentManager fm = getSupportFragmentManager();
 
     private static final int REQUEST_CODE_CHOOSE = 11;
     private long exitTime = 0;
+    private boolean loaded = false;
 
-//    @BindView(R.id.toolbar)
-//    Toolbar toolbar;
-//
-//    @BindView(R.id.drawer_layout)
-//    DrawerLayout drawerLayout;
     private Drawer drawer;
 
     public static Handler msgHandler;
@@ -131,6 +107,10 @@ public class MainActivity extends BaseActivity {
 
         ButterKnife.bind(this);
         BottomNavigationView navView = findViewById(R.id.nav_view);
+
+//        Window window = getWindow();
+//        window.setStatusBarColor(Color.TRANSPARENT);
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
 //        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -143,13 +123,15 @@ public class MainActivity extends BaseActivity {
         chatHistoryViewModel = new ViewModelProvider(this).get(ChatHistoryViewModel.class);
 //        chatHistoryViewModel = ViewModelProviders.of(this).get(ChatHistoryViewModel.class);
         chatHistoryViewModel.getAllHistory().observe(this, chatHistories -> {
-            getDatabase();
-            mTimeCounterRunnable.run();
+            if (!loaded) {
+                loaded = true;
+                getDatabase();
+                mTimeCounterRunnable.run();
+            }
+
         });
 
-        ImmersionBar.with(this)
-                .statusBarColor(R.color.white)
-                .init();
+        ImmersionBar.with(this).statusBarColor(R.color.transparent).init();
 
 
         // 初始化侧边栏
@@ -168,10 +150,7 @@ public class MainActivity extends BaseActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
 
-
         LocalPicx.loadAsset(this);
-//        getDatabase();
-//        mTimeCounterRunnable.run();
     }
 
     private Runnable mTimeCounterRunnable = new Runnable() {
@@ -180,19 +159,18 @@ public class MainActivity extends BaseActivity {
             Log.e("消息列表轮询","+1");
             refreshData();
             // 每30秒刷新一次
-            mHandler.postDelayed(this, 5 * 1000);
+            mHandler.postDelayed(this, 30 * 1000);
         }
     };
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-//        getDatabase();
-//        mTimeCounterRunnable.run();
+    public void onDestroy() {
+        mHandler.removeCallbacks(mTimeCounterRunnable);
+        super.onDestroy();
     }
 
     private void getDatabase() {
+        Log.e("两边？？","fhsjafhkhfsaj");
         LiveData<List<ChatHistory>> list = chatHistoryViewModel.getAllHistory();
         List<ChatHistory> chatList = list.getValue();
         if (chatList == null) {
@@ -223,14 +201,15 @@ public class MainActivity extends BaseActivity {
                         User user = new User("0", BasicInfo.ACCOUNT,
                                 new GetInfoPictureRequest("I", null, null).getWholeUrl(),
                                 account, otherUserType, id);
-                        message = new com.example.androidapp.chatTest.model.Message("", user, msg, date);
+                        message = new com.example.androidapp.chatTest.model.Message("", user, msg, date, true);
                     } else {
                         User user = new User("1", account,
-                                "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
+                                new GetInfoPictureRequest(type, id, id).getWholeUrl(),
                                 account, otherUserType, id);
-                        message = new com.example.androidapp.chatTest.model.Message("", user, msg, date);
+                        message = new com.example.androidapp.chatTest.model.Message("", user, msg, date, true);
                     }
                     if (type.equals("P")) {
+                        // message.setText("图片");
                         message.setImage(new com.example.androidapp.chatTest.model.Message.Image(
                                 (new GetMessagePictureRequest(msg).getWholeUrl())));
                         System.out.println(new GetMessagePictureRequest(msg).getWholeUrl());
@@ -398,12 +377,14 @@ public class MainActivity extends BaseActivity {
                             com.example.androidapp.chatTest.model.Message message;
                             if(messageWay.equals("S")){
                                 User user = new User("0", BasicInfo.ACCOUNT,
-                                        "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
+                                        new GetInfoPictureRequest("I", null, null).getWholeUrl(),
+//                                        "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
                                         objectAccount, objectType, objectId);
                                 message = new com.example.androidapp.chatTest.model.Message(String.valueOf(messageId), user, messageContent, date, false);
                             } else {
                                 User user = new User("1", objectAccount,
-                                        "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
+                                        new GetInfoPictureRequest(objectType, objectId, objectId).getWholeUrl(),
+//                                        "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
                                         objectAccount, objectType, objectId);
                                 message = new com.example.androidapp.chatTest.model.Message(String.valueOf(messageId), user, messageContent, date, false);
                             }
@@ -589,7 +570,6 @@ public class MainActivity extends BaseActivity {
                     JSONObject jsonObject = new JSONObject(resStr);
                     Boolean status = jsonObject.getBoolean("status");
                     if (status) {
-                        mHandler.removeCallbacks(mTimeCounterRunnable);
                         MainActivity.this.finish();
 //                        Intent intent = new Intent(MainActivity.this,LoginActivity.class);
 //                        startActivity(intent);

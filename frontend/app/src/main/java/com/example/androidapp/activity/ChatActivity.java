@@ -108,7 +108,6 @@ public class ChatActivity
 
     private List<Uri> mUris;
     private List<String> mPaths;
-    private ChatHistoryViewModel chatHistoryViewModel;
 
     private String user;
     private String contact;
@@ -146,14 +145,6 @@ public class ChatActivity
         contactUser = new User("1",contact,"http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
                 contact,contactType, contactId);//这里面的id是用于显示
 
-//    // 聊天记录
-//    chatHistoryViewModel = ViewModelProviders.of(this).get(ChatHistoryViewModel.class);
-//    chatHistoryViewModel.getAllHistory().observe(this, new Observer<List<ChatHistory>>() {
-//      @Override
-//      public void onChanged(List<ChatHistory> chatHistories) {
-//      }
-//    });
-
         // 状态栏
         ImmersionBar.with(this)
                 .statusBarColor(R.color.colorPrimary)
@@ -173,39 +164,44 @@ public class ChatActivity
         messagesAdapter.setDateHeadersFormatter(this);
         messagesList.setAdapter(messagesAdapter);
 
-        btn_return.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("返回","image在上面");
-                mHandler.removeCallbacks(mTimeCounterRunnable);
-                finish();
-            }
+        btn_return.setOnClickListener(v -> {
+            Log.e("返回","image在上面");
+            finish();
         });
 
         msgs = new ArrayList<>();
         ArrayList<Message> tmp = BasicInfo.CHAT_HISTORY.get(contact); // 账号
         if (tmp != null) {
-            msgs.addAll(tmp);
+            for (Message m: tmp) {
+                msgs.add(m);
+            }
             messagesAdapter.addToEnd(msgs, true);
             messagesAdapter.notifyDataSetChanged();
         }
-        Log.e("siafjahk", String.valueOf(msgs.size()));
+        Log.e("!!!!!!!!!!!!!!!", String.valueOf(msgs.size()));
 
         // 设置联系人用户名
         name.setText(contact);
 
-        name.setOnClickListener(new View.OnClickListener() {
+        // 改成访问他人主页
+        name.setOnClickListener(v -> {
 
-            // 改成访问他人主页
-
-            @Override
-            public void onClick(View v) {
-
-            }
         });
 
         messageInput.setInputListener(this);
         messageInput.setAttachmentsListener(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mTimeCounterRunnable.run();
+    }
+
+    @Override
+    public void onDestroy() {
+        mHandler.removeCallbacks(mTimeCounterRunnable);
+        super.onDestroy();
     }
 
     /**
@@ -256,14 +252,17 @@ public class ChatActivity
 
     // 轮询要干的事
     private synchronized void newTest() {
+        Log.e("????????????????", String.valueOf(msgs.size()));
         int current = msgs.size();
         System.out.println(current);
         ArrayList<Message> tmp = BasicInfo.CHAT_HISTORY.get(contact); // 账号
+        Log.e("????++++++", String.valueOf(msgs.size()));
         for (int i = current; i < tmp.size(); i++) {
             Message m = tmp.get(i);
             msgs.add(m);
             if (m.getUser().getId().equals("1")) messagesAdapter.addToStart(m, true);
         }
+        Log.e("????????????????++++++", String.valueOf(msgs.size()));
         System.out.println(tmp.size());
         System.out.println(msgs.size());
         messagesAdapter.notifyDataSetChanged();
@@ -431,21 +430,13 @@ public class ChatActivity
     }
 
 
-    // resume中无法读取数据库
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // 开始轮询
-        mTimeCounterRunnable.run();
-    }
-
     // 轮询
     private Runnable mTimeCounterRunnable = new Runnable() {
         @Override
         public void run() {
             Log.e("聊天界面轮询","+1");
             newTest();//getUnreadCount()执行的任务
-            mHandler.postDelayed(this, 3 * 1000);
+            mHandler.postDelayed(this, 5 * 1000);
         }
     };
 

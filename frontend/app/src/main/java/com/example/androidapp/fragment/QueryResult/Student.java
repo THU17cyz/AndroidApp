@@ -33,9 +33,7 @@ public class Student extends ProfileFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = super.onCreateView(inflater, container, savedInstanceState); // inflater.inflate(R.layout.fragment_teacher_result, container, false);
         return root;
-
     }
-
 
     public void loadQueryInfo(String query) {
         LoadService loadService = LoadSir.getDefault().register(recyclerView, (Callback.OnReloadListener) v -> {

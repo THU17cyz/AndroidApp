@@ -67,7 +67,7 @@ public class QueryActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         ImmersionBar.with(this)
-                .statusBarColor(R.color.colorPrimary)
+                .statusBarColor(R.color.transparent)
                 .init();
 
         searchView.setIconifiedByDefault(false);
