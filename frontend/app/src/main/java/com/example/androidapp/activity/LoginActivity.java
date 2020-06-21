@@ -539,7 +539,7 @@ public class LoginActivity extends BaseActivity {
     private okhttp3.Callback handleLogin = new okhttp3.Callback() {
         @Override
         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-//            Hint.endActivityLoad(LoginActivity.this);
+            LoginActivity.this.runOnUiThread(() -> Hint.endActivityLoad(LoginActivity.this));
                 try {
                 if (response.code() != 200) {
                     LoginCache.removeCache(getApplicationContext());
@@ -574,6 +574,7 @@ public class LoginActivity extends BaseActivity {
 
         @Override
         public void onFailure(@NotNull Call call, @NotNull IOException e) {
+            LoginActivity.this.runOnUiThread(() -> Hint.endActivityLoad(LoginActivity.this));
             LoginActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(LoginActivity.this, "登录失败..."));
             if (Global.HTTP_DEBUG_MODE)
                 Log.e("HttpError", e.toString());
