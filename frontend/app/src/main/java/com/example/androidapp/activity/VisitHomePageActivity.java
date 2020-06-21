@@ -91,7 +91,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
     @BindView(R.id.btn_focus)
     FocusButton btn_focus;
 
-    @BindView(R.id.btn_chat)
+    @BindView(R.id.top_chat_btn)
     Button btn_chat;
 
 

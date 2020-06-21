@@ -43,8 +43,8 @@ public class ShortProfileAdapter<T> extends MyBaseAdapter {
         // 在这里链式赋值就可以了
         ShortProfile data = (ShortProfile) o;
         viewHolder.setText(R.id.profile_user_name, data.name)
-                .setText(R.id.info, StringCutter.cutter(data.school + data.department, 20))
-                .setText(R.id.fan,  data.fanNum + "人关注");
+                .setText(R.id.info, StringCutter.cutter(data.school + " " + data.department, 15))
+                .setText(R.id.fan,  data.fanNum + " 人关注");
 
         try {
             mHead = viewHolder.getView(R.id.profile_image);

@@ -21,8 +21,7 @@ public class MyImageLoader {
             url = new GetInfoPictureRequest("S", null, String.valueOf(BasicInfo.ID)).getWholeUrl();
         else
             url = new GetInfoPictureRequest("T", String.valueOf(BasicInfo.ID), null).getWholeUrl();
-        Picasso.get().load(url).
-                placeholder(R.drawable.ic_avatarholder).into(view);
+        Picasso.get().load(url).placeholder(R.drawable.ic_avatarholder).into(view);
     }
 
     public static void invalidate(String url) {

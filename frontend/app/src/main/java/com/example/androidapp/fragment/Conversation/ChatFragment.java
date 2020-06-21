@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -20,6 +21,7 @@ import com.example.androidapp.chatTest.model.Dialog;
 import com.example.androidapp.chatTest.model.Message;
 import com.example.androidapp.chatTest.model.User;
 import com.example.androidapp.repository.chathistory.ChatHistory;
+import com.example.androidapp.request.information.SetInformationStateRequest;
 import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.DateUtil3;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -31,12 +33,21 @@ import com.stfalcon.chatkit.dialogs.DialogsList;
 import com.stfalcon.chatkit.dialogs.DialogsListAdapter;
 import com.stfalcon.chatkit.utils.DateFormatter;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+import okhttp3.Call;
+import okhttp3.Response;
 
 public class ChatFragment extends Fragment implements DateFormatter.Formatter {
     private DialogsList dialogsList;
@@ -53,6 +64,12 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
 
     private ArrayList<ChatHistory> tmpChatHistoryList;
 
+    // 全标已读
+    @BindView(R.id.btn_all_read)
+    TextView btnAllRead;
+
+    private Unbinder unbinder;
+
 
     private int type; //0:老师 1：学生
 
@@ -68,6 +85,8 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_chat, container, false);
+
+        unbinder = ButterKnife.bind(this, root);
 
         dialogsList = root.findViewById(R.id.dialogsList);
         imageLoader = (imageView, url, payload) -> {
@@ -97,6 +116,11 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
                 ((Dialog) dialog).getLastMessage().setRead();
                 // System.out.println(BasicInfo.BADGE_CHAT.getNumber());
                 BasicInfo.subFromBadgeChat(dialog.getUnreadCount());
+
+                ArrayList<Message> msgs = BasicInfo.CHAT_HISTORY.get(contact.getAccount());
+                for (Message m: msgs) {
+                    m.setRead();
+                }
                 System.out.println(contact.getAccount() + contact.getId() + contact.getName());
                 String s = contact.getName();
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
@@ -112,12 +136,26 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
         dialogsList.setAdapter(dialogsAdapter);
 
 
-        RefreshLayout refreshLayout = (RefreshLayout) root.findViewById(R.id.refreshLayout);
-        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(RefreshLayout refreshlayout) {
-                newTest();
-                refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+//        RefreshLayout refreshLayout = (RefreshLayout) root.findViewById(R.id.refreshLayout);
+//        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+//            @Override
+//            public void onRefresh(RefreshLayout refreshlayout) {
+//                newTest();
+//                refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+//            }
+//        });
+
+        btnAllRead.setOnClickListener(v -> {
+            for(int i = 0; i < dialogs.size(); i++){
+                Dialog dialog = dialogs.get(i);
+                BasicInfo.subFromBadgeChat(dialog.getUnreadCount());
+                dialog.setUnreadCount(0);
+                User contact = dialog.getUsers().get(0);
+                ArrayList<Message> msgs = BasicInfo.CHAT_HISTORY.get(contact.getAccount());
+                for (Message m: msgs) {
+                    m.setRead();
+                }
+                dialogsAdapter.notifyDataSetChanged();
             }
         });
 
@@ -147,6 +185,12 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
     public void onStop() {
         super.onStop();
         mHandler.removeCallbacks(mTimeCounterRunnable);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 
     public void newTest(){

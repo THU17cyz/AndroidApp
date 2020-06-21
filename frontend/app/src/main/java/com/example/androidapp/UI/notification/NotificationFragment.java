@@ -94,6 +94,8 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
 
     private Unbinder unbinder;
 
+    boolean searchFreeze = false;
+
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
     // 全标已读
@@ -130,8 +132,20 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
             parentActivity.openDrawer();
         });
         searchView.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), QueryActivity.class);
-            startActivity(intent);
+            if (!searchFreeze) {
+                searchFreeze = true;
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+
+                    } finally {
+                        searchFreeze = false;
+                    }
+                }).start();
+                Intent intent = new Intent(getActivity(), QueryActivity.class);
+                startActivity(intent);
+            }
         });
 
         btnAllRead.setOnClickListener(v -> {

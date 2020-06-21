@@ -209,7 +209,7 @@ public class IntentFragment extends Fragment {
         mIntentList.addAll(filteredIntentList);
         filteredIntentList.clear();
         for (ShortIntent ShortIntent: mIntentList) {
-            if (filters[0] && !ShortIntent.intentionState.equals('O')) {
+            if (filters[0] && !ShortIntent.intentionState.equals("O")) {
                 removed.add(i);
             }
             i++;
@@ -224,6 +224,7 @@ public class IntentFragment extends Fragment {
         if (current_order == 0) {
             Collections.sort(mIntentList, (p1, p2) -> Integer.valueOf(p2.relate).compareTo(Integer.valueOf(p1.relate)));
         }
+        mShortIntentAdapter.notifyItemRangeChanged(0, mIntentList.size());
 
     }
 

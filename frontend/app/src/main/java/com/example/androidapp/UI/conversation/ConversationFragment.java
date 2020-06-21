@@ -38,11 +38,13 @@ public class ConversationFragment extends Fragment {
 
     private Unbinder unbinder;
 
+    boolean searchFreeze = false;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_conversation, container, false);
-        unbinder = ButterKnife.bind(this,root);
+        unbinder = ButterKnife.bind(this, root);
         getAvatar();
         return root;
     }
@@ -59,8 +61,20 @@ public class ConversationFragment extends Fragment {
             parentActivity.openDrawer();
         });
         searchView.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), QueryActivity.class);
-            startActivity(intent);
+            if (!searchFreeze) {
+                searchFreeze = true;
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+
+                    } finally {
+                        searchFreeze = false;
+                    }
+                }).start();
+                Intent intent = new Intent(getActivity(), QueryActivity.class);
+                startActivity(intent);
+            }
         });
     }
 

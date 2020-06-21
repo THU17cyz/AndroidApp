@@ -65,6 +65,7 @@ import com.example.androidapp.viewmodel.ChatHistoryViewModel;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gyf.immersionbar.ImmersionBar;
+import com.kingja.loadsir.core.LoadSir;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -127,6 +128,9 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+//        loadService = LoadSir.getDefault().register(this, (com.kingja.loadsir.callback.Callback.OnReloadListener) v -> { });
+
+
         navView = findViewById(R.id.nav_view);
 
         BasicInfo.NAV_VIEW = navView;
@@ -254,6 +258,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onStart() {
         super.onStart();
+//        loadService.showSuccess();
     }
 
     @Override
@@ -494,7 +499,7 @@ public class MainActivity extends BaseActivity {
                                 message.setText(String.valueOf(messageId));
                             }
 
-                            if (!messageWay.equals("S")) {
+                            if (!messageWay.equals("S") || currentMessageId == 0) {
                                 ArrayList<com.example.androidapp.chatTest.model.Message> msgs = BasicInfo.CHAT_HISTORY.get(objectAccount);
                                 if (msgs == null) {
                                     msgs = new ArrayList<>();

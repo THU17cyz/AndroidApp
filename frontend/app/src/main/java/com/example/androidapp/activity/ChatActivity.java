@@ -147,7 +147,7 @@ public class ChatActivity
         messagesAdapter.setDateHeadersFormatter(this);
         messagesList.setAdapter(messagesAdapter);
 
-        toolbar.setNavigationOnClickListener(v->this.finish());
+        toolbar.setNavigationOnClickListener(v -> this.finish());
 
         msgs = new ArrayList<>();
         ArrayList<Message> tmp = BasicInfo.CHAT_HISTORY.get(contact); // 账号

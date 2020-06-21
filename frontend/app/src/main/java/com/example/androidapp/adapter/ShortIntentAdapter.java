@@ -2,6 +2,7 @@ package com.example.androidapp.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -32,10 +33,24 @@ public class ShortIntentAdapter<T> extends MyBaseAdapter {
         // 在这里链式赋值就可以了
         ShortIntent data = (ShortIntent) o;
         viewHolder.setText(R.id.intent_user_name, data.name)
-                .setText(R.id.intent_user_affiliation, StringCutter.cutter(data.school + data.department, 20));
+                .setText(R.id.intent_user_affiliation, StringCutter.cutter(data.school + " " + data.department, 20));
 
-        viewHolder.setText(R.id.intent_info,  data.target);
+        viewHolder.setText(R.id.intent_info, data.target);
 
+        if (data.isTeacher) {
+            String type_;
+            if (data.recruitType.equals("UG")) type_ = "本科生";
+            else if (data.recruitType.equals("MT")) type_ = "硕士生";
+            else type_ = "博士生";
+            viewHolder.setText(R.id.intent_type, "招收" + type_ + " " + data.recruitNum + "人");
+        } else {
+            viewHolder.getView(R.id.intent_type).setVisibility(View.GONE);
+        }
+        String state_;
+        if (data.intentionState.equals("S")) state_ = "已完成";
+        else if (data.intentionState.equals("O")) state_ = "进行中";
+        else state_ = "已取消";
+        viewHolder.setText(R.id.intent_state, state_);
 
 
     }

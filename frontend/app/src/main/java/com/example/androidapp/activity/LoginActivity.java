@@ -138,6 +138,8 @@ public class LoginActivity extends BaseActivity {
 //        SharedPreferences.Editor editor = sharedPreferences.edit();
 //        editor.putBoolean("hasLogin",false);
 //        editor.commit();
+
+
         boolean hasLogin = sharedPreferences.getBoolean("hasLogin",false);
         if(hasLogin){
             String type = sharedPreferences.getString("type","");

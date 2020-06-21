@@ -12,6 +12,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.androidapp.R;
 import com.example.androidapp.adapter.QueryResultPageAdapter;
 import com.example.androidapp.fragment.QueryResult.Apply;
+import com.example.androidapp.fragment.QueryResult.IntentFragment;
+import com.example.androidapp.fragment.QueryResult.ProfileFragment;
 import com.example.androidapp.fragment.QueryResult.Recruit;
 import com.example.androidapp.fragment.QueryResult.Student;
 import com.example.androidapp.fragment.QueryResult.Teacher;
@@ -96,6 +98,9 @@ public class QueryResultActivity extends BaseActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
                 viewPager.setCurrentItem(position);
+                Fragment fragment = pagerAdapter.getRegisteredFragment(position);
+                if (fragment instanceof ProfileFragment) ((ProfileFragment) fragment).isFilterOpen = false;
+                else ((IntentFragment) fragment).isFilterOpen = false;
             }
 
             @Override

@@ -319,7 +319,7 @@ public class ProfileFragment extends Fragment {
         } else {
             Collections.sort(mProfileList, (p1, p2) -> Integer.valueOf(p2.fanNum).compareTo(Integer.valueOf(p1.fanNum)));
         }
-        mShortProfileAdapter.notifyItemRangeChanged(0, mProfileList.size() - 1);
+        mShortProfileAdapter.notifyItemRangeChanged(0, mProfileList.size());
 
     }
 
