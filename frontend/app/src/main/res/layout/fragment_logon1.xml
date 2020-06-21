@@ -29,6 +29,7 @@
         android:textColorHint="@color/white" />
 
     <com.andreabaccega.widget.FormEditText
+        android:inputType="textPersonName"
         android:maxLines="1"
         android:id="@+id/logon1_account"
         android:layout_width="match_parent"
