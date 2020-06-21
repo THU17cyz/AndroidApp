@@ -69,8 +69,8 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.logon)
     Button logonButton;
 
-    @BindView(R.id.forgetPassword)
-    Button forgetPasswordButton;
+    @BindView(R.id.introduce)
+    Button introduceButton;
 
     @BindView(R.id.login_type)
     TextView typeSelector;
@@ -467,6 +467,12 @@ public class LoginActivity extends BaseActivity {
     /******************************
      ************ 事件 ************
      ******************************/
+    @OnClick(R.id.introduce)
+    public void onClickIntroduce() {
+        introductionBuilder = new IntroductionBuilder(this);
+        introductionBuilder.withSlides(Hint.generateSlides()).introduceMyself();
+    }
+
     @OnClick(R.id.login)
     public void onClickLogin() {
         String type = "";
@@ -500,11 +506,6 @@ public class LoginActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    @OnClick(R.id.forgetPassword)
-    public void onClickForgetPassword() {
-        Intent intent = new Intent(this, ResetPasswordActivity.class);
-        startActivity(intent);
-    }
 
     @OnClick(R.id.login_type)
     public void onClickTypeSelector(){
