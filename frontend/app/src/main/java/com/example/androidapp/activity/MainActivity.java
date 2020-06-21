@@ -50,6 +50,7 @@ import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.Hint;
 import com.example.androidapp.util.LocalPicx;
 import com.example.androidapp.util.LoginCache;
+import com.example.androidapp.util.MyImageLoader;
 import com.example.androidapp.util.StringCutter;
 import com.example.androidapp.util.Uri2File;
 import com.example.androidapp.viewmodel.ChatHistoryViewModel;
@@ -481,6 +482,7 @@ public class MainActivity extends BaseActivity {
             }
 
         });
+        drawer = null;
 
         String url;
         if (BasicInfo.TYPE.equals("S"))
@@ -687,13 +689,11 @@ public class MainActivity extends BaseActivity {
                         JSONObject jsonObject = new JSONObject(resStr);
                         Boolean status = jsonObject.getBoolean("status");
                         if (status) {
-                            drawerHead.remove(0);
-                            drawerHead.add(0,
-                                    new ProfileDrawerItem().withName("用户名").withEmail("个性签名")
-                                            .withIcon(new GetInfoPictureRequest("I", null, null).getWholeUrl())
-                                            );
-//                            MyImageLoader.loadImage(, );
-                        } else {
+                            System.out.println(BasicInfo.PATH);
+                            MyImageLoader.invalidate();
+                            runOnUiThread(()->initDrawer());
+//                            drawerHead.remove(0);
+//                            drawerHead.add(new ProfileDrawerItem().withName(BasicInfo.mName).withEmail(BasicInfo.mSignature).withIcon(BasicInfo.PATH));
                             String info = jsonObject.getString("info");
                         }
                     } catch (JSONException e) {

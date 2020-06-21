@@ -28,6 +28,7 @@ import com.example.androidapp.request.intention.GetApplyIntentionDetailRequest;
 import com.example.androidapp.request.intention.GetApplyIntentionRequest;
 import com.example.androidapp.request.intention.GetRecruitIntentionDetailRequest;
 import com.example.androidapp.request.intention.GetRecruitIntentionRequest;
+import com.example.androidapp.request.user.GetInfoPictureRequest;
 import com.example.androidapp.request.user.GetInfoPlusRequest;
 import com.example.androidapp.request.user.GetInfoRequest;
 import com.example.androidapp.request.user.LoginRequest;
@@ -158,6 +159,7 @@ public class LoginActivity extends BaseActivity {
                     JSONObject jsonObject = new JSONObject(resStr);
                     Boolean status = jsonObject.getBoolean("status");
                     if (status) {
+
                         BasicInfo.ACCOUNT = jsonObject.getString("account");
                         BasicInfo.mName = jsonObject.getString("name");
                         BasicInfo.mGender = jsonObject.getString("gender");
@@ -167,17 +169,19 @@ public class LoginActivity extends BaseActivity {
                         if(jsonObject.has("student_id")){
                             BasicInfo.ID = jsonObject.getInt("student_id");
                             BasicInfo.TYPE = "S";
+                            BasicInfo.PATH = new GetInfoPictureRequest("S", null, String.valueOf(BasicInfo.ID)).getWholeUrl();
                             BasicInfo.IS_TEACHER = false;
                             BasicInfo.mMajor = jsonObject.getString("major");
                             BasicInfo.mDegree = jsonObject.getString("degree");
                         } else {
                             BasicInfo.ID = jsonObject.getInt("teacher_id");
                             BasicInfo.TYPE = "T";
+                            BasicInfo.PATH = new GetInfoPictureRequest("T", String.valueOf(BasicInfo.ID), null).getWholeUrl();
+
                             BasicInfo.IS_TEACHER = true;
                             BasicInfo.mTitle = jsonObject.getString("title");
-
-                            // BasicInfo.PATH = loadImageCache();
                         }
+
                         Log.d("basic info",BasicInfo.ACCOUNT);
                         beforeJump2();
                     }else{

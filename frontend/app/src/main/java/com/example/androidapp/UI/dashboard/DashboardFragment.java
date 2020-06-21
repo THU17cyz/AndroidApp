@@ -42,6 +42,7 @@ import com.example.androidapp.util.SizeConverter;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
+import com.squareup.picasso.Picasso;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
@@ -212,12 +213,21 @@ public class DashboardFragment
                 title.setAlpha(1);
             }
         });
+//        numFocus.setText(String.valueOf(BasicInfo.WATCH_LIST.size()));
+//        numFocused.setText(String.valueOf(BasicInfo.FAN_LIST.size()));
+//        signature.setText(BasicInfo.mSignature);
+//
+//        getAvatar(null);
+        getAvatar(null);
+        return root;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         numFocus.setText(String.valueOf(BasicInfo.WATCH_LIST.size()));
         numFocused.setText(String.valueOf(BasicInfo.FAN_LIST.size()));
         signature.setText(BasicInfo.mSignature);
-
-        getAvatar(null);
-        return root;
     }
 
     @OnClick(R.id.img_avatar)

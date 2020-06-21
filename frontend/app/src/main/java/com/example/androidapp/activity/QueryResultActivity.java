@@ -3,6 +3,7 @@ package com.example.androidapp.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
@@ -120,6 +121,9 @@ public class QueryResultActivity extends BaseActivity {
             public void onPageScrollStateChanged(int state) {
             }
         });
+
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
     }
 
     private void queryReset() {
