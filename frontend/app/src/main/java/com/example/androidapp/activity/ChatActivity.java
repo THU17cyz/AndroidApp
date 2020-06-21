@@ -22,7 +22,9 @@ import com.example.androidapp.R;
 import com.example.androidapp.chatTest.GifSizeFilter;
 import com.example.androidapp.chatTest.model.Message;
 import com.example.androidapp.chatTest.model.User;
+import com.example.androidapp.repository.chathistory.ChatHistory;
 import com.example.androidapp.request.conversation.SendMessageRequest;
+import com.example.androidapp.request.user.GetInfoPictureRequest;
 import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.Uri2File;
 import com.gyf.immersionbar.ImmersionBar;
@@ -207,12 +209,18 @@ public class ChatActivity
                     Boolean status = jsonObject.getBoolean("status");
                     if (status) {
                         // 发送成功后显示消息
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                messagesAdapter.addToStart(
-                                        new Message("0", thisUser, input.toString())
-                                        , true);
+                        runOnUiThread(() -> {
+                            User user = new User("0", realName,
+                                    new GetInfoPictureRequest("I", null, null).getWholeUrl(),
+                                    contact, contactType, contactId);
+                            Message m = new Message("0", user, input.toString(), new Date(), true);
+                            messagesAdapter.addToStart(m, true);
+                            ArrayList<Message> tmp = BasicInfo.CHAT_HISTORY.get(contact); // 账号
+                            if (tmp != null) {
+                                tmp.add(m);
+                            } else {
+                                tmp = new ArrayList<>();
+                                tmp.add(m);
                             }
                         });
 

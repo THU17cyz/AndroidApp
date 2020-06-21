@@ -421,15 +421,15 @@ public class MainActivity extends BaseActivity {
                                 message.setText(String.valueOf(messageId));
                             }
 
-                            ArrayList<com.example.androidapp.chatTest.model.Message> msgs = BasicInfo.CHAT_HISTORY.get(objectAccount);
-                            if (msgs == null) {
-                                msgs = new ArrayList<>();
-                                BasicInfo.CHAT_HISTORY.put(objectAccount, msgs);
+                            if (!message.equals("S")) {
+                                ArrayList<com.example.androidapp.chatTest.model.Message> msgs = BasicInfo.CHAT_HISTORY.get(objectAccount);
+                                if (msgs == null) {
+                                    msgs = new ArrayList<>();
+                                    BasicInfo.CHAT_HISTORY.put(objectAccount, msgs);
+                                }
+                                msgs.add(message);
                             }
-//                            User user = new User(objectId, BasicInfo.ACCOUNT,"", BasicInfo.ACCOUNT, objectType);
-//                            com.example.androidapp.chatTest.model.Message message =
-//                                    new com.example.androidapp.chatTest.model.Message(String.valueOf(messageId), user, messageContent, date, false);
-                            msgs.add(message);
+
                         }
 
 
