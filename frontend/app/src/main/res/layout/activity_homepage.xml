@@ -50,7 +50,7 @@
                         android:id="@+id/img_avatar"
                         android:layout_width="96dp"
                         android:layout_height="96dp"
-                        android:layout_marginTop="60dp"
+                        android:layout_marginTop="80dp"
                         android:src="@drawable/bg_login" />
 
                     <TextView
@@ -103,6 +103,10 @@
 
                         </LinearLayout>
 
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/shape_signup_button"></View>
 
                         <LinearLayout
                             android:gravity="center"

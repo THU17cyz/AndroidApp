@@ -226,14 +226,14 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="6dp"
                         android:text="姓名"></TextView>
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="张三"></TextView>
@@ -249,14 +249,14 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="6dp"
                         android:text="性别"></TextView>
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="男"></TextView>
@@ -272,14 +272,14 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="6dp"
                         android:text="学校"></TextView>
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="清华"></TextView>
@@ -295,14 +295,14 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="6dp"
                         android:text="院系"></TextView>
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="6dp"
@@ -319,14 +319,14 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="6dp"
                         android:text="职务"></TextView>
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="6dp"
@@ -343,14 +343,14 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="6dp"
                         android:text="电话"></TextView>
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="6dp"
@@ -367,14 +367,14 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="6dp"
                         android:text="邮箱"></TextView>
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="6dp"
@@ -391,14 +391,14 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="6dp"
                         android:text="主页"></TextView>
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="6dp"
@@ -415,14 +415,14 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="6dp"
                         android:text="地址"></TextView>
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="6dp"
@@ -439,7 +439,7 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="6dp"
@@ -480,7 +480,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="个人介绍"
-                        style="@style/personal_homepage_font_style"></TextView>
+                        style="@style/personal_homepage_edit_style"></TextView>
 
                     <com.ms.square.android.expandabletextview.ExpandableTextView xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
@@ -520,7 +520,7 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="6dp"
@@ -543,7 +543,7 @@
                     android:paddingBottom="5dp">
 
                     <TextView
-                        style="@style/personal_homepage_font_style"
+                        style="@style/personal_homepage_edit_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="3dp"
