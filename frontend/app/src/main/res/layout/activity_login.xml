@@ -9,6 +9,12 @@
     android:gravity="center"
     android:padding="20dp">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/png_logo" />
+
     <TextView
         android:maxLines="1"
         android:id="@+id/login_type"
@@ -143,6 +149,8 @@
             android:text="@string/LOGON"
             android:textColor="@android:color/black" />
     </RelativeLayout>
+
+
 
 
 </LinearLayout>
