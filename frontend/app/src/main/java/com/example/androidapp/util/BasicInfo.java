@@ -16,6 +16,7 @@ public class BasicInfo {
 
   public static String PATH;
   public static String ACCOUNT = "account";
+  public static String PASSWORD = "";
 
   public static int ID = 0;
 

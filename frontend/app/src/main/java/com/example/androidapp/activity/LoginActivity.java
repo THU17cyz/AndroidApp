@@ -34,6 +34,7 @@ import com.example.androidapp.request.user.LoginRequest;
 import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Hint;
+import com.example.androidapp.util.LoginCache;
 import com.example.androidapp.util.OptionItems;
 import com.example.androidapp.util.Valid;
 import com.rubengees.introduction.IntroductionBuilder;
@@ -120,6 +121,13 @@ public class LoginActivity extends BaseActivity {
 //                Toast.makeText(LoginActivity.this, "键盘隐藏 高度" + height, Toast.LENGTH_SHORT).show();
 //            }
 //        });
+
+        // 已经登录过则跳过登录
+        if(LoginCache.hasLoginCache(getApplicationContext())){
+            Hint.startActivityLoad(this);
+            new LoginRequest(this.handleLogin, LoginCache.type, LoginCache.account, LoginCache.password).send();
+        }
+
         // 引导页设置
         introductionBuilder = new IntroductionBuilder(this);
         introductionBuilder.withSlides(Hint.generateSlides()).introduceMyself();
@@ -528,6 +536,7 @@ public class LoginActivity extends BaseActivity {
 //            Hint.endActivityLoad(LoginActivity.this);
                 try {
                 if (response.code() != 200) {
+                    LoginCache.removeCache(getApplicationContext());
                     LoginActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(LoginActivity.this, "登录失败..."));
                 } else {
                     ResponseBody responseBody = response.body();
@@ -538,10 +547,15 @@ public class LoginActivity extends BaseActivity {
                     boolean status = (Boolean) jsonObject.get("status");
                     String info = (String) jsonObject.get("info");
                     if (status) {
+
+                        // 保存密码以加入shared...
+                        BasicInfo.PASSWORD = passwordEditText.getText().toString();
+
                         LoginActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(LoginActivity.this, info));
 //                        LoginActivity.this.runOnUiThread(LoginActivity.this::onJumpToMain);
                         beforeJump1();
                     } else {
+                        LoginCache.removeCache(getApplicationContext());
                         LoginActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(LoginActivity.this, info));
                     }
                 }

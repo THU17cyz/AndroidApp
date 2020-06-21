@@ -1,6 +1,7 @@
 package com.example.androidapp.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,8 +16,10 @@ import com.andreabaccega.widget.FormEditText;
 import com.example.androidapp.R;
 import com.example.androidapp.activity.LoginActivity;
 import com.example.androidapp.request.user.ChangePasswordRequest;
+import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Hint;
+import com.example.androidapp.util.LoginCache;
 import com.example.androidapp.util.Valid;
 
 import org.jetbrains.annotations.NotNull;
@@ -88,7 +91,7 @@ public class ResetPasswordActivity extends BaseActivity {
     }
 
     @OnClick(R.id.returnButton)
-    public void onReturnToLogin() {
+    public void onReturnToLogin(){
         finish();
     }
 
@@ -136,6 +139,19 @@ public class ResetPasswordActivity extends BaseActivity {
                     String info = (String) jsonObject.get("info");
                     if (status) {
                         ResetPasswordActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(ResetPasswordActivity.this, info));
+                        ResetPasswordActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // 修改密码后更新密码
+                                BasicInfo.PASSWORD = newPasswordEditText.getText().toString();
+
+//        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("user",MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putString("password",BasicInfo.PASSWORD);
+//        editor.commit();
+                                LoginCache.updateCachePassword(getApplicationContext(),BasicInfo.PASSWORD);
+                            }
+                        });
                         ResetPasswordActivity.this.runOnUiThread(ResetPasswordActivity.this::onReturnToLogin);
                     } else {
                         ResetPasswordActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(ResetPasswordActivity.this, info));
