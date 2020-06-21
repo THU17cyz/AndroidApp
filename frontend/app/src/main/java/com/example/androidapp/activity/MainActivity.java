@@ -158,8 +158,12 @@ public class MainActivity extends BaseActivity {
 
         LocalPicx.loadAsset(this);
 
+
         //保存登录信息
-        LoginCache.saveCache(getApplicationContext());
+        if(!LoginCache.hasLoginCache(getApplicationContext())){
+            LoginCache.saveCache(getApplicationContext());
+        }
+
     }
 
     private Runnable mTimeCounterRunnable = new Runnable() {
