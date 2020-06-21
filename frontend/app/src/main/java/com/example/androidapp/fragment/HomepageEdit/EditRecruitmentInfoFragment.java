@@ -134,14 +134,14 @@ public class EditRecruitmentInfoFragment extends Fragment
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String resStr = response.body().string();
-                getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+                // getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
                 Log.e("response", resStr);
                 try {
                     // 解析json，然后进行自己的内部逻辑处理
                     JSONObject jsonObject = new JSONObject(resStr);
                     Boolean status = jsonObject.getBoolean("status");
                     String info = jsonObject.getString("info");
-                    getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
+                    // getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
 
                     // 全部删除以后再插入
                     for(int i = 0; i< mRecruitmentList.size(); i++){
@@ -190,7 +190,7 @@ public class EditRecruitmentInfoFragment extends Fragment
                     Toast.makeText(getContext(),"已达到意向数量上限",Toast.LENGTH_SHORT).show();
                     break;
                 }
-                Toast.makeText(getActivity(),"添加",Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getActivity(),"添加",Toast.LENGTH_SHORT).show();
                 RecruitmentInfo recruitmentInfo = new RecruitmentInfo("","本科生","","进行","",-1, RecruitmentInfo.Type.ADD);
                 mRecruitmentList.add(recruitmentInfo);
                 adapter.notifyDataSetChanged();

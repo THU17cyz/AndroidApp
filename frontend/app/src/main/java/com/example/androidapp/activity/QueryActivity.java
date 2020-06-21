@@ -182,7 +182,7 @@ public class QueryActivity extends BaseActivity {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String resStr = response.body().string();
-                runOnUiThread(() -> Toast.makeText(QueryActivity.this, resStr, Toast.LENGTH_LONG).show());
+                // runOnUiThread(() -> Toast.makeText(QueryActivity.this, resStr, Toast.LENGTH_LONG).show());
                 Log.e("response", resStr);
                 try {
                     JSONObject jsonObject = new JSONObject(resStr);
@@ -213,7 +213,7 @@ public class QueryActivity extends BaseActivity {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String resStr = response.body().string();
-                runOnUiThread(() -> Toast.makeText(QueryActivity.this, resStr, Toast.LENGTH_LONG).show());
+                // runOnUiThread(() -> Toast.makeText(QueryActivity.this, resStr, Toast.LENGTH_LONG).show());
                 Log.e("response", resStr);
                 try {
                     JSONObject jsonObject = new JSONObject(resStr);

@@ -220,7 +220,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                Toast.makeText(MainActivity.this, msg.obj.toString(), Toast.LENGTH_LONG).show();
+                // Toast.makeText(MainActivity.this, msg.obj.toString(), Toast.LENGTH_LONG).show();
             }
         };
 
@@ -698,31 +698,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        SharedPreferences sharedPreferences =getSharedPreferences("data", Context.MODE_PRIVATE);
-        sharedPreferences.getInt("T4",0);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("S0",0);
-        editor.putInt("S1",0);
-        editor.putInt("S2",0);
-        editor.putInt("S3",0);
-        editor.putInt("S4",0);
-        editor.putInt("S5",0);
-        editor.putInt("S6",0);
-        editor.putInt("S7",0);
-        editor.putInt("S8",0);
-        editor.putInt("S9",0);
-        editor.putInt("T1",0);
-        editor.putInt("T2",0);
-        editor.putInt("T3",0);
-        editor.putInt("T4",0);
-        editor.putInt("T5",0);
-        editor.putInt("T6",0);
-        editor.putInt("T7",0);
-        editor.putInt("T8",0);
-        editor.putInt("T9",0);
-        editor.commit();
-
 
         if (keyCode == KeyEvent.KEYCODE_BACK) {
 

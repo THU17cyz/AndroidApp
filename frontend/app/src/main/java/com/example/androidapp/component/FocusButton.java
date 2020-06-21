@@ -149,7 +149,7 @@ public class FocusButton extends androidx.appcompat.widget.AppCompatButton imple
 
   private void initParams(Context context,AttributeSet attrs){
 
-    Toast.makeText(context,"ok",Toast.LENGTH_LONG).show();
+    // Toast.makeText(context,"ok",Toast.LENGTH_LONG).show();
 
     TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.FocusButton);
     if (typedArray != null) {
