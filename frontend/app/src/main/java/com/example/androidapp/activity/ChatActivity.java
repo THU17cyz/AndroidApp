@@ -1,20 +1,10 @@
 package com.example.androidapp.activity;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.media.Image;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -25,26 +15,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+
+import com.example.androidapp.R;
 import com.example.androidapp.chatTest.GifSizeFilter;
-import com.example.androidapp.chatTest.model.Dialog;
 import com.example.androidapp.chatTest.model.Message;
 import com.example.androidapp.chatTest.model.User;
-import com.example.androidapp.R;
-import com.example.androidapp.repository.chathistory.ChatHistory;
-import com.example.androidapp.request.conversation.GetMessagePictureRequest;
-import com.example.androidapp.request.conversation.GetMessageRequest;
-import com.example.androidapp.request.conversation.GetNewMessagesRequest;
 import com.example.androidapp.request.conversation.SendMessageRequest;
 import com.example.androidapp.util.BasicInfo;
-import com.example.androidapp.util.Global;
-import com.example.androidapp.util.Hint;
 import com.example.androidapp.util.Uri2File;
-import com.example.androidapp.viewmodel.ChatHistoryViewModel;
-import com.google.android.material.internal.NavigationMenu;
 import com.gyf.immersionbar.ImmersionBar;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.chatkit.commons.ImageLoader;
 import com.stfalcon.chatkit.commons.models.IMessage;
@@ -59,15 +40,11 @@ import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -76,7 +53,6 @@ import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
 
 
 public class ChatActivity
@@ -99,8 +75,8 @@ public class ChatActivity
     @BindView(R.id.name)
     TextView name;
 
-    @BindView(R.id.btn_return)
-    ImageView btn_return;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     private MessagesListAdapter messagesAdapter;
     private Date lastLoadedDate;
@@ -113,6 +89,7 @@ public class ChatActivity
     private String contact;
     private String contactId;
     private String contactType;
+    private String realName;
 
     private User thisUser;
     private User contactUser;
@@ -130,8 +107,13 @@ public class ChatActivity
 
         //固定顶部导航栏
         getWindow().setSoftInputMode (WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        // 状态栏
+        ImmersionBar.with(this).statusBarColor(R.color.transparent).init();
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+
 
         user = getIntent().getStringExtra("user");
+        realName = getIntent().getStringExtra("real_name");
         contact = getIntent().getStringExtra("contact");
         contactId = getIntent().getStringExtra("contact_id");// 这里的id是用户id，用于传数据
         contactType = getIntent().getStringExtra("contact_type");
@@ -145,10 +127,7 @@ public class ChatActivity
         contactUser = new User("1",contact,"http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
                 contact,contactType, contactId);//这里面的id是用于显示
 
-        // 状态栏
-        ImmersionBar.with(this)
-                .statusBarColor(R.color.colorPrimary)
-                .init();
+
 
         // 头像
         imageLoader = new ImageLoader() {
@@ -164,10 +143,7 @@ public class ChatActivity
         messagesAdapter.setDateHeadersFormatter(this);
         messagesList.setAdapter(messagesAdapter);
 
-        btn_return.setOnClickListener(v -> {
-            Log.e("返回","image在上面");
-            finish();
-        });
+        toolbar.setNavigationOnClickListener(v->this.finish());
 
         msgs = new ArrayList<>();
         ArrayList<Message> tmp = BasicInfo.CHAT_HISTORY.get(contact); // 账号
@@ -181,7 +157,7 @@ public class ChatActivity
         Log.e("!!!!!!!!!!!!!!!", String.valueOf(msgs.size()));
 
         // 设置联系人用户名
-        name.setText(contact);
+        name.setText(realName);
 
         // 改成访问他人主页
         name.setOnClickListener(v -> {

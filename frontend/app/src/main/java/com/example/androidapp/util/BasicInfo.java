@@ -6,7 +6,9 @@ import com.example.androidapp.entity.RecruitmentInfo;
 import com.example.androidapp.entity.ShortProfile;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -46,13 +48,13 @@ public class BasicInfo {
   public static String mResult;
   public static String mExperience;
 
-  public static ArrayList<ApplicationInfo> mApplicationList= new ArrayList<>();
-  public static ArrayList<RecruitmentInfo> mRecruitmentList= new ArrayList<>();
+  public static List<ApplicationInfo> mApplicationList= Collections.synchronizedList(new ArrayList<>());
+  public static List<RecruitmentInfo> mRecruitmentList= Collections.synchronizedList(new ArrayList<>());
 
-  public static ArrayList<Message> WELCOME_NOTIFICATIONS = new ArrayList<>();
-  public static ArrayList<Message> FOLLOW_NOTIFICATIONS = new ArrayList<>();
-  public static ArrayList<Message> PWD_CHANGE_NOTIFICATIONS = new ArrayList<>();
-  public static ArrayList<Message> INTENTION_NOTIFICATIONS = new ArrayList<>();
+  public static List<Message> WELCOME_NOTIFICATIONS = Collections.synchronizedList(new ArrayList<>());
+  public static List<Message> FOLLOW_NOTIFICATIONS = Collections.synchronizedList(new ArrayList<>());
+  public static List<Message> PWD_CHANGE_NOTIFICATIONS = Collections.synchronizedList(new ArrayList<>());
+  public static List<Message> INTENTION_NOTIFICATIONS = Collections.synchronizedList(new ArrayList<>());
 
   public static HashMap<String, ArrayList<Message>> CHAT_HISTORY = new HashMap<>();
 
@@ -61,8 +63,8 @@ public class BasicInfo {
   public static String AVATAR = "";
 
   public static Lock lock = new ReentrantLock();;
-  public static ArrayList<ShortProfile> WATCH_LIST = new ArrayList<>();
-  public static ArrayList<ShortProfile> FAN_LIST = new ArrayList<>();
+  public static List<ShortProfile> WATCH_LIST = Collections.synchronizedList(new ArrayList<>());
+  public static List<ShortProfile> FAN_LIST = Collections.synchronizedList(new ArrayList<>());
 
   public static void addToWatchList(ShortProfile shortProfile) {
     shortProfile.isFan = true;

@@ -469,7 +469,7 @@ public class LoginActivity extends BaseActivity {
         // 后门儿
         if (account.length() == 0) {
             Hint.startActivityLoad(this);
-            new LoginRequest(this.handleLogin, "S", "S8", "S8").send();
+            new LoginRequest(this.handleLogin, "T", "T4", "P12345").send();
         }
 
         // 后门儿2

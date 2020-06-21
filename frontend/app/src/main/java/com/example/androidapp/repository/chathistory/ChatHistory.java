@@ -39,6 +39,10 @@ public class ChatHistory {
     @ColumnInfo(name = "contact")
     private String contact;
 
+    // 联系人姓名
+    @ColumnInfo(name = "realName")
+    private String realName;
+
     // 联系人id
     @ColumnInfo(name = "contactId")
     private String contactId;
@@ -47,7 +51,7 @@ public class ChatHistory {
     @ColumnInfo(name = "contactType")
     private String contactType;
 
-    public ChatHistory(Date time, String content, String type, String send, String user, String contact, String contactId, String contactType) {
+    public ChatHistory(Date time, String content, String type, String send, String user, String contact, String contactId, String contactType, String realName) {
         this.time = time;
         this.content = content;
         this.type = type;
@@ -56,6 +60,7 @@ public class ChatHistory {
         this.contact = contact;
         this.contactId = contactId;
         this.contactType = contactType;
+        this.realName = realName;
     }
 
     public int getId() {
@@ -128,5 +133,13 @@ public class ChatHistory {
 
     public void setContactType(String contactType) {
         this.contactType = contactType;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 }

@@ -47,6 +47,7 @@ import com.example.androidapp.request.user.LogoutRequest;
 import com.example.androidapp.request.user.UpdateInfoPictureRequest;
 import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.LocalPicx;
+import com.example.androidapp.util.StringCutter;
 import com.example.androidapp.util.Uri2File;
 import com.example.androidapp.viewmodel.ChatHistoryViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -134,6 +135,7 @@ public class MainActivity extends BaseActivity {
         ImmersionBar.with(this).statusBarColor(R.color.transparent).init();
 
 
+
         // 初始化侧边栏
         initDrawer();
 
@@ -194,16 +196,17 @@ public class MainActivity extends BaseActivity {
                     String msg = chat.getContent();
                     String send = chat.getSend();
                     Date date = chat.getTime();
+                    String realName = chat.getRealName();
 //                    User user = new User(id, account,"", account, type);
                     com.example.androidapp.chatTest.model.Message message;// = new com.example.androidapp.chatTest.model.Message("", user, msg, date);
 
                     if(send.equals("S")){
-                        User user = new User("0", BasicInfo.ACCOUNT,
+                        User user = new User("0", realName,
                                 new GetInfoPictureRequest("I", null, null).getWholeUrl(),
                                 account, otherUserType, id);
                         message = new com.example.androidapp.chatTest.model.Message("", user, msg, date, true);
                     } else {
-                        User user = new User("1", account,
+                        User user = new User("1", realName,
                                 new GetInfoPictureRequest(type, id, id).getWholeUrl(),
                                 account, otherUserType, id);
                         message = new com.example.androidapp.chatTest.model.Message("", user, msg, date, true);
@@ -376,13 +379,13 @@ public class MainActivity extends BaseActivity {
 //                                    messageWay, BasicInfo.ACCOUNT, objectAccount, objectId, objectType));
                             com.example.androidapp.chatTest.model.Message message;
                             if(messageWay.equals("S")){
-                                User user = new User("0", BasicInfo.ACCOUNT,
+                                User user = new User("0", objectName,
                                         new GetInfoPictureRequest("I", null, null).getWholeUrl(),
 //                                        "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
                                         objectAccount, objectType, objectId);
                                 message = new com.example.androidapp.chatTest.model.Message(String.valueOf(messageId), user, messageContent, date, false);
                             } else {
-                                User user = new User("1", objectAccount,
+                                User user = new User("1", objectName,
                                         new GetInfoPictureRequest(objectType, objectId, objectId).getWholeUrl(),
 //                                        "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
                                         objectAccount, objectType, objectId);
@@ -390,11 +393,11 @@ public class MainActivity extends BaseActivity {
                             }
                             if(messageType.equals("T")){
                                 chatHistoryViewModel.insert(new ChatHistory(date, messageContent,
-                                        messageType, messageWay, BasicInfo.ACCOUNT, objectAccount, objectId, objectType));
+                                        messageType, messageWay, BasicInfo.ACCOUNT, objectAccount, objectId, objectType, objectName));
 
                             } else {
                                 chatHistoryViewModel.insert(new ChatHistory(date, String.valueOf(messageId), messageType,
-                                        messageWay, BasicInfo.ACCOUNT, objectAccount, objectId, objectType));
+                                        messageWay, BasicInfo.ACCOUNT, objectAccount, objectId, objectType, objectName));
                                 message.setImage(new com.example.androidapp.chatTest.model.Message.Image(
                                         (new GetMessagePictureRequest(String.valueOf(messageId)).getWholeUrl())));
                                 message.setText(String.valueOf(messageId));

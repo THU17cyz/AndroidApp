@@ -21,24 +21,26 @@
             android:id="@+id/imageButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:padding="5dp"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:clickable="true"
             android:background="@color/transparent"
+            android:clickable="true"
+            android:padding="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/search_view"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
             android:clickable="true"
             android:drawableLeft="@drawable/ic_search_black_24dp"
             android:drawablePadding="10dp"
             android:focusableInTouchMode="false"
-            android:hint="搜点什么吧"
 
+            android:hint="搜点什么吧"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/imageButton"
             app:layout_constraintRight_toRightOf="parent"
@@ -52,27 +54,29 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="6dp"
         >
+
         <TextView
-            android:layout_marginLeft="10dp"
-            android:layout_alignParentLeft="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="系统通知"></TextView>
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:text="系统通知"
+            android:textSize="18sp"></TextView>
+
         <TextView
             android:id="@+id/btn_all_read"
-            android:textSize="18sp"
-            android:textColor="@color/colorPrimary"
-            android:layout_marginRight="10dp"
-            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="全标已读"></TextView>
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:text="全标已读"
+            android:textColor="@color/label_pressed_text"
+            android:textSize="15sp"></TextView>
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="@color/gray"></View>
 
 

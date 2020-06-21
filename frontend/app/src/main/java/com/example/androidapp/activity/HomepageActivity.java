@@ -26,8 +26,6 @@ public class HomepageActivity extends AppCompatActivity {
   @BindView(R.id.view_pager)
   ViewPager viewPager;
 
-  @BindView(R.id.btn_return)
-  ImageView btn_return;
 
   @BindView(R.id.btn_focus)
   Button btn_focus;
@@ -72,13 +70,6 @@ public class HomepageActivity extends AppCompatActivity {
       }
     });
 
-    btn_return.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        Intent intent=new Intent(HomepageActivity.this, MainActivity.class);
-        startActivity(intent);
-      }
-    });
 
     btn_chat.setOnClickListener(new View.OnClickListener() {
       @Override

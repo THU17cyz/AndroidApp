@@ -5,41 +5,51 @@
     android:background="@color/white"
     android:fitsSystemWindows="true">
 
-    <RelativeLayout
-
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:background="@color/black"
-        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize">
-
-
+        android:layout_height="?attr/actionBarSize"
+        app:navigationIcon="@drawable/ic_navigate_before_black_24dp"
+        android:background="?android:attr/windowBackground">
         <TextView
-            android:textColor="@color/white"
-            android:gravity="center"
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="left|center_vertical"
             android:text="老张"
-            android:id="@+id/name"
-            android:textSize="20sp">
-        </TextView>
+            android:textColor="@color/black"
+            android:textSize="20sp"></TextView>
 
-        <ImageView
-            android:layout_alignParentLeft="true"
-            android:id="@+id/btn_return"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_action_navigation_arrow_back_inverted"></ImageView>
+    </androidx.appcompat.widget.Toolbar>
+<!--    <RelativeLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="?attr/actionBarSize"-->
+<!--        android:layout_alignParentTop="true">-->
 
-    </RelativeLayout>>
+<!--        <TextView-->
+<!--            android:id="@+id/name"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:gravity="center"-->
+<!--            android:text="老张"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="20sp"></TextView>-->
+
+<!--    </RelativeLayout>-->
 
 
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        android:layout_below="@id/toolbar"/>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
+        android:layout_below="@id/divider3"
         android:layout_above="@id/input"
         >
 
@@ -79,18 +89,17 @@
     <!--        android:layout_marginRight="16dp"-->
     <!--        android:background="@color/gray_light"/>-->
 
-<com.stfalcon.chatkit.messages.MessageInput
+    <com.stfalcon.chatkit.messages.MessageInput
+        android:id="@+id/input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         app:attachmentButtonDefaultIconColor="@color/green"
         app:attachmentButtonDefaultIconPressedColor="@color/green_dark"
         app:inputButtonDefaultBgColor="@color/green"
         app:inputButtonDefaultBgPressedColor="@color/green_dark"
         app:inputCursorDrawable="@drawable/shape_custom_cursor"
-        app:inputHint="enter_a_message"
-        app:showAttachmentButton="true"
-    android:layout_alignParentBottom="true"
-    android:id="@+id/input"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"></com.stfalcon.chatkit.messages.MessageInput>
+        app:showAttachmentButton="true"></com.stfalcon.chatkit.messages.MessageInput>
 
 
 </RelativeLayout>

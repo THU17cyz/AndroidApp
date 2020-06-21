@@ -1,6 +1,7 @@
 package com.example.androidapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -46,8 +47,11 @@ public class InfoActivity extends BaseActivity implements  DateFormatter.Formatt
     @BindView(R.id.messagesList)
     MessagesList messagesList;
 
-    @BindView(R.id.btn_return)
-    ImageView btn_return;
+    @BindView(R.id.name)
+    TextView name;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     int type;
     ArrayList<Message> note1;
@@ -63,9 +67,9 @@ public class InfoActivity extends BaseActivity implements  DateFormatter.Formatt
         setContentView(R.layout.activity_info);
         ButterKnife.bind(this);
 
-        ImmersionBar.with(this)
-                .statusBarColor(R.color.transparent)
-                .init();
+        // 状态栏
+        ImmersionBar.with(this).statusBarColor(R.color.transparent).init();
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
         // 消息列表
         messagesAdapter = new MessagesListAdapter<>("1", null);
@@ -103,14 +107,7 @@ public class InfoActivity extends BaseActivity implements  DateFormatter.Formatt
         }
 
 
-        btn_return.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//        Intent intent = new Intent(InfoActivity.this,MainActivity.class);
-//        startActivity(intent);
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v->this.finish());
         mTimeCounterRunnable.run();
     }
 

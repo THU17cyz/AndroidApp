@@ -101,6 +101,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
                 intent.putExtra("user", userAccount);
                 intent.putExtra("contact", contact.getAccount());
+                intent.putExtra("real_name", contact.getName());
                 intent.putExtra("contact_id", contact.getUserId());
                 intent.putExtra("contact_type", contact.getType());
                 startActivity(intent);
@@ -158,7 +159,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
             Message message = msgs.get(msgs.size() - 1);
             User user = message.getUser();
             System.out.println(user.getAccount() + user.getId() + user.getName());
-            Dialog dialog = new Dialog(String.valueOf(i), account, "",
+            Dialog dialog = new Dialog(String.valueOf(i), user.getName(), "",
                     new ArrayList<>(Arrays.asList(user)),
                     message, message.isRead() || message.getUser().getId().equals("0") ? 0 : 1);
             dialogs.add(dialog);
