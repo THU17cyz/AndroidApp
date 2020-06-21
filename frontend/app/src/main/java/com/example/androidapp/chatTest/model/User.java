@@ -29,6 +29,7 @@ public class User implements IUser {
         this.avatar = avatar;
         this.account = account;
         this.type = type;
+        this.userId = userId;
     }
 
     public String getAccount() {
@@ -64,5 +65,9 @@ public class User implements IUser {
 
     public boolean isOnline() {
         return online;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 }

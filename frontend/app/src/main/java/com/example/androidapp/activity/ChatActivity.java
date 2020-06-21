@@ -82,67 +82,69 @@ import okhttp3.ResponseBody;
 public class ChatActivity
         extends BaseActivity
         implements  DateFormatter.Formatter,
-                    DialogInterface.OnClickListener,
-                    MessagesListAdapter.OnLoadMoreListener,
-                    MessagesListAdapter.OnMessageClickListener,
-                    MessageInput.InputListener,
-                    MessageInput.AttachmentsListener
+        DialogInterface.OnClickListener,
+        MessagesListAdapter.OnLoadMoreListener,
+        MessagesListAdapter.OnMessageClickListener,
+        MessageInput.InputListener,
+        MessageInput.AttachmentsListener
 {
-  private static final int REQUEST_CODE_CHOOSE = 10;
+    private static final int REQUEST_CODE_CHOOSE = 10;
 
-  @BindView(R.id.messagesList)
-  MessagesList messagesList;
+    @BindView(R.id.messagesList)
+    MessagesList messagesList;
 
-  @BindView(R.id.input)
-  MessageInput messageInput;
+    @BindView(R.id.input)
+    MessageInput messageInput;
 
-  @BindView(R.id.name)
-  TextView name;
+    @BindView(R.id.name)
+    TextView name;
 
-  @BindView(R.id.btn_return)
-  ImageView btn_return;
+    @BindView(R.id.btn_return)
+    ImageView btn_return;
 
-  private MessagesListAdapter messagesAdapter;
-  private Date lastLoadedDate;
-  private ImageLoader imageLoader;
+    private MessagesListAdapter messagesAdapter;
+    private Date lastLoadedDate;
+    private ImageLoader imageLoader;
 
-  private List<Uri> mUris;
-  private List<String> mPaths;
-  private ChatHistoryViewModel chatHistoryViewModel;
+    private List<Uri> mUris;
+    private List<String> mPaths;
+    private ChatHistoryViewModel chatHistoryViewModel;
 
-  private String user;
-  private String contact;
-  private String contactId;
-  private String contactType;
+    private String user;
+    private String contact;
+    private String contactId;
+    private String contactType;
 
-  private User thisUser;
-  private User contactUser;
+    private User thisUser;
+    private User contactUser;
 
-  private ArrayList<Message> msgs;
+    private ArrayList<Message> msgs;
 
 
-  private Handler mHandler = new Handler(Looper.getMainLooper());
+    private Handler mHandler = new Handler(Looper.getMainLooper());
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_chat);
-    ButterKnife.bind(this);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_chat);
+        ButterKnife.bind(this);
 
-    //固定顶部导航栏
-    getWindow().setSoftInputMode (WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        //固定顶部导航栏
+        getWindow().setSoftInputMode (WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
-    user = getIntent().getStringExtra("user");
-    contact = getIntent().getStringExtra("contact");
-    contactId = getIntent().getStringExtra("contact_id");// 这里的id是用户id，用于传数据
-    contactType = getIntent().getStringExtra("contact_type");
+        user = getIntent().getStringExtra("user");
+        contact = getIntent().getStringExtra("contact");
+        contactId = getIntent().getStringExtra("contact_id");// 这里的id是用户id，用于传数据
+        contactType = getIntent().getStringExtra("contact_type");
 
-    // String.valueOf(BasicInfo.ID)
-    thisUser = new User("0",user,"http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
-            user,BasicInfo.TYPE, contactId);
-    // contactId
-    contactUser = new User("1",contact,"http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
-            contact,contactType, contactId);//这里面的id是用于显示
+        System.out.println(user + contact + contactId + contactType);
+
+        // String.valueOf(BasicInfo.ID)
+        thisUser = new User("0",user,"http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
+                user,BasicInfo.TYPE, contactId);
+        // contactId
+        contactUser = new User("1",contact,"http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
+                contact,contactType, contactId);//这里面的id是用于显示
 
 //    // 聊天记录
 //    chatHistoryViewModel = ViewModelProviders.of(this).get(ChatHistoryViewModel.class);
@@ -152,506 +154,298 @@ public class ChatActivity
 //      }
 //    });
 
-    // 状态栏
-    ImmersionBar.with(this)
-            .statusBarColor(R.color.colorPrimary)
-            .init();
+        // 状态栏
+        ImmersionBar.with(this)
+                .statusBarColor(R.color.colorPrimary)
+                .init();
 
-    // 头像
-    imageLoader = new ImageLoader() {
-      @Override
-      public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
-        Picasso.get().load(url).placeholder(R.drawable.ic_person_outline_black_24dp).into(imageView);
+        // 头像
+        imageLoader = new ImageLoader() {
+            @Override
+            public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
+                Picasso.get().load(url).placeholder(R.drawable.ic_photoholder).into(imageView);
 
-      }
-    };
-
-    //消息列表
-    messagesAdapter = new MessagesListAdapter<>("0", imageLoader);
-    messagesAdapter.setDateHeadersFormatter(this);
-    messagesList.setAdapter(messagesAdapter);
-
-    btn_return.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        Log.e("返回","image在上面");
-        mHandler.removeCallbacks(mTimeCounterRunnable);
-        finish();
-      }
-    });
-
-    msgs = new ArrayList<>();
-    ArrayList<Message> tmp = BasicInfo.CHAT_HISTORY.get(contact); // 账号
-    msgs.addAll(tmp);
-    messagesAdapter.addToEnd(msgs, true);
-    messagesAdapter.notifyDataSetChanged();
-
-    // 设置联系人用户名
-    name.setText(contact);
-
-    name.setOnClickListener(new View.OnClickListener() {
-
-      // 改成访问他人主页
-
-      @Override
-      public void onClick(View v) {
-
-//        ArrayList<Message> msgs = BasicInfo.CHAT_HISTORY.get(contact); // 账号
-//        messagesAdapter.addToEnd(msgs, true);
-//        messagesAdapter.notifyDataSetChanged();
-
-
-//        if(history.getSend().equals("S")){
-//          message = new Message(String.valueOf(i), thisUser, history.getContent(), history.getTime());
-//        } else {
-//          message = new Message(String.valueOf(i), contactUser, history.getContent(), history.getTime());
-//        }
-//        if(history.getType().equals("P")){
-//          message.setImage(new Message.Image((new GetMessagePictureRequest(history.getContent()).getWholeUrl())));
-//        }
-//        messagesList.add(message);
-//
-//        // 显示历史聊天记录
-//        LiveData<List<ChatHistory>> list = chatHistoryViewModel.getAllHistory();
-//        List<ChatHistory> historyList = list.getValue();
-//        if(historyList!=null) {
-//          List<Message> messagesList = new ArrayList<>();
-//          for (int i = 0; i < historyList.size(); i++) {
-//            ChatHistory history = historyList.get(i);
-//            if (history.getUser().equals(user) && history.getContact().equals(contact)) {
-//              Message message = null;
-//              if(history.getSend().equals("S")){
-//                message = new Message(String.valueOf(i), thisUser, history.getContent(), history.getTime());
-//              } else {
-//                message = new Message(String.valueOf(i), contactUser, history.getContent(), history.getTime());
-//              }
-//              if(history.getType().equals("P")){
-//                message.setImage(new Message.Image((new GetMessagePictureRequest(history.getContent()).getWholeUrl())));
-//              }
-//              messagesList.add(message);
-//            }
-//          }
-//          messagesAdapter.addToEnd(messagesList, true);
-//          messagesAdapter.notifyDataSetChanged();
-//        }
-      }
-    });
-
-    messageInput.setInputListener(this);
-    messageInput.setAttachmentsListener(this);
-
-//
-//    RefreshLayout refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout);
-//    refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-//      @Override
-//      public void onRefresh(RefreshLayout refreshlayout) {
-//
-//        // 查找并显示历史聊天记录
-//        LiveData<List<ChatHistory>> list = chatHistoryViewModel.getAllHistory();
-//        List<ChatHistory> historyList = list.getValue();
-//        if(historyList!=null){
-//          List<Message> messagesList = new ArrayList<>();
-//          for(int i=0;i<historyList.size();i++){
-//            ChatHistory history = historyList.get(i);
-//            if(history.getUser().equals(user)&& history.getContact().equals(contact)){
-//              Message message = new Message(String.valueOf(i),thisUser,history.getContent(),history.getTime());
-//              messagesList.add(message);
-//            }
-//          }
-//          messagesAdapter.addToEnd(messagesList, false);
-//          messagesAdapter.notifyDataSetChanged();
-//        }
-//
-//        refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
-//      }
-//    });
-
-//
-//    messagesAdapter.setLoadMoreListener(new MessagesListAdapter.OnLoadMoreListener() {
-//      @Override
-//      public void onLoadMore(int page, int totalItemsCount) {
-//        // 查找并显示历史聊天记录
-//        LiveData<List<ChatHistory>> list = chatHistoryViewModel.getAllHistory();
-//        List<ChatHistory> historyList = list.getValue();
-//        if(historyList!=null){
-//          List<Message> messagesList = new ArrayList<>();
-//          for(int i=0;i<historyList.size();i++){
-//            ChatHistory history = historyList.get(i);
-//            if(history.getUser().equals(user)&& history.getContact().equals(contact)){
-//              Message message = new Message(String.valueOf(i),thisUser,history.getContent(),history.getTime());
-//              messagesList.add(message);
-//            }
-//          }
-//          messagesAdapter.addToEnd(messagesList, false);
-//          messagesAdapter.notifyDataSetChanged();
-//        }
-//      }
-//    });
-//
-
-  }
-
-
-
-  /**
-   * 处理日期格式
-   * @param date
-   * @return
-   */
-  @Override
-  public String format(Date date) {
-    if (DateFormatter.isToday(date)) {
-      return "今天";
-    } else if (DateFormatter.isYesterday(date)) {
-      return "昨天";
-    } else {
-      return DateFormatter.format(date, DateFormatter.Template.STRING_DAY_MONTH_YEAR);
-    }
-  }
-
-
-  @Override
-  public void onClick(DialogInterface dialog, int which) {
-    switch (which) {
-      case 0:
-        // 从相册里选择图片
-        Matisse.from(ChatActivity.this)
-                .choose(MimeType.ofImage(), false)
-                .countable(true)
-                .capture(true)
-                .captureStrategy(
-                        new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider", "test"))
-                .maxSelectable(9)
-                .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
-                .gridExpectedSize(
-                        getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
-                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                .thumbnailScale(0.85f)
-                .imageEngine(new GlideEngine())
-                .setOnSelectedListener((uriList, pathList) -> {
-                  Log.e("onSelected", "onSelected: pathList=" + pathList);
-                })
-                .showSingleMediaType(true)
-                .originalEnable(true)
-                .maxOriginalSize(10)
-                .autoHideToolbarOnSingleTap(true)
-                .setOnCheckedListener(isChecked -> {
-                  Log.e("isChecked", "onCheck: isChecked=" + isChecked);
-                })
-                .forResult(REQUEST_CODE_CHOOSE);
-        break;
-      case 1:
-//                messagesAdapter.addToStart(MessagesFixtures.getVoiceMessage(), true);
-        break;
-    }
-  }
-
-
-  /**
-   * 获得已选择的照片
-   * @param requestCode
-   * @param resultCode
-   * @param data
-   */
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-
-    // 发送已选择的图片
-    if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
-      mUris = Matisse.obtainResult(data);
-      mPaths = Matisse.obtainPathResult(data);
-      Log.d("Matisse", "mSelected: " + mUris);
-
-      for (int i = 0; i < mUris.size(); i++) {
-
-        String path = mPaths.get(i);
-        String uri = mUris.get(i).toString();
-
-        // 发送图片
-        new SendMessageRequest(new Callback() {
-          @Override
-          public void onFailure(@NotNull Call call, @NotNull IOException e) {
-              Log.e("error","发送图片失败");
-            runOnUiThread(new Runnable() {
-              @Override
-              public void run() {
-                Toast.makeText(getApplicationContext(),"发送图片失败",Toast.LENGTH_SHORT).show();
-              }
-            });
-          }
-
-          @Override
-          public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-
-            String resStr = response.body().string();
-            Log.e("response", resStr);
-            try {
-              // 解析json，然后进行自己的内部逻辑处理
-              JSONObject jsonObject = new JSONObject(resStr);
-
-              Boolean status = jsonObject.getBoolean("status");
-              if (status) {
-                // 发送成功之后显示图片
-                runOnUiThread(new Runnable() {
-                  @Override
-                  public void run() {
-                    Message message = new Message("0", thisUser, null);
-                    message.setImage(new Message.Image(uri));
-                    Log.d("Matisse print", uri);
-                    messagesAdapter.addToStart(message, true);
-                  }
-                });
-
-              } else {
-                runOnUiThread(new Runnable() {
-                  String info = jsonObject.getString("info");
-                  @Override
-                  public void run() {
-                    runOnUiThread(() -> Toast.makeText(ChatActivity.this,info, Toast.LENGTH_LONG).show());
-                  }
-                });
-              }
-
-            } catch (JSONException e) {
-              e.printStackTrace();
             }
-          }
-        },contactId, contactType,"P", null,Uri2File.convert(path)).send();
-      }
-    }
+        };
 
-  }
+        //消息列表
+        messagesAdapter = new MessagesListAdapter<>("0", imageLoader);
+        messagesAdapter.setDateHeadersFormatter(this);
+        messagesList.setAdapter(messagesAdapter);
 
-  /**
-   * 加载更多信息
-   * @param page
-   * @param totalItemsCount
-   */
-  @Override
-  public void onLoadMore(int page, int totalItemsCount) {
+        btn_return.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("返回","image在上面");
+                mHandler.removeCallbacks(mTimeCounterRunnable);
+                finish();
+            }
+        });
 
-  }
-
-  /**
-   * 消息点击事件
-   * @param message
-   */
-  @Override
-  public void onMessageClick(IMessage message) {
-    // Toast.makeText(getApplicationContext(), message.getText() + "clilcked", Toast.LENGTH_SHORT).show();
-  }
-
-  /**
-   * 输入提交事件
-   * @param input
-   * @return
-   */
-  @Override
-  public boolean onSubmit(CharSequence input) {
-    new SendMessageRequest(new Callback() {
-      @Override
-      public void onFailure(@NotNull Call call, @NotNull IOException e) {
-        Log.e("error","发送失败");
-      }
-
-      @Override
-      public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-
-        String resStr = response.body().string();
-        Log.e("response", resStr);
-        try {
-          // 解析json，然后进行自己的内部逻辑处理
-          JSONObject jsonObject = new JSONObject(resStr);
-
-          Boolean status = jsonObject.getBoolean("status");
-          if (status) {
-            // 发送成功后显示消息
-            runOnUiThread(new Runnable() {
-              @Override
-              public void run() {
-                messagesAdapter.addToStart(
-                        new Message("0", thisUser, input.toString())
-                        , true);
-              }
-            });
-
-          } else {
-            String info = jsonObject.getString("info");
-          }
-
-        } catch (JSONException e) {
-          e.printStackTrace();
+        msgs = new ArrayList<>();
+        ArrayList<Message> tmp = BasicInfo.CHAT_HISTORY.get(contact); // 账号
+        if (tmp != null) {
+            msgs.addAll(tmp);
+            messagesAdapter.addToEnd(msgs, true);
+            messagesAdapter.notifyDataSetChanged();
         }
-      }
-    },contactId, contactType,"T",input.toString(),null).send();
-    return true;
-  }
 
-  /**
-   * 加号点击事件
-   */
-  @Override
-  public void onAddAttachments() {
-    Toast.makeText(getApplicationContext(), "attachment", Toast.LENGTH_SHORT).show();
-    new AlertDialog.Builder(ChatActivity.this)
-            .setItems(R.array.view_types_dialog, ChatActivity.this)
-            .show();
-  }
+        // 设置联系人用户名
+        name.setText(contact);
 
+        name.setOnClickListener(new View.OnClickListener() {
 
-  // resume中无法读取数据库
-  @Override
-  protected void onResume() {
-    super.onResume();
-    // 开始轮询
-    mTimeCounterRunnable.run();
-  }
+            // 改成访问他人主页
 
-  // 轮询
-  private Runnable mTimeCounterRunnable = new Runnable() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        messageInput.setInputListener(this);
+        messageInput.setAttachmentsListener(this);
+    }
+
+    /**
+     * 输入提交事件
+     * @param input
+     * @return
+     */
     @Override
-    public void run() {
-      Log.e("聊天界面轮询","+1");
-      newTest();//getUnreadCount()执行的任务
-      mHandler.postDelayed(this, 10 * 1000);
-    }
-  };
+    public boolean onSubmit(CharSequence input) {
+        new SendMessageRequest(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.e("error","发送失败");
+            }
 
-  // 轮询要干的事
-  private void newTest(){
-    int current = msgs.size();
-    ArrayList<Message> tmp = BasicInfo.CHAT_HISTORY.get(contact); // 账号
-    for (int i = current; i < tmp.size(); i++) {
-      messagesAdapter.addToStart(tmp.get(i), true);
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+
+                String resStr = response.body().string();
+                Log.e("response", resStr);
+                try {
+                    // 解析json，然后进行自己的内部逻辑处理
+                    JSONObject jsonObject = new JSONObject(resStr);
+
+                    Boolean status = jsonObject.getBoolean("status");
+                    if (status) {
+                        // 发送成功后显示消息
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                messagesAdapter.addToStart(
+                                        new Message("0", thisUser, input.toString())
+                                        , true);
+                            }
+                        });
+
+                    } else {
+                        String info = jsonObject.getString("info");
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },contactId, contactType,"T",input.toString(),null).send();
+        return true;
     }
-    messagesAdapter.notifyDataSetChanged();
-//    // 获取share的messageId
-//    SharedPreferences sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE);
-//    int currentMessageId = sharedPreferences.getInt(BasicInfo.ACCOUNT,0);
-//    Log.e("当前id",String.valueOf(currentMessageId));
-//
-//    // 获取最新的messageId
-//    new GetMessageRequest(new Callback() {
-//      @Override
-//      public void onFailure(@NotNull Call call, @NotNull IOException e) {
-//        Log.e("error","获取最新id失败");
-//      }
-//
-//      @Override
-//      public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-//        String resStr = response.body().string();
-//        Log.e("收到回复",resStr);
-//        JSONObject jsonObject = null;
-//        try {
-//          jsonObject = new JSONObject(resStr);
-//          Boolean status = jsonObject.getBoolean("status");
-//          if(status){
-//            int messageId = jsonObject.getInt("message_id");// 最新id
-//            Log.e("最新id",String.valueOf(messageId));
-//            if(messageId==-1){
-//              // 无消息
-//              SharedPreferences sharedPreferences = getSharedPreferences("data",Context.MODE_PRIVATE);
-//              SharedPreferences.Editor editor = sharedPreferences.edit();
-//              editor.putInt(BasicInfo.ACCOUNT,0);
-//              editor.commit();
-//            } else if(messageId==currentMessageId){
-//              // 无新操作
-//            } else if(messageId>currentMessageId){
-//              new GetNewMessagesRequest(new Callback() {
-//                @Override
-//                public void onFailure(@NotNull Call call, @NotNull IOException e) {
-//                  Log.e("error","获取最新消息失败");
-//                }
-//
-//                @RequiresApi(api = Build.VERSION_CODES.O)
-//                @Override
-//                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-//                  String resStr = response.body().string();
-//                  JSONObject jsonObject = null;
-//                  try {
-//                    jsonObject = new JSONObject(resStr);
-//                    Boolean status = jsonObject.getBoolean("status");
-//                    if (status) {
-//                      JSONArray jsonArray = (JSONArray) jsonObject.get("message_info_list");
-//                      for (int i = 0; i < jsonArray.length(); i++){
-//                        JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-//                        int messageId = jsonObject1.getInt("message_id");
-//                        String objectType = jsonObject1.getString("object_type");
-//                        String objectId = jsonObject1.getString("object_id");
-//                        String objectAccount = jsonObject1.getString("object_account");
-//                        String objectName = jsonObject1.getString("object_name");
-//                        String messageWay = jsonObject1.getString("message_way");
-//                        String messageType = jsonObject1.getString("message_type");
-//                        String messageContent = jsonObject1.getString("message_content");
-//                        String messageTime = jsonObject1.getString("message_time");
-//
-//                        SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm" );
-//                        // LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-//                        // sdf.parse(messageTime)
-//                        if(messageType.equals("T")){
-//                          try {
-//                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-//                            chatHistoryViewModel.insert(new ChatHistory(simpleDateFormat.parse(messageTime),messageContent,messageType,messageWay,BasicInfo.ACCOUNT,objectAccount,objectId,objectType));
-//                          } catch (ParseException e) {
-//                            e.printStackTrace();
-//                          }
-//                        } else {
-//                          try {
-//                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-//                            chatHistoryViewModel.insert(new ChatHistory(simpleDateFormat.parse(messageTime),String.valueOf(messageId),messageType,messageWay,BasicInfo.ACCOUNT,objectAccount,objectId,objectType));
-//                          } catch (ParseException e) {
-//                            e.printStackTrace();
-//                          }
-//                        }
-//                        // 如果是对方的消息则显示
-//                        if(objectAccount.equals(contact)&&messageWay.equals("R")){
-//                          // sdf.parse(messageTime)
-//                          Message message = new Message("",contactUser,messageContent,new Date());
-//                          if(messageType.equals("P"))
-//                          {
-//                            // todo 检查对不对
-//                            message.setImage(new Message.Image(new GetMessagePictureRequest(String.valueOf(messageId)).getWholeUrl()));
-//                          }
-//
-//                          runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                              messagesAdapter.addToStart(message,true);
-//                              messagesAdapter.notifyDataSetChanged();
-//                            }
-//                          });
-//
-//                        }
-//
-//                      }
-//
-//                      // tmp: 得到所有新消息后，直接更新currentMessageId
-//                      SharedPreferences sharedPreferences = getSharedPreferences("data",Context.MODE_PRIVATE);
-//                      SharedPreferences.Editor editor = sharedPreferences.edit();
-//                      editor.putInt(BasicInfo.ACCOUNT,messageId);
-//                      editor.commit();
-//                      Log.e("已更新","当前id："+String.valueOf(sharedPreferences.getInt(BasicInfo.ACCOUNT,-1)));
-//                    } else {
-//                    }
-//                  } catch (JSONException e) {
-//                    e.printStackTrace();
-//                  }
-//
-//
-//                }
-//              },String.valueOf(currentMessageId)).send();
-//            }
-//          } else {
-//            String info = jsonObject.getString("info");
-//            Log.e("error",info);
-//          }
-//        } catch (JSONException e) {
-//          e.printStackTrace();
-//        }
-//      }
-//    }).send();
-//
-  }
+
+    // 轮询要干的事
+    private synchronized void newTest() {
+        int current = msgs.size();
+        System.out.println(current);
+        ArrayList<Message> tmp = BasicInfo.CHAT_HISTORY.get(contact); // 账号
+        for (int i = current; i < tmp.size(); i++) {
+            Message m = tmp.get(i);
+            msgs.add(m);
+            if (m.getUser().getId().equals("1")) messagesAdapter.addToStart(m, true);
+        }
+        System.out.println(tmp.size());
+        System.out.println(msgs.size());
+        messagesAdapter.notifyDataSetChanged();
+    }
+
+
+
+    /**
+     * 处理日期格式
+     * @param date
+     * @return
+     */
+    @Override
+    public String format(Date date) {
+        if (DateFormatter.isToday(date)) {
+            return "今天";
+        } else if (DateFormatter.isYesterday(date)) {
+            return "昨天";
+        } else {
+            return DateFormatter.format(date, DateFormatter.Template.STRING_DAY_MONTH_YEAR);
+        }
+    }
+
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        switch (which) {
+            case 0:
+                // 从相册里选择图片
+                Matisse.from(ChatActivity.this)
+                        .choose(MimeType.ofImage(), false)
+                        .countable(true)
+                        .capture(true)
+                        .captureStrategy(
+                                new CaptureStrategy(true, "com.zhihu.matisse.sample.fileprovider", "test"))
+                        .maxSelectable(9)
+                        .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+                        .gridExpectedSize(
+                                getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+                        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                        .thumbnailScale(0.85f)
+                        .imageEngine(new GlideEngine())
+                        .setOnSelectedListener((uriList, pathList) -> {
+                            Log.e("onSelected", "onSelected: pathList=" + pathList);
+                        })
+                        .showSingleMediaType(true)
+                        .originalEnable(true)
+                        .maxOriginalSize(10)
+                        .autoHideToolbarOnSingleTap(true)
+                        .setOnCheckedListener(isChecked -> {
+                            Log.e("isChecked", "onCheck: isChecked=" + isChecked);
+                        })
+                        .forResult(REQUEST_CODE_CHOOSE);
+                break;
+            case 1:
+//                messagesAdapter.addToStart(MessagesFixtures.getVoiceMessage(), true);
+                break;
+        }
+    }
+
+
+    /**
+     * 获得已选择的照片
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // 发送已选择的图片
+        if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
+            mUris = Matisse.obtainResult(data);
+            mPaths = Matisse.obtainPathResult(data);
+            Log.d("Matisse", "mSelected: " + mUris);
+
+            for (int i = 0; i < mUris.size(); i++) {
+
+                String path = mPaths.get(i);
+                String uri = mUris.get(i).toString();
+
+                // 发送图片
+                new SendMessageRequest(new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                        Log.e("error","发送图片失败");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(),"发送图片失败",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+
+                        String resStr = response.body().string();
+                        Log.e("response", resStr);
+                        try {
+                            // 解析json，然后进行自己的内部逻辑处理
+                            JSONObject jsonObject = new JSONObject(resStr);
+
+                            Boolean status = jsonObject.getBoolean("status");
+                            if (status) {
+                                // 发送成功之后显示图片
+                                runOnUiThread(() -> {
+                                    Message message = new Message("0", thisUser, null);
+                                    message.setImage(new Message.Image(uri));
+                                    Log.d("Matisse print", uri);
+                                    messagesAdapter.addToStart(message, true);
+                                });
+
+                            } else {
+                                runOnUiThread(new Runnable() {
+                                    String info = jsonObject.getString("info");
+                                    @Override
+                                    public void run() {
+                                        runOnUiThread(() -> Toast.makeText(ChatActivity.this,info, Toast.LENGTH_LONG).show());
+                                    }
+                                });
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },contactId, contactType,"P", null,Uri2File.convert(path)).send();
+            }
+        }
+
+    }
+
+    /**
+     * 加载更多信息
+     * @param page
+     * @param totalItemsCount
+     */
+    @Override
+    public void onLoadMore(int page, int totalItemsCount) {
+
+    }
+
+    /**
+     * 消息点击事件
+     * @param message
+     */
+    @Override
+    public void onMessageClick(IMessage message) {
+        // Toast.makeText(getApplicationContext(), message.getText() + "clilcked", Toast.LENGTH_SHORT).show();
+    }
+
+
+
+    /**
+     * 加号点击事件
+     */
+    @Override
+    public void onAddAttachments() {
+        Toast.makeText(getApplicationContext(), "attachment", Toast.LENGTH_SHORT).show();
+        new AlertDialog.Builder(ChatActivity.this)
+                .setItems(R.array.view_types_dialog, ChatActivity.this)
+                .show();
+    }
+
+
+    // resume中无法读取数据库
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 开始轮询
+        mTimeCounterRunnable.run();
+    }
+
+    // 轮询
+    private Runnable mTimeCounterRunnable = new Runnable() {
+        @Override
+        public void run() {
+            Log.e("聊天界面轮询","+1");
+            newTest();//getUnreadCount()执行的任务
+            mHandler.postDelayed(this, 10 * 1000);
+        }
+    };
 
 }

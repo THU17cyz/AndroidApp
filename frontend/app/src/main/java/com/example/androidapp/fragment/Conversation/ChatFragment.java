@@ -111,7 +111,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
         imageLoader = new ImageLoader() {
             @Override
             public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
-               Picasso.get().load("DDD").placeholder(R.drawable.ic_person_outline_black_24dp).into(imageView);
+               Picasso.get().load("DDD").placeholder(R.drawable.ic_avatarholder).into(imageView);
                 // Log.d("url",url);
             }
         };
@@ -136,12 +136,13 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
             public void onDialogClick(IDialog dialog) {
                 // todo
                 User contact = (User) dialog.getUsers().get(0);
+                ((Dialog) dialog).getLastMessage().setRead();
                 System.out.println(contact.getAccount() + contact.getId() + contact.getName());
                 String s = contact.getName();
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
                 intent.putExtra("user", userAccount);
                 intent.putExtra("contact", contact.getAccount());
-                intent.putExtra("contact_id", contact.getId());
+                intent.putExtra("contact_id", contact.getUserId());
                 intent.putExtra("contact_type", contact.getType());
                 startActivity(intent);
             }
@@ -183,9 +184,10 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(type==0){
-            newTest();
-        }
+//        if(type==0){
+//            newTest();
+//        }
+
     }
 
     @Override
@@ -194,6 +196,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
 //        if(type==0){
 //          mTimeCounterRunnable.run();
 //        }
+        mTimeCounterRunnable.run();
     }
 
     @Override
@@ -215,7 +218,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
             System.out.println(user.getAccount() + user.getId() + user.getName());
             Dialog dialog = new Dialog(String.valueOf(i), account, "",
                     new ArrayList<>(Arrays.asList(user)),
-                    message, message.isRead() ? 0 : 1);
+                    message, message.isRead() || message.getUser().getId().equals("0") ? 0 : 1);
             dialogs.add(dialog);
             i++;
         }
@@ -253,12 +256,12 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter{
         @Override
         public void run() {//在此添加需轮寻的接口
             Log.e("联系人列表轮询","+1");
-            if(hasHandled){
-                hasHandled = false;
-                Log.e("hasHandles置false","..");
-                newTest();//getUnreadCount()执行的任务
-            }
-
+//            if(hasHandled){
+//                hasHandled = false;
+//                Log.e("hasHandles置false","..");
+//
+//            }
+            newTest();//getUnreadCount()执行的任务
             mHandler.postDelayed(this, 20 * 1000);
         }
     };
