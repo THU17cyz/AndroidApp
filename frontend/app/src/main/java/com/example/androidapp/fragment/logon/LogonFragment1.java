@@ -129,11 +129,11 @@ public class LogonFragment1 extends Fragment {
         String password = passwordEditText.getText().toString();
         String repeatPassword = repeatPasswordEditText.getText().toString();
         if (!Valid.isAccount(account) || !Valid.isPassword(password) || !Valid.isPassword(repeatPassword)) {
-            Hint.showLongBottomToast(getContext(), "格式错误！");
+            Hint.showLongCenterToast(getContext(), "格式错误！");
             return;
         }
         if (!password.equals(repeatPassword))
-            Hint.showLongBottomToast(getContext(), "重复密码不一致！");
+            Hint.showLongCenterToast(getContext(), "重复密码不一致！");
         else
             new LogonRequest(handleLogon, type, account, password, "？").send();
     }
@@ -171,7 +171,7 @@ public class LogonFragment1 extends Fragment {
         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
             try {
                 if (response.code() != 200) {
-                    requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), "注册失败，请稍后重试！"));
+                    requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), "注册失败，请稍后重试！"));
                 } else {
                     ResponseBody responseBody = response.body();
                     String responseBodyString = responseBody != null ? responseBody.string() : "";
@@ -181,7 +181,7 @@ public class LogonFragment1 extends Fragment {
                     boolean status = (Boolean) jsonObject.get("status");
                     String info = (String) jsonObject.get("info");
                     if (status) {
-                        requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), info));
+                        requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), info));
                         // 注册成功，进行登录
                         String type = "";
                         if(typeSelector.getText().toString().equals(OptionItems.optionsType.get(0))){
@@ -193,11 +193,11 @@ public class LogonFragment1 extends Fragment {
                         String password = passwordEditText.getText().toString();
                         new LoginRequest(handleLogin, type, account, password).send();
                     } else {
-                        requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), info));
+                        requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), info));
                     }
                 }
             } catch (JSONException e) {
-                requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), "注册失败，请稍后重试！"));
+                requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), "注册失败，请稍后重试！"));
                 if (Global.HTTP_DEBUG_MODE)
                     Log.e("HttpResponse", e.toString());
             }
@@ -205,7 +205,7 @@ public class LogonFragment1 extends Fragment {
 
         @Override
         public void onFailure(@NotNull Call call, @NotNull IOException e) {
-            requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), "注册失败，请稍后重试！"));
+            requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), "注册失败，请稍后重试！"));
             if (Global.HTTP_DEBUG_MODE)
                 Log.e("HttpError", e.toString());
         }
@@ -216,7 +216,7 @@ public class LogonFragment1 extends Fragment {
         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
             try {
                 if (response.code() != 200) {
-                    requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), "登录失败，请稍后重试！"));
+                    requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), "登录失败，请稍后重试！"));
                 } else {
                     ResponseBody responseBody = response.body();
                     String responseBodyString = responseBody != null ? responseBody.string() : "";
@@ -226,14 +226,14 @@ public class LogonFragment1 extends Fragment {
                     boolean status = (Boolean) jsonObject.get("status");
                     String info = (String) jsonObject.get("info");
                     if (status) {
-                        requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), info));
+                        requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), info));
                         requireActivity().runOnUiThread(((LogonActivity) requireActivity())::onNextPage);
                     } else {
-                        requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), info));
+                        requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), info));
                     }
                 }
             } catch (JSONException e) {
-                requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), "登录失败，请稍后重试！"));
+                requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), "登录失败，请稍后重试！"));
                 if (Global.HTTP_DEBUG_MODE)
                     Log.e("HttpResponse", e.toString());
             }
@@ -241,7 +241,7 @@ public class LogonFragment1 extends Fragment {
 
         @Override
         public void onFailure(@NotNull Call call, @NotNull IOException e) {
-            requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), "登录失败，请稍后重试！"));
+            requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), "登录失败，请稍后重试！"));
             if (Global.HTTP_DEBUG_MODE)
                 Log.e("HttpError", e.toString());
         }

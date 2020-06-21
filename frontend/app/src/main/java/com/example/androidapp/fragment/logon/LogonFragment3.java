@@ -98,7 +98,7 @@ public class LogonFragment3 extends Fragment {
         String tsNumber = tsNumberEditText.getText().toString();
         String idNumber = idNumberEditText.getText().toString();
         if (!Valid.isNumber(tsNumber) || !Valid.isNumber(idNumber)) {
-            Hint.showLongBottomToast(getContext(), "格式错误！");
+            Hint.showLongCenterToast(getContext(), "格式错误！");
             return;
         }
         new UserAuthRequest(handleVerify, tsNumber, tsNumber, idNumber).send();
@@ -112,7 +112,7 @@ public class LogonFragment3 extends Fragment {
         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
             try {
                 if (response.code() != 200) {
-                    requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), "验证失败，请先注册！"));
+                    requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), "验证失败，请先注册！"));
                 } else {
                     ResponseBody responseBody = response.body();
                     String responseBodyString = responseBody != null ? responseBody.string() : "";
@@ -122,15 +122,15 @@ public class LogonFragment3 extends Fragment {
                     boolean status = (Boolean) jsonObject.get("status");
                     String info = (String) jsonObject.get("info");
                     if (status) {
-                        requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), info));
+                        requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), info));
                         requireActivity().runOnUiThread(((LogonActivity) requireActivity())::onJumpToMain);
 
                     } else {
-                        requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), info));
+                        requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), info));
                     }
                 }
             } catch (JSONException e) {
-                requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), "验证失败，请稍后重试！"));
+                requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), "验证失败，请稍后重试！"));
                 if (Global.HTTP_DEBUG_MODE)
                     Log.e("HttpResponse", e.toString());
             }
@@ -138,7 +138,7 @@ public class LogonFragment3 extends Fragment {
 
         @Override
         public void onFailure(@NotNull Call call, @NotNull IOException e) {
-            requireActivity().runOnUiThread(() -> Hint.showLongBottomToast(getContext(), "验证失败，请稍后重试！"));
+            requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), "验证失败，请稍后重试！"));
             if (Global.HTTP_DEBUG_MODE)
                 Log.e("HttpError", e.toString());
         }

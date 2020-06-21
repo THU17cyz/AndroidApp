@@ -1,7 +1,9 @@
 package com.example.androidapp.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,6 +15,9 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.andreabaccega.widget.FormEditText;
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
@@ -35,6 +40,7 @@ import com.example.androidapp.request.user.LoginRequest;
 import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Hint;
+import com.example.androidapp.util.LocalPicx;
 import com.example.androidapp.util.LoginCache;
 import com.example.androidapp.util.OptionItems;
 import com.example.androidapp.util.Valid;
@@ -122,6 +128,10 @@ public class LoginActivity extends BaseActivity {
 //                Toast.makeText(LoginActivity.this, "键盘隐藏 高度" + height, Toast.LENGTH_SHORT).show();
 //            }
 //        });
+
+        // 关键权限必须动态申请
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
 
         // 已经登录过则跳过登录
         if(LoginCache.hasLoginCache(getApplicationContext())){
@@ -493,7 +503,7 @@ public class LoginActivity extends BaseActivity {
 
         // 后门儿2
 //        if (!Valid.isAccount(account) || !Valid.isPassword(password)) {
-//            Hint.showLongBottomToast(this, "格式错误！");
+//            Hint.showLongCenterToast(this, "格式错误！");
 //            return;
 //        }
         Hint.startActivityLoad(this);
@@ -543,7 +553,7 @@ public class LoginActivity extends BaseActivity {
                 try {
                 if (response.code() != 200) {
                     LoginCache.removeCache(getApplicationContext());
-                    LoginActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(LoginActivity.this, "登录失败..."));
+                    LoginActivity.this.runOnUiThread(() -> Hint.showLongCenterToast(LoginActivity.this, "登录失败..."));
                 } else {
                     ResponseBody responseBody = response.body();
                     String responseBodyString = responseBody != null ? responseBody.string() : "";
@@ -557,16 +567,16 @@ public class LoginActivity extends BaseActivity {
                         // 保存密码以加入shared...
                         BasicInfo.PASSWORD = passwordEditText.getText().toString();
 
-                        LoginActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(LoginActivity.this, info));
+                        LoginActivity.this.runOnUiThread(() -> Hint.showLongCenterToast(LoginActivity.this, info));
 //                        LoginActivity.this.runOnUiThread(LoginActivity.this::onJumpToMain);
                         beforeJump1();
                     } else {
                         LoginCache.removeCache(getApplicationContext());
-                        LoginActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(LoginActivity.this, info));
+                        LoginActivity.this.runOnUiThread(() -> Hint.showLongCenterToast(LoginActivity.this, info));
                     }
                 }
             } catch (JSONException e) {
-                LoginActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(LoginActivity.this, "登录失败..."));
+                LoginActivity.this.runOnUiThread(() -> Hint.showLongCenterToast(LoginActivity.this, "登录失败..."));
                 if (Global.HTTP_DEBUG_MODE)
                     Log.e("HttpResponse", e.toString());
             }
@@ -575,7 +585,7 @@ public class LoginActivity extends BaseActivity {
         @Override
         public void onFailure(@NotNull Call call, @NotNull IOException e) {
             LoginActivity.this.runOnUiThread(() -> Hint.endActivityLoad(LoginActivity.this));
-            LoginActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(LoginActivity.this, "登录失败..."));
+            LoginActivity.this.runOnUiThread(() -> Hint.showLongCenterToast(LoginActivity.this, "登录失败..."));
             if (Global.HTTP_DEBUG_MODE)
                 Log.e("HttpError", e.toString());
         }
