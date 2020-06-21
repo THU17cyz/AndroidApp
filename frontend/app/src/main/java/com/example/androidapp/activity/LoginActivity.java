@@ -198,13 +198,13 @@ public class LoginActivity extends BaseActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(resStr);
                     JSONArray jsonArray;
-                    jsonArray = (JSONArray) jsonObject.get("watchlist_teachers");
+                    jsonArray = (JSONArray) jsonObject.get("fanlist_teachers");
                     BasicInfo.FAN_LIST.clear();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         ShortProfile shortProfile = new ShortProfile(jsonArray.getJSONObject(i), true);
                         BasicInfo.FAN_LIST.add(shortProfile);
                    }
-                    jsonArray = (JSONArray) jsonObject.get("watchlist_students");
+                    jsonArray = (JSONArray) jsonObject.get("fanlist_students");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         ShortProfile shortProfile = new ShortProfile(jsonArray.getJSONObject(i), false);
 

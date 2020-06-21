@@ -163,9 +163,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
             new SetInformationStateRequest(new okhttp3.Callback() {
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                    getActivity().runOnUiThread(() -> {
-                        Log.e("e", "更新消息状态失败");
-                    });
+                    getActivity().runOnUiThread(() -> Log.e("e", "更新消息状态失败"));
                 }
 
                 @Override

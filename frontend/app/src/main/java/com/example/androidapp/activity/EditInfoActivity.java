@@ -59,6 +59,7 @@ public class EditInfoActivity extends AppCompatActivity {
     pagerAdapter = new EditInfoPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
     viewPager.setAdapter(pagerAdapter);
     viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+    viewPager.setOffscreenPageLimit(3);
 
     tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
       @Override
