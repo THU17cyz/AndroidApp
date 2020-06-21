@@ -14,6 +14,7 @@
         android:layout_height="wrap_content" />
 
     <com.andreabaccega.widget.FormEditText
+        android:inputType="textPersonName"
         android:maxLines="1"
         android:id="@+id/logon2_name"
         android:layout_width="match_parent"
@@ -30,6 +31,7 @@
         app:emptyErrorString="@string/CANNOT_BE_NULL" />
 
     <com.andreabaccega.widget.FormEditText
+        android:inputType="textPersonName"
         android:maxLines="1"
         android:id="@+id/logon2_gender"
         android:layout_width="match_parent"
@@ -46,6 +48,7 @@
         app:emptyErrorString="@string/CANNOT_BE_NULL" />
 
     <com.andreabaccega.widget.FormEditText
+        android:inputType="textPersonName"
         android:maxLines="1"
         android:id="@+id/logon2_school"
         android:layout_width="match_parent"
@@ -62,6 +65,7 @@
         app:emptyErrorString="@string/CANNOT_BE_NULL" />
 
     <com.andreabaccega.widget.FormEditText
+        android:inputType="textPersonName"
         android:maxLines="1"
         android:id="@+id/logon2_department"
         android:layout_width="match_parent"
