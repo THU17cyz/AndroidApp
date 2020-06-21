@@ -553,7 +553,7 @@ public class MainActivity extends BaseActivity {
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
             @Override
             public void set(ImageView imageView, Uri uri, Drawable placeholder) {
-                Picasso.get().load(uri).placeholder(placeholder).into(imageView);
+                Picasso.get().load(uri).placeholder(R.drawable.ic_avatarholder).into(imageView);
             }
 
             @Override
@@ -589,7 +589,7 @@ public class MainActivity extends BaseActivity {
         PrimaryDrawerItem item4 = new PrimaryDrawerItem().withIdentifier(4)
                 .withIcon(getDrawable(R.drawable.ic_drawer_info_24dp)).withName("我的通知");
         PrimaryDrawerItem item5 = new PrimaryDrawerItem().withIdentifier(5)
-                .withIcon(getDrawable(R.drawable.ic_drawer_settings_24dp)).withName("设置");
+                .withIcon(getDrawable(R.drawable.ic_drawer_settings_24dp)).withName("修改密码");
         PrimaryDrawerItem item6 = new PrimaryDrawerItem().withIdentifier(6)
                 .withIcon(getDrawable(R.drawable.ic_drawer_quit_24dp)).withName("退出登录");
 
