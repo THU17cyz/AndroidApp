@@ -228,9 +228,15 @@ public class MainActivity extends BaseActivity {
         LocalPicx.loadAsset(this);
 
 
-        //保存登录信息
-        if(!LoginCache.hasLoginCache(getApplicationContext())){
-            LoginCache.saveCache(getApplicationContext());
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("user",Context.MODE_PRIVATE);
+        boolean hasLogin = sharedPreferences.getBoolean("hasLogin",false);
+        if(!hasLogin){
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("hasLogin",true);
+            editor.putString("type",BasicInfo.TYPE);
+            editor.putString("account",BasicInfo.ACCOUNT);
+            editor.putString("password",BasicInfo.PASSWORD);
+            editor.commit();
         }
 
     }
@@ -671,7 +677,11 @@ public class MainActivity extends BaseActivity {
                     Boolean status = jsonObject.getBoolean("status");
                     if (status) {
                         // 登出时清除share中的信息
-                        LoginCache.removeCache(getApplicationContext());
+                        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("user",Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putBoolean("hasLogin",false);
+                        editor.commit();
+
                         BasicInfo.reset();
                         MainActivity.this.finish();
 //                        Intent intent = new Intent(MainActivity.this,LoginActivity.class);

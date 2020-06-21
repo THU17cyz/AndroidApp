@@ -3,6 +3,7 @@ package com.example.androidapp.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -133,11 +134,25 @@ public class LoginActivity extends BaseActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
 
-        // 已经登录过则跳过登录
-        if(LoginCache.hasLoginCache(getApplicationContext())){
-            Hint.startActivityLoad(this);
-            new LoginRequest(this.handleLogin, LoginCache.type, LoginCache.account, LoginCache.password).send();
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("user",Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putBoolean("hasLogin",false);
+//        editor.commit();
+        boolean hasLogin = sharedPreferences.getBoolean("hasLogin",false);
+        if(hasLogin){
+            String type = sharedPreferences.getString("type","");
+            String account = sharedPreferences.getString("account","");
+            String password = sharedPreferences.getString("password","");
+            if(type.equals("")||account.equals("")||password.equals("")){
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("hasLogin",false);
+                editor.commit();
+            } else {
+                Hint.startActivityLoad(this);
+                new LoginRequest(this.handleLogin, type, account, password).send();
+            }
         }
+
 
         // 引导页设置
         introductionBuilder = new IntroductionBuilder(this);

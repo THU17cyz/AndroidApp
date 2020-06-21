@@ -1,5 +1,6 @@
 package com.example.androidapp.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -149,7 +150,11 @@ public class ResetPasswordActivity extends BaseActivity {
 //        SharedPreferences.Editor editor = sharedPreferences.edit();
 //        editor.putString("password",BasicInfo.PASSWORD);
 //        editor.commit();
-                                LoginCache.updateCachePassword(getApplicationContext(),BasicInfo.PASSWORD);
+                                // LoginCache.updateCachePassword(getApplicationContext(),BasicInfo.PASSWORD);
+                                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("password",BasicInfo.PASSWORD);
+                                editor.commit();
                             }
                         });
                         ResetPasswordActivity.this.runOnUiThread(ResetPasswordActivity.this::onReturnToLogin);
