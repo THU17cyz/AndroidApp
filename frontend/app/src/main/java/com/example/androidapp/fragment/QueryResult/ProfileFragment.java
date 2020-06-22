@@ -67,17 +67,11 @@ public class ProfileFragment extends Fragment {
     protected ArrayList<ShortProfile> filteredProfileList;
     private Lock lock = new ReentrantLock();
 
-
-
     protected Unbinder unbinder;
-
-//    LoadService loadService;
 
     protected String[] order;
     boolean[] filters = new boolean[] {false, false, false, false};
     protected int current_order = 0;
-
-    private String test_url = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1592237104788&di=da06c7ee8d8256243940b53531bdeba7&imgtype=0&src=http%3A%2F%2Ftupian.qqjay.com%2Ftou2%2F2018%2F1106%2F60bdf5b88754650e51ccee32bb6ac8ae.jpg";
 
     public ProfileFragment() {
 
@@ -91,17 +85,12 @@ public class ProfileFragment extends Fragment {
 
         mProfileList = new ArrayList<>();
         filteredProfileList = new ArrayList<>();
-//        mProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-//                test_url,999, true, false));
         mShortProfileAdapter = new ShortProfileAdapter(mProfileList, getContext());//初始化NameAdapter
         mShortProfileAdapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
-//        mShortProfileAdapter.openLeftAnimation();//设置加载动画
 
         addButtonListener(mShortProfileAdapter, mProfileList);
 
-        mShortProfileAdapter.setOnItemClickListener((adapter, view, position) -> {
-            visitHomePage(position);
-        });
+        mShortProfileAdapter.setOnItemClickListener((adapter, view, position) -> visitHomePage(position));
 
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
@@ -319,20 +308,22 @@ public class ProfileFragment extends Fragment {
         } else {
             Collections.sort(mProfileList, (p1, p2) -> Integer.valueOf(p2.fanNum).compareTo(Integer.valueOf(p1.fanNum)));
         }
-        mShortProfileAdapter.notifyItemRangeChanged(0, mProfileList.size());
+
+        if (recyclerView.isComputingLayout()) {
+            recyclerView.post(() -> mShortProfileAdapter.notifyItemRangeChanged(0, mProfileList.size()));
+        } else {
+            mShortProfileAdapter.notifyItemRangeChanged(0, mProfileList.size());
+        }
+
 
     }
 
     public void filterResult(boolean[] filters) {
-//        loadService = LoadSir.getDefault().register(recyclerView, (com.kingja.loadsir.callback.Callback.OnReloadListener) v -> {
-//
-//        });
         int i = 0;
         for (Boolean filter : filters) {
             this.filters[i] = filter;
             i++;
         }
         adjustList();
-//        loadService.showSuccess();
     }
 }

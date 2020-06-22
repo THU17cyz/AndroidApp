@@ -115,31 +115,14 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) { }
         });
-        // 软键盘设置
-//        SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
-//            @Override
-//            public void keyBoardShow(int height) {
-//                Toast.makeText(LoginActivity.this, "键盘显示 高度" + height, Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void keyBoardHide(int height) {
-//                Toast.makeText(LoginActivity.this, "键盘隐藏 高度" + height, Toast.LENGTH_SHORT).show();
-//            }
-//        });
 
         // 关键权限必须动态申请
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
 
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("user",Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putBoolean("hasLogin",false);
-//        editor.commit();
-
-
         boolean hasLogin = sharedPreferences.getBoolean("hasLogin",false);
-        if(hasLogin){
+        if (hasLogin) {
             String type = sharedPreferences.getString("type","");
             String account = sharedPreferences.getString("account","");
             String password = sharedPreferences.getString("password","");
