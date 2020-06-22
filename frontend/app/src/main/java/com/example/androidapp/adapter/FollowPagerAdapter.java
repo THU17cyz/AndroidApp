@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.example.androidapp.UI.follow.FollowFragment;
 import com.example.androidapp.fragment.follow.FollowListFragment;
 
 public class FollowPagerAdapter extends FragmentStatePagerAdapter {

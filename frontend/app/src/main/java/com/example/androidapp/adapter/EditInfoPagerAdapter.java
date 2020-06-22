@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.example.androidapp.fragment.HomepageEdit.EditApplicationInfoFragment;
-import com.example.androidapp.fragment.HomepageEdit.EditRecruitmentInfoFragment;
-import com.example.androidapp.fragment.HomepageEdit.EditSelfInfoFragment;
-import com.example.androidapp.fragment.HomepageEdit.EditStudyInfoFragment;
+import com.example.androidapp.fragment.homepageEdit.EditApplicationInfoFragment;
+import com.example.androidapp.fragment.homepageEdit.EditRecruitmentInfoFragment;
+import com.example.androidapp.fragment.homepageEdit.EditSelfInfoFragment;
+import com.example.androidapp.fragment.homepageEdit.EditStudyInfoFragment;
 import com.example.androidapp.util.BasicInfo;
 
 import org.jetbrains.annotations.NotNull;

@@ -1,6 +1,5 @@
 package com.example.androidapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
@@ -9,18 +8,13 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.androidapp.R;
-import com.example.androidapp.chatTest.model.Dialog;
-import com.example.androidapp.chatTest.model.Message;
-import com.example.androidapp.chatTest.model.User;
+import com.example.androidapp.entity.chat.Message;
 import com.example.androidapp.request.information.SetInformationStateRequest;
 import com.example.androidapp.util.BasicInfo;
-import com.example.androidapp.util.LocalPicx;
 import com.gyf.immersionbar.ImmersionBar;
-import com.stfalcon.chatkit.messages.MessageInput;
 import com.stfalcon.chatkit.messages.MessagesList;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
 import com.stfalcon.chatkit.utils.DateFormatter;
@@ -28,11 +22,7 @@ import com.stfalcon.chatkit.utils.DateFormatter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 
 import butterknife.BindView;

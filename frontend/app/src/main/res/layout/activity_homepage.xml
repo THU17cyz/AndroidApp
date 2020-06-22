@@ -223,7 +223,7 @@
         android:gravity="right"
         android:orientation="horizontal">
 
-        <com.example.androidapp.component.FocusButton
+        <com.example.androidapp.myView.FocusButton
             android:id="@+id/btn_focus"
             android:layout_width="70dp"
             android:layout_height="40dp"
@@ -234,7 +234,7 @@
             android:text="关注"
             app:border_color="@color/md_light_blue_400"
             app:radius="5dp"
-            app:text_color="@color/md_light_blue_400"></com.example.androidapp.component.FocusButton>
+            app:text_color="@color/md_light_blue_400"></com.example.androidapp.myView.FocusButton>
 
         <!--        <com.example.androidapp.component.FocusButton-->
         <!--            android:id="@+id/btn_chat"-->

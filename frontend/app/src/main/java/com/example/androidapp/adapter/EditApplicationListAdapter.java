@@ -2,12 +2,10 @@ package com.example.androidapp.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.opengl.Visibility;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.andreabaccega.widget.FormEditText;
@@ -17,8 +15,7 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.androidapp.R;
 import com.example.androidapp.entity.ApplicationInfo;
-import com.example.androidapp.fragment.QueryResult.Teacher;
-import com.example.androidapp.util.OptionItems;
+import com.example.androidapp.entity.OptionItems;
 
 import java.util.List;
 

@@ -1,15 +1,12 @@
 package com.example.androidapp.fragment;
 
-import android.appwidget.AppWidgetProvider;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -17,17 +14,13 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidapp.R;
-import com.example.androidapp.activity.LogonActivity;
-import com.example.androidapp.activity.MainActivity;
 import com.example.androidapp.activity.VisitHomePageActivity;
 import com.example.androidapp.adapter.ShortProfileAdapter;
-import com.example.androidapp.component.FocusButton;
+import com.example.androidapp.myView.FocusButton;
 import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.request.follow.AddToWatchRequest;
 import com.example.androidapp.request.follow.DeleteFromWatchRequest;
 import com.example.androidapp.util.BasicInfo;
-import com.kingja.loadsir.core.LoadService;
-import com.kingja.loadsir.core.LoadSir;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import org.jetbrains.annotations.NotNull;
@@ -39,7 +32,6 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Optional;
 import butterknife.Unbinder;
 import okhttp3.Call;
 import okhttp3.Callback;

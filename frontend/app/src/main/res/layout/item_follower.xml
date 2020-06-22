@@ -25,12 +25,12 @@
         android:layout_height="match_parent"
         android:id="@+id/logon1_type"></TextView>
 
-    <com.example.androidapp.component.FocusButton
+    <com.example.androidapp.myView.FocusButton
         android:id="@+id/button"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_margin="5dp"
-        android:layout_weight="5"></com.example.androidapp.component.FocusButton>
+        android:layout_weight="5"></com.example.androidapp.myView.FocusButton>
 
 
 </LinearLayout>

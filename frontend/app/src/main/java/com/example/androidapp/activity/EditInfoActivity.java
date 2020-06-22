@@ -5,21 +5,16 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.androidapp.R;
 import com.example.androidapp.adapter.EditInfoPagerAdapter;
-import com.example.androidapp.entity.EditApplication;
-import com.example.androidapp.fragment.HomepageEdit.EditApplicationInfoFragment;
-import com.example.androidapp.fragment.HomepageEdit.EditRecruitmentInfoFragment;
-import com.example.androidapp.fragment.HomepageEdit.EditSelfInfoFragment;
-import com.example.androidapp.fragment.HomepageEdit.EditStudyInfoFragment;
+import com.example.androidapp.fragment.homepageEdit.EditApplicationInfoFragment;
+import com.example.androidapp.fragment.homepageEdit.EditRecruitmentInfoFragment;
+import com.example.androidapp.fragment.homepageEdit.EditSelfInfoFragment;
+import com.example.androidapp.fragment.homepageEdit.EditStudyInfoFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
 
@@ -48,7 +43,7 @@ public class EditInfoActivity extends AppCompatActivity {
     ButterKnife.bind(this);
 
     ImmersionBar.with(this)
-            .statusBarColor(R.color.colorPrimary)
+            .statusBarColor(R.color.transparent)
             .init();
 
     tabLayout.addTab(tabLayout.newTab().setText("个人信息"));
@@ -79,10 +74,10 @@ public class EditInfoActivity extends AppCompatActivity {
     });
 
 
-    setSupportActionBar(toolbar);
+//    setSupportActionBar(toolbar);
     // 标题栏返回
     toolbar.setNavigationOnClickListener(v-> this.finish());
-
+    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
   }
 

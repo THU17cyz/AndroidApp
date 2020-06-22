@@ -1,12 +1,9 @@
 package com.example.androidapp.activity;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -17,36 +14,27 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.androidapp.R;
-import com.example.androidapp.UI.conversation.ConversationFragment;
-import com.example.androidapp.UI.dashboard.DashboardFragment;
-import com.example.androidapp.UI.follow.FollowFragment;
-import com.example.androidapp.UI.home.HomeFragment;
-import com.example.androidapp.UI.notification.NotificationFragment;
-import com.example.androidapp.adapter.ViewPagerAdapter;
+import com.example.androidapp.fragment.main.ConversationFragment;
+import com.example.androidapp.fragment.main.DashboardFragment;
+import com.example.androidapp.fragment.main.FollowFragment;
+import com.example.androidapp.fragment.main.HomeFragment;
+import com.example.androidapp.fragment.main.NotificationFragment;
+import com.example.androidapp.adapter.MainActivityViewPagerAdapter;
 import com.example.androidapp.application.App;
-import com.example.androidapp.chatTest.model.User;
-import com.example.androidapp.repository.chathistory.ChatHistory;
+import com.example.androidapp.entity.chat.User;
+import com.example.androidapp.repository.ChatHistory;
 import com.example.androidapp.request.conversation.GetMessagePictureRequest;
 import com.example.androidapp.request.conversation.GetNewMessagesRequest;
 import com.example.androidapp.request.information.GetInformationDetailRequest;
@@ -55,18 +43,12 @@ import com.example.androidapp.request.user.GetInfoPictureRequest;
 import com.example.androidapp.request.user.LogoutRequest;
 import com.example.androidapp.request.user.UpdateInfoPictureRequest;
 import com.example.androidapp.util.BasicInfo;
-import com.example.androidapp.util.Hint;
 import com.example.androidapp.util.LocalPicx;
-import com.example.androidapp.util.LoginCache;
 import com.example.androidapp.util.MyImageLoader;
-import com.example.androidapp.util.StringCutter;
 import com.example.androidapp.util.Uri2File;
-import com.example.androidapp.viewmodel.ChatHistoryViewModel;
-import com.google.android.material.badge.BadgeDrawable;
+import com.example.androidapp.repository.ChatHistoryViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gyf.immersionbar.ImmersionBar;
-import com.kingja.loadsir.core.LoadService;
-import com.kingja.loadsir.core.LoadSir;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -116,7 +98,7 @@ public class MainActivity extends BaseActivity {
 
     private NavController navController;
     private ViewPager viewPager;
-    private ViewPagerAdapter mViewPagerAdapter;
+    private MainActivityViewPagerAdapter mMainActivityViewPagerAdapter;
     BottomNavigationView navView;
 
 
@@ -161,8 +143,8 @@ public class MainActivity extends BaseActivity {
 
 
         viewPager = findViewById(R.id.nav_host_fragment);
-        mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(mViewPagerAdapter);
+        mMainActivityViewPagerAdapter = new MainActivityViewPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(mMainActivityViewPagerAdapter);
         viewPager.setOffscreenPageLimit(5);
 
 
@@ -301,28 +283,28 @@ public class MainActivity extends BaseActivity {
                     Date date = chat.getTime();
                     String realName = chat.getRealName();
 //                    User user = new User(id, account,"", account, type);
-                    com.example.androidapp.chatTest.model.Message message;// = new com.example.androidapp.chatTest.model.Message("", user, msg, date);
+                    com.example.androidapp.entity.chat.Message message;// = new com.example.androidapp.entity.chat.Message("", user, msg, date);
 
                     if(send.equals("S")){
                         User user = new User("0", realName,
                                 new GetInfoPictureRequest(otherUserType, id, id).getWholeUrl(),
                                 account, otherUserType, id);
-                        message = new com.example.androidapp.chatTest.model.Message("", user, msg, date, true);
+                        message = new com.example.androidapp.entity.chat.Message("", user, msg, date, true);
                     } else {
                         User user = new User("1", realName,
                                 new GetInfoPictureRequest(otherUserType, id, id).getWholeUrl(),
                                 account, otherUserType, id);
-                        message = new com.example.androidapp.chatTest.model.Message("", user, msg, date, true);
+                        message = new com.example.androidapp.entity.chat.Message("", user, msg, date, true);
                     }
                     if (type.equals("P")) {
                         // message.setText("图片");
-                        message.setImage(new com.example.androidapp.chatTest.model.Message.Image(
+                        message.setImage(new com.example.androidapp.entity.chat.Message.Image(
                                 (new GetMessagePictureRequest(msg).getWholeUrl())));
                         System.out.println(new GetMessagePictureRequest(msg).getWholeUrl());
 
                     }
 
-                    ArrayList<com.example.androidapp.chatTest.model.Message> msgs = BasicInfo.CHAT_HISTORY.get(account);
+                    ArrayList<com.example.androidapp.entity.chat.Message> msgs = BasicInfo.CHAT_HISTORY.get(account);
                     if (msgs == null) {
                         msgs = new ArrayList<>();
                         BasicInfo.CHAT_HISTORY.put(account, msgs);
@@ -398,12 +380,12 @@ public class MainActivity extends BaseActivity {
                                         String time = jsonObject.getString("information_time");
                                         String state = jsonObject.getString("information_state");
                                         String content = (String) jsonObject.get("information_content");
-                                        com.example.androidapp.chatTest.model.Message message;
+                                        com.example.androidapp.entity.chat.Message message;
                                         SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm" );
                                         if(state.equals("N")){
-                                            message = new com.example.androidapp.chatTest.model.Message(id, user,content,sdf.parse(time),false);
+                                            message = new com.example.androidapp.entity.chat.Message(id, user,content,sdf.parse(time),false);
                                         } else {
-                                            message = new com.example.androidapp.chatTest.model.Message(id, user,content,sdf.parse(time),true);
+                                            message = new com.example.androidapp.entity.chat.Message(id, user,content,sdf.parse(time),true);
                                         }
                                         // message.setDateString(time);
                                         Log.e("消息内容",sdf.parse(time).toString()+" "+state);
@@ -480,19 +462,19 @@ public class MainActivity extends BaseActivity {
 //                            chatHistoryViewModel.insert(new ChatHistory(
 //                                    date, messageContent, messageType,
 //                                    messageWay, BasicInfo.ACCOUNT, objectAccount, objectId, objectType));
-                            com.example.androidapp.chatTest.model.Message message;
+                            com.example.androidapp.entity.chat.Message message;
                             if(messageWay.equals("S")){
                                 User user = new User("0", objectName,
                                         new GetInfoPictureRequest(objectType, objectId, objectId).getWholeUrl(),
 //                                        "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
                                         objectAccount, objectType, objectId);
-                                message = new com.example.androidapp.chatTest.model.Message(String.valueOf(messageId), user, messageContent, date, false);
+                                message = new com.example.androidapp.entity.chat.Message(String.valueOf(messageId), user, messageContent, date, false);
                             } else {
                                 User user = new User("1", objectName,
                                         new GetInfoPictureRequest(objectType, objectId, objectId).getWholeUrl(),
 //                                        "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
                                         objectAccount, objectType, objectId);
-                                message = new com.example.androidapp.chatTest.model.Message(String.valueOf(messageId), user, messageContent, date, false);
+                                message = new com.example.androidapp.entity.chat.Message(String.valueOf(messageId), user, messageContent, date, false);
                             }
                             if(messageType.equals("T")){
                                 chatHistoryViewModel.insert(new ChatHistory(date, messageContent,
@@ -501,13 +483,13 @@ public class MainActivity extends BaseActivity {
                             } else {
                                 chatHistoryViewModel.insert(new ChatHistory(date, String.valueOf(messageId), messageType,
                                         messageWay, BasicInfo.ACCOUNT, objectAccount, objectId, objectType, objectName));
-                                message.setImage(new com.example.androidapp.chatTest.model.Message.Image(
+                                message.setImage(new com.example.androidapp.entity.chat.Message.Image(
                                         (new GetMessagePictureRequest(String.valueOf(messageId)).getWholeUrl())));
                                 message.setText(String.valueOf(messageId));
                             }
 
                             if (!messageWay.equals("S") || currentMessageId == 0) {
-                                ArrayList<com.example.androidapp.chatTest.model.Message> msgs = BasicInfo.CHAT_HISTORY.get(objectAccount);
+                                ArrayList<com.example.androidapp.entity.chat.Message> msgs = BasicInfo.CHAT_HISTORY.get(objectAccount);
                                 if (msgs == null) {
                                     msgs = new ArrayList<>();
                                     BasicInfo.CHAT_HISTORY.put(objectAccount, msgs);
@@ -714,7 +696,7 @@ public class MainActivity extends BaseActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
 
             // 获取当前fragment
-            Fragment current = mViewPagerAdapter.getRegisteredFragment(viewPager.getCurrentItem());
+            Fragment current = mMainActivityViewPagerAdapter.getRegisteredFragment(viewPager.getCurrentItem());
 
             // 主页双击返回退出程序
             if(current != null && current instanceof HomeFragment){
@@ -742,7 +724,7 @@ public class MainActivity extends BaseActivity {
 //                    .findFragmentById(R.id.nav_host_fragment).getChildFragmentManager()
 //                    .getPrimaryNavigationFragment();
 
-            DashboardFragment fragment = ((DashboardFragment) mViewPagerAdapter.getRegisteredFragment(4));
+            DashboardFragment fragment = ((DashboardFragment) mMainActivityViewPagerAdapter.getRegisteredFragment(4));
             fragment.getAvatar("file://" + path);
             System.out.println(path);
             new UpdateInfoPictureRequest(new Callback() {
@@ -764,15 +746,15 @@ public class MainActivity extends BaseActivity {
                             MyImageLoader.invalidate();
                             runOnUiThread(()-> {
                                 initDrawer();
-                                HomeFragment fragment1 = ((HomeFragment) mViewPagerAdapter.getRegisteredFragment(0));
+                                HomeFragment fragment1 = ((HomeFragment) mMainActivityViewPagerAdapter.getRegisteredFragment(0));
                                 fragment1.getAvatar();
-                                FollowFragment fragment2 = ((FollowFragment) mViewPagerAdapter.getRegisteredFragment(1));
+                                FollowFragment fragment2 = ((FollowFragment) mMainActivityViewPagerAdapter.getRegisteredFragment(1));
                                 fragment2.getAvatar();
-                                ConversationFragment fragment3 = ((ConversationFragment) mViewPagerAdapter.getRegisteredFragment(2));
+                                ConversationFragment fragment3 = ((ConversationFragment) mMainActivityViewPagerAdapter.getRegisteredFragment(2));
                                 fragment3.getAvatar();
-                                NotificationFragment fragment4 = ((NotificationFragment) mViewPagerAdapter.getRegisteredFragment(3));
+                                NotificationFragment fragment4 = ((NotificationFragment) mMainActivityViewPagerAdapter.getRegisteredFragment(3));
                                 fragment4.getAvatar();
-                                DashboardFragment fragment5 = ((DashboardFragment) mViewPagerAdapter.getRegisteredFragment(4));
+                                DashboardFragment fragment5 = ((DashboardFragment) mMainActivityViewPagerAdapter.getRegisteredFragment(4));
                                 fragment5.getAvatar(null);
                             });
 //                            ((DashboardFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_dashboard)).getAvatar(null);

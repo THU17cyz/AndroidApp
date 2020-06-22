@@ -15,14 +15,14 @@ import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.androidapp.R;
 import com.example.androidapp.entity.RecruitmentInfo;
-import com.example.androidapp.util.OptionItems;
+import com.example.androidapp.entity.OptionItems;
 
 import java.util.List;
 
 public class EditRecruitmentListAdapter<T> extends MyBaseAdapter {
 
   public EditRecruitmentListAdapter(List<T> data, Context context){
-    super(R.layout.item_edit_enrollment_info, data, context);
+    super(R.layout.item_edit_recruitment_info, data, context);
   }
 
   @Override

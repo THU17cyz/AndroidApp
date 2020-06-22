@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.example.androidapp.R;
-import com.example.androidapp.UI.dashboard.DashboardFragment;
 import com.example.androidapp.activity.MainActivity;
 import com.example.androidapp.activity.VisitHomePageActivity;
 import com.example.androidapp.util.BasicInfo;
@@ -18,7 +17,6 @@ import com.example.androidapp.util.BasicInfo;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 public class StudyInfoFragment extends Fragment {

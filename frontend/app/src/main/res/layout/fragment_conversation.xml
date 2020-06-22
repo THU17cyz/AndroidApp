@@ -54,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/chat_fragment"
-        android:name="com.example.androidapp.fragment.Conversation.ChatFragment">
+        android:name="com.example.androidapp.fragment.conversation.ChatFragment">
 
     </fragment>
 <!--    <com.google.android.material.tabs.TabLayout-->

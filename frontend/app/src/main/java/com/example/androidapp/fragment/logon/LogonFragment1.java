@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -26,7 +25,7 @@ import com.example.androidapp.request.user.LoginRequest;
 import com.example.androidapp.request.user.LogonRequest;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Hint;
-import com.example.androidapp.util.OptionItems;
+import com.example.androidapp.entity.OptionItems;
 import com.example.androidapp.util.Valid;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;

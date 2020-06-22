@@ -13,16 +13,14 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.androidapp.R;
-import com.example.androidapp.chatTest.GifSizeFilter;
-import com.example.androidapp.chatTest.model.Message;
-import com.example.androidapp.chatTest.model.User;
-import com.example.androidapp.repository.chathistory.ChatHistory;
+import com.example.androidapp.util.GifSizeFilter;
+import com.example.androidapp.entity.chat.Message;
+import com.example.androidapp.entity.chat.User;
 import com.example.androidapp.request.conversation.SendMessageRequest;
 import com.example.androidapp.request.user.GetInfoPictureRequest;
 import com.example.androidapp.util.BasicInfo;

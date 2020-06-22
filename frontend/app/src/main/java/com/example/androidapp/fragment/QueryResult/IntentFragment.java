@@ -1,7 +1,6 @@
 package com.example.androidapp.fragment.QueryResult;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,32 +10,18 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidapp.R;
 import com.example.androidapp.activity.VisitHomePageActivity;
 import com.example.androidapp.adapter.ShortIntentAdapter;
-import com.example.androidapp.adapter.ShortIntentAdapter;
-import com.example.androidapp.component.FocusButton;
-import com.example.androidapp.entity.ShortIntent;
 import com.example.androidapp.entity.ShortIntent;
 import com.example.androidapp.entity.ShortProfile;
-import com.example.androidapp.popup.SelectList;
-import com.example.androidapp.request.follow.AddToWatchRequest;
-import com.example.androidapp.request.follow.DeleteFromWatchRequest;
+import com.example.androidapp.myView.SelectList;
 import com.example.androidapp.util.BasicInfo;
-import com.kingja.loadsir.core.LoadService;
 
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.locks.Lock;
@@ -46,8 +31,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import okhttp3.Call;
-import okhttp3.Response;
 
 public class IntentFragment extends Fragment {
 

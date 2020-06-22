@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.example.androidapp.R;
 import com.example.androidapp.adapter.HomepagePagerAdapter;
-import com.example.androidapp.component.FocusButton;
+import com.example.androidapp.myView.FocusButton;
 import com.example.androidapp.entity.ApplicationInfo;
 import com.example.androidapp.entity.RecruitmentInfo;
 import com.example.androidapp.entity.ShortProfile;

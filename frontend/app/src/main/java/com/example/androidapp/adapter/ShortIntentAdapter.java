@@ -1,17 +1,12 @@
 package com.example.androidapp.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.androidapp.R;
-import com.example.androidapp.component.FocusButton;
 import com.example.androidapp.entity.ShortIntent;
-import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.util.StringCutter;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 

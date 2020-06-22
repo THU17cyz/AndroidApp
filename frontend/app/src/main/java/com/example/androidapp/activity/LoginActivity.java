@@ -40,7 +40,7 @@ import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Hint;
 import com.example.androidapp.util.LoginCache;
-import com.example.androidapp.util.OptionItems;
+import com.example.androidapp.entity.OptionItems;
 import com.example.androidapp.util.Valid;
 import com.rubengees.introduction.IntroductionBuilder;
 
@@ -51,7 +51,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;

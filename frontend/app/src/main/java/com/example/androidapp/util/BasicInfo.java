@@ -1,8 +1,7 @@
 package com.example.androidapp.util;
 
 import com.example.androidapp.R;
-import com.example.androidapp.activity.MainActivity;
-import com.example.androidapp.chatTest.model.Message;
+import com.example.androidapp.entity.chat.Message;
 import com.example.androidapp.entity.ApplicationInfo;
 import com.example.androidapp.entity.RecruitmentInfo;
 import com.example.androidapp.entity.ShortProfile;

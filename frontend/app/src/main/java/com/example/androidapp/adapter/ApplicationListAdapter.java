@@ -1,32 +1,13 @@
 package com.example.androidapp.adapter;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.andreabaccega.widget.FormEditText;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.androidapp.R;
-import com.example.androidapp.component.FocusButton;
 import com.example.androidapp.entity.ApplicationInfo;
-import com.example.androidapp.entity.EditApplication;
-import com.example.androidapp.entity.EditEnrollment;
-import com.example.androidapp.entity.ShortProfile;
-import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ApplicationListAdapter<T> extends MyBaseAdapter {
 

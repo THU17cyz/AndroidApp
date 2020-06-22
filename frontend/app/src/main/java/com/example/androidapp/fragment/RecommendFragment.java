@@ -2,7 +2,6 @@ package com.example.androidapp.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,17 +9,13 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.androidapp.UI.home.HomeFragment;
 import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.request.recommend.RecommendFitRequest;
-import com.example.androidapp.request.recommend.RecommendFitStudentRequest;
-import com.example.androidapp.request.recommend.RecommendFitTeacherRequest;
 import com.example.androidapp.request.recommend.RecommendHotRequest;
 import com.example.androidapp.request.recommend.RecommendRandomRequest;
 import com.example.androidapp.util.BasicInfo;
 import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -28,8 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -37,7 +30,6 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-// TODO 肯有可能会发生冲突
 /**
  * A simple {@link Fragment} subclass.
  */

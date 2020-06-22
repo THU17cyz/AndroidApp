@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.androidapp.R;
 import com.example.androidapp.activity.MainActivity;
 import com.example.androidapp.activity.VisitHomePageActivity;
-import com.example.androidapp.adapter.EnrollmentListAdapter;
+import com.example.androidapp.adapter.RecruitmentListAdapter;
 import com.example.androidapp.entity.RecruitmentInfo;
 import com.example.androidapp.util.BasicInfo;
 
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class RecruitmentInfoFragment extends Fragment {
 
     RecyclerView recyclerView;
-    EnrollmentListAdapter adapter;
+    RecruitmentListAdapter adapter;
     ArrayList<RecruitmentInfo> mRecruitmentList;
 
     public RecruitmentInfoFragment() {
@@ -35,7 +35,7 @@ public class RecruitmentInfoFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         mRecruitmentList = new ArrayList<>();
-        adapter = new EnrollmentListAdapter(mRecruitmentList, getContext());//初始化NameAdapter
+        adapter = new RecruitmentListAdapter(mRecruitmentList, getContext());//初始化NameAdapter
         adapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
 
         return view;
