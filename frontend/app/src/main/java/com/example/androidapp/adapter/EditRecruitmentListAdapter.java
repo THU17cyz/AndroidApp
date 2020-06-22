@@ -19,9 +19,9 @@ import com.example.androidapp.util.OptionItems;
 
 import java.util.List;
 
-public class EditEnrollmentListAdapter<T> extends MyBaseAdapter {
+public class EditRecruitmentListAdapter<T> extends MyBaseAdapter {
 
-  public EditEnrollmentListAdapter(List<T> data, Context context){
+  public EditRecruitmentListAdapter(List<T> data, Context context){
     super(R.layout.item_edit_enrollment_info, data, context);
   }
 
@@ -118,6 +118,9 @@ public class EditEnrollmentListAdapter<T> extends MyBaseAdapter {
 
     // 选择器
     TextView state = viewHolder.getView(R.id.state);
+    // 选择器
+    TextView studentType = viewHolder.getView(R.id.student_type);
+
     state.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -143,7 +146,10 @@ public class EditEnrollmentListAdapter<T> extends MyBaseAdapter {
             } else if(s.equals("失败")) {
               data.state = "F";
             }
+            number.requestFocus();
           }
+
+
         })
                 .setTitleText("选择状态")
                 .setSubmitText("确定")
@@ -154,11 +160,11 @@ public class EditEnrollmentListAdapter<T> extends MyBaseAdapter {
                 .build();
         pvOptions.setPicker(OptionItems.optionsState);
         pvOptions.show();
+
       }
     });
 
-    // 选择器
-    TextView studentType = viewHolder.getView(R.id.student_type);
+
     studentType.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -179,6 +185,7 @@ public class EditEnrollmentListAdapter<T> extends MyBaseAdapter {
             } else if(s.equals("博士生")){
               data.studentType = "DT";
             }
+            number.requestFocus();
           }
         })
                 .setTitleText("选择类型")
@@ -190,6 +197,7 @@ public class EditEnrollmentListAdapter<T> extends MyBaseAdapter {
                 .build();
         pvOptions.setPicker(OptionItems.optionsDegree);
         pvOptions.show();
+
       }
     });
   }

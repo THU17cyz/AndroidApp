@@ -141,6 +141,8 @@ public class VisitHomePageActivity extends AppCompatActivity {
     public ArrayList<ApplicationInfo> mApplicationList;
     public ArrayList<RecruitmentInfo> mRecruitmentList;
 
+    int count;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -328,6 +330,9 @@ public class VisitHomePageActivity extends AppCompatActivity {
         });
     }
 
+    private synchronized void addCounter() {
+        count++;
+    }
 
     protected void getInfo() {
         String type_ = "I";
@@ -346,14 +351,15 @@ public class VisitHomePageActivity extends AppCompatActivity {
             teacher_id = String.valueOf(id);
             student_id = null;
         }
-        final int[] count = {0};
+//        final int[] count = {0};
+        count = 0;
 
         // 获取用户名和类型
         new GetInfoRequest(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Log.e("error", e.toString());
-                count[0]++;
+                addCounter();
             }
 
             @Override
@@ -377,15 +383,15 @@ public class VisitHomePageActivity extends AppCompatActivity {
                         }else {
                             mTitle = jsonObject.getString("title");
                         }
-                        count[0]++;
+                        addCounter();
                     } else {
                         String info = jsonObject.getString("info");
                         System.out.println(info);
-                        count[0]++;
+                        addCounter();
                         // getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
                     }
                 } catch (JSONException e) {
-                    count[0]++;
+                    addCounter();
                     Log.e("error", e.toString());
                 }
             }
@@ -396,7 +402,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Log.e("error", e.toString());
-                count[0]++;
+                addCounter();
             }
 
             @Override
@@ -427,8 +433,8 @@ public class VisitHomePageActivity extends AppCompatActivity {
                         fanNum = jsonObject.getString("fan_number");
                         followNum = jsonObject.getString("follow_number");
 
-                        count[0]++;
-                        while (count[0] != 2) {
+                        addCounter();
+                        while (count != 2) {
 
                         }
                         System.out.println("first" + mName);
@@ -442,12 +448,12 @@ public class VisitHomePageActivity extends AppCompatActivity {
                         });
                     } else {
                         String info = jsonObject.getString("info");
-                        count[0]++;
+                        addCounter();
                         Log.e("error", info);
                     }
 
                 } catch (JSONException e) {
-                    count[0]++;
+                    addCounter();
                     Log.e("error", e.toString());
                 }
             }

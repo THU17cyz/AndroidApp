@@ -164,7 +164,6 @@ public class InfoActivity extends BaseActivity implements  DateFormatter.Formatt
             note4.clear();
             note4.addAll(BasicInfo.PWD_CHANGE_NOTIFICATIONS);
             messagesAdapter.addToEnd(note4, true);
-            messagesAdapter.addToEnd(BasicInfo.PWD_CHANGE_NOTIFICATIONS, true);
             Message m = BasicInfo.PWD_CHANGE_NOTIFICATIONS.get(BasicInfo.PWD_CHANGE_NOTIFICATIONS.size() - 1);
             id = m.getId();
         }

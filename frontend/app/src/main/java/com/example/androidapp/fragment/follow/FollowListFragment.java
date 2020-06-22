@@ -150,6 +150,13 @@ public class FollowListFragment extends Fragment {
             }
         } else {
             for (ShortProfile shortProfile : BasicInfo.FAN_LIST) {
+                boolean is_fan = false;
+                for (ShortProfile shortProfile2 : BasicInfo.WATCH_LIST) {
+                    if (shortProfile2.id == shortProfile.id) {
+                        is_fan = true;
+                    }
+                }
+                shortProfile.isFan = is_fan;
                 if (shortProfile.isTeacher) tProfileList.add(shortProfile);
                 else sProfileList.add(shortProfile);
             }
@@ -175,6 +182,28 @@ public class FollowListFragment extends Fragment {
 //        }
 //        if (i < tProfileList.size())tProfileList.remove(i);
 //        tShortProfileAdapter.notifyItemRemoved(i);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        int tSize = tProfileList.size();
+//        int sSize = sProfileList.size();
+//        tProfileList.clear();
+//        sProfileList.clear();
+//        tShortProfileAdapter.notifyItemRangeRemoved(0, tSize);
+//        sShortProfileAdapter.notifyItemRangeRemoved(0, sSize);
+//        if (isWatchList) {
+//            for (ShortProfile shortProfile : BasicInfo.WATCH_LIST) {
+//                if (shortProfile.isTeacher) tProfileList.add(shortProfile);
+//                else sProfileList.add(shortProfile);
+//            }
+//        } else {
+//            for (ShortProfile shortProfile : BasicInfo.FAN_LIST) {
+//                if (shortProfile.isTeacher) tProfileList.add(shortProfile);
+//                else sProfileList.add(shortProfile);
+//            }
+//        }
     }
 
     private void visitHomePage(boolean isTop,  int position) {

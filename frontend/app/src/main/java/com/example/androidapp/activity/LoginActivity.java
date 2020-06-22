@@ -13,9 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -41,12 +39,10 @@ import com.example.androidapp.request.user.LoginRequest;
 import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Hint;
-import com.example.androidapp.util.LocalPicx;
 import com.example.androidapp.util.LoginCache;
 import com.example.androidapp.util.OptionItems;
 import com.example.androidapp.util.Valid;
 import com.rubengees.introduction.IntroductionBuilder;
-import com.rubengees.introduction.Slide;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -55,6 +51,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -89,6 +86,8 @@ public class LoginActivity extends BaseActivity {
     FormEditText passwordEditText;
 
     IntroductionBuilder introductionBuilder;
+
+    int count = 0;
 
     /******************************
      ************ 方法 ************
@@ -165,6 +164,10 @@ public class LoginActivity extends BaseActivity {
 
     }
 
+    private synchronized void addCounter() {
+        count++;
+    }
+
 
     private void onJumpToMain() {
         Hint.endActivityLoad(LoginActivity.this);
@@ -225,12 +228,13 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void beforeJump2() {
-        final int count[] = {0};
+        // final int count[] = {0};
+        count = 0;
         new GetFanlistRequest(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Log.e("error1", e.toString());
-                count[0]++;
+                addCounter();
             }
 
             @Override
@@ -252,9 +256,9 @@ public class LoginActivity extends BaseActivity {
 
                         BasicInfo.FAN_LIST.add(shortProfile);
                     }
-                    count[0]++;
+                    addCounter();
                 } catch (JSONException e) {
-                    count[0]++;
+                    addCounter();
                     Log.e("error2", e.toString());
                 }
 
@@ -265,7 +269,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Log.e("error1", e.toString());
-                count[0]++;
+                addCounter();
             }
 
             @Override
@@ -286,10 +290,10 @@ public class LoginActivity extends BaseActivity {
                         ShortProfile shortProfile = new ShortProfile(jsonArray.getJSONObject(i), false);
                         BasicInfo.addToWatchList(shortProfile);
                     }
-                    count[0]++;
+                    addCounter();
                 } catch (JSONException e) {
                     Log.e("error2", e.toString());
-                    count[0]++;
+                    addCounter();
                 }
 
             }
@@ -300,7 +304,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Log.e("error", e.toString());
-                count[0]++;
+                addCounter();
             }
 
             @Override
@@ -331,18 +335,22 @@ public class LoginActivity extends BaseActivity {
                             BasicInfo.mResult = jsonObject.getString("research_achievements");
                             BasicInfo.mUrl = jsonObject.getString("promotional_video_url");
                         }
+//                        System.out.println("jashs"+ count[0]);
+                        addCounter();
 
-                        count[0]++;
-                        while (count[0] != 4) {
+                        while (count != 4) {
 
+                            // System.out.println("wtf");
                         }
+//                        System.out.println("qqqq"+ count[0]);
                         onJumpToMain();
                     } else {
                         String info = jsonObject.getString("info");
-                        count[0]++;
+                        addCounter();
                     }
                 } catch (JSONException e) {
-                    count[0]++;
+                    addCounter();
+                    System.out.println("wtf");
                 }
             }
         }, "I", null, null).send();
@@ -355,7 +363,7 @@ public class LoginActivity extends BaseActivity {
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
                     Log.e("error", e.toString());
-                    count[0]++;
+                    addCounter();
                 }
 
                 @Override
@@ -413,13 +421,13 @@ public class LoginActivity extends BaseActivity {
                                     },String.valueOf(enrollmentIdList.get(i))).send();
                                 }
                             }
-                            count[0]++;
+                            addCounter();
                         }else{
                             String info = jsonObject.getString("info");
-                            count[0]++;
+                            addCounter();
                         }
                     } catch (JSONException e) {
-                        count[0]++;
+                        addCounter();
                     }
                 }
             },String.valueOf(BasicInfo.ID)).send();
@@ -429,7 +437,7 @@ public class LoginActivity extends BaseActivity {
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
                     Log.e("error", e.toString());
-                    count[0]++;
+                    addCounter();
                 }
 
                 @Override
@@ -481,13 +489,13 @@ public class LoginActivity extends BaseActivity {
                                     }, String.valueOf(applicationIdList.get(i))).send();
                                 }
                             }
-                            count[0]++;
+                            addCounter();
                         } else {
                             String info = jsonObject.getString("info");
-                            count[0]++;
+                            addCounter();
                         }
                     } catch (JSONException e) {
-                        count[0]++;
+                        addCounter();
                     }
                 }
             }, String.valueOf(BasicInfo.ID)).send();

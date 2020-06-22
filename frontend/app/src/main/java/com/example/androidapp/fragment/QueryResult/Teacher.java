@@ -67,7 +67,7 @@ public class Teacher extends ProfileFragment {
                     jsonArray = (JSONArray) jsonObject.get("teacher_info_list");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         ShortProfile shortProfile = new ShortProfile(jsonArray.getJSONObject(i), true);
-                        Log.e("..", "! " + shortProfile.isFan + shortProfile.id + " " + shortProfile.name);
+                        Log.e("..", "! " + shortProfile.isFan + shortProfile.id + " " + shortProfile.name + " " + shortProfile.relate);
                         addProfileItem(false, shortProfile);
                     }
                     adjustList();

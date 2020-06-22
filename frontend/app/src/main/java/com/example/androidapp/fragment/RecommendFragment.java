@@ -55,8 +55,6 @@ public class RecommendFragment extends ProfileListFragment {
     public RecommendFragment(int num) {
         if (num == 0) isTeacher = true;
         else isTeacher = false;
-        System.out.println("construct" + isTeacher);
-
     }
 
 

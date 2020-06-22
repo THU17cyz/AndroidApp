@@ -1,40 +1,31 @@
 package com.example.androidapp.fragment.HomepageEdit;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.andreabaccega.widget.FormEditText;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.androidapp.R;
-import com.example.androidapp.adapter.EditEnrollmentListAdapter;
+import com.example.androidapp.adapter.EditRecruitmentListAdapter;
 import com.example.androidapp.entity.RecruitmentInfo;
 import com.example.androidapp.request.intention.ClearAllIntentionRequest;
 import com.example.androidapp.request.intention.CreateRecruitIntentionRequest;
-import com.example.androidapp.request.intention.GetRecruitIntentionDetailRequest;
-import com.example.androidapp.request.intention.GetRecruitIntentionRequest;
 import com.example.androidapp.util.BasicInfo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,7 +41,7 @@ public class EditRecruitmentInfoFragment extends Fragment
 
     RecyclerView recyclerView;
 
-    EditEnrollmentListAdapter adapter;
+    EditRecruitmentListAdapter adapter;
 
     private ArrayList<RecruitmentInfo> mRecruitmentList;
 
@@ -72,7 +63,7 @@ public class EditRecruitmentInfoFragment extends Fragment
         recyclerView.setLayoutManager(linearLayoutManager);
 
         mRecruitmentList = new ArrayList<>();
-        adapter = new EditEnrollmentListAdapter(mRecruitmentList, getContext());
+        adapter = new EditRecruitmentListAdapter(mRecruitmentList, getContext());
         adapter.setRecyclerManager(recyclerView);
 
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -80,9 +71,9 @@ public class EditRecruitmentInfoFragment extends Fragment
             public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
                 Log.d("index",String.valueOf(i));
 
-                if(view.getId()==R.id.delete){
+                if(view.getId() == R.id.delete){
                     mRecruitmentList.remove(i);
-                    adapter.notifyDataSetChanged();
+                    adapter.notifyItemRemoved(i);
                 }
             }
         });
@@ -99,8 +90,10 @@ public class EditRecruitmentInfoFragment extends Fragment
     }
 
     public void setInfo() {
-        mRecruitmentList.addAll(BasicInfo.mRecruitmentList);
-        adapter.notifyDataSetChanged();
+        for (RecruitmentInfo recruitmentInfo: BasicInfo.mRecruitmentList) {
+            mRecruitmentList.add(new RecruitmentInfo((recruitmentInfo)));
+        }
+        adapter.notifyItemRangeInserted(0, BasicInfo.mRecruitmentList.size());
     }
 
     @Override
@@ -193,7 +186,10 @@ public class EditRecruitmentInfoFragment extends Fragment
                 // Toast.makeText(getActivity(),"添加",Toast.LENGTH_SHORT).show();
                 RecruitmentInfo recruitmentInfo = new RecruitmentInfo("","本科生","","进行","",-1, RecruitmentInfo.Type.ADD);
                 mRecruitmentList.add(recruitmentInfo);
-                adapter.notifyDataSetChanged();
+                adapter.notifyItemInserted(mRecruitmentList.size() - 1);
+                recyclerView.smoothScrollToPosition(mRecruitmentList.size() - 1);
+                View view = getActivity().getCurrentFocus();
+                if (view != null) view.clearFocus();
                 break;
             }
         }

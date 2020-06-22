@@ -116,6 +116,7 @@ public class EditApplicationListAdapter<T> extends MyBaseAdapter {
             } else if(s.equals("失败")) {
               data.state = "F";
             }
+            profile.requestFocus();
           }
         })
                 .setTitleText("选择状态")

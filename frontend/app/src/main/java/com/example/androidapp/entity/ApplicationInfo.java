@@ -29,4 +29,12 @@ public class ApplicationInfo {
     this.applicationId = applicationId;
     this.type = type;
   }
+
+  public ApplicationInfo (ApplicationInfo another) {
+    this.direction = another.direction;
+    this.state = another.state;
+    this.profile = another.profile;
+    this.applicationId = another.applicationId;
+    this.type = another.type;
+  }
 }

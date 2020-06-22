@@ -33,7 +33,9 @@ import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.DateUtil3;
 import com.example.androidapp.util.LocalPicx;
 import com.example.androidapp.util.MyImageLoader;
+import com.kingja.loadsir.callback.Callback;
 import com.kingja.loadsir.core.LoadService;
+import com.kingja.loadsir.core.LoadSir;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.squareup.picasso.Picasso;
@@ -263,7 +265,6 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
         }
         Collections.sort(dialogs, (p1, p2) -> p2.getLastMessage().getCreatedAt().compareTo(p1.getLastMessage().getCreatedAt()));
         dialogsAdapter.notifyDataSetChanged();
-
     }
 
     @Override

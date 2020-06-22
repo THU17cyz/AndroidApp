@@ -68,9 +68,9 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                ImageView imageView = (ImageView)view;
+                System.out.println("thh" + i);
                 mApplicationList.remove(i);
-                adapter.notifyDataSetChanged();
+                adapter.notifyItemRemoved(i);
             }
         });
 
@@ -91,8 +91,10 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
     }
 
     public void setInfo() {
-        mApplicationList.addAll(BasicInfo.mApplicationList);
-        adapter.notifyDataSetChanged();
+        for (ApplicationInfo applicationInfo: BasicInfo.mApplicationList) {
+            mApplicationList.add(new ApplicationInfo((applicationInfo)));
+        }
+        adapter.notifyItemRangeInserted(0, BasicInfo.mApplicationList.size());
     }
 
     @Override
@@ -113,7 +115,10 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
                 // Toast.makeText(getActivity(),"添加",Toast.LENGTH_SHORT).show();
                 ApplicationInfo applicationInfo = new ApplicationInfo("","进行","");
                 mApplicationList.add(applicationInfo);
-                adapter.notifyDataSetChanged();
+                adapter.notifyItemInserted(mApplicationList.size() - 1);
+                recyclerView.smoothScrollToPosition(mApplicationList.size() - 1);
+                View view = getActivity().getCurrentFocus();
+                if (view != null) view.clearFocus();
                 break;
             }
         }

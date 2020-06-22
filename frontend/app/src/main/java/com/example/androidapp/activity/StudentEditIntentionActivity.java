@@ -1,22 +1,13 @@
 package com.example.androidapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
 
-import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
-import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
-import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.example.androidapp.R;
 import com.example.androidapp.adapter.EditApplicationListAdapter;
-import com.example.androidapp.adapter.EditEnrollmentListAdapter;
 import com.example.androidapp.entity.EditApplication;
-import com.example.androidapp.entity.EditEnrollment;
 
 import java.util.ArrayList;
 import java.util.Arrays;

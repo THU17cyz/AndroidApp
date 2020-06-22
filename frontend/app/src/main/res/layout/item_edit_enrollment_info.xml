@@ -64,6 +64,8 @@
             android:layout_weight="2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             app:emptyErrorString="@string/CANNOT_BE_NULL"></com.andreabaccega.widget.FormEditText>
     </LinearLayout>
 
@@ -157,6 +159,8 @@
             android:id="@+id/number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             app:emptyErrorString="@string/CANNOT_BE_NULL"></com.andreabaccega.widget.FormEditText>
     </LinearLayout>
 
@@ -186,6 +190,8 @@
             android:id="@+id/introduction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             app:emptyErrorString="@string/CANNOT_BE_NULL"></com.andreabaccega.widget.FormEditText>
     </LinearLayout>
 

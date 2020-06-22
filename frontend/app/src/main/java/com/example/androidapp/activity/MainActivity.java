@@ -65,6 +65,7 @@ import com.example.androidapp.viewmodel.ChatHistoryViewModel;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gyf.immersionbar.ImmersionBar;
+import com.kingja.loadsir.core.LoadService;
 import com.kingja.loadsir.core.LoadSir;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -214,6 +215,11 @@ public class MainActivity extends BaseActivity {
 
         ImmersionBar.with(this).statusBarColor(R.color.transparent).init();
 
+//        LoadService loadService = LoadSir.getDefault().register(this, new com.kingja.loadsir.callback.Callback.OnReloadListener() {
+//            @Override
+//            public void onReload(View v) { }
+//        });
+//        loadService.showSuccess();
 
 
         // 初始化侧边栏
