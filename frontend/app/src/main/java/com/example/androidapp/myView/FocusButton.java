@@ -46,7 +46,7 @@ import com.example.androidapp.R;
  */
 public class FocusButton extends androidx.appcompat.widget.AppCompatButton implements View.OnClickListener {
 
-    private int bg_color_pressed = Color.GRAY;
+    private int bg_color_pressed = Color.parseColor("#EEEEEE");
     private int bg_color = Color.WHITE;
     private int text_color_pressed = Color.DKGRAY;
     private int text_color = Color.BLUE;
@@ -148,7 +148,7 @@ public class FocusButton extends androidx.appcompat.widget.AppCompatButton imple
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.FocusButton);
         if (typedArray != null) {
-            bg_color_pressed = typedArray.getColor(R.styleable.FocusButton_bg_color_pressed, Color.GRAY);
+            bg_color_pressed = typedArray.getColor(R.styleable.FocusButton_bg_color_pressed, Color.parseColor("#EEEEEE"));
             bg_color = typedArray.getColor(R.styleable.FocusButton_bg_color, Color.WHITE);
             text_color_pressed = typedArray.getColor(R.styleable.FocusButton_text_color_pressed, Color.DKGRAY);
             text_color = typedArray.getColor(R.styleable.FocusButton_text_color, Color.BLUE);
