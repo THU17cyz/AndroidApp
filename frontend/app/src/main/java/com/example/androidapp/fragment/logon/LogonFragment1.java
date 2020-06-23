@@ -26,6 +26,7 @@ import com.example.androidapp.request.user.LoginRequest;
 import com.example.androidapp.request.user.LogonRequest;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Hint;
+import com.example.androidapp.util.LoginCache;
 import com.example.androidapp.util.Valid;
 
 import org.jetbrains.annotations.NotNull;
@@ -67,7 +68,7 @@ public class LogonFragment1 extends Fragment {
         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
             try {
                 if (response.code() != 200) {
-                    requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), "登录失败，请稍后重试！"));
+                    // requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), "连接失败"));
                 } else {
                     ResponseBody responseBody = response.body();
                     String responseBodyString = responseBody != null ? responseBody.string() : "";
@@ -77,10 +78,10 @@ public class LogonFragment1 extends Fragment {
                     boolean status = (Boolean) jsonObject.get("status");
                     String info = (String) jsonObject.get("info");
                     if (status) {
-                        requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), info));
+                       //  requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), info));
                         requireActivity().runOnUiThread(((LogonActivity) requireActivity())::onNextPage);
                     } else {
-                        requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), info));
+                        // requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), info));
                     }
                 }
             } catch (JSONException e) {
@@ -243,7 +244,6 @@ public class LogonFragment1 extends Fragment {
     @OnClick(R.id.logon1_type)
     public void onClickTypeSelector() {
 
-        // 隐藏软键盘
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(typeSelector.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 

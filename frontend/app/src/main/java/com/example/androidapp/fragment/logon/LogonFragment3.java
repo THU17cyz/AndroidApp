@@ -1,5 +1,6 @@
 package com.example.androidapp.fragment.logon;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,7 +14,9 @@ import androidx.fragment.app.Fragment;
 
 import com.andreabaccega.widget.FormEditText;
 import com.example.androidapp.R;
+import com.example.androidapp.activity.LoginActivity;
 import com.example.androidapp.activity.LogonActivity;
+import com.example.androidapp.activity.MainActivity;
 import com.example.androidapp.request.user.UserAuthRequest;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Hint;
@@ -66,8 +69,9 @@ public class LogonFragment3 extends Fragment {
                     String info = (String) jsonObject.get("info");
                     if (status) {
                         requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), info));
-                        requireActivity().runOnUiThread(((LogonActivity) requireActivity())::onJumpToMain);
-
+                        // 认证成功后返回登录界面
+                        Intent intent = new Intent(getActivity(), LoginActivity.class);
+                        startActivity(intent);
                     } else {
                         requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), info));
                     }

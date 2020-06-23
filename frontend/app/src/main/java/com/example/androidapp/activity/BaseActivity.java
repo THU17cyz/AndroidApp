@@ -19,6 +19,9 @@ public class BaseActivity extends AppCompatActivity {
         ActivityCollector.addActivity(this);
     }
 
+    /**
+     * 结束所有activity
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();

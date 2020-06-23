@@ -61,7 +61,6 @@ public class ChatActivity
         implements DateFormatter.Formatter,
         DialogInterface.OnClickListener,
         MessagesListAdapter.OnLoadMoreListener,
-        MessagesListAdapter.OnMessageClickListener,
         MessageInput.InputListener,
         MessageInput.AttachmentsListener {
     private static final int REQUEST_CODE_CHOOSE = 10;
@@ -249,7 +248,7 @@ public class ChatActivity
         return true;
     }
 
-    // 轮询要干的事
+    // 轮询
     private synchronized void newTest() {
         int current = msgs.size();
         ArrayList<Message> tmp = BasicInfo.CHAT_HISTORY.get(contact); // 账号
@@ -269,7 +268,6 @@ public class ChatActivity
 
     /**
      * 处理日期格式
-     *
      * @param date
      * @return
      */
@@ -283,6 +281,7 @@ public class ChatActivity
             return DateFormatter.format(date, DateFormatter.Template.STRING_DAY_MONTH_YEAR);
         }
     }
+
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
@@ -322,10 +321,6 @@ public class ChatActivity
 
     /**
      * 获得已选择的照片
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -414,15 +409,6 @@ public class ChatActivity
 
     }
 
-    /**
-     * 消息点击事件
-     *
-     * @param message
-     */
-    @Override
-    public void onMessageClick(IMessage message) {
-        // Toast.makeText(getApplicationContext(), message.getText() + "clilcked", Toast.LENGTH_SHORT).show();
-    }
 
     /**
      * 加号点击事件

@@ -45,6 +45,7 @@ import com.example.androidapp.request.user.LogoutRequest;
 import com.example.androidapp.request.user.UpdateInfoPictureRequest;
 import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.LocalPicx;
+import com.example.androidapp.util.LoginCache;
 import com.example.androidapp.util.MyImageLoader;
 import com.example.androidapp.util.Uri2File;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -625,11 +626,7 @@ public class MainActivity extends BaseActivity {
                     Boolean status = jsonObject.getBoolean("status");
                     if (status) {
                         // 登出时清除share中的信息
-                        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putBoolean("hasLogin", false);
-                        editor.commit();
-
+                        LoginCache.removeCache(getApplicationContext());
                         BasicInfo.reset();
                         MainActivity.this.finish();
 //                        Intent intent = new Intent(MainActivity.this,LoginActivity.class);
