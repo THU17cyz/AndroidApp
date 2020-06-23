@@ -73,7 +73,9 @@ public class ResetPasswordActivity extends BaseActivity {
                                 // 修改密码之后会要求重新登录，因此清空登录缓存
                                 Hint.showLongBottomToast(ResetPasswordActivity.this, info);
                                 LoginCache.removeCache(getApplicationContext());
-                                onReturnToLogin();
+                                finish();
+                                Intent intent = new Intent(ResetPasswordActivity.this,LoginActivity.class);
+                                startActivity(intent);
                             }
                         });
                     } else {
@@ -154,8 +156,6 @@ public class ResetPasswordActivity extends BaseActivity {
     @OnClick(R.id.returnButton)
     public void onReturnToLogin() {
         finish();
-        Intent intent = new Intent(ResetPasswordActivity.this,LoginActivity.class);
-        startActivity(intent);
     }
 
     /******************************
