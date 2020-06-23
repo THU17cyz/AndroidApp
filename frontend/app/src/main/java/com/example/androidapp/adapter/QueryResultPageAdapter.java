@@ -33,9 +33,6 @@ public class QueryResultPageAdapter extends FragmentStatePagerAdapter {
      */
     @Override
     public Fragment getItem(int position) {
-        //To do
-        //return the corresponded fragment according to position
-        //remember that the position can not be out of [0, 2]
         switch (position) {
             case 0:
                 return new Teacher();
@@ -48,7 +45,6 @@ public class QueryResultPageAdapter extends FragmentStatePagerAdapter {
             default:
                 return null;
         }
-        //To do closed
     }
 
     /**

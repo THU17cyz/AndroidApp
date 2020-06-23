@@ -71,7 +71,6 @@ public class Apply extends IntentFragment {
                     jsonArray = (JSONArray) jsonObject.get("application_info_list");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         ShortIntent shortIntent = new ShortIntent(jsonArray.getJSONObject(i), false);
-                        // Log.e("..", "! " + shortProfile.isFan + shortProfile.id + " " + shortProfile.name);
                         addIntentItem(false, shortIntent);
                     }
                     adjustList();

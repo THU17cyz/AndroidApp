@@ -28,8 +28,6 @@ import okhttp3.Call;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-//import butterknife.BindView;
-
 /**
  * 重置密码
  */

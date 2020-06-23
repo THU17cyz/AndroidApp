@@ -127,23 +127,12 @@ public class ProfileFragment extends Fragment {
     @OnClick(R.id.selectText)
     public void openSelectWindow() {
         if (isFilterOpen) {
-            // isFilterOpen = false;
             if (selectList != null) selectList.dismiss();
-            // selectText.setTextColor(Color.BLACK);
         } else {
             isFilterOpen = true;
-            // selectText.setTextColor(Color.BLUE);
             selectList = new SelectList(getContext());
             selectList.showPopupWindow(orderSpinner);
-
         }
-
-//        orderList.setOutSideTouchable(true);
-//        orderList.setPopupGravity(Gravity.BOTTOM);
-//        orderList.setAlignBackground(true);
-//        orderList.setAlignBackgroundGravity(Gravity.TOP);
-        // orderList.setBackground(0);
-
     }
 
     @Override

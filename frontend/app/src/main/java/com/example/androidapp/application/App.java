@@ -29,7 +29,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        // LoadSir 定义
+
         ProgressCallback loadingCallback = new ProgressCallback.Builder()
                 .setTitle("Loading")
                 .build();

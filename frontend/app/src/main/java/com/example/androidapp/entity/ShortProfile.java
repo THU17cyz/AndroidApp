@@ -62,8 +62,6 @@ public class ShortProfile implements Parcelable {
         } else {
             this.url = new GetInfoPictureRequest("S", null, String.valueOf(this.id)).getWholeUrl();
         }
-//        this.fanNum = url;
-//        this.isValidated = isValidated;
     }
 
     public ShortProfile(JSONObject jsonObject, boolean isTeacher) throws JSONException {

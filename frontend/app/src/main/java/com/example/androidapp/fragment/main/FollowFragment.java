@@ -82,7 +82,6 @@ public class FollowFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        System.out.println("Hiwdjskfzjhaso");
     }
 
     @Override

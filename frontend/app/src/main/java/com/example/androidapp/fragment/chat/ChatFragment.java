@@ -109,7 +109,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
         dialogsAdapter.setOnDialogClickListener(new DialogsListAdapter.OnDialogClickListener() {
             @Override
             public void onDialogClick(IDialog dialog) {
-                // todo
+
                 User contact = (User) dialog.getUsers().get(0);
                 ((Dialog) dialog).getLastMessage().setRead();
                 BasicInfo.subFromBadgeChat(dialog.getUnreadCount());
@@ -118,7 +118,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
                 for (Message m : msgs) {
                     m.setRead();
                 }
-                System.out.println(contact.getAccount() + contact.getId() + contact.getName());
+
                 String s = contact.getName();
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
                 intent.putExtra("user", userAccount);
@@ -150,9 +150,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("MESSAGE"); //这个ACTION和后面activity的ACTION一样就行，要不然收不到的
         getActivity().registerReceiver(myBroadcastReceive, intentFilter);
-//        refresh();
         return root;
-
     }
 
 
@@ -160,13 +158,11 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
     public void onStart() {
         super.onStart();
         refresh();
-        // mTimeCounterRunnable.run();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        // mHandler.removeCallbacks(mTimeCounterRunnable);
     }
 
     @Override
@@ -196,7 +192,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
             }
             User user = message.getUser();
             if (message.getImageUrl() != null) message.setText("[图片]");
-            System.out.println(user.getAccount() + user.getId() + user.getName());
+
             Dialog dialog = new Dialog(String.valueOf(i), user.getName(), user.getAvatar(),
                     new ArrayList<>(Arrays.asList(user)),
                     message, count);

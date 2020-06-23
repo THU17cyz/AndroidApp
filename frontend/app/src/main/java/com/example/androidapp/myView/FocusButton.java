@@ -144,8 +144,6 @@ public class FocusButton extends androidx.appcompat.widget.AppCompatButton imple
 
     private void initParams(Context context, AttributeSet attrs) {
 
-        // Toast.makeText(context,"ok",Toast.LENGTH_LONG).show();
-
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.FocusButton);
         if (typedArray != null) {
             bg_color_pressed = typedArray.getColor(R.styleable.FocusButton_bg_color_pressed, Color.GRAY);
@@ -216,20 +214,7 @@ public class FocusButton extends androidx.appcompat.widget.AppCompatButton imple
     }
 
     public void loading() {
-
         setText("...");
-//    if (!pressed){
-//      pressed = true;
-//      setBackgroundDrawable(drawable_pressed);
-//      setText(text_pressed);
-//      setTextColor(text_color_pressed);
-//
-//    } else {
-//      pressed = false;
-//      setBackgroundDrawable(drawable);
-//      setTextColor(text_color);
-//      setText(text);
-//    }
     }
 
     public boolean isPressed() {
@@ -268,9 +253,7 @@ public class FocusButton extends androidx.appcompat.widget.AppCompatButton imple
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
-                // setBackgroundDrawable(context.getResources().getDrawable(R.drawable.button_main_color_selector));
                 setEnabled(false);
-                // text = getText().toString();
                 setText("");
             }
 
@@ -317,13 +300,11 @@ public class FocusButton extends androidx.appcompat.widget.AppCompatButton imple
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
-                // setBackgroundDrawable(context.getResources().getDrawable(R.drawable.button_main_color_selector));
                 setEnabled(false);
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                // setText(text);
                 setEnabled(true);
                 if (finishListener != null) {
                     finishListener.onFinish();
@@ -341,7 +322,6 @@ public class FocusButton extends androidx.appcompat.widget.AppCompatButton imple
      */
     public void startLoading() {
         if (!isLoading) {
-            // isLoading = true;
             clearAnimation();
             showStartLoadAnimation();
         }
@@ -354,7 +334,6 @@ public class FocusButton extends androidx.appcompat.widget.AppCompatButton imple
      */
     public void startLoading(OnStartListener listener) {
         if (!isLoading) {
-            // isLoading = true;
             this.startListener = listener;
             clearAnimation();
             showStartLoadAnimation();
@@ -366,7 +345,6 @@ public class FocusButton extends androidx.appcompat.widget.AppCompatButton imple
      */
     public void finishLoading() {
         if (isLoading) {
-            // isLoading = false;
             clearAnimation();
             showFinishLoadAnimation();
         }
@@ -379,7 +357,6 @@ public class FocusButton extends androidx.appcompat.widget.AppCompatButton imple
      */
     public void finishLoading(OnFinishListener listener) {
         if (isLoading) {
-            // isLoading = false;
             this.finishListener = listener;
             clearAnimation();
             showFinishLoadAnimation();

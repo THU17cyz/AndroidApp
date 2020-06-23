@@ -52,9 +52,7 @@ public class RecommendFragment extends ProfileListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = super.onCreateView(inflater, container, savedInstanceState);
-//        refreshLayout = ((HomeFragment) getParentFragment()).refreshLayout;
         activity = getActivity();
-        System.out.println("onCreateView");
         getRecommendList(false);
         refreshLayout.setOnRefreshListener(refreshlayout -> {
             getRecommendList(true);

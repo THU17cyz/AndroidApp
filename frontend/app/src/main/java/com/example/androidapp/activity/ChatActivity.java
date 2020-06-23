@@ -97,18 +97,6 @@ public class ChatActivity
 
     private ArrayList<Message> msgs;
 
-
-//    private Handler mHandler = new Handler(Looper.getMainLooper());
-//    // 轮询
-//    private Runnable mTimeCounterRunnable = new Runnable() {
-//        @Override
-//        public void run() {
-//            Log.e("聊天界面轮询", "+1");
-//            newTest();//getUnreadCount()执行的任务
-//            mHandler.postDelayed(this, 2 * 1000);
-//        }
-//    };
-
     BroadcastReceiver myBroadcastReceive = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -132,18 +120,14 @@ public class ChatActivity
         user = getIntent().getStringExtra("user");
         realName = getIntent().getStringExtra("real_name");
         contact = getIntent().getStringExtra("contact");
-        contactId = getIntent().getStringExtra("contact_id");// 这里的id是用户id，用于传数据
+        contactId = getIntent().getStringExtra("contact_id");
         contactType = getIntent().getStringExtra("contact_type");
 
-        System.out.println(user + contact + contactId + contactType);
-
-        // String.valueOf(BasicInfo.ID)
         thisUser = new User("0", user, "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
                 user, BasicInfo.TYPE, contactId);
-        // contactId
-        contactUser = new User("1", contact, "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
-                contact, contactType, contactId);//这里面的id是用于显示
 
+        contactUser = new User("1", contact, "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
+                contact, contactType, contactId);
 
         // 头像
         imageLoader = (imageView, url, payload) -> {
@@ -172,33 +156,25 @@ public class ChatActivity
             messagesAdapter.addToEnd(msgs, true);
             messagesAdapter.notifyDataSetChanged();
         }
-        Log.e("!!!!!!!!!!!!!!!", String.valueOf(msgs.size()));
 
         // 设置联系人用户名
         name.setText(realName);
-
-        // 改成访问他人主页
-        name.setOnClickListener(v -> {
-
-        });
 
         messageInput.setInputListener(this);
         messageInput.setAttachmentsListener(this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("MESSAGE"); //这个ACTION和后面activity的ACTION一样就行，要不然收不到的
         registerReceiver(myBroadcastReceive, intentFilter);
-//        refresh();
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
-//        mTimeCounterRunnable.run();
     }
 
     @Override
     public void onDestroy() {
-//        mHandler.removeCallbacks(mTimeCounterRunnable);
         super.onDestroy();
         unregisterReceiver(myBroadcastReceive);
     }
@@ -223,19 +199,15 @@ public class ChatActivity
                 String resStr = response.body().string();
                 Log.e("response", resStr);
                 try {
-                    // 解析json，然后进行自己的内部逻辑处理
-                    JSONObject jsonObject = new JSONObject(resStr);
 
+                    JSONObject jsonObject = new JSONObject(resStr);
                     Boolean status = jsonObject.getBoolean("status");
                     if (status) {
-                        // 发送成功后显示消息
                         runOnUiThread(() -> {
                             User user = new User("0", realName,
                                     new GetInfoPictureRequest(contactType, contactId, contactId).getWholeUrl(),
                                     contact, contactType, contactId);
                             Date trueDate = new Date();
-//                            Date falseDate = new Date();
-//                            falseDate.setTime(trueDate.getTime() - 28800000);
                             Message m = new Message("0", user, input.toString(), trueDate, true);
                             messagesAdapter.addToStart(m, true);
                             ArrayList<Message> tmp = BasicInfo.CHAT_HISTORY.get(contact); // 账号
@@ -351,9 +323,6 @@ public class ChatActivity
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
                         Log.e("error", "发送图片失败");
-                        runOnUiThread(() -> {
-                            // Toast.makeText(getApplicationContext(),"发送图片失败",Toast.LENGTH_SHORT).show();
-                        });
                     }
 
                     @Override
@@ -362,9 +331,8 @@ public class ChatActivity
                         String resStr = response.body().string();
                         Log.e("response", resStr);
                         try {
-                            // 解析json，然后进行自己的内部逻辑处理
-                            JSONObject jsonObject = new JSONObject(resStr);
 
+                            JSONObject jsonObject = new JSONObject(resStr);
                             Boolean status = jsonObject.getBoolean("status");
                             if (status) {
                                 // 发送成功之后显示图片
@@ -373,8 +341,6 @@ public class ChatActivity
                                             new GetInfoPictureRequest(contactType, contactId, contactId).getWholeUrl(),
                                             contact, contactType, contactId);
                                     Date trueDate = new Date();
-//                                    Date falseDate = new Date();
-//                                    falseDate.setTime(trueDate.getTime() - 8 * 60 * 60 * 1000);
                                     Message m = new Message("0", user, null, trueDate, true);
                                     m.setImage(new Message.Image(uri));
                                     messagesAdapter.addToStart(m, true);

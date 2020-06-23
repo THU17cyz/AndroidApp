@@ -37,7 +37,7 @@ public class Teacher extends ProfileFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = super.onCreateView(inflater, container, savedInstanceState); //inflater.inflate(R.layout.fragment_teacher_result, container, false);
+        View root = super.onCreateView(inflater, container, savedInstanceState);
         return root;
     }
 

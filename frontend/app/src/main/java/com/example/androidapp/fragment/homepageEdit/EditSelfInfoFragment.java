@@ -309,7 +309,7 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String resStr = response.body().string();
-                // getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+
                 Log.e("response", resStr);
                 try {
                     JSONObject jsonObject = new JSONObject(resStr);
@@ -336,7 +336,6 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String resStr = response.body().string();
-                // getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
                 Log.e("response", resStr);
                 try {
                     JSONObject jsonObject = new JSONObject(resStr);

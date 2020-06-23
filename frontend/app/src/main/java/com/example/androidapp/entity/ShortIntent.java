@@ -52,7 +52,6 @@ public class ShortIntent implements Parcelable {
             this.school = jsonObject.getString("student_school");
             this.department = jsonObject.getString("student_department");
         }
-//        this.isFan = jsonObject.getBoolean("is_followed");
         this.intentionState = jsonObject.getString("intention_state");
         this.relate = jsonObject.getInt("match_degree");
     }

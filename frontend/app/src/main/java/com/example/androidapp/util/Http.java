@@ -93,8 +93,7 @@ public class Http {
                 JSONObject jsonObject = new JSONObject(responseBodyString);
                 boolean status = (Boolean) jsonObject.get("status");
                 Log.e("HttpResponse", status ? "√√√√√√√√√√√√√√√√√√√√√√√√√√" : "××××××××××××××××××××××××××");
-                // TODO 在此定义请求嵌套
-                // File p = new File("E:\\360MoveData\\Users\\Wish\\Documents\\AndroidApp\\frontend\\app\\src\\main\\res\\drawable\\png_head.png");
+
                 new UpdateInfoPictureRequest(callbackExample_0, null).send();
             } catch (JSONException e) {
                 Log.e("HttpResponse", e.toString());
@@ -118,7 +117,7 @@ public class Http {
                 JSONObject jsonObject = new JSONObject(responseBodyString);
                 boolean status = (Boolean) jsonObject.get("status");
                 Log.e("HttpResponse", status ? "√√√√√√√√√√√√√√√√√√√√√√√√√√" : "××××××××××××××××××××××××××");
-                // TODO 在此定义请求嵌套
+
                 new GetInfoRequest(callbackExample_0, "I", null, null).send();
             } catch (JSONException e) {
                 Log.e("HttpResponse", e.toString());

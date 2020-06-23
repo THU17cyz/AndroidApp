@@ -92,20 +92,14 @@ public class QueryActivity extends BaseActivity {
             }
         });
 
-//        fillFlexBox(Arrays.asList("清华大学","清华大学软件学院","北京大学","小花","小海","小林","小叶","小虎","小柔"));
-
         historyList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         records = new ArrayList<>();
         hot = new ArrayList<>();
-        // records.addAll(Arrays.asList("小明","小红","小芳","小花","小海","小林","小叶","小虎","小柔"));
         historyListAdapter = new HistoryListAdapter(records, this);//初始化NameAdapter
         historyListAdapter.setRecyclerManager(historyList);//设置RecyclerView特性
-        // historyAdapter.openLeftAnimation();//设置加载动画
-
 
         historyListAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            // 用position获取点击的是什么
             deleteSearchHistory(records.get(position));
             adapter.remove(position);
 
@@ -113,7 +107,6 @@ public class QueryActivity extends BaseActivity {
 
         historyListAdapter.setOnItemClickListener((adapter, view, position) -> {
             searchView.setQuery((String) adapter.getData().get(position), true);
-//            Toast.makeText(this, "testItemClick" + position, Toast.LENGTH_SHORT).show();
         });
         getSearchHistory();
         getHotSearch();
@@ -144,12 +137,6 @@ public class QueryActivity extends BaseActivity {
         }
 
     }
-
-//    @OnClick(R.id.returnButton)
-//    public void returnToParent() {
-//        Intent intent = new Intent(this, MainActivity.class);
-//        startActivity(intent);
-//    }
 
     private void deleteSearchHistory(String key) {
         new DeleteRecordRequest(new okhttp3.Callback() {
@@ -184,7 +171,6 @@ public class QueryActivity extends BaseActivity {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String resStr = response.body().string();
-                // runOnUiThread(() -> Toast.makeText(QueryActivity.this, resStr, Toast.LENGTH_LONG).show());
                 Log.e("response", resStr);
                 try {
                     JSONObject jsonObject = new JSONObject(resStr);
@@ -202,20 +188,16 @@ public class QueryActivity extends BaseActivity {
     }
 
     private void getHotSearch() {
-//        loadService = LoadSir.getDefault().register(linearLayout, (Callback.OnReloadListener) v -> {
-//
-//        });
+
         new SearchHotRecordRequest(new okhttp3.Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Log.e("error", e.toString());
-                // loadService.showSuccess();
             }
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String resStr = response.body().string();
-                // runOnUiThread(() -> Toast.makeText(QueryActivity.this, resStr, Toast.LENGTH_LONG).show());
                 Log.e("response", resStr);
                 try {
                     JSONObject jsonObject = new JSONObject(resStr);
@@ -225,9 +207,7 @@ public class QueryActivity extends BaseActivity {
                         hot.add(jsonArray.getString(i));
                     }
                     runOnUiThread(() -> fillFlexBox(hot));
-                    // loadService.showSuccess();
                 } catch (JSONException e) {
-                    // loadService.showSuccess();
                 }
             }
         }).send();

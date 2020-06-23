@@ -72,7 +72,6 @@ public class LogonFragment1 extends Fragment {
         public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
             try {
                 if (response.code() != 200) {
-                    // requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), "连接失败"));
                 } else {
                     ResponseBody responseBody = response.body();
                     String responseBodyString = responseBody != null ? responseBody.string() : "";
@@ -82,10 +81,8 @@ public class LogonFragment1 extends Fragment {
                     boolean status = (Boolean) jsonObject.get("status");
                     String info = (String) jsonObject.get("info");
                     if (status) {
-                       //  requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), info));
                         requireActivity().runOnUiThread(((LogonActivity) requireActivity())::onNextPage);
                     } else {
-                        // requireActivity().runOnUiThread(() -> Hint.showLongCenterToast(getContext(), info));
                     }
                 }
             } catch (JSONException e) {

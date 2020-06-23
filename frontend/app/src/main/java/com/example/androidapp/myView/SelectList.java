@@ -42,8 +42,6 @@ public class SelectList extends BasePopupWindow {
     @Override
     public View onCreateContentView() {
 
-
-        // setBackground(0);
         setOutSideTouchable(true);
         setPopupGravity(Gravity.BOTTOM | Gravity.RIGHT);
         setAlignBackground(true);
@@ -111,23 +109,14 @@ public class SelectList extends BasePopupWindow {
 
     private void fillFlexBox(List<String> queries) {
         float factor = getContext().getResources().getDisplayMetrics().density;
-//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-//                (int) (40 * factor));
 
-//        if (selected == null) {
-//            selected = new boolean[]{false, false, false, false};
-//        }
         int i = 0;
         for (String query : queries) {
             TextView textView = new TextView(getContext());
-//            textView.setWidth((int) (60 * factor));
-            // textView.setLayoutParams(params);
             textView.setClickable(true);
-//            textView.setBackground(getContext().getDrawable(R.drawable.shape_label));
             textView.setText(query);
             textView.setGravity(Gravity.CENTER);
-//            textView.setPadding(20, 20, 20, 20);
-//            textView.setTextColor(getContext().getColor(R.color.text_color));
+
             if (!selected[i]) {
                 textView.setBackground(getContext().getDrawable(R.drawable.shape_label));
                 textView.setTextColor(getContext().getColor(R.color.text_color));

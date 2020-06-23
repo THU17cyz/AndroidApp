@@ -225,14 +225,13 @@ public class DashboardFragment
             try {
                 MyImageLoader.loadImage(imgAvatar, request.getWholeUrl());
             } catch (Exception e) {
-                System.out.println(e);
             }
         } else {
             try {
-                System.out.println(path);
+
                 MyImageLoader.loadImage(imgAvatar);
             } catch (Exception e) {
-                System.out.println(e);
+              
             }
         }
     }

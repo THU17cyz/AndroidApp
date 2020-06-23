@@ -262,7 +262,6 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        mTimeCounterRunnable.run();
     }
 
     @Override
@@ -277,7 +276,6 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
         super.onDestroy();
         unbinder.unbind();
         mHandler.removeCallbacks(mTimeCounterRunnable);
-//        getActivity().unregisterReceiver(myBroadcastReceive);
     }
 
 }

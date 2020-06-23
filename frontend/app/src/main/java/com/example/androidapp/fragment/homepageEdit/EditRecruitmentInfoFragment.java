@@ -127,7 +127,7 @@ public class EditRecruitmentInfoFragment extends Fragment
                 String resStr = response.body().string();
                 Log.e("response", resStr);
                 try {
-                    // 解析json
+
                     JSONObject jsonObject = new JSONObject(resStr);
                     Boolean status = jsonObject.getBoolean("status");
                     String info = jsonObject.getString("info");
@@ -147,7 +147,6 @@ public class EditRecruitmentInfoFragment extends Fragment
                                 String resStr = response.body().string();
                                 Log.e("response", resStr);
                                 try {
-                                    // 解析json，然后进行自己的内部逻辑处理
                                     JSONObject jsonObject = new JSONObject(resStr);
                                     Boolean status = jsonObject.getBoolean("status");
                                     String info = jsonObject.getString("info");
@@ -178,7 +177,7 @@ public class EditRecruitmentInfoFragment extends Fragment
                     Toast.makeText(getContext(), "已达到意向数量上限", Toast.LENGTH_SHORT).show();
                     break;
                 }
-                // Toast.makeText(getActivity(),"添加",Toast.LENGTH_SHORT).show();
+
                 RecruitmentInfo recruitmentInfo = new RecruitmentInfo("", "本科生", "", "进行", "", -1, RecruitmentInfo.Type.ADD);
                 mRecruitmentList.add(recruitmentInfo);
                 adapter.notifyItemInserted(mRecruitmentList.size() - 1);

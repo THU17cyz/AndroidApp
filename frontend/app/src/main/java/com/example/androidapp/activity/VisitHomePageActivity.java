@@ -269,7 +269,7 @@ public class VisitHomePageActivity extends BaseActivity {
 
     @OnClick(R.id.btn_focus)
     void watchOrUnwatch() {
-        System.out.println(id + " " + isTeacher);
+
         btn_focus.startLoading(() -> {
             if (isFan) {
                 new DeleteFromWatchRequest(new Callback() {
@@ -292,7 +292,7 @@ public class VisitHomePageActivity extends BaseActivity {
                                 fanNum = String.valueOf(Integer.valueOf(fanNum) - 1);
                                 numFocused.setText(fanNum);
                             });
-//                            loadService.showSuccess();
+
                         } catch (JSONException e) {
                             Log.e("error2", e.toString());
                             runOnUiThread(btn_focus::clickFail);
@@ -376,9 +376,8 @@ public class VisitHomePageActivity extends BaseActivity {
                 String resStr = response.body().string();
                 Log.e("response", resStr);
                 try {
-                    // 解析json，然后进行自己的内部逻辑处理
-                    JSONObject jsonObject = new JSONObject(resStr);
 
+                    JSONObject jsonObject = new JSONObject(resStr);
                     Boolean status = jsonObject.getBoolean("status");
                     if (status) {
                         mName = jsonObject.getString("name");
@@ -395,7 +394,7 @@ public class VisitHomePageActivity extends BaseActivity {
                         addCounter();
                     } else {
                         String info = jsonObject.getString("info");
-                        System.out.println(info);
+
                         addCounter();
                         runOnUiThread(()->Hint.showLongCenterToast(VisitHomePageActivity.this, "网络异常！"));
                         finish();
@@ -423,7 +422,7 @@ public class VisitHomePageActivity extends BaseActivity {
                 String resStr = response.body().string();
                 Log.e("response", resStr);
                 try {
-                    // 解析json，然后进行自己的内部逻辑处理
+
                     JSONObject jsonObject = new JSONObject(resStr);
 
                     Boolean status = jsonObject.getBoolean("status");
@@ -450,7 +449,7 @@ public class VisitHomePageActivity extends BaseActivity {
                         while (count != 2) {
 
                         }
-                        System.out.println("first" + mName);
+
                         runOnUiThread(() -> {
                             title.setText(mName + "的个人主页");
                             signature.setText(mSignature);
@@ -513,7 +512,7 @@ public class VisitHomePageActivity extends BaseActivity {
                                             String resStr = response.body().string();
                                             Log.e("response", resStr);
                                             try {
-                                                // 解析json，然后进行自己的内部逻辑处理
+
                                                 JSONObject jsonObject = new JSONObject(resStr);
 
                                                 Boolean status = jsonObject.getBoolean("status");
@@ -559,7 +558,7 @@ public class VisitHomePageActivity extends BaseActivity {
                     String resStr = response.body().string();
                     Log.e("response", resStr);
                     try {
-                        // 解析json
+
                         JSONObject jsonObject = new JSONObject(resStr);
 
                         Boolean status = jsonObject.getBoolean("status");
@@ -583,7 +582,6 @@ public class VisitHomePageActivity extends BaseActivity {
                                             String resStr = response.body().string();
                                             Log.e("response", resStr);
                                             try {
-                                                // 解析json，然后进行自己的内部逻辑处理
                                                 JSONObject jsonObject = new JSONObject(resStr);
                                                 Boolean status = jsonObject.getBoolean("status");
                                                 if (status) {

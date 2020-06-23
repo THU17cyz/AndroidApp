@@ -103,10 +103,10 @@ public class MainActivity extends BaseActivity {
     private ChatHistoryViewModel chatHistoryViewModel;
     private Runnable mTimeCounterRunnable = new Runnable() {
         @Override
-        public void run() {//在此添加需轮寻的接口
+        public void run() {
             Log.e("消息列表轮询", "+1");
             refreshData();
-            // 每30秒刷新一次
+
             mHandler.postDelayed(this, 2 * 1000);
         }
     };
@@ -202,7 +202,6 @@ public class MainActivity extends BaseActivity {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                // Toast.makeText(MainActivity.this, msg.obj.toString(), Toast.LENGTH_LONG).show();
             }
         };
 
@@ -255,7 +254,7 @@ public class MainActivity extends BaseActivity {
                     Date date = chat.getTime();
                     String realName = chat.getRealName();
 
-                    com.example.androidapp.entity.chat.Message message;// = new com.example.androidapp.entity.chat.Message("", user, msg, date);
+                    com.example.androidapp.entity.chat.Message message;
 
                     if (send.equals("S")) {
                         User user = new User("0", realName,
@@ -269,11 +268,8 @@ public class MainActivity extends BaseActivity {
                         message = new com.example.androidapp.entity.chat.Message("", user, msg, date, true);
                     }
                     if (type.equals("P")) {
-                        // message.setText("图片");
                         message.setImage(new com.example.androidapp.entity.chat.Message.Image(
                                 (new GetMessagePictureRequest(msg).getWholeUrl())));
-                        System.out.println(new GetMessagePictureRequest(msg).getWholeUrl());
-
                     }
 
                     ArrayList<com.example.androidapp.entity.chat.Message> msgs = BasicInfo.CHAT_HISTORY.get(account);
@@ -440,13 +436,11 @@ public class MainActivity extends BaseActivity {
                             if (messageWay.equals("S")) {
                                 User user = new User("0", objectName,
                                         new GetInfoPictureRequest(objectType, objectId, objectId).getWholeUrl(),
-//                                        "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
                                         objectAccount, objectType, objectId);
                                 message = new com.example.androidapp.entity.chat.Message(String.valueOf(messageId), user, messageContent, date, false);
                             } else {
                                 User user = new User("1", objectName,
                                         new GetInfoPictureRequest(objectType, objectId, objectId).getWholeUrl(),
-//                                        "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
                                         objectAccount, objectType, objectId);
                                 message = new com.example.androidapp.entity.chat.Message(String.valueOf(messageId), user, messageContent, date, false);
                             }
@@ -571,8 +565,7 @@ public class MainActivity extends BaseActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        System.out.println("printed" + position);
-                        // do something with the clicked item :D
+
                         switch (position) {
                             case 1: {
                                 drawer.closeDrawer();
@@ -616,7 +609,6 @@ public class MainActivity extends BaseActivity {
                 })
                 .build();
         drawer.getDrawerLayout().setStatusBarBackgroundColor(Color.TRANSPARENT);
-        System.out.println(getWindow().getDecorView().getSystemUiVisibility() + ">>>>>>>>>>>>>>>>>>>>>>>>>");
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
     }
 
@@ -632,7 +624,6 @@ public class MainActivity extends BaseActivity {
                 String resStr = response.body().string();
                 Log.e("response", resStr);
                 try {
-                    // 解析json，然后进行自己的内部逻辑处理
                     JSONObject jsonObject = new JSONObject(resStr);
                     Boolean status = jsonObject.getBoolean("status");
                     if (status) {
@@ -640,8 +631,6 @@ public class MainActivity extends BaseActivity {
                         LoginCache.removeCache(getApplicationContext());
                         BasicInfo.reset();
                         MainActivity.this.finish();
-//                        Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-//                        startActivity(intent);
                     } else {
                     }
                 } catch (JSONException e) {
@@ -676,18 +665,14 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println(requestCode + " " + resultCode);
 
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             List<String> mSelected = Matisse.obtainPathResult(data);
             String path = mSelected.get(0);
-//            DashboardFragment fragment = (DashboardFragment) getSupportFragmentManager()
-//                    .findFragmentById(R.id.nav_host_fragment).getChildFragmentManager()
-//                    .getPrimaryNavigationFragment();
 
             DashboardFragment fragment = ((DashboardFragment) mMainActivityPagerAdapter.getRegisteredFragment(4));
             fragment.getAvatar("file://" + path);
-            System.out.println(path);
+
             new UpdateInfoPictureRequest(new Callback() {
                 @Override
                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -699,11 +684,9 @@ public class MainActivity extends BaseActivity {
                     String resStr = response.body().string();
                     Log.e("response", resStr);
                     try {
-                        // 解析json，然后进行自己的内部逻辑处理
                         JSONObject jsonObject = new JSONObject(resStr);
                         Boolean status = jsonObject.getBoolean("status");
                         if (status) {
-                            System.out.println(BasicInfo.PATH);
                             MyImageLoader.invalidate();
                             runOnUiThread(() -> {
                                 initDrawer();
@@ -718,7 +701,6 @@ public class MainActivity extends BaseActivity {
                                 DashboardFragment fragment5 = ((DashboardFragment) mMainActivityPagerAdapter.getRegisteredFragment(4));
                                 fragment5.getAvatar(null);
                             });
-//                            ((DashboardFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_dashboard)).getAvatar(null);
                             String info = jsonObject.getString("info");
                         }
                     } catch (JSONException e) {

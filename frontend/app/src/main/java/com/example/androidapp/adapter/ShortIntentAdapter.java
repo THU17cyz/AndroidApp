@@ -27,7 +27,7 @@ public class ShortIntentAdapter<T> extends MyBaseListAdapter {
 
     @Override
     protected void initData(BaseViewHolder viewHolder, Object o) {
-        // 在这里链式赋值就可以了
+
         ShortIntent data = (ShortIntent) o;
         viewHolder.setText(R.id.intent_user_name, data.name)
                 .setText(R.id.intent_user_affiliation, StringCutter.cutter(data.school + " " + data.department, 20));

@@ -72,7 +72,6 @@ public class Recruit extends IntentFragment {
                     jsonArray = (JSONArray) jsonObject.get("recruitment_info_list");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         ShortIntent shortIntent = new ShortIntent(jsonArray.getJSONObject(i), true);
-                        // Log.e("..", "! " + shortProfile.isFan + shortProfile.id + " " + shortProfile.name);
                         addIntentItem(false, shortIntent);
                     }
                     adjustList();

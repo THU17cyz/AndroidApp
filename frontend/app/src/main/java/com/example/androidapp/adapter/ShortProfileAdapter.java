@@ -45,7 +45,6 @@ public class ShortProfileAdapter<T> extends MyBaseListAdapter {
             mHead = viewHolder.getView(R.id.profile_image);
             MyImageLoader.loadImage(mHead, data.url);
         } catch (Exception e) {
-            System.out.println(e);
         }
 
         if (data.isValidated) {

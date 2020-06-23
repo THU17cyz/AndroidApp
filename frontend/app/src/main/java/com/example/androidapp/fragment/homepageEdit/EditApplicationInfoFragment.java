@@ -63,7 +63,6 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                System.out.println("thh" + i);
                 mApplicationList.remove(i);
                 adapter.notifyItemRemoved(i);
             }
@@ -167,7 +166,6 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
                                 String resStr = response.body().string();
                                 Log.e("response", resStr);
                                 try {
-                                    // 解析json，然后进行自己的内部逻辑处理
                                     JSONObject jsonObject = new JSONObject(resStr);
                                     Boolean status = jsonObject.getBoolean("status");
                                     String info = jsonObject.getString("info");

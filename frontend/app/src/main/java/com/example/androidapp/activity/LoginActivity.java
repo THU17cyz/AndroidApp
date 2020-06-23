@@ -115,7 +115,6 @@ public class LoginActivity extends BaseActivity {
                         // 保存密码以加入shared...
                         BasicInfo.PASSWORD = passwordEditText.getText().toString();
                         LoginActivity.this.runOnUiThread(() -> Hint.showLongCenterToast(LoginActivity.this, info));
-//                        LoginActivity.this.runOnUiThread(LoginActivity.this::onJumpToMain);
                         beforeJump1();
                     } else {
                         LoginCache.removeCache(getApplicationContext());
@@ -183,8 +182,6 @@ public class LoginActivity extends BaseActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
 
-//        LoginCache.removeCache(getApplicationContext());
-
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         boolean hasLogin = sharedPreferences.getBoolean("hasLogin", false);
         if (hasLogin) {
@@ -235,7 +232,7 @@ public class LoginActivity extends BaseActivity {
                 String resStr = response.body().string();
                 Log.e("response", resStr);
                 try {
-                    // 解析json，然后进行自己的内部逻辑处理
+
                     JSONObject jsonObject = new JSONObject(resStr);
                     Boolean status = jsonObject.getBoolean("status");
                     if (status) {
@@ -346,7 +343,7 @@ public class LoginActivity extends BaseActivity {
             }
         }).send();
 
-// 获取个性签名
+        // 获取个性签名
         new GetInfoPlusRequest(new okhttp3.Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -382,14 +379,10 @@ public class LoginActivity extends BaseActivity {
                             BasicInfo.mResult = jsonObject.getString("research_achievements");
                             BasicInfo.mUrl = jsonObject.getString("promotional_video_url");
                         }
-//                        System.out.println("jashs"+ count[0]);
                         addCounter();
 
-                        while (count != 4) {
+                        while (count != 4) { }
 
-                            // System.out.println("wtf");
-                        }
-//                        System.out.println("qqqq"+ count[0]);
                         onJumpToMain();
                     } else {
                         String info = jsonObject.getString("info");
@@ -397,7 +390,6 @@ public class LoginActivity extends BaseActivity {
                     }
                 } catch (JSONException e) {
                     addCounter();
-                    System.out.println("wtf");
                 }
             }
         }, "I", null, null).send();
@@ -418,9 +410,7 @@ public class LoginActivity extends BaseActivity {
                     String resStr = response.body().string();
                     Log.e("response", resStr);
                     try {
-                        // 解析json，然后进行自己的内部逻辑处理
                         JSONObject jsonObject = new JSONObject(resStr);
-
                         Boolean status = jsonObject.getBoolean("status");
                         if (status) {
                             JSONArray array = jsonObject.getJSONArray("recruitment_id_list");
@@ -430,7 +420,6 @@ public class LoginActivity extends BaseActivity {
                             }
 
                             // 按id获取招收意向
-
                             if (enrollmentIdList != null) {
                                 for (int i = 0; i < enrollmentIdList.size(); i++) {
                                     new GetRecruitIntentionDetailRequest(new okhttp3.Callback() {
@@ -492,9 +481,7 @@ public class LoginActivity extends BaseActivity {
                     String resStr = response.body().string();
                     Log.e("response", resStr);
                     try {
-                        // 解析json，然后进行自己的内部逻辑处理
                         JSONObject jsonObject = new JSONObject(resStr);
-
                         Boolean status = jsonObject.getBoolean("status");
                         if (status) {
                             JSONArray array = jsonObject.getJSONArray("application_id_list");
@@ -570,18 +557,13 @@ public class LoginActivity extends BaseActivity {
         }
         String account = accountEditText.getText().toString();
         String password = passwordEditText.getText().toString();
-        // 后门儿
+
         if (account.length() == 0) {
             Hint.startActivityLoad(this);
             new LoginRequest(this.handleLogin, "T", "T4", "P12345").send();
             return;
         }
 
-        // 后门儿2
-//        if (!Valid.isAccount(account) || !Valid.isPassword(password)) {
-//            Hint.showLongCenterToast(this, "格式错误！");
-//            return;
-//        }
         Hint.startActivityLoad(this);
         new LoginRequest(this.handleLogin, type, account, password).send();
     }
@@ -595,7 +577,6 @@ public class LoginActivity extends BaseActivity {
     @OnClick(R.id.login_type)
     public void onClickTypeSelector() {
 
-        // 隐藏软键盘
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(typeSelector.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 

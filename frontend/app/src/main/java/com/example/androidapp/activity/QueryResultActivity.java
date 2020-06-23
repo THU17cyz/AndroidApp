@@ -68,7 +68,6 @@ public class QueryResultActivity extends BaseActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                // TODO
                 query = searchView.getQuery().toString();
                 queryReset();
                 loadQueryInfo(viewPager.getCurrentItem());
@@ -91,7 +90,6 @@ public class QueryResultActivity extends BaseActivity {
                 getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        // viewPager.set
         viewPager.setOffscreenPageLimit(4);
 
 
@@ -124,7 +122,6 @@ public class QueryResultActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                Log.e("1", "wtf");
                 loadQueryInfo(position);
             }
 
@@ -172,7 +169,7 @@ public class QueryResultActivity extends BaseActivity {
 
 
     public void loadQueryInfo(int position) {
-        System.out.println(position);
+
         switch (position) {
             case 0: {
                 if (teacherInfo) return;

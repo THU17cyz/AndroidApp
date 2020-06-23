@@ -54,7 +54,7 @@ public class IntentFragment extends Fragment {
     protected String[] order;
     protected int current_order = 0;
 
-//    LoadService loadService;
+
     SelectList selectList;
     boolean[] filters = new boolean[]{false, false, false, false};
     private Lock lock = new ReentrantLock();
@@ -74,17 +74,12 @@ public class IntentFragment extends Fragment {
         filteredIntentList = new ArrayList<>();
         mShortIntentAdapter = new ShortIntentAdapter(mIntentList, getContext());//初始化NameAdapter
         mShortIntentAdapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
-//        mShortIntentAdapter.openLeftAnimation();//设置加载动画
 
         mShortIntentAdapter.setOnItemClickListener((adapter, view, position) -> {
             visitHomePage(position);
         });
 
-
-//C
-
         return root;
-
     }
 
     protected void initViews() {
@@ -116,12 +111,9 @@ public class IntentFragment extends Fragment {
     @OnClick(R.id.selectText)
     public void openSelectWindow() {
         if (isFilterOpen) {
-            // isFilterOpen = false;
             if (selectList != null) selectList.dismiss();
-            // selectText.setTextColor(Color.BLACK);
         } else {
             isFilterOpen = true;
-            // selectText.setTextColor(Color.BLUE);
             selectList = new SelectList(getContext());
             selectList.showPopupWindow(orderSpinner);
 
@@ -208,16 +200,12 @@ public class IntentFragment extends Fragment {
     }
 
     public void filterResult(boolean[] filters) {
-//        loadService = LoadSir.getDefault().register(recyclerView, (com.kingja.loadsir.callback.Callback.OnReloadListener) v -> {
-//
-//        });
         int i = 0;
         for (Boolean filter : filters) {
             this.filters[i] = filter;
             i++;
         }
         adjustList();
-//        loadService.showSuccess();
     }
 }
 
