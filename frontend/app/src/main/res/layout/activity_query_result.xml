@@ -6,30 +6,52 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <LinearLayout
+
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/top_bar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
+        app:contentInsetStartWithNavigation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_keyboard_arrow_left_black_24dp">
 
-        <Button
-            android:id="@+id/returnButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/ic_keyboard_arrow_left_black_24dp" />
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/search_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:queryBackground="@android:color/transparent">
+            tools:layout_editor_absoluteX="56dp"
+            tools:layout_editor_absoluteY="4dp">
 
         </androidx.appcompat.widget.SearchView>
-    </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/top_bar"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginLeft="5dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
+
+<!--        <Button-->
+<!--            android:id="@+id/returnButton"-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:background="@drawable/ic_keyboard_arrow_left_black_24dp" />-->
+
+<!--        <androidx.appcompat.widget.SearchView-->
+<!--            android:id="@+id/search_view"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:queryBackground="@android:color/transparent">-->
+
+<!--        </androidx.appcompat.widget.SearchView>-->
+<!--    </LinearLayout>-->
 
 
     <com.google.android.material.tabs.TabLayout
@@ -40,7 +62,8 @@
         android:background="@color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider" />
+        app:layout_constraintTop_toBottomOf="@+id/top_bar"
+        app:tabIndicatorColor="#C0C0C0" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/pager"
@@ -52,13 +75,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="409dp"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_bar" />
+<!--    <View-->
+<!--        android:id="@+id/divider"-->
+<!--        android:layout_width="409dp"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="?android:attr/listDivider"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/top_bar" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

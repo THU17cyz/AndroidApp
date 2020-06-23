@@ -39,6 +39,7 @@ public class RecommendFragment extends ProfileListFragment {
     boolean isTeacher;
     LoadService loadService;
     Activity activity;
+    int count;
     private Lock lock = new ReentrantLock();
 
     public RecommendFragment() {
@@ -82,6 +83,10 @@ public class RecommendFragment extends ProfileListFragment {
         lock.unlock();
     }
 
+    public synchronized void addCounter() {
+        count++;
+    }
+
     private void getRecommendList(boolean isRefresh) {
         if (!isRefresh) {
             loadService = LoadSir.getDefault().register(mRecyclerView, (com.kingja.loadsir.callback.Callback.OnReloadListener) v -> {
@@ -89,11 +94,12 @@ public class RecommendFragment extends ProfileListFragment {
             });
         }
         final int[] receiveCount = {0};
+        count = 0;
 
         new RecommendRandomRequest(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                if (receiveCount[0] == 2) {
+                if (count == 2) {
                     if (isRefresh) {
                         refreshLayout.finishRefresh(false);
                     } else {
@@ -101,6 +107,7 @@ public class RecommendFragment extends ProfileListFragment {
                     }
                 }
                 receiveCount[0]++;
+                addCounter();
                 Log.e("error", e.toString());
             }
 
@@ -114,16 +121,18 @@ public class RecommendFragment extends ProfileListFragment {
                     if (isTeacher) jsonObject1 = (JSONObject) jsonObject.get("teacher_info");
                     else jsonObject1 = (JSONObject) jsonObject.get("student_info");
                     addProfileItem(isRefresh, new ShortProfile(jsonObject1, isTeacher));
-                    if (receiveCount[0] == 2) {
+                    if (count == 2) {
                         if (isRefresh) {
                             refreshLayout.finishRefresh(true);
+                            mShortProfileAdapter.notifyItemRangeRemoved(0, mProfileList.size());
                         } else {
                             activity.runOnUiThread(loadService::showSuccess);
                         }
                     }
                     receiveCount[0]++;
+                    addCounter();
                 } catch (JSONException e) {
-                    if (receiveCount[0] == 2) {
+                    if (count == 2) {
                         if (isRefresh) {
                             refreshLayout.finishRefresh(false);
                         } else {
@@ -131,6 +140,7 @@ public class RecommendFragment extends ProfileListFragment {
                         }
                     }
                     receiveCount[0]++;
+                    addCounter();
                     Log.e("error", e.toString());
                 }
             }
@@ -140,7 +150,7 @@ public class RecommendFragment extends ProfileListFragment {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Log.e("error", e.toString());
-                if (receiveCount[0] == 2) {
+                if (count == 2) {
                     if (isRefresh) {
                         refreshLayout.finishRefresh(false);
                     } else {
@@ -148,6 +158,7 @@ public class RecommendFragment extends ProfileListFragment {
                     }
                 }
                 receiveCount[0]++;
+                addCounter();
             }
 
             @Override
@@ -160,17 +171,19 @@ public class RecommendFragment extends ProfileListFragment {
                     if (isTeacher) jsonObject1 = (JSONObject) jsonObject.get("teacher_info");
                     else jsonObject1 = (JSONObject) jsonObject.get("student_info");
                     addProfileItem(isRefresh, new ShortProfile(jsonObject1, isTeacher));
-                    if (receiveCount[0] == 2) {
+                    if (count == 2) {
                         if (isRefresh) {
                             refreshLayout.finishRefresh(true);
+                            mShortProfileAdapter.notifyItemRangeRemoved(0, mProfileList.size());
                         } else {
                             activity.runOnUiThread(loadService::showSuccess);
                         }
                     }
                     receiveCount[0]++;
+                    addCounter();
                 } catch (JSONException e) {
                     Log.e("error", e.toString());
-                    if (receiveCount[0] == 2) {
+                    if (count == 2) {
                         if (isRefresh) {
                             refreshLayout.finishRefresh(false);
                         } else {
@@ -178,6 +191,7 @@ public class RecommendFragment extends ProfileListFragment {
                         }
                     }
                     receiveCount[0]++;
+                    addCounter();
                 }
             }
         }, isTeacher).send();
@@ -185,7 +199,7 @@ public class RecommendFragment extends ProfileListFragment {
         new RecommendFitRequest(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                if (receiveCount[0] == 2) {
+                if (count == 2) {
                     if (isRefresh) {
                         refreshLayout.finishRefresh(false);
                     } else {
@@ -193,6 +207,7 @@ public class RecommendFragment extends ProfileListFragment {
                     }
                 }
                 receiveCount[0]++;
+                addCounter();
                 Log.e("error", e.toString());
             }
 
@@ -210,17 +225,19 @@ public class RecommendFragment extends ProfileListFragment {
                         Log.e("..", "! " + shortProfile.isFan + shortProfile.id + " " + shortProfile.name);
                         addProfileItem(isRefresh, shortProfile);
                     }
-                    if (receiveCount[0] == 2) {
+                    if (count == 2) {
                         if (isRefresh) {
                             refreshLayout.finishRefresh(true);
+                            mShortProfileAdapter.notifyItemRangeRemoved(0, mProfileList.size());
                         } else {
                             activity.runOnUiThread(loadService::showSuccess);
                         }
                     }
                     receiveCount[0]++;
+                    addCounter();
                 } catch (JSONException e) {
                     Log.e("error", e.toString());
-                    if (receiveCount[0] == 2) {
+                    if (count == 2) {
                         if (isRefresh) {
                             refreshLayout.finishRefresh(false);
                         } else {
@@ -228,6 +245,7 @@ public class RecommendFragment extends ProfileListFragment {
                         }
                     }
                     receiveCount[0]++;
+                    addCounter();
                 }
             }
         }, isTeacher).send();
@@ -245,7 +263,7 @@ public class RecommendFragment extends ProfileListFragment {
                 lock.lock();
                 if (isRefresh && mProfileList.size() == fixed_num) {
                     mProfileList.remove(0);
-                    mShortProfileAdapter.notifyItemRemoved(0);
+                    // mShortProfileAdapter.notifyItemRemoved(0);
                 }
                 mProfileList.add(shortProfile);
                 lock.unlock();
@@ -261,7 +279,7 @@ public class RecommendFragment extends ProfileListFragment {
             lock.lock();
             if (isRefresh && mProfileList.size() == fixed_num) {
                 mProfileList.remove(0);
-                mShortProfileAdapter.notifyItemRemoved(0);
+                // mShortProfileAdapter.notifyItemRemoved(0);
             }
             mProfileList.add(shortProfile);
             lock.unlock();

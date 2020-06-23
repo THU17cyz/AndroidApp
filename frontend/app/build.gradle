@@ -70,4 +70,6 @@ dependencies {
     implementation 'com.contrarywind:Android-PickerView:4.1.9'
     implementation 'com.zhihu.android:matisse:0.5.3-beta3'
     implementation 'com.github.rubengees:introduction:2.0.0'
+    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
 }

@@ -51,7 +51,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
-        android:minHeight="?attr/actionBarSize" />
+        android:minHeight="?attr/actionBarSize"
+        app:tabIndicatorColor="#C0C0C0" />
 
 
     <androidx.viewpager.widget.ViewPager

@@ -592,6 +592,7 @@ public class MainActivity extends BaseActivity {
                                 break;
                             }
                             case 9: {
+                                drawer.closeDrawer();
                                 Intent intent = new Intent(MainActivity.this, ResetPasswordActivity.class);
                                 startActivity(intent);
                                 break;

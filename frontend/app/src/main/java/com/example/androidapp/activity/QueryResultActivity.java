@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -37,6 +38,9 @@ public class QueryResultActivity extends BaseActivity {
 
     @BindView(R.id.pager)
     ViewPager viewPager;
+
+    @BindView(R.id.top_bar)
+    Toolbar toolbar;
 
     QueryResultPageAdapter pagerAdapter;
 
@@ -130,6 +134,7 @@ public class QueryResultActivity extends BaseActivity {
             }
         });
 
+        toolbar.setNavigationOnClickListener(v -> this.finish());
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
     }
@@ -207,8 +212,8 @@ public class QueryResultActivity extends BaseActivity {
         return pagerAdapter.getRegisteredFragment(viewPager.getCurrentItem());
     }
 
-    @OnClick(R.id.returnButton)
-    public void returnToParent() {
-        finish();
-    }
+//    @OnClick(R.id.returnButton)
+//    public void returnToParent() {
+//        finish();
+//    }
 }

@@ -56,7 +56,8 @@
         android:minHeight="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_bar" />
+        app:layout_constraintTop_toBottomOf="@+id/top_bar"
+        app:tabIndicatorColor="#C0C0C0" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/pager"
