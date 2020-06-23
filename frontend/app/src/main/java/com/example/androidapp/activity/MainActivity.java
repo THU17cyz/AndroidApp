@@ -543,7 +543,7 @@ public class MainActivity extends BaseActivity {
         PrimaryDrawerItem item5 = new PrimaryDrawerItem().withIdentifier(5)
                 .withIcon(getDrawable(R.drawable.ic_drawer_settings_24dp)).withName("修改密码");
         PrimaryDrawerItem item6 = new PrimaryDrawerItem().withIdentifier(6)
-                .withIcon(getDrawable(R.drawable.ic_drawer_quit_24dp)).withName("退出登录");
+                .withIcon(getDrawable(R.drawable.ic_drawer_exit_24dp)).withName("退出登录");
 
         drawer = new DrawerBuilder()
                 .withAccountHeader(headerResult)
