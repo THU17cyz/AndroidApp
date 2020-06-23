@@ -217,9 +217,9 @@
             android:layout_marginBottom="10dp"
             android:background="@color/white"
             android:text="关注"
-            app:border_color="@color/md_light_blue_400"
+            app:border_color="@color/label_pressed_text"
             app:radius="5dp"
-            app:text_color="@color/md_light_blue_400"></com.example.androidapp.myView.FocusButton>
+            app:text_color="@color/label_pressed_text"></com.example.androidapp.myView.FocusButton>
 
 
     </LinearLayout>

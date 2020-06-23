@@ -149,7 +149,7 @@ public class FocusButton extends androidx.appcompat.widget.AppCompatButton imple
             bg_color_pressed = typedArray.getColor(R.styleable.FocusButton_bg_color_pressed, Color.parseColor("#EEEEEE"));
             bg_color = typedArray.getColor(R.styleable.FocusButton_bg_color, Color.WHITE);
             text_color_pressed = typedArray.getColor(R.styleable.FocusButton_text_color_pressed, Color.DKGRAY);
-            text_color = typedArray.getColor(R.styleable.FocusButton_text_color, Color.BLUE);
+            text_color = typedArray.getColor(R.styleable.FocusButton_text_color, getResources().getColor(R.color.label_pressed_text));
             text_pressed = typedArray.getString(R.styleable.FocusButton_text_pressed);
             if (text_pressed == null) {
                 text_pressed = "已关注";
@@ -161,7 +161,7 @@ public class FocusButton extends androidx.appcompat.widget.AppCompatButton imple
             radius = typedArray.getDimension(R.styleable.FocusButton_radius, 20);
             border_width = typedArray.getInteger(R.styleable.FocusButton_border_width, 3);
             border_color_pressed = typedArray.getColor(R.styleable.FocusButton_border_color_pressed, Color.TRANSPARENT);
-            border_color = typedArray.getColor(R.styleable.FocusButton_border_color, Color.BLUE);
+            border_color = typedArray.getColor(R.styleable.FocusButton_border_color, getResources().getColor(R.color.label_pressed_text));
             typedArray.recycle();
         }
     }
