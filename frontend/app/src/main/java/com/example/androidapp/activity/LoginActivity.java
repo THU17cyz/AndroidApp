@@ -89,6 +89,8 @@ public class LoginActivity extends BaseActivity {
     IntroductionBuilder introductionBuilder;
 
     int count = 0;
+    boolean logined = false;
+
     /******************************
      ************ 回调 ************
      ******************************/
@@ -112,7 +114,6 @@ public class LoginActivity extends BaseActivity {
 
                         // 保存密码以加入shared...
                         BasicInfo.PASSWORD = passwordEditText.getText().toString();
-
                         LoginActivity.this.runOnUiThread(() -> Hint.showLongCenterToast(LoginActivity.this, info));
 //                        LoginActivity.this.runOnUiThread(LoginActivity.this::onJumpToMain);
                         beforeJump1();
@@ -195,6 +196,7 @@ public class LoginActivity extends BaseActivity {
                 editor.putBoolean("hasLogin", false);
                 editor.commit();
             } else {
+                Global.INTRO = false;
                 Hint.startActivityLoad(this);
                 new LoginRequest(this.handleLogin, type, account, password).send();
             }
@@ -215,6 +217,7 @@ public class LoginActivity extends BaseActivity {
 
     private void onJumpToMain() {
         Hint.endActivityLoad(LoginActivity.this);
+        logined = true;
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
     }
@@ -557,6 +560,7 @@ public class LoginActivity extends BaseActivity {
 
     @OnClick(R.id.login)
     public void onClickLogin() {
+        if (logined) return;
         String type = "";
         type = "T";
         if (typeSelector.getText().toString().equals(OptionItems.optionsType.get(0))) {
@@ -611,5 +615,11 @@ public class LoginActivity extends BaseActivity {
                 .build();
         pvOptions.setPicker(OptionItems.optionsType);
         pvOptions.show();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        logined = false;
     }
 }

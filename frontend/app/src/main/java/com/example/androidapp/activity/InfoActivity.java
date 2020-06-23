@@ -1,6 +1,9 @@
 package com.example.androidapp.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -50,13 +53,14 @@ public class InfoActivity extends BaseActivity implements DateFormatter.Formatte
     private Handler mHandler = new Handler(Looper.getMainLooper());
     private Runnable mTimeCounterRunnable = new Runnable() {
         @Override
-        public void run() {//在此添加需轮寻的接口
-            Log.e("消息列表轮询", "+1");
+        public void run() {
+            // 每3秒刷新一次
+            mHandler.postDelayed(this, 3 * 1000);
             refreshData();
-            // 每30秒刷新一次
-            mHandler.postDelayed(this, 5 * 1000);
+
         }
     };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,33 +129,33 @@ public class InfoActivity extends BaseActivity implements DateFormatter.Formatte
         mHandler.removeCallbacks(mTimeCounterRunnable);
     }
 
-    private void refreshData() {
+    private synchronized void refreshData() {
         messagesAdapter.clear();
         String id;
+        Message m;
         if (type == 0) {
             note1.clear();
             note1.addAll(BasicInfo.WELCOME_NOTIFICATIONS);
             messagesAdapter.addToEnd(note1, true);
-            Message m = BasicInfo.WELCOME_NOTIFICATIONS.get(BasicInfo.WELCOME_NOTIFICATIONS.size() - 1);
-            m.setRead();
+            m = BasicInfo.WELCOME_NOTIFICATIONS.get(BasicInfo.WELCOME_NOTIFICATIONS.size() - 1);
             id = m.getId();
         } else if (type == 1) {
             note2.clear();
             note2.addAll(BasicInfo.FOLLOW_NOTIFICATIONS);
             messagesAdapter.addToEnd(note2, true);
-            Message m = BasicInfo.FOLLOW_NOTIFICATIONS.get(BasicInfo.FOLLOW_NOTIFICATIONS.size() - 1);
+            m = BasicInfo.FOLLOW_NOTIFICATIONS.get(BasicInfo.FOLLOW_NOTIFICATIONS.size() - 1);
             id = m.getId();
         } else if (type == 2) {
             note3.clear();
             note3.addAll(BasicInfo.INTENTION_NOTIFICATIONS);
             messagesAdapter.addToEnd(note3, true);
-            Message m = BasicInfo.INTENTION_NOTIFICATIONS.get(BasicInfo.INTENTION_NOTIFICATIONS.size() - 1);
+            m = BasicInfo.INTENTION_NOTIFICATIONS.get(BasicInfo.INTENTION_NOTIFICATIONS.size() - 1);
             id = m.getId();
         } else {
             note4.clear();
             note4.addAll(BasicInfo.PWD_CHANGE_NOTIFICATIONS);
             messagesAdapter.addToEnd(note4, true);
-            Message m = BasicInfo.PWD_CHANGE_NOTIFICATIONS.get(BasicInfo.PWD_CHANGE_NOTIFICATIONS.size() - 1);
+            m = BasicInfo.PWD_CHANGE_NOTIFICATIONS.get(BasicInfo.PWD_CHANGE_NOTIFICATIONS.size() - 1);
             id = m.getId();
         }
         messagesAdapter.notifyDataSetChanged();
@@ -163,6 +167,7 @@ public class InfoActivity extends BaseActivity implements DateFormatter.Formatte
 
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) {
+                m.setRead();
             }
         }, id, "R").send();
     }

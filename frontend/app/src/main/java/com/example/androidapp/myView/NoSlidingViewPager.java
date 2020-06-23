@@ -8,6 +8,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
+
+/**
+ * 禁止滑动的ViewPager
+ */
 public class NoSlidingViewPager extends ViewPager {
 
     private boolean slide = false;// false 禁止ViewPager左右滑动。

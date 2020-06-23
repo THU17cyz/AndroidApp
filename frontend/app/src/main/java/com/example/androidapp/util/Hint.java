@@ -68,7 +68,7 @@ public class Hint {
 
     // 中间显示长框提示
     public static void showLongCenterToast(Context context, String text) {
-        Toast toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
     }

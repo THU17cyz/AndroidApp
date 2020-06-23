@@ -1,17 +1,17 @@
 package com.example.androidapp.activity;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -97,14 +97,21 @@ public class ChatActivity
     private ArrayList<Message> msgs;
 
 
-    private Handler mHandler = new Handler(Looper.getMainLooper());
-    // 轮询
-    private Runnable mTimeCounterRunnable = new Runnable() {
+//    private Handler mHandler = new Handler(Looper.getMainLooper());
+//    // 轮询
+//    private Runnable mTimeCounterRunnable = new Runnable() {
+//        @Override
+//        public void run() {
+//            Log.e("聊天界面轮询", "+1");
+//            newTest();//getUnreadCount()执行的任务
+//            mHandler.postDelayed(this, 2 * 1000);
+//        }
+//    };
+
+    BroadcastReceiver myBroadcastReceive = new BroadcastReceiver() {
         @Override
-        public void run() {
-            Log.e("聊天界面轮询", "+1");
-            newTest();//getUnreadCount()执行的任务
-            mHandler.postDelayed(this, 2 * 1000);
+        public void onReceive(Context context, Intent intent) {
+            refresh();
         }
     };
 
@@ -176,18 +183,23 @@ public class ChatActivity
 
         messageInput.setInputListener(this);
         messageInput.setAttachmentsListener(this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("MESSAGE"); //这个ACTION和后面activity的ACTION一样就行，要不然收不到的
+        registerReceiver(myBroadcastReceive, intentFilter);
+//        refresh();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        mTimeCounterRunnable.run();
+//        mTimeCounterRunnable.run();
     }
 
     @Override
     public void onDestroy() {
-        mHandler.removeCallbacks(mTimeCounterRunnable);
+//        mHandler.removeCallbacks(mTimeCounterRunnable);
         super.onDestroy();
+        unregisterReceiver(myBroadcastReceive);
     }
 
     /**
@@ -246,8 +258,8 @@ public class ChatActivity
         return true;
     }
 
-    // 轮询
-    private synchronized void newTest() {
+    // 刷新数据
+    private synchronized void refresh() {
         int current = msgs.size();
         ArrayList<Message> tmp = BasicInfo.CHAT_HISTORY.get(contact); // 账号
         if (tmp != null) {

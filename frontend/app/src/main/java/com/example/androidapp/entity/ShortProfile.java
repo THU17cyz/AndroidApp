@@ -72,7 +72,7 @@ public class ShortProfile implements Parcelable {
         this.isMale = jsonObject.getString("gender").equalsIgnoreCase("M");
         this.school = jsonObject.getString("school");
         this.department = jsonObject.getString("department");
-        this.isValidated = jsonObject.getString("auth_state").equalsIgnoreCase("UQ");
+        this.isValidated = jsonObject.getString("auth_state").equalsIgnoreCase("QD");
         this.fanNum = jsonObject.getInt("fans_number");
         this.isFan = jsonObject.getBoolean("is_followed");
         if (isTeacher) {

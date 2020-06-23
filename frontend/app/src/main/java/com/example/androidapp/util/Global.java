@@ -1,6 +1,9 @@
 package com.example.androidapp.util;
 
 
+import android.os.Handler;
+import android.os.Looper;
+
 /**
  * 全局配置
  */

@@ -72,8 +72,6 @@ public class IntentFragment extends Fragment {
 
         mIntentList = new ArrayList<>();
         filteredIntentList = new ArrayList<>();
-//        mIntentList.add(new ShortIntent(1, "黄翔", "清华大学",
-//                test_url,999, true, false));
         mShortIntentAdapter = new ShortIntentAdapter(mIntentList, getContext());//初始化NameAdapter
         mShortIntentAdapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
 //        mShortIntentAdapter.openLeftAnimation();//设置加载动画

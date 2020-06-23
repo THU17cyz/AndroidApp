@@ -34,6 +34,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -60,8 +61,8 @@ public class ProfileFragment extends Fragment {
     protected RecyclerView recyclerView;
 
     protected ShortProfileAdapter mShortProfileAdapter;
-    protected ArrayList<ShortProfile> mProfileList;
-    protected ArrayList<ShortProfile> filteredProfileList;
+    protected List<ShortProfile> mProfileList;
+    protected List<ShortProfile> filteredProfileList;
     protected Unbinder unbinder;
     protected String[] order;
     protected int current_order = 0;
@@ -79,8 +80,8 @@ public class ProfileFragment extends Fragment {
         unbinder = ButterKnife.bind(this, root);
         initViews();
 
-        mProfileList = new ArrayList<>();
-        filteredProfileList = new ArrayList<>();
+        mProfileList = Collections.synchronizedList(new ArrayList<>());
+        filteredProfileList = Collections.synchronizedList(new ArrayList<>());
         mShortProfileAdapter = new ShortProfileAdapter(mProfileList, getContext());//初始化NameAdapter
         mShortProfileAdapter.setRecyclerManager(recyclerView);//设置RecyclerView特性
 
@@ -219,7 +220,7 @@ public class ProfileFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void addButtonListener(ShortProfileAdapter shortProfileAdapter, ArrayList<ShortProfile> shortProfileArrayList) {
+    private void addButtonListener(ShortProfileAdapter shortProfileAdapter, List<ShortProfile> shortProfileArrayList) {
         shortProfileAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             FocusButton btn = ((FocusButton) view);
             btn.startLoading(() -> {
@@ -287,10 +288,10 @@ public class ProfileFragment extends Fragment {
             if (filters[0] && !shortProfile.isMale) {
                 removed.add(i);
             }
-            if (filters[1] && shortProfile.isMale) {
+            else if (filters[1] && shortProfile.isMale) {
                 removed.add(i);
             }
-            if (filters[2] && !shortProfile.isValidated) {
+            else if (filters[2] && !shortProfile.isValidated) {
                 removed.add(i);
             }
             i++;

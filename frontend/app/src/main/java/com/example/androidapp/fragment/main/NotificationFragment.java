@@ -1,6 +1,9 @@
 package com.example.androidapp.fragment.main;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -82,10 +85,11 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
         @Override
         public void run() {
             Log.e("消息列表轮询", "+1");
+            mHandler.postDelayed(this, 3 * 1000);
             refreshData();
-            mHandler.postDelayed(this, 5 * 1000);
         }
     };
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -177,7 +181,9 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
             intent.putExtra("dateString", ((Message) dialog.getLastMessage()).getDateString());
             startActivity(intent);
         });
+
         getAvatar();
+        mTimeCounterRunnable.run();
         return root;
     }
 
@@ -185,8 +191,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
         MyImageLoader.loadImage(drawerBtn);
     }
 
-    private void refreshData() {
-        System.out.println(LocalPicLoader.NOTIFICATION_PASSWORD_CHANGE);
+    private synchronized void refreshData() {
         dialogs.clear();
         if (!BasicInfo.WELCOME_NOTIFICATIONS.isEmpty()) {
             int size = BasicInfo.WELCOME_NOTIFICATIONS.size() - 1;
@@ -257,14 +262,22 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mTimeCounterRunnable.run();
+//        mTimeCounterRunnable.run();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        refreshData();
     }
 
     @Override
     public void onDestroy() {
-        mHandler.removeCallbacks(mTimeCounterRunnable);
+
         super.onDestroy();
         unbinder.unbind();
+        mHandler.removeCallbacks(mTimeCounterRunnable);
+//        getActivity().unregisterReceiver(myBroadcastReceive);
     }
 
 }

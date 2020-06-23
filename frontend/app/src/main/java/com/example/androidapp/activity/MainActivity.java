@@ -44,6 +44,7 @@ import com.example.androidapp.request.user.GetInfoPictureRequest;
 import com.example.androidapp.request.user.LogoutRequest;
 import com.example.androidapp.request.user.UpdateInfoPictureRequest;
 import com.example.androidapp.util.BasicInfo;
+import com.example.androidapp.util.Global;
 import com.example.androidapp.util.LocalPicLoader;
 import com.example.androidapp.util.LoginCache;
 import com.example.androidapp.util.MyImageLoader;
@@ -229,18 +230,16 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onDestroy() {
-        mHandler.removeCallbacks(mTimeCounterRunnable);
         super.onDestroy();
+        mHandler.removeCallbacks(mTimeCounterRunnable);
     }
 
     private void getDatabase() {
-        Log.e("两边？？", "fhsjafhkhfsaj");
         LiveData<List<ChatHistory>> list = chatHistoryViewModel.getAllHistory();
         List<ChatHistory> chatList = list.getValue();
         if (chatList == null) {
             Log.e("错误", "数据库获取为null");
         } else {
-
             for (int i = 0; i < chatList.size(); i++) {
                 ChatHistory chat = chatList.get(i);
 
@@ -284,6 +283,8 @@ public class MainActivity extends BaseActivity {
                     msgs.add(message);
                 }
             }
+            Intent intent = new Intent("MESSAGE");
+            sendBroadcast(intent);
         }
     }
 
@@ -349,7 +350,10 @@ public class MainActivity extends BaseActivity {
                                         String time = jsonObject.getString("information_time");
                                         String state = jsonObject.getString("information_state");
                                         String content = (String) jsonObject.get("information_content");
-                                        content = content.substring(0, 4) + "】" + content.substring(26);
+                                        if (!content.substring(4, 5).equals("】"))
+                                            content = content.substring(0, 4) + "】" + content.substring(26);
+                                        else
+                                            content = content.substring(0, 5) + content.substring(6);
                                         com.example.androidapp.entity.chat.Message message;
                                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                                         if (state.equals("N")) {
@@ -385,7 +389,6 @@ public class MainActivity extends BaseActivity {
                             }
                         }, String.valueOf(informationIdList.get(i))).send();
                     }
-
                 } catch (JSONException e) {
 
                 }
@@ -477,6 +480,8 @@ public class MainActivity extends BaseActivity {
                             editor.putInt(BasicInfo.ACCOUNT, messageId);
                             editor.commit();
                             Log.e("更新后id：", String.valueOf(messageId));
+                            Intent intent = new Intent("MESSAGE");
+                            sendBroadcast(intent);
                         }
 
 

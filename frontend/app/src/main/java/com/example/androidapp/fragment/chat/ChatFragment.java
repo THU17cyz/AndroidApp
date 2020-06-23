@@ -1,7 +1,10 @@
 package com.example.androidapp.fragment.chat;
 
+import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -57,7 +60,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
     private ArrayList<ChatHistory> tmpChatHistoryList;
     private Unbinder unbinder;
 
-    private Handler mHandler = new Handler(Looper.getMainLooper());
+    private static Handler mHandler = new Handler(Looper.getMainLooper());
 
     private Runnable mTimeCounterRunnable = new Runnable() {
         @Override
@@ -67,9 +70,17 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
         }
     };
 
+    BroadcastReceiver myBroadcastReceive = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            refresh();
+        }
+    };
+
     public ChatFragment() { }
 
 
+    @SuppressLint("HandlerLeak")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_chat, container, false);
@@ -136,6 +147,10 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
             }
         });
 
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("MESSAGE"); //这个ACTION和后面activity的ACTION一样就行，要不然收不到的
+        getActivity().registerReceiver(myBroadcastReceive, intentFilter);
+//        refresh();
         return root;
 
     }
@@ -144,22 +159,24 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
     @Override
     public void onStart() {
         super.onStart();
-        mTimeCounterRunnable.run();
+        refresh();
+        // mTimeCounterRunnable.run();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mHandler.removeCallbacks(mTimeCounterRunnable);
+        // mHandler.removeCallbacks(mTimeCounterRunnable);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        getActivity().unregisterReceiver(myBroadcastReceive);
     }
 
-    public void refresh() {
+    public synchronized void refresh() {
         // 初步构造联系人列表
         dialogs.clear();
         int i = 0;
