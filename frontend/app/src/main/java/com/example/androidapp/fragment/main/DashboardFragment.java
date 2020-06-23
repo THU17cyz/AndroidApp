@@ -231,7 +231,7 @@ public class DashboardFragment
 
                 MyImageLoader.loadImage(imgAvatar);
             } catch (Exception e) {
-              
+
             }
         }
     }
