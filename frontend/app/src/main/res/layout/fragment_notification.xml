@@ -76,23 +76,15 @@
         android:layout_height="1dp"
         android:background="@color/gray"></View>
 
+    <com.stfalcon.chatkit.dialogs.DialogsList
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/refreshLayout"
+        android:id="@+id/dialogsList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.stfalcon.chatkit.dialogs.DialogsList
-
-            android:id="@+id/dialogsList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:dialogAvatarHeight="50dp"
-            app:dialogAvatarWidth="50dp"
-            app:dialogMessageTextSize="14sp"
-            app:dialogTitleTextSize="16sp" />
-
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
+        android:layout_height="match_parent"
+        app:dialogAvatarHeight="50dp"
+        app:dialogAvatarWidth="50dp"
+        app:dialogMessageTextSize="14sp"
+        app:dialogTitleTextSize="16sp"
+        app:dialogUnreadBubbleBackgroundColor="@color/red" />
 
 </LinearLayout>

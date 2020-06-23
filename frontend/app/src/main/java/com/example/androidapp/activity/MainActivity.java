@@ -352,11 +352,13 @@ public class MainActivity extends BaseActivity {
                                         com.example.androidapp.entity.chat.Message message;
                                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                                         if (state.equals("N")) {
-                                            message = new com.example.androidapp.entity.chat.Message(id, user, content, sdf.parse(time), false);
+                                            message = new com.example.androidapp.entity.chat.Message(id, user, content,
+                                                    new Date(sdf.parse(time).getTime() + 28800000), false);
                                         } else {
-                                            message = new com.example.androidapp.entity.chat.Message(id, user, content, sdf.parse(time), true);
+                                            message = new com.example.androidapp.entity.chat.Message(id, user, content,
+                                                    new Date(sdf.parse(time).getTime() + 28800000), true);
                                         }
-                                        Log.e("消息内容", sdf.parse(time).toString() + " " + state);
+//                                        Log.e("消息内容", sdf.parse(time).toString() + " " + state);
                                         String type = content.substring(2, 4);
                                         if (type.equals("用户")) {
                                             BasicInfo.WELCOME_NOTIFICATIONS.add(message);
@@ -428,9 +430,7 @@ public class MainActivity extends BaseActivity {
 
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                             Date date = simpleDateFormat.parse(messageTime);
-//                            chatHistoryViewModel.insert(new ChatHistory(
-//                                    date, messageContent, messageType,
-//                                    messageWay, BasicInfo.ACCOUNT, objectAccount, objectId, objectType));
+                            date = new Date(date.getTime() + 28800000);
                             com.example.androidapp.entity.chat.Message message;
                             if (messageWay.equals("S")) {
                                 User user = new User("0", objectName,
@@ -464,7 +464,7 @@ public class MainActivity extends BaseActivity {
                                     BasicInfo.CHAT_HISTORY.put(objectAccount, msgs);
                                 }
                                 msgs.add(message);
-                                BasicInfo.addToBadgeChat(1);
+                                if (!messageWay.equals("S")) BasicInfo.addToBadgeChat(1);
                             }
                         }
 

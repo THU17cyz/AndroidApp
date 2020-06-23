@@ -138,15 +138,12 @@ public class ChatActivity
 
 
         // 头像
-        imageLoader = new ImageLoader() {
-            @Override
-            public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
-                if (imageView instanceof RoundedImageView)
-                    Picasso.get().load(url).placeholder(R.drawable.ic_photoholder).into(imageView);
-                else
-                    Picasso.get().load(url).placeholder(R.drawable.ic_avatarholder).into(imageView);
+        imageLoader = (imageView, url, payload) -> {
+            if (imageView instanceof RoundedImageView)
+                Picasso.get().load(url).placeholder(R.drawable.ic_photoholder).into(imageView);
+            else
+                Picasso.get().load(url).placeholder(R.drawable.ic_avatarholder).into(imageView);
 
-            }
         };
 
         //消息列表
@@ -224,9 +221,9 @@ public class ChatActivity
                                     new GetInfoPictureRequest(contactType, contactId, contactId).getWholeUrl(),
                                     contact, contactType, contactId);
                             Date trueDate = new Date();
-                            Date falseDate = new Date();
-                            falseDate.setTime(trueDate.getTime() - 8 * 60 * 60 * 1000);
-                            Message m = new Message("0", user, input.toString(), falseDate, true);
+//                            Date falseDate = new Date();
+//                            falseDate.setTime(trueDate.getTime() - 28800000);
+                            Message m = new Message("0", user, input.toString(), trueDate, true);
                             messagesAdapter.addToStart(m, true);
                             ArrayList<Message> tmp = BasicInfo.CHAT_HISTORY.get(contact); // 账号
                             if (tmp != null) {
@@ -363,9 +360,9 @@ public class ChatActivity
                                             new GetInfoPictureRequest(contactType, contactId, contactId).getWholeUrl(),
                                             contact, contactType, contactId);
                                     Date trueDate = new Date();
-                                    Date falseDate = new Date();
-                                    falseDate.setTime(trueDate.getTime() - 8 * 60 * 60 * 1000);
-                                    Message m = new Message("0", user, null, falseDate, true);
+//                                    Date falseDate = new Date();
+//                                    falseDate.setTime(trueDate.getTime() - 8 * 60 * 60 * 1000);
+                                    Message m = new Message("0", user, null, trueDate, true);
                                     m.setImage(new Message.Image(uri));
                                     messagesAdapter.addToStart(m, true);
                                     ArrayList<Message> tmp = BasicInfo.CHAT_HISTORY.get(contact); // 账号

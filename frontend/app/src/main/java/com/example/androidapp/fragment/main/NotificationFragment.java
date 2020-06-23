@@ -65,9 +65,6 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
     @BindView(R.id.dialogsList)
     DialogsList dialogsList;
 
-    @BindView(R.id.refreshLayout)
-    RefreshLayout refreshLayout;
-
     @BindView(R.id.btn_all_read)
     TextView btnAllRead;
 
@@ -108,11 +105,6 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
         dialogsAdapter.setDatesFormatter(this);
 
         dialogsList.setAdapter(dialogsAdapter);
-
-        refreshLayout.setOnRefreshListener(refreshlayout -> {
-            refreshData();
-            refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
-        });
 
         drawerBtn.setOnClickListener(v -> {
             MainActivity parentActivity = (MainActivity) getActivity();

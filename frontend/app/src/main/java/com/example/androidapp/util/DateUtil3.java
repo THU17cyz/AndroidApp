@@ -22,6 +22,10 @@ public class DateUtil3 {
         return sdfThreadLocal.get().format(date);
     }
 
+    public static String formatDatePlus8(Date date) throws ParseException {
+        return sdfThreadLocal.get().format(new Date(date.getTime() + 8 * 60 * 60));
+    }
+
     public static Date parse(String strDate) throws ParseException {
 
         return sdfThreadLocal.get().parse(strDate);

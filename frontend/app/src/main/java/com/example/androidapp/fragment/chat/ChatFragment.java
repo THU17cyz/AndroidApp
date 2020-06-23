@@ -172,8 +172,9 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
             Message message = msgs.get(size);
             while (size >= 0) {
                 Message tmp = msgs.get(size);
-                if (tmp.isRead() && tmp.getUser().getId().equals("1")) break;
-                else if (!tmp.isRead()) count++;
+                boolean sent = tmp.getUser().getId().equals("1");
+                if (tmp.isRead() && sent) break;
+                else if (sent) count++;
                 size--;
             }
             User user = message.getUser();

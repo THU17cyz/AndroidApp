@@ -34,21 +34,16 @@
             android:textSize="15sp"></TextView>
     </RelativeLayout>
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/refreshLayout"
+    <com.stfalcon.chatkit.dialogs.DialogsList
+
+        android:id="@+id/dialogsList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:dialogAvatarHeight="50dp"
+        app:dialogAvatarWidth="50dp"
+        app:dialogMessageTextSize="14sp"
+        app:dialogTitleTextSize="16sp"
+        app:dialogUnreadBubbleBackgroundColor="@color/red" />
 
-        <com.stfalcon.chatkit.dialogs.DialogsList
-
-            android:id="@+id/dialogsList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:dialogAvatarHeight="50dp"
-            app:dialogAvatarWidth="50dp"
-            app:dialogMessageTextSize="14sp"
-            app:dialogTitleTextSize="16sp" />
-
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </LinearLayout>
