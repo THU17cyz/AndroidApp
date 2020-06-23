@@ -1,12 +1,19 @@
 package com.example.androidapp.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.androidapp.R;
 import com.example.androidapp.adapter.LogonPagerAdapter;
+import com.example.androidapp.myView.NoSlidingViewPager;
 import com.google.android.material.tabs.TabLayout;
 
 import butterknife.BindView;
@@ -24,7 +31,7 @@ public class LogonActivity extends BaseActivity {
     TabLayout tabLayout;
 
     @BindView(R.id.logonPager)
-    ViewPager viewPager;
+    NoSlidingViewPager viewPager;
 
     /******************************
      ************ 方法 ************
@@ -44,6 +51,7 @@ public class LogonActivity extends BaseActivity {
         LogonPagerAdapter pagerAdapter = new LogonPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        viewPager.setScrollable(false);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -58,6 +66,7 @@ public class LogonActivity extends BaseActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+        tabLayout.setVisibility(View.GONE);
 
     }
 

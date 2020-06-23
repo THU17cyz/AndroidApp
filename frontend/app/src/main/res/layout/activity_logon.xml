@@ -24,7 +24,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:tabMode="fixed" />
 
-    <androidx.viewpager.widget.ViewPager
+    <com.example.androidapp.myView.NoSlidingViewPager
         android:id="@+id/logonPager"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"

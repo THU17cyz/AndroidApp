@@ -349,6 +349,7 @@ public class MainActivity extends BaseActivity {
                                         String time = jsonObject.getString("information_time");
                                         String state = jsonObject.getString("information_state");
                                         String content = (String) jsonObject.get("information_content");
+                                        content = content.substring(0, 4) + "】" + content.substring(26);
                                         com.example.androidapp.entity.chat.Message message;
                                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                                         if (state.equals("N")) {
