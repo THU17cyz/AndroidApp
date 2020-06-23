@@ -9,56 +9,37 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:navigationIcon="@drawable/ic_navigate_before_black_24dp"
-        android:background="?android:attr/windowBackground">
+        android:background="?android:attr/windowBackground"
+        app:navigationIcon="@drawable/ic_navigate_before_black_24dp">
+
         <TextView
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="left|center_vertical"
-            android:text="老张"
             android:textColor="@color/black"
             android:textSize="20sp"></TextView>
 
     </androidx.appcompat.widget.Toolbar>
-<!--    <RelativeLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="?attr/actionBarSize"-->
-<!--        android:layout_alignParentTop="true">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/name"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:gravity="center"-->
-<!--            android:text="老张"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="20sp"></TextView>-->
-
-<!--    </RelativeLayout>-->
-
 
     <View
         android:id="@+id/divider3"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="?android:attr/listDivider"
-        android:layout_below="@id/toolbar"/>
+        android:layout_below="@id/toolbar"
+        android:background="?android:attr/listDivider" />
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/divider3"
         android:layout_above="@id/input"
-        >
+        android:layout_below="@id/divider3">
 
         <com.stfalcon.chatkit.messages.MessagesList
             android:id="@+id/messagesList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
-
             app:dateHeaderFormat="dd MMMM yyyy"
             app:incomingDefaultBubbleColor="@color/ivory"
             app:incomingDefaultBubblePressedColor="@color/ivory_dark"
@@ -80,14 +61,6 @@
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-
-    <!--    <View-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="1dp"-->
-    <!--        android:layout_above="@id/input"-->
-    <!--        android:layout_marginLeft="16dp"-->
-    <!--        android:layout_marginRight="16dp"-->
-    <!--        android:background="@color/gray_light"/>-->
 
     <com.stfalcon.chatkit.messages.MessageInput
         android:id="@+id/input"

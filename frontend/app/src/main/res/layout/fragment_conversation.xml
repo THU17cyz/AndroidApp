@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,29 +47,12 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
     <fragment
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/chat_fragment"
-        android:name="com.example.androidapp.fragment.conversation.ChatFragment">
-
+        android:name="com.example.androidapp.fragment.conversation.ChatFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     </fragment>
-<!--    <com.google.android.material.tabs.TabLayout-->
-<!--        android:id="@+id/tab_layout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@id/top_bar"-->
-<!--        android:background="@color/transparent"-->
-<!--        android:minHeight="?attr/actionBarSize"-->
-<!--        android:theme="@style/Theme.AppCompat.Light"-->
-<!--        app:tabTextAppearance="@style/TabLayoutTextStyle"-->
-<!--        app:tabTextColor="@color/black" />-->
 
-<!--    <androidx.viewpager.widget.ViewPager-->
-<!--        android:id="@+id/pager"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="fill_parent"-->
-<!--        android:layout_below="@id/tab_layout" />-->
 
 </LinearLayout>

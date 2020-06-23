@@ -1,138 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    app:cardCornerRadius="5dp"
-    app:contentPaddingBottom="4dp"
-    app:contentPaddingTop="4dp"
-    app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="true"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    app:cardCornerRadius="5dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="true"
+    app:contentPaddingBottom="4dp"
+    app:contentPaddingTop="4dp">
 
-    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:divider="@drawable/shape_line"
-        android:showDividers="middle"
-        >
+        android:orientation="vertical"
+        android:showDividers="middle">
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:paddingLeft="20dp"
             android:paddingTop="5dp"
             android:paddingRight="20dp"
-            android:paddingBottom="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:paddingBottom="5dp">
 
             <TextView
-                style="@style/personal_homepage_show_style"
-                android:textColor="?android:attr/textColorPrimary"
                 android:id="@+id/text_direction"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="研究方向"
-                ></TextView>
+                android:textColor="?android:attr/textColorPrimary"></TextView>
 
             <TextView
-                style="@style/personal_homepage_show_style"
                 android:id="@+id/direction"
-                android:textColor="?android:attr/textColorSecondary"
-                android:text="量子力学"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                ></TextView>
+                android:text="量子力学"
+                android:textColor="?android:attr/textColorSecondary"></TextView>
         </LinearLayout>
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:paddingLeft="20dp"
             android:paddingTop="5dp"
             android:paddingRight="20dp"
-            android:paddingBottom="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:paddingBottom="5dp">
 
             <TextView
                 style="@style/personal_homepage_show_style"
-                android:textColor="?android:attr/textColorPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="招生类型"></TextView>
+                android:text="招生类型"
+                android:textColor="?android:attr/textColorPrimary"></TextView>
 
             <TextView
+                android:id="@+id/student_type"
                 style="@style/personal_homepage_show_style"
-                android:textColor="?android:attr/textColorSecondary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="本科生"
-                android:id="@+id/student_type"></TextView>
+                android:textColor="?android:attr/textColorSecondary"></TextView>
         </LinearLayout>
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:paddingLeft="20dp"
             android:paddingTop="5dp"
             android:paddingRight="20dp"
-            android:paddingBottom="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:paddingBottom="5dp">
 
             <TextView
                 style="@style/personal_homepage_show_style"
-                android:textColor="?android:attr/textColorPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="招生数量"></TextView>
+                android:text="招生数量"
+                android:textColor="?android:attr/textColorPrimary"></TextView>
+
             <TextView
+                android:id="@+id/number"
                 style="@style/personal_homepage_show_style"
-                android:textColor="?android:attr/textColorSecondary"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="6"
-                android:id="@+id/number"
-                ></TextView>
+                android:textColor="?android:attr/textColorSecondary"></TextView>
 
 
         </LinearLayout>
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:paddingLeft="20dp"
             android:paddingTop="5dp"
             android:paddingRight="20dp"
-            android:paddingBottom="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:paddingBottom="5dp">
 
             <TextView
                 style="@style/personal_homepage_show_style"
-                android:textColor="?android:attr/textColorPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="意向状态"></TextView>
+                android:text="意向状态"
+                android:textColor="?android:attr/textColorPrimary"></TextView>
 
             <TextView
+                android:id="@+id/state"
                 style="@style/personal_homepage_show_style"
-                android:textColor="?android:attr/textColorSecondary"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="进行中"
-                android:id="@+id/state"
-                ></TextView>
+                android:textColor="?android:attr/textColorSecondary"></TextView>
         </LinearLayout>
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:paddingLeft="20dp"
             android:paddingTop="5dp"
             android:paddingRight="20dp"
-            android:paddingBottom="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:paddingBottom="5dp">
 
             <TextView
                 style="@style/personal_homepage_show_style"
@@ -143,42 +138,14 @@
                 android:textColor="?android:attr/textColorPrimary"></TextView>
 
             <TextView
-                style="@style/personal_homepage_show_style"
                 android:id="@+id/introduction"
-                android:textColor="?android:attr/textColorSecondary"
+                style="@style/personal_homepage_show_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="8"
-                android:text="具体介绍是xxx"></TextView>
+                android:text="具体介绍是xxx"
+                android:textColor="?android:attr/textColorSecondary"></TextView>
 
-
-            <!--        <com.ms.square.android.expandabletextview.ExpandableTextView xmlns:android="http://schemas.android.com/apk/res/android"-->
-            <!--            xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"-->
-            <!--            android:id="@+id/expand_text_intro"-->
-            <!--            android:layout_width="match_parent"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            expandableTextView:animDuration="200"-->
-            <!--            expandableTextView:maxCollapsedLines="4">-->
-
-            <!--            <TextView-->
-            <!--                android:id="@+id/text_intro"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginLeft="10dp"-->
-            <!--                android:layout_marginRight="10dp"-->
-            <!--                android:textColor="?android:attr/textColorSecondary"-->
-            <!--                android:text="xxxxxx"-->
-            <!--                android:textSize="16sp" />-->
-
-            <!--            <ImageButton-->
-            <!--                android:id="@id/expand_collapse"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_gravity="right|bottom"-->
-            <!--                android:background="@android:color/transparent"-->
-            <!--                android:padding="16dp" />-->
-            <!--        </com.ms.square.android.expandabletextview.ExpandableTextView>-->
-            <!--        -->
 
         </LinearLayout>
 

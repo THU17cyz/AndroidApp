@@ -12,7 +12,6 @@
         <attr name="border_width" format="integer"></attr>
         <attr name="border_color_pressed" format="color"></attr>
         <attr name="border_color" format="color"></attr>
-
     </declare-styleable>
 
 </resources>

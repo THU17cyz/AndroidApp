@@ -3,502 +3,461 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="6dp"
+    android:background="@color/white"
     android:paddingLeft="3dp"
+    android:paddingTop="6dp"
     android:paddingRight="3dp"
     android:paddingBottom="6dp"
-    android:background="@color/white">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <androidx.cardview.widget.CardView
-        app:cardCornerRadius="5dp"
-        app:contentPaddingBottom="4dp"
-        app:contentPaddingTop="4dp"
-        app:cardPreventCornerOverlap="true"
-        app:cardUseCompatPadding="true"
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:divider="@drawable/shape_line"
-        android:showDividers="middle"
-        >
-
-        <LinearLayout
-            android:id="@+id/layout_username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="5dp">
-
-            <TextView
-                android:textColor="?android:attr/textColorPrimary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="用户名"></TextView>
-
-            <TextView
-                android:id="@+id/account"
-                android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text=""></TextView>
-        </LinearLayout>
+        app:cardCornerRadius="5dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        app:contentPaddingBottom="4dp"
+        app:contentPaddingTop="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="5dp">
+            android:layout_height="match_parent"
+            android:divider="@drawable/shape_line"
+            android:orientation="vertical"
+            android:showDividers="middle">
 
-            <TextView
-                android:textColor="?android:attr/textColorPrimary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="姓名"></TextView>
-
-            <TextView
-                android:id="@+id/name"
-                android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text=""></TextView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="5dp">
-
-            <TextView
-                android:textColor="?android:attr/textColorPrimary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="性别"></TextView>
-
-            <TextView
-                android:id="@+id/gender"
-                android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="男"></TextView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="5dp">
-
-            <TextView
-                android:textColor="?android:attr/textColorPrimary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="学校"></TextView>
-
-            <TextView
-                android:id="@+id/school"
-                android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="清华"></TextView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="5dp">
-
-            <TextView
-                android:textColor="?android:attr/textColorPrimary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="院系"></TextView>
-
-            <TextView
-                android:id="@+id/department"
-                android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
-                tools:text="软件学院"></TextView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="5dp">
-
-            <TextView
-                android:textColor="?android:attr/textColorPrimary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="职务"></TextView>
-
-            <TextView
-                android:id="@+id/title"
-                android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="教授"></TextView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_major"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="5dp">
-
-            <TextView
-                android:textColor="?android:attr/textColorPrimary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="专业"></TextView>
-
-            <TextView
-                android:id="@+id/major"
-                android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
-                tools:text="计算机"></TextView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_degree"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="5dp">
-
-            <TextView
-                android:textColor="?android:attr/textColorPrimary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="学位"></TextView>
-
-            <TextView
-                android:id="@+id/degree"
-                android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="本科"></TextView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_teacher_number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="5dp">
-
-            <TextView
-                android:textColor="?android:attr/textColorPrimary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="工号"></TextView>
-
-            <TextView
-                android:id="@+id/teacher_number"
-                android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="4154315451"></TextView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_student_number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="5dp">
-
-            <TextView
-                android:textColor="?android:attr/textColorPrimary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="学号"></TextView>
-
-            <TextView
-                android:id="@+id/student_number"
-                android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="741947899"></TextView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_id_number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="5dp">
-
-            <TextView
-                android:textColor="?android:attr/textColorPrimary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="身份证号"></TextView>
-
-            <TextView
-                android:id="@+id/id_number"
-                android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="413985094183594385"></TextView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="5dp">
-
-            <TextView
-                android:textColor="?android:attr/textColorPrimary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="电话"></TextView>
-
-            <TextView
-                android:autoLink="phone"
-                android:id="@+id/phone"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
-                tools:text="19900999999"
-                android:textColor="?android:attr/textColorSecondary"></TextView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="5dp">
-
-            <TextView
-                android:textColor="?android:attr/textColorPrimary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="邮箱"></TextView>
-
-            <TextView
-                android:autoLink="email"
-                android:id="@+id/email"
-                android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
-                tools:text="199@qq.com"></TextView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="5dp">
-
-            <TextView
-                android:textColor="?android:attr/textColorPrimary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="主页"></TextView>
-
-            <TextView
-                android:autoLink="web"
-                android:id="@+id/homepage"
-                android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
-                tools:text="www.baidu.com"></TextView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="20dp"
-            android:paddingTop="5dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="5dp">
-
-            <TextView
-                android:textColor="?android:attr/textColorPrimary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="地址"></TextView>
-
-            <TextView
-                android:id="@+id/address"
-                android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_show_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
-                tools:text="紫荆公寓1号楼"></TextView>
-        </LinearLayout>
-
-        <LinearLayout
-
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:textColor="?android:attr/textColorPrimary"
-                android:layout_marginRight="6dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="个人介绍"
-                android:layout_marginBottom="3dp"
-                style="@style/personal_homepage_show_style"></TextView>
-
-            <TextView
-                android:id="@+id/introduction"
-                android:textColor="?android:attr/textColorSecondary"
-                style="@style/personal_homepage_show_style"
+            <LinearLayout
+                android:id="@+id/layout_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="6dp"
-                tools:text="个人介绍是xxxxxxxx"></TextView>
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="5dp">
 
-            <!--        <com.ms.square.android.expandabletextview.ExpandableTextView xmlns:android="http://schemas.android.com/apk/res/android"-->
-            <!--            xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"-->
-            <!--            android:id="@+id/expand_text_intro"-->
-            <!--            android:layout_width="match_parent"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            expandableTextView:maxCollapsedLines="4"-->
-            <!--            expandableTextView:animDuration="200">-->
+                <TextView
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="用户名"
+                    android:textColor="?android:attr/textColorPrimary"></TextView>
 
-            <!--            <TextView-->
-            <!--                android:id="@+id/text_intro"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginLeft="10dp"-->
-            <!--                android:layout_marginRight="10dp"-->
-            <!--                android:textSize="16sp"-->
-            <!--                android:textColor="?android:attr/textColorSecondary" />-->
+                <TextView
+                    android:id="@+id/account"
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:text=""></TextView>
+            </LinearLayout>
 
-            <!--            <ImageButton-->
-            <!--                android:id="@id/expand_collapse"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:padding="16dp"-->
-            <!--                android:layout_gravity="right|bottom"-->
-            <!--                android:background="@android:color/transparent" />-->
-            <!--        </com.ms.square.android.expandabletextview.ExpandableTextView>-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="姓名"
+                    android:textColor="?android:attr/textColorPrimary"></TextView>
+
+                <TextView
+                    android:id="@+id/name"
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:text=""></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="性别"
+                    android:textColor="?android:attr/textColorPrimary"></TextView>
+
+                <TextView
+                    android:id="@+id/gender"
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:text="男"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="学校"
+                    android:textColor="?android:attr/textColorPrimary"></TextView>
+
+                <TextView
+                    android:id="@+id/school"
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:text="清华"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="院系"
+                    android:textColor="?android:attr/textColorPrimary"></TextView>
+
+                <TextView
+                    android:id="@+id/department"
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="6dp"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:text="软件学院"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="职务"
+                    android:textColor="?android:attr/textColorPrimary"></TextView>
+
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:text="教授"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_major"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="专业"
+                    android:textColor="?android:attr/textColorPrimary"></TextView>
+
+                <TextView
+                    android:id="@+id/major"
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="6dp"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:text="计算机"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_degree"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="学位"
+                    android:textColor="?android:attr/textColorPrimary"></TextView>
+
+                <TextView
+                    android:id="@+id/degree"
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:text="本科"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_teacher_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="工号"
+                    android:textColor="?android:attr/textColorPrimary"></TextView>
+
+                <TextView
+                    android:id="@+id/teacher_number"
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:text="4154315451"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_student_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="学号"
+                    android:textColor="?android:attr/textColorPrimary"></TextView>
+
+                <TextView
+                    android:id="@+id/student_number"
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:text="741947899"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_id_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="身份证号"
+                    android:textColor="?android:attr/textColorPrimary"></TextView>
+
+                <TextView
+                    android:id="@+id/id_number"
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:text="413985094183594385"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="电话"
+                    android:textColor="?android:attr/textColorPrimary"></TextView>
+
+                <TextView
+                    android:id="@+id/phone"
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="6dp"
+                    android:autoLink="phone"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:text="19900999999"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="邮箱"
+                    android:textColor="?android:attr/textColorPrimary"></TextView>
+
+                <TextView
+                    android:id="@+id/email"
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="6dp"
+                    android:autoLink="email"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:text="199@qq.com"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="主页"
+                    android:textColor="?android:attr/textColorPrimary"></TextView>
+
+                <TextView
+                    android:id="@+id/homepage"
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="6dp"
+                    android:autoLink="web"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:text="www.baidu.com"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="地址"
+                    android:textColor="?android:attr/textColorPrimary"></TextView>
+
+                <TextView
+                    android:id="@+id/address"
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="6dp"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:text="紫荆公寓1号楼"></TextView>
+            </LinearLayout>
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingTop="5dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="5dp">
+
+                <TextView
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="个人介绍"
+                    android:textColor="?android:attr/textColorPrimary"></TextView>
+
+                <TextView
+                    android:id="@+id/introduction"
+                    style="@style/personal_homepage_show_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="6dp"
+                    android:textColor="?android:attr/textColorSecondary"
+                    tools:text="个人介绍是xxxxxxxx"></TextView>
+
+
+            </LinearLayout>
+
 
         </LinearLayout>
-
-
-
-    </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
 
 </androidx.core.widget.NestedScrollView>
 
-<!--<LinearLayout-->
-<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent">-->
-
-<!--    <ScrollView-->
-<!--        xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent">-->
-
-<!--    </ScrollView>-->
-
-<!--</LinearLayout>-->
 
 

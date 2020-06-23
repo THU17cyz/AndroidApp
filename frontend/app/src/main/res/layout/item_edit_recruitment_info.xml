@@ -1,201 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     app:cardCornerRadius="5dp"
-    app:contentPaddingBottom="4dp"
-    app:contentPaddingTop="4dp"
     app:cardPreventCornerOverlap="true"
     app:cardUseCompatPadding="true"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    app:contentPaddingBottom="4dp"
+    app:contentPaddingTop="4dp">
 
-<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:divider="@drawable/shape_line"
-    android:showDividers="middle">
-
-
-
-    <LinearLayout
-        android:paddingLeft="20dp"
-        android:paddingTop="5dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="5dp"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <RelativeLayout
+        android:divider="@drawable/shape_line"
+        android:orientation="vertical"
+        android:showDividers="middle">
+
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="5dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/personal_homepage_edit_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_weight="8"
+                    android:text="研究方向"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textSize="20dp"></TextView>
+
+                <ImageView
+                    android:id="@+id/delete"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="7dp"
+                    android:background="@color/md_red_300"
+                    android:foreground="@drawable/ic_clear_white_24dp"></ImageView>
+
+            </RelativeLayout>
+
+
+            <com.andreabaccega.widget.FormEditText
+                android:id="@+id/direction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:background="@null"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="填写研究方向 (必须)"
+                android:inputType="textPersonName"
+                android:maxLength="40"
+                app:emptyErrorString="@string/CANNOT_BE_NULL"></com.andreabaccega.widget.FormEditText>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="5dp">
+
             <TextView
                 style="@style/personal_homepage_edit_style"
-                android:textColor="?android:attr/textColorPrimary"
-                android:layout_alignParentLeft="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="8"
-                android:text="研究方向"
-                android:textSize="20dp"></TextView>
-            <ImageView
-                android:layout_marginTop="7dp"
-                android:id="@+id/delete"
-                android:layout_alignParentRight="true"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:foreground="@drawable/ic_clear_white_24dp"
-                android:background="@color/md_red_300"
-                ></ImageView>
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="意向状态"
+                android:textColor="?android:attr/textColorPrimary"></TextView>
 
-        </RelativeLayout>
+            <TextView
+                android:id="@+id/state"
+                style="@style/personal_homepage_edit_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:maxLines="1"
+                android:text="点击选择"
+                android:textColor="?android:attr/textColorSecondary"></TextView>
+        </LinearLayout>
 
-
-
-        <com.andreabaccega.widget.FormEditText
-            android:background="@null"
-            android:inputType="textPersonName"
-            android:maxLength="40"
-            android:hint="填写研究方向 (必须)"
-            android:id="@+id/direction"
-            android:layout_weight="2"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            app:emptyErrorString="@string/CANNOT_BE_NULL"></com.andreabaccega.widget.FormEditText>
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="5dp">
 
-    <LinearLayout
-        android:paddingLeft="20dp"
-        android:paddingTop="5dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            <TextView
+                style="@style/personal_homepage_edit_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="招生类型"
+                android:textColor="?android:attr/textColorPrimary"></TextView>
 
-        <TextView
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            style="@style/personal_homepage_edit_style"
-            android:textColor="?android:attr/textColorPrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="意向状态"
-            ></TextView>
-
-        <TextView
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:maxLines="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="点击选择"
-            style="@style/personal_homepage_edit_style"
-            android:textColor="?android:attr/textColorSecondary"
-            android:id="@+id/state"></TextView>
-    </LinearLayout>
-
-    <LinearLayout
-        android:paddingLeft="20dp"
-        android:paddingTop="5dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            style="@style/personal_homepage_edit_style"
-            android:textColor="?android:attr/textColorPrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="招生类型"
-            ></TextView>
-
-        <TextView
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:maxLines="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="点击选择"
-            style="@style/personal_homepage_edit_style"
-            android:textColor="?android:attr/textColorSecondary"
-            android:id="@+id/student_type"></TextView>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/student_type"
+                style="@style/personal_homepage_edit_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:maxLines="1"
+                android:text="点击选择"
+                android:textColor="?android:attr/textColorSecondary"></TextView>
+        </LinearLayout>
 
 
-    <LinearLayout
-        android:paddingLeft="20dp"
-        android:paddingTop="5dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            style="@style/personal_homepage_edit_style"
-            android:textColor="?android:attr/textColorPrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="招生数量"
-            ></TextView>
-
-        <com.andreabaccega.widget.FormEditText
-            android:hint="输入招生数量"
-            android:background="@null"
-            android:inputType="number"
-            android:maxLines="1"
-            style="@style/personal_homepage_edit_style"
-            android:textColor="?android:attr/textColorSecondary"
-            android:id="@+id/number"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            app:emptyErrorString="@string/CANNOT_BE_NULL"></com.andreabaccega.widget.FormEditText>
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="5dp">
+
+            <TextView
+                style="@style/personal_homepage_edit_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="招生数量"
+                android:textColor="?android:attr/textColorPrimary"></TextView>
+
+            <com.andreabaccega.widget.FormEditText
+                android:id="@+id/number"
+                style="@style/personal_homepage_edit_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="输入招生数量"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textColor="?android:attr/textColorSecondary"
+                app:emptyErrorString="@string/CANNOT_BE_NULL"></com.andreabaccega.widget.FormEditText>
+        </LinearLayout>
 
 
-    <LinearLayout
-        android:paddingLeft="20dp"
-        android:paddingTop="5dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            style="@style/personal_homepage_edit_style"
-            android:textColor="?android:attr/textColorPrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="具体介绍"
-            ></TextView>
-
-        <com.andreabaccega.widget.FormEditText
-            android:background="@null"
-            android:hint="填写具体介绍"
-            style="@style/personal_homepage_edit_style"
-            android:textColor="?android:attr/textColorSecondary"
-            android:id="@+id/introduction"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            app:emptyErrorString="@string/CANNOT_BE_NULL"></com.andreabaccega.widget.FormEditText>
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="5dp">
+
+            <TextView
+                style="@style/personal_homepage_edit_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="具体介绍"
+                android:textColor="?android:attr/textColorPrimary"></TextView>
+
+            <com.andreabaccega.widget.FormEditText
+                android:id="@+id/introduction"
+                style="@style/personal_homepage_edit_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="填写具体介绍"
+                android:textColor="?android:attr/textColorSecondary"
+                app:emptyErrorString="@string/CANNOT_BE_NULL"></com.andreabaccega.widget.FormEditText>
+        </LinearLayout>
+
+
     </LinearLayout>
-
-
-</LinearLayout>
 
 </androidx.cardview.widget.CardView>

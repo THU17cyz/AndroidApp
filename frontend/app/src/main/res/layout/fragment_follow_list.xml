@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/follow_list_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,10 +8,10 @@
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:animateLayoutChanges="true"
-        android:orientation="vertical"
-        android:layout_height="0dp">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/follow_list_teacher"
@@ -34,10 +32,6 @@
             android:layout_marginRight="10dp"
             android:background="@color/gray"></View>
 
-        <!--        <com.scwang.smartrefresh.layout.SmartRefreshLayout-->
-        <!--            android:id="@+id/t_refresh_layout"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="match_parent">-->
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/t_recycler_view"
@@ -46,7 +40,6 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
-        <!--        </com.scwang.smartrefresh.layout.SmartRefreshLayout>-->
 
     </LinearLayout>
 
@@ -75,10 +68,6 @@
             android:layout_marginRight="10dp"
             android:background="@color/gray"></View>
 
-        <!--        <com.scwang.smartrefresh.layout.SmartRefreshLayout-->
-        <!--            android:id="@+id/s_refresh_layout"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="match_parent">-->
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/s_recycler_view"
@@ -87,10 +76,8 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
-        <!--        </com.scwang.smartrefresh.layout.SmartRefreshLayout>-->
 
     </LinearLayout>
-
 
 
 </LinearLayout>

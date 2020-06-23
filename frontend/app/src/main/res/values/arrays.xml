@@ -6,7 +6,6 @@
     </string-array>
     <string-array name="view_types_dialog">
         <item name="image">Image (default)</item>
-<!--        <item name="voice">Voice message (custom)</item>-->
     </string-array>
 
     <string-array name="t_s_type">

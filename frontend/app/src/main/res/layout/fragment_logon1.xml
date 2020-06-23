@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     android:padding="20dp">
 
     <ImageView
@@ -21,16 +20,14 @@
         android:entries="@array/t_s_type"
         android:gravity="center"
         android:hint="选择类型"
-        android:textSize="16sp"
         android:padding="15dp"
         android:spinnerMode="dropdown"
         android:textColor="@color/white"
         android:textColorHighlight="@color/white"
-        android:textColorHint="@color/white" />
+        android:textColorHint="@color/white"
+        android:textSize="16sp" />
 
     <com.andreabaccega.widget.FormEditText
-        android:inputType="textPersonName"
-        android:maxLines="1"
         android:id="@+id/logon1_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,6 +36,8 @@
         android:drawableStart="@drawable/ic_person_black_24dp"
         android:drawablePadding="10dp"
         android:hint="@string/ACCOUNT"
+        android:inputType="textPersonName"
+        android:maxLines="1"
         android:padding="15dp"
         android:textColor="@color/white"
         android:textColorHighlight="@color/white"
@@ -46,7 +45,6 @@
         app:emptyErrorString="@string/CANNOT_BE_NULL" />
 
     <com.andreabaccega.widget.FormEditText
-        android:maxLines="1"
         android:id="@+id/logon1_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,6 +54,7 @@
         android:drawablePadding="10dp"
         android:hint="@string/PASSWORD"
         android:inputType="textPassword"
+        android:maxLines="1"
         android:padding="15dp"
         android:textColor="@color/white"
         android:textColorHighlight="@color/white"
@@ -63,7 +62,6 @@
         app:emptyErrorString="@string/CANNOT_BE_NULL" />
 
     <com.andreabaccega.widget.FormEditText
-        android:maxLines="1"
         android:id="@+id/logon1_repeat_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,6 +71,7 @@
         android:drawablePadding="10dp"
         android:hint="@string/REPEAT_PASSWORD"
         android:inputType="textPassword"
+        android:maxLines="1"
         android:padding="15dp"
         android:textColor="@color/white"
         android:textColorHighlight="@color/white"
@@ -89,9 +88,9 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/shape_login_button"
         android:padding="15dp"
-        android:textSize="16sp"
         android:shadowColor="@android:color/transparent"
-        android:text="@string/LOGON" />
+        android:text="@string/LOGON"
+        android:textSize="16sp" />
 
 
 </LinearLayout>

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     android:padding="20dp">
 
 
@@ -14,8 +13,6 @@
         android:layout_height="wrap_content" />
 
     <com.andreabaccega.widget.FormEditText
-        android:inputType="textPersonName"
-        android:maxLines="1"
         android:id="@+id/logon2_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,6 +21,8 @@
         android:drawableStart="@drawable/png_black_24dp_name"
         android:drawablePadding="10dp"
         android:hint="@string/NAME"
+        android:inputType="textPersonName"
+        android:maxLines="1"
         android:padding="15dp"
         android:textColor="@color/white"
         android:textColorHighlight="@color/white"
@@ -31,8 +30,6 @@
         app:emptyErrorString="@string/CANNOT_BE_NULL" />
 
     <com.andreabaccega.widget.FormEditText
-        android:inputType="textPersonName"
-        android:maxLines="1"
         android:id="@+id/logon2_gender"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,6 +38,8 @@
         android:drawableStart="@drawable/png_black_24dp_gender"
         android:drawablePadding="10dp"
         android:hint="@string/GENDER"
+        android:inputType="textPersonName"
+        android:maxLines="1"
         android:padding="15dp"
         android:textColor="@color/white"
         android:textColorHighlight="@color/white"
@@ -48,8 +47,6 @@
         app:emptyErrorString="@string/CANNOT_BE_NULL" />
 
     <com.andreabaccega.widget.FormEditText
-        android:inputType="textPersonName"
-        android:maxLines="1"
         android:id="@+id/logon2_school"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,6 +55,8 @@
         android:drawableStart="@drawable/png_black_24dp_school"
         android:drawablePadding="10dp"
         android:hint="@string/SCHOOL"
+        android:inputType="textPersonName"
+        android:maxLines="1"
         android:padding="15dp"
         android:textColor="@color/white"
         android:textColorHighlight="@color/white"
@@ -65,8 +64,6 @@
         app:emptyErrorString="@string/CANNOT_BE_NULL" />
 
     <com.andreabaccega.widget.FormEditText
-        android:inputType="textPersonName"
-        android:maxLines="1"
         android:id="@+id/logon2_department"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -75,6 +72,8 @@
         android:drawableStart="@drawable/png_black_24dp_department"
         android:drawablePadding="10dp"
         android:hint="@string/DEPARTMENT"
+        android:inputType="textPersonName"
+        android:maxLines="1"
         android:padding="15dp"
         android:textColor="@color/white"
         android:textColorHighlight="@color/white"
