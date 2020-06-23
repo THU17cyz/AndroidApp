@@ -1,5 +1,9 @@
 package com.example.androidapp.util;
 
+
+/**
+ * 全局配置
+ */
 public class Global {
     // *** HTTP ***
     public static final boolean HTTP_TEST_MODE = false;

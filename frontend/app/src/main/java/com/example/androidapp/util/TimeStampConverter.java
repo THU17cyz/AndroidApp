@@ -8,6 +8,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
+/**
+ * 数据库使用的时间戳转换函数
+ */
 public class TimeStampConverter {
 
     private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -23,6 +23,10 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+
+/**
+ * 主界面推荐子页
+ */
 public class HomeFragment extends Fragment {
 
     @BindView(R.id.imageButton)

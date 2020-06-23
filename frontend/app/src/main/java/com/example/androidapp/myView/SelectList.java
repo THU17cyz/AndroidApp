@@ -26,6 +26,9 @@ import java.util.List;
 
 import razerdp.basepopup.BasePopupWindow;
 
+/**
+ * 弹出的筛选框
+ */
 public class SelectList extends BasePopupWindow {
     FlexboxLayout flexboxLayout;
     private int num;

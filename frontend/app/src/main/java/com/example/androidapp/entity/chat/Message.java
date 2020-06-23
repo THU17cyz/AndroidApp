@@ -5,17 +5,21 @@ import com.stfalcon.chatkit.commons.models.MessageContentType;
 
 import java.util.Date;
 
+
+/**
+ * 会话or系统通知
+ */
 public class Message implements IMessage,
         MessageContentType.Image, /*this is for default image messages implementation*/
         MessageContentType /*and this one is for custom content type (in this case - voice message)*/ {
 
     private String id;
     private String text;
-    private Date createdAt;
-    private User user;
-    private Image image;
+    private Date createdAt; // 时间
+    private User user; // 用户，"0"是自己，"1"是对方，但用户信息都是对方的
+    private Image image; // 图片url
     private Voice voice;
-    private Boolean read = false;
+    private Boolean read = false; // 是否已读
 
     private String dateString;
 

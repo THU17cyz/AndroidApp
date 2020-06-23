@@ -25,6 +25,10 @@ import butterknife.Unbinder;
 import okhttp3.Call;
 import okhttp3.Response;
 
+
+/**
+ * 搜索结果（招生意向）
+ */
 public class Recruit extends IntentFragment {
     private Unbinder unbinder;
 

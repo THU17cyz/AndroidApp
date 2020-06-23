@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="0dp"
-    tools:context=".fragment.conversation.ChatFragment">
+    tools:context=".fragment.chat.ChatFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -20,6 +20,10 @@ import com.example.androidapp.util.BasicInfo;
 
 import java.util.ArrayList;
 
+
+/**
+ * 展示信息界面(学生意向)
+ */
 public class ApplicationInfoFragment extends Fragment {
 
     RecyclerView recyclerView;

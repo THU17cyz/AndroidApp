@@ -22,8 +22,6 @@ import com.example.androidapp.activity.EditInfoActivity;
 import com.example.androidapp.adapter.HomepagePagerAdapter;
 import com.example.androidapp.entity.ApplicationInfo;
 import com.example.androidapp.entity.RecruitmentInfo;
-import com.example.androidapp.entity.ShortProfile;
-import com.example.androidapp.entity.WholeProfile;
 import com.example.androidapp.request.user.GetInfoPictureRequest;
 import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.GifSizeFilter;
@@ -44,6 +42,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
+
+/**
+ * 主界面主页子页
+ */
 public class DashboardFragment
         extends Fragment {
 
@@ -82,32 +84,6 @@ public class DashboardFragment
     @BindView(R.id.visit_homepage_appbar)
     AppBarLayout app_bar;
 
-    public String mTitle;
-    public String mMajor;
-    public String mDegree;
-    public String mTeacherNumber;
-    public String mStudentNumber;
-    public String mIdNumber;
-    public String mGender;
-    public String mName;
-    public String mSchool;
-    public String mDepartment;
-    public String mSignature;
-    public String mPhone;
-    public String mEmail;
-    public String mHomepage;
-    public String mAddress;
-    public String mIntroduction;
-    public String mUrl;
-    public String mDirection;
-    public String mInterest;
-    public String mResult;
-    public String mExperience;
-    private WholeProfile wholeProfile;
-    private ShortProfile shortProfile;
-    private String mAccount;
-    private int mNumFocus;
-    private int mNumFocused;
     public ArrayList<ApplicationInfo> mApplicationList;
     public ArrayList<RecruitmentInfo> mRecruitmentList;
     private HomepagePagerAdapter pagerAdapter;

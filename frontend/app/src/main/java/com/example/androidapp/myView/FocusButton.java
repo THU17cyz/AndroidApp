@@ -41,7 +41,9 @@ import com.example.androidapp.R;
  * boolean isPressed()
  */
 
-
+/**
+ * 关注按钮，带动画
+ */
 public class FocusButton extends androidx.appcompat.widget.AppCompatButton implements View.OnClickListener {
 
     private int bg_color_pressed = Color.GRAY;

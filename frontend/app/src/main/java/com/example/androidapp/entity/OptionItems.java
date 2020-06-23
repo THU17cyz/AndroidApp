@@ -3,6 +3,10 @@ package com.example.androidapp.entity;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+
+/**
+ * 各类选项信息
+ */
 public class OptionItems {
 
     public static final ArrayList<String> optionsGender = new ArrayList<>(Arrays.asList("男", "女", "保密"));

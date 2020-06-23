@@ -4,6 +4,9 @@ import android.net.Uri;
 
 import java.io.File;
 
+/**
+ * uri->file
+ */
 public class Uri2File {
     public static File convert(Uri uri) {
         return new File(uri.getPath());

@@ -19,6 +19,10 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
+
+/**
+ * 展示信息界面2
+ */
 public class StudyInfoFragment extends Fragment {
 
     @BindView(R.id.text_direction_or_interest)

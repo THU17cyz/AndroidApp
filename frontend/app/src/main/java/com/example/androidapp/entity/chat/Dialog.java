@@ -4,15 +4,19 @@ import com.stfalcon.chatkit.commons.models.IDialog;
 
 import java.util.ArrayList;
 
+
+/**
+ * 会话列表的一项
+ */
 public class Dialog implements IDialog<Message>, Comparable<Dialog> {
 
-    public ArrayList<User> users;
+    public ArrayList<User> users; // 参与用户，只需对方
     private String id;
-    private String dialogPhoto;
-    private String dialogName;
-    private Message lastMessage;
+    private String dialogPhoto; // 头像
+    private String dialogName;  // 名称
+    private Message lastMessage; // 最后一条消息
 
-    private int unreadCount;
+    private int unreadCount; // 未读数量
 
     public Dialog(String id, String name, String photo,
                   ArrayList<User> users, Message lastMessage, int unreadCount) {

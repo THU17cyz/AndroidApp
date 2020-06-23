@@ -3,6 +3,10 @@ package com.example.androidapp.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+
+/**
+ * 登录记忆
+ */
 public class LoginCache {
 
     public static String type;

@@ -19,6 +19,10 @@ import com.rubengees.introduction.interfaces.CustomViewBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * 加载动画、提示
+ */
 public class Hint {
     /******************************
      ************ Load ************

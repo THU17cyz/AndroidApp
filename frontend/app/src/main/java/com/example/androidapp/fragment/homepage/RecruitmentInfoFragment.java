@@ -19,6 +19,10 @@ import com.example.androidapp.util.BasicInfo;
 
 import java.util.ArrayList;
 
+
+/**
+ * 展示信息界面(导师意向)
+ */
 public class RecruitmentInfoFragment extends Fragment {
 
     RecyclerView recyclerView;

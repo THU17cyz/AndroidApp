@@ -32,6 +32,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+
+/**
+ * 搜索结果（意向）
+ */
 public class IntentFragment extends Fragment {
 
     public boolean isFilterOpen = false;

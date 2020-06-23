@@ -19,6 +19,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+
+/**
+ * 展示信息界面1
+ */
 public class SelfInfoFragment extends Fragment {
 
     @BindView(R.id.name)

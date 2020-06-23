@@ -15,6 +15,10 @@ import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+
+/**
+ * 登录用户的基础信息，算是一个全局类
+ */
 public class BasicInfo {
 
     public static final int MAX_INTENTION_NUMBER = 10;

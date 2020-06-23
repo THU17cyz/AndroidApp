@@ -25,6 +25,9 @@ import butterknife.Unbinder;
 import okhttp3.Call;
 import okhttp3.Response;
 
+/**
+ * 搜索结果（申请意向）
+ */
 public class Apply extends IntentFragment {
     private Unbinder unbinder;
 

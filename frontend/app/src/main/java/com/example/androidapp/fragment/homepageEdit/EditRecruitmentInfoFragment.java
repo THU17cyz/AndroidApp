@@ -33,6 +33,10 @@ import butterknife.Unbinder;
 import okhttp3.Call;
 import okhttp3.Response;
 
+
+/**
+ * 修改信息界面3（导师发布意向）
+ */
 public class EditRecruitmentInfoFragment extends Fragment
         implements View.OnClickListener {
 

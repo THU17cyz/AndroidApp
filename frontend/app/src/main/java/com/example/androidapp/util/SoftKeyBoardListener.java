@@ -5,6 +5,9 @@ import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
+/**
+ * 软键盘监听器
+ */
 public class SoftKeyBoardListener {
     int rootViewVisibleHeight;//纪录根视图的显示高度
     private View rootView;//activity的根视图

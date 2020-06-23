@@ -11,7 +11,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
-public class LocalPicx {
+
+/**
+ * 加载本地图片转为url，dialog控件必须依赖这个
+ */
+public class LocalPicLoader {
     public static String NOTIFICATION_PASSWORD_CHANGE;
     public static String NOTIFICATION_WATCH;
     public static String NOTIFICATION_WELCOME;

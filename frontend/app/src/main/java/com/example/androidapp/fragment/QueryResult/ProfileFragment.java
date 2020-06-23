@@ -44,6 +44,10 @@ import butterknife.Unbinder;
 import okhttp3.Call;
 import okhttp3.Response;
 
+
+/**
+ * 搜索结果（人）
+ */
 public class ProfileFragment extends Fragment {
 
     public boolean isFilterOpen = false;

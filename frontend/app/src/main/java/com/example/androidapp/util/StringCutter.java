@@ -1,5 +1,9 @@
 package com.example.androidapp.util;
 
+
+/**
+ * 字符串剪切，防止列表中一段字太长影响观感
+ */
 public class StringCutter {
     public static String cutter(String s, int max) {
         if (s.length() >= max) {

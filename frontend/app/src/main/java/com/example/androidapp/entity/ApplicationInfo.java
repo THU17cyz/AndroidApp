@@ -1,5 +1,9 @@
 package com.example.androidapp.entity;
 
+
+/**
+ * 申请意向信息
+ */
 public class ApplicationInfo {
     public String direction;
     public String state;

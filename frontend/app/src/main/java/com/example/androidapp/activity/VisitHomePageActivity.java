@@ -17,7 +17,6 @@ import com.example.androidapp.adapter.HomepagePagerAdapter;
 import com.example.androidapp.entity.ApplicationInfo;
 import com.example.androidapp.entity.RecruitmentInfo;
 import com.example.androidapp.entity.ShortProfile;
-import com.example.androidapp.entity.WholeProfile;
 import com.example.androidapp.fragment.homepage.ApplicationInfoFragment;
 import com.example.androidapp.fragment.homepage.RecruitmentInfoFragment;
 import com.example.androidapp.fragment.homepage.SelfInfoFragment;
@@ -124,7 +123,6 @@ public class VisitHomePageActivity extends BaseActivity {
 
     HomepagePagerAdapter pagerAdapter;
     ShortProfile shortProfile;
-    WholeProfile wholeProfile;
     int id;
     String type;
     boolean isFan;

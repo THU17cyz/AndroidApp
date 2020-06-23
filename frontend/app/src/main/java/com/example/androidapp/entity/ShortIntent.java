@@ -6,6 +6,10 @@ import android.os.Parcelable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
+/**
+ * 意向简要信息
+ */
 public class ShortIntent implements Parcelable {
     public static final Creator<ShortIntent> CREATOR = new Creator<ShortIntent>() {
         @Override

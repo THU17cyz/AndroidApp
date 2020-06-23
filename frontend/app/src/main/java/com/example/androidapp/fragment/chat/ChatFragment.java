@@ -1,4 +1,4 @@
-package com.example.androidapp.fragment.conversation;
+package com.example.androidapp.fragment.chat;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,13 +6,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.androidapp.R;
@@ -41,11 +39,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+/**
+ * 聊天列表界面（其实就是主界面聊天子页，不过分成两个fragment）
+ */
 public class ChatFragment extends Fragment implements DateFormatter.Formatter {
     @BindView(R.id.btn_all_read)
     TextView btnAllRead;
 
-    boolean hasHandled = false;
     private DialogsList dialogsList;
     private DialogsListAdapter dialogsAdapter;
     private ImageLoader imageLoader;
@@ -62,7 +62,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
     private Runnable mTimeCounterRunnable = new Runnable() {
         @Override
         public void run() {
-            newTest();
+            refresh();
             mHandler.postDelayed(this, 2 * 1000);
         }
     };
@@ -159,7 +159,7 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
         unbinder.unbind();
     }
 
-    public void newTest() {
+    public void refresh() {
         // 初步构造联系人列表
         dialogs.clear();
         int i = 0;

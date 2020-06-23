@@ -24,7 +24,7 @@ import com.example.androidapp.entity.chat.User;
 import com.example.androidapp.request.information.SetInformationStateRequest;
 import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.DateUtil3;
-import com.example.androidapp.util.LocalPicx;
+import com.example.androidapp.util.LocalPicLoader;
 import com.example.androidapp.util.MyImageLoader;
 import com.kingja.loadsir.core.LoadService;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -50,6 +50,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Response;
 
+
+/**
+ * 主界面通知子页
+ */
 public class NotificationFragment extends Fragment implements DateFormatter.Formatter {
 
     @BindView(R.id.imageButton)
@@ -190,7 +194,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
     }
 
     private void refreshData() {
-        System.out.println(LocalPicx.NOTIFICATION_PASSWORD_CHANGE);
+        System.out.println(LocalPicLoader.NOTIFICATION_PASSWORD_CHANGE);
         dialogs.clear();
         if (!BasicInfo.WELCOME_NOTIFICATIONS.isEmpty()) {
             int size = BasicInfo.WELCOME_NOTIFICATIONS.size() - 1;
@@ -202,7 +206,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
                 size--;
             }
             dialogs.add(new Dialog("1", "小管家",
-                    LocalPicx.NOTIFICATION_WELCOME,
+                    LocalPicLoader.NOTIFICATION_WELCOME,
                     new ArrayList<>(Arrays.asList(user)), m, count));
         }
         if (!BasicInfo.FOLLOW_NOTIFICATIONS.isEmpty()) {
@@ -215,7 +219,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
                 size--;
             }
             dialogs.add(new Dialog("1", "新关注提醒",
-                    LocalPicx.NOTIFICATION_WATCH,
+                    LocalPicLoader.NOTIFICATION_WATCH,
                     new ArrayList<>(Arrays.asList(user)), m, count));
         }
         if (!BasicInfo.INTENTION_NOTIFICATIONS.isEmpty()) {
@@ -228,7 +232,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
                 size--;
             }
             dialogs.add(new Dialog("1", "意向变更",
-                    LocalPicx.NOTIFICATION_INTENTION,
+                    LocalPicLoader.NOTIFICATION_INTENTION,
                     new ArrayList<>(Arrays.asList(user)), m, count));
         }
         if (!BasicInfo.PWD_CHANGE_NOTIFICATIONS.isEmpty()) {
@@ -241,7 +245,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
                 size--;
             }
             dialogs.add(new Dialog("1", "密码更新",
-                    LocalPicx.NOTIFICATION_PASSWORD_CHANGE,
+                    LocalPicLoader.NOTIFICATION_PASSWORD_CHANGE,
                     new ArrayList<>(Arrays.asList(user)), m, count));
         }
         Collections.sort(dialogs, (p1, p2) -> p2.getLastMessage().getCreatedAt().compareTo(p1.getLastMessage().getCreatedAt()));

@@ -2,16 +2,20 @@ package com.example.androidapp.entity.chat;
 
 import com.stfalcon.chatkit.commons.models.IUser;
 
+
+/**
+ * 会话的参与者
+ */
 public class User implements IUser {
 
     private String id;
     private String name;
-    private String avatar;
+    private String avatar;  // 头像
     private boolean online;
 
-    private String account;
+    private String account; // 对方用户名
     private String type;   //用户类型 S/T
-    private String userId; // 用于发送
+    private String userId; // 对方id
 
     public User(String id, String name, String avatar, boolean online) {
         this.id = id;

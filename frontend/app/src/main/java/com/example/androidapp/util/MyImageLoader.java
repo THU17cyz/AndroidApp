@@ -6,6 +6,10 @@ import com.example.androidapp.R;
 import com.example.androidapp.request.user.GetInfoPictureRequest;
 import com.squareup.picasso.Picasso;
 
+
+/**
+ * 封装了Picasso加载图片和更新
+ */
 public class MyImageLoader {
 
     public static void loadImage(ImageView view, String url) {

@@ -35,9 +35,11 @@ import butterknife.Unbinder;
 import okhttp3.Call;
 import okhttp3.Response;
 
+
+/**
+ * 修改信息界面1
+ */
 public class EditSelfInfoFragment extends Fragment implements View.OnClickListener {
-
-
     @BindView(R.id.edit_name)
     FormEditText name;
 

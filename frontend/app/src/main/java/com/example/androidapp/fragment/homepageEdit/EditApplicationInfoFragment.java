@@ -33,6 +33,10 @@ import butterknife.Unbinder;
 import okhttp3.Call;
 import okhttp3.Response;
 
+
+/**
+ * 修改信息界面3 (学生发布意向)
+ */
 public class EditApplicationInfoFragment extends Fragment implements View.OnClickListener {
 
     @BindView(R.id.btn_add)

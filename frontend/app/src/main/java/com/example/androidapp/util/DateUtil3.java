@@ -5,6 +5,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
+/**
+ * 日期相关功能
+ */
 public class DateUtil3 {
 
     private static ThreadLocal<DateFormat> sdfThreadLocal = new ThreadLocal<DateFormat>() {

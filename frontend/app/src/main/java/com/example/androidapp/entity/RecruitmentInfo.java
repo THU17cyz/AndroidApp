@@ -1,5 +1,9 @@
 package com.example.androidapp.entity;
 
+
+/**
+ * 招生意向信息
+ */
 public class RecruitmentInfo {
     public String direction;
     public String studentType;

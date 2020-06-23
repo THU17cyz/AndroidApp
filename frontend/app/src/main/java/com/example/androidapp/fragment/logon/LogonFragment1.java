@@ -43,6 +43,10 @@ import okhttp3.Call;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
+
+/**
+ * 注册界面1
+ */
 public class LogonFragment1 extends Fragment {
     /******************************
      ************ 变量 ************

@@ -20,6 +20,9 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * 主界面聊天子页
+ */
 public class ConversationFragment extends Fragment {
 
     @BindView(R.id.imageButton)

@@ -49,7 +49,7 @@
 
     <fragment
         android:id="@+id/chat_fragment"
-        android:name="com.example.androidapp.fragment.conversation.ChatFragment"
+        android:name="com.example.androidapp.fragment.chat.ChatFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </fragment>

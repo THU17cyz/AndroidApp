@@ -2,6 +2,10 @@ package com.example.androidapp.util;
 
 import android.content.res.Resources;
 
+
+/**
+ * dp->px
+ */
 public class SizeConverter {
     /**
      * dp转换为px

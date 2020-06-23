@@ -8,6 +8,10 @@ import com.example.androidapp.request.user.GetInfoPictureRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
+/**
+ * 导师/用户简要信息
+ */
 public class ShortProfile implements Parcelable {
     public static final Creator<ShortProfile> CREATOR = new Creator<ShortProfile>() {
         @Override
@@ -46,7 +50,6 @@ public class ShortProfile implements Parcelable {
         this.isFan = isFan;
     }
 
-    // TODO 照片
     public ShortProfile(ShortIntent shortIntent) {
         this.isTeacher = shortIntent.isTeacher;
         this.id = shortIntent.id;

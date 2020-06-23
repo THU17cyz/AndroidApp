@@ -23,6 +23,10 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+
+/**
+ * 主界面关注/粉丝子页
+ */
 public class FollowFragment extends Fragment {
 
     @BindView(R.id.imageButton)

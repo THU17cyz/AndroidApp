@@ -44,7 +44,7 @@ import com.example.androidapp.request.user.GetInfoPictureRequest;
 import com.example.androidapp.request.user.LogoutRequest;
 import com.example.androidapp.request.user.UpdateInfoPictureRequest;
 import com.example.androidapp.util.BasicInfo;
-import com.example.androidapp.util.LocalPicx;
+import com.example.androidapp.util.LocalPicLoader;
 import com.example.androidapp.util.LoginCache;
 import com.example.androidapp.util.MyImageLoader;
 import com.example.androidapp.util.Uri2File;
@@ -205,7 +205,7 @@ public class MainActivity extends BaseActivity {
         };
 
 
-        LocalPicx.loadAsset(this);
+        LocalPicLoader.loadAsset(this);
 
         // 保存登录信息
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);

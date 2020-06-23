@@ -23,6 +23,10 @@ import java.io.IOException;
 import okhttp3.Call;
 import okhttp3.Response;
 
+
+/**
+ * 搜索结果（学生）
+ */
 public class Student extends ProfileFragment {
 
     public Student() {

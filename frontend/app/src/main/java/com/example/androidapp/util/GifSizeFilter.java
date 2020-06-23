@@ -13,6 +13,10 @@ import com.zhihu.matisse.internal.utils.PhotoMetadataUtils;
 import java.util.HashSet;
 import java.util.Set;
 
+
+/**
+ * 聊天图片大小筛选
+ */
 public class GifSizeFilter extends Filter {
 
     private int mMinWidth;

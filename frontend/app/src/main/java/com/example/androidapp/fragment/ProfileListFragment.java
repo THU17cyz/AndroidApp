@@ -37,6 +37,10 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+
+/**
+ * 推荐列表基类（抽象出了一些功能，不过由于设计的改变没有再使用）
+ */
 public class ProfileListFragment extends Fragment {
     protected Unbinder unbinder;
 
