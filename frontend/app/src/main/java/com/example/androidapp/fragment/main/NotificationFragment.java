@@ -194,6 +194,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
     private synchronized void refreshData() {
         dialogs.clear();
         if (!BasicInfo.WELCOME_NOTIFICATIONS.isEmpty()) {
+            Collections.sort(BasicInfo.WELCOME_NOTIFICATIONS, (p1, p2) -> Integer.valueOf(p1.getId()).compareTo(Integer.valueOf(p2.getId())));
             int size = BasicInfo.WELCOME_NOTIFICATIONS.size() - 1;
             int count = 0;
             Message m = BasicInfo.WELCOME_NOTIFICATIONS.get(size);
@@ -207,6 +208,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
                     new ArrayList<>(Arrays.asList(user)), m, count));
         }
         if (!BasicInfo.FOLLOW_NOTIFICATIONS.isEmpty()) {
+            Collections.sort(BasicInfo.FOLLOW_NOTIFICATIONS, (p1, p2) -> Integer.valueOf(p1.getId()).compareTo(Integer.valueOf(p2.getId())));
             int size = BasicInfo.FOLLOW_NOTIFICATIONS.size() - 1;
             int count = 0;
             Message m = BasicInfo.FOLLOW_NOTIFICATIONS.get(size);
@@ -220,6 +222,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
                     new ArrayList<>(Arrays.asList(user)), m, count));
         }
         if (!BasicInfo.INTENTION_NOTIFICATIONS.isEmpty()) {
+            Collections.sort(BasicInfo.INTENTION_NOTIFICATIONS, (p1, p2) -> Integer.valueOf(p1.getId()).compareTo(Integer.valueOf(p2.getId())));
             int size = BasicInfo.INTENTION_NOTIFICATIONS.size() - 1;
             int count = 0;
             Message m = BasicInfo.INTENTION_NOTIFICATIONS.get(size);
@@ -233,6 +236,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
                     new ArrayList<>(Arrays.asList(user)), m, count));
         }
         if (!BasicInfo.PWD_CHANGE_NOTIFICATIONS.isEmpty()) {
+            Collections.sort(BasicInfo.PWD_CHANGE_NOTIFICATIONS, (p1, p2) -> Integer.valueOf(p1.getId()).compareTo(Integer.valueOf(p2.getId())));
             int size = BasicInfo.PWD_CHANGE_NOTIFICATIONS.size() - 1;
             int count = 0;
             Message m = BasicInfo.PWD_CHANGE_NOTIFICATIONS.get(size);
