@@ -1,7 +1,5 @@
 package com.example.androidapp.request.intention;
 
-import android.util.Log;
-
 import com.example.androidapp.request.base.BasePostRequest;
 
 import okhttp3.Callback;

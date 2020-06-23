@@ -14,7 +14,7 @@ import java.util.List;
 public class ShortIntentAdapter<T> extends MyBaseAdapter {
 
 
-    public ShortIntentAdapter(List<T> data, Context context){
+    public ShortIntentAdapter(List<T> data, Context context) {
         super(R.layout.layout_intent_row, data, context);
     }
 

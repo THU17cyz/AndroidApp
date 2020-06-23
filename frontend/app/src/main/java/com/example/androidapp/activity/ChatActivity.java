@@ -18,12 +18,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.androidapp.R;
-import com.example.androidapp.util.GifSizeFilter;
 import com.example.androidapp.entity.chat.Message;
 import com.example.androidapp.entity.chat.User;
 import com.example.androidapp.request.conversation.SendMessageRequest;
 import com.example.androidapp.request.user.GetInfoPictureRequest;
 import com.example.androidapp.util.BasicInfo;
+import com.example.androidapp.util.GifSizeFilter;
 import com.example.androidapp.util.Uri2File;
 import com.gyf.immersionbar.ImmersionBar;
 import com.squareup.picasso.Picasso;
@@ -58,13 +58,12 @@ import okhttp3.Response;
 
 public class ChatActivity
         extends BaseActivity
-        implements  DateFormatter.Formatter,
+        implements DateFormatter.Formatter,
         DialogInterface.OnClickListener,
         MessagesListAdapter.OnLoadMoreListener,
         MessagesListAdapter.OnMessageClickListener,
         MessageInput.InputListener,
-        MessageInput.AttachmentsListener
-{
+        MessageInput.AttachmentsListener {
     private static final int REQUEST_CODE_CHOOSE = 10;
 
     @BindView(R.id.messagesList)
@@ -99,6 +98,15 @@ public class ChatActivity
 
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
+    // 轮询
+    private Runnable mTimeCounterRunnable = new Runnable() {
+        @Override
+        public void run() {
+            Log.e("聊天界面轮询", "+1");
+            newTest();//getUnreadCount()执行的任务
+            mHandler.postDelayed(this, 2 * 1000);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +115,7 @@ public class ChatActivity
         ButterKnife.bind(this);
 
         //固定顶部导航栏
-        getWindow().setSoftInputMode (WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         // 状态栏
         ImmersionBar.with(this).statusBarColor(R.color.transparent).init();
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
@@ -122,20 +130,21 @@ public class ChatActivity
         System.out.println(user + contact + contactId + contactType);
 
         // String.valueOf(BasicInfo.ID)
-        thisUser = new User("0",user,"http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
-                user,BasicInfo.TYPE, contactId);
+        thisUser = new User("0", user, "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
+                user, BasicInfo.TYPE, contactId);
         // contactId
-        contactUser = new User("1",contact,"http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
-                contact,contactType, contactId);//这里面的id是用于显示
-
+        contactUser = new User("1", contact, "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
+                contact, contactType, contactId);//这里面的id是用于显示
 
 
         // 头像
         imageLoader = new ImageLoader() {
             @Override
             public void loadImage(ImageView imageView, @Nullable String url, @Nullable Object payload) {
-                if (imageView instanceof RoundedImageView) Picasso.get().load(url).placeholder(R.drawable.ic_photoholder).into(imageView);
-                else Picasso.get().load(url).placeholder(R.drawable.ic_avatarholder).into(imageView);
+                if (imageView instanceof RoundedImageView)
+                    Picasso.get().load(url).placeholder(R.drawable.ic_photoholder).into(imageView);
+                else
+                    Picasso.get().load(url).placeholder(R.drawable.ic_avatarholder).into(imageView);
 
             }
         };
@@ -150,7 +159,7 @@ public class ChatActivity
         msgs = new ArrayList<>();
         ArrayList<Message> tmp = BasicInfo.CHAT_HISTORY.get(contact); // 账号
         if (tmp != null) {
-            for (Message m: tmp) {
+            for (Message m : tmp) {
                 msgs.add(m);
                 if (!m.isRead() && m.getUser().getId().equals("1")) BasicInfo.subFromBadgeChat(1);
                 m.setRead();
@@ -186,6 +195,7 @@ public class ChatActivity
 
     /**
      * 输入提交事件
+     *
      * @param input
      * @return
      */
@@ -194,7 +204,7 @@ public class ChatActivity
         new SendMessageRequest(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.e("error","发送失败");
+                Log.e("error", "发送失败");
             }
 
             @Override
@@ -235,7 +245,7 @@ public class ChatActivity
                     e.printStackTrace();
                 }
             }
-        },contactId, contactType,"T",input.toString(),null).send();
+        }, contactId, contactType, "T", input.toString(), null).send();
         return true;
     }
 
@@ -257,10 +267,9 @@ public class ChatActivity
         }
     }
 
-
-
     /**
      * 处理日期格式
+     *
      * @param date
      * @return
      */
@@ -274,7 +283,6 @@ public class ChatActivity
             return DateFormatter.format(date, DateFormatter.Template.STRING_DAY_MONTH_YEAR);
         }
     }
-
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
@@ -312,9 +320,9 @@ public class ChatActivity
         }
     }
 
-
     /**
      * 获得已选择的照片
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -338,7 +346,7 @@ public class ChatActivity
                 new SendMessageRequest(new Callback() {
                     @Override
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                        Log.e("error","发送图片失败");
+                        Log.e("error", "发送图片失败");
                         runOnUiThread(() -> {
                             // Toast.makeText(getApplicationContext(),"发送图片失败",Toast.LENGTH_SHORT).show();
                         });
@@ -389,7 +397,7 @@ public class ChatActivity
                             e.printStackTrace();
                         }
                     }
-                },contactId, contactType,"P", null,Uri2File.convert(path)).send();
+                }, contactId, contactType, "P", null, Uri2File.convert(path)).send();
             }
         }
 
@@ -397,6 +405,7 @@ public class ChatActivity
 
     /**
      * 加载更多信息
+     *
      * @param page
      * @param totalItemsCount
      */
@@ -407,14 +416,13 @@ public class ChatActivity
 
     /**
      * 消息点击事件
+     *
      * @param message
      */
     @Override
     public void onMessageClick(IMessage message) {
         // Toast.makeText(getApplicationContext(), message.getText() + "clilcked", Toast.LENGTH_SHORT).show();
     }
-
-
 
     /**
      * 加号点击事件
@@ -426,16 +434,5 @@ public class ChatActivity
                 .setItems(R.array.view_types_dialog, ChatActivity.this)
                 .show();
     }
-
-
-    // 轮询
-    private Runnable mTimeCounterRunnable = new Runnable() {
-        @Override
-        public void run() {
-            Log.e("聊天界面轮询","+1");
-            newTest();//getUnreadCount()执行的任务
-            mHandler.postDelayed(this, 2 * 1000);
-        }
-    };
 
 }

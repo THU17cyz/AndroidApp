@@ -35,11 +35,16 @@ public class QueryResultPageAdapter extends FragmentStatePagerAdapter {
         //return the corresponded fragment according to position
         //remember that the position can not be out of [0, 2]
         switch (position) {
-            case 0: return new Teacher();
-            case 1: return new Student();
-            case 2: return new Recruit();
-            case 3: return new Apply();
-            default: return null;
+            case 0:
+                return new Teacher();
+            case 1:
+                return new Student();
+            case 2:
+                return new Recruit();
+            case 3:
+                return new Apply();
+            default:
+                return null;
         }
         //To do closed
     }

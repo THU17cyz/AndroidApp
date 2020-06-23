@@ -6,7 +6,6 @@ import com.example.androidapp.util.Valid;
 import java.io.File;
 import java.util.HashMap;
 
-import okhttp3.Call;
 import okhttp3.Callback;
 
 public class BasePostRequest {
@@ -18,6 +17,7 @@ public class BasePostRequest {
 
     /**
      * 设置请求URL
+     *
      * @param url {String} 请求URL
      */
     protected void to(String url) {
@@ -26,18 +26,20 @@ public class BasePostRequest {
 
     /**
      * 添加请求参数
-     * @param key {String} 参数 键
+     *
+     * @param key   {String} 参数 键
      * @param value {String>} 参数 值
      */
     protected void put(String key, String value) {
         if (!Valid.isBlank(key) && !Valid.isBlank(value)) {
-           this.param.put(key, value);
+            this.param.put(key, value);
         }
     }
 
     /**
      * 加载文件参数
-     * @param fileKey {String} 文件 键值
+     *
+     * @param fileKey    {String} 文件 键值
      * @param fileObject {String>} 文件 对象
      */
     protected void load(String fileKey, File fileObject) {
@@ -49,6 +51,7 @@ public class BasePostRequest {
 
     /**
      * 设置回调函数
+     *
      * @param callback {Callback} 回调函数
      */
     protected void call(Callback callback) {

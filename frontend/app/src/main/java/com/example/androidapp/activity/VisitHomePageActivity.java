@@ -1,9 +1,5 @@
 package com.example.androidapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,9 +9,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
+
 import com.example.androidapp.R;
 import com.example.androidapp.adapter.HomepagePagerAdapter;
-import com.example.androidapp.myView.FocusButton;
 import com.example.androidapp.entity.ApplicationInfo;
 import com.example.androidapp.entity.RecruitmentInfo;
 import com.example.androidapp.entity.ShortProfile;
@@ -24,6 +23,7 @@ import com.example.androidapp.fragment.homepage.ApplicationInfoFragment;
 import com.example.androidapp.fragment.homepage.RecruitmentInfoFragment;
 import com.example.androidapp.fragment.homepage.SelfInfoFragment;
 import com.example.androidapp.fragment.homepage.StudyInfoFragment;
+import com.example.androidapp.myView.FocusButton;
 import com.example.androidapp.request.follow.AddToWatchRequest;
 import com.example.androidapp.request.follow.DeleteFromWatchRequest;
 import com.example.androidapp.request.intention.GetApplyIntentionDetailRequest;
@@ -59,72 +59,21 @@ import okhttp3.Response;
 
 public class VisitHomePageActivity extends AppCompatActivity {
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
-    @BindView(R.id.tab_layout)
-    TabLayout tabLayout;
-
-    @BindView(R.id.img_avatar)
-    ImageView imgAvatar;
-
-    @BindView(R.id.visit_homepage_title)
-    TextView title;
-
-    @BindView(R.id.homepage_name)
-    TextView name;
-
-    @BindView(R.id.signature)
-    TextView signature;
-
-    @BindView(R.id.num_focus)
-    TextView numFocus;
-
-    @BindView(R.id.num_focused)
-    TextView numFocused;
-
-    @BindView(R.id.view_pager)
-    ViewPager viewPager;
-
-//    @BindView(R.id.btn_return)
-//    ImageView btn_return;
-
-    @BindView(R.id.btn_focus)
-    FocusButton btn_focus;
-
-    @BindView(R.id.top_chat_btn)
-    Button btn_chat;
-
-
-
-    @BindView(R.id.visit_homepage_appbar)
-    AppBarLayout app_bar;
-
-
-    HomepagePagerAdapter pagerAdapter;
-
-    ShortProfile shortProfile;
-    WholeProfile wholeProfile;
-
-    int id;
-    String type;
-    boolean isFan;
-    boolean isTeacher;
-
     public String mTitle;
     public String mMajor;
     public String mDegree;
-//    public String mTeacherNumber;
+    //    public String mTeacherNumber;
 //    public String mStudentNumber;
 //    public String mIdNumber;
     public String mGender;
-
     public String mAccount;
     public String mName;
     public String mSchool;
     public String mDepartment;
-
     public String mSignature;
+
+//    @BindView(R.id.btn_return)
+//    ImageView btn_return;
     public String mPhone;
     public String mEmail;
     public String mHomepage;
@@ -137,10 +86,39 @@ public class VisitHomePageActivity extends AppCompatActivity {
     public String mExperience;
     public String fanNum;
     public String followNum;
-
     public ArrayList<ApplicationInfo> mApplicationList;
     public ArrayList<RecruitmentInfo> mRecruitmentList;
-
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.tab_layout)
+    TabLayout tabLayout;
+    @BindView(R.id.img_avatar)
+    ImageView imgAvatar;
+    @BindView(R.id.visit_homepage_title)
+    TextView title;
+    @BindView(R.id.homepage_name)
+    TextView name;
+    @BindView(R.id.signature)
+    TextView signature;
+    @BindView(R.id.num_focus)
+    TextView numFocus;
+    @BindView(R.id.num_focused)
+    TextView numFocused;
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
+    @BindView(R.id.btn_focus)
+    FocusButton btn_focus;
+    @BindView(R.id.top_chat_btn)
+    Button btn_chat;
+    @BindView(R.id.visit_homepage_appbar)
+    AppBarLayout app_bar;
+    HomepagePagerAdapter pagerAdapter;
+    ShortProfile shortProfile;
+    WholeProfile wholeProfile;
+    int id;
+    String type;
+    boolean isFan;
+    boolean isTeacher;
     int count;
 
 
@@ -202,6 +180,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
+
             @Override
             public void onPageSelected(int position) {
                 switch (position) {
@@ -223,6 +202,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
                     }
                 }
             }
+
             @Override
             public void onPageScrollStateChanged(int state) {
 
@@ -232,8 +212,8 @@ public class VisitHomePageActivity extends AppCompatActivity {
 
         btn_chat.setOnClickListener(v -> {
             // TODO
-            Intent intent1 =new Intent(VisitHomePageActivity.this, ChatActivity.class);
-            intent1.putExtra("user",BasicInfo.ACCOUNT);
+            Intent intent1 = new Intent(VisitHomePageActivity.this, ChatActivity.class);
+            intent1.putExtra("user", BasicInfo.ACCOUNT);
             intent1.putExtra("real_name", mName);
             intent1.putExtra("contact", mAccount);
             intent1.putExtra("contact_id", String.valueOf(id));
@@ -270,7 +250,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
     // TODO 还有bug
     @OnClick(R.id.btn_focus)
     void watchOrUnwatch() {
-        System.out.println(id + " " +  isTeacher);
+        System.out.println(id + " " + isTeacher);
         btn_focus.startLoading(() -> {
             if (isFan) {
                 new DeleteFromWatchRequest(new Callback() {
@@ -380,7 +360,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
                         if (type.equals("S")) {
                             mMajor = jsonObject.getString("major");
                             mDegree = jsonObject.getString("degree");
-                        }else {
+                        } else {
                             mTitle = jsonObject.getString("title");
                         }
                         addCounter();
@@ -414,7 +394,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(resStr);
 
                     Boolean status = jsonObject.getBoolean("status");
-                    if(status){
+                    if (status) {
                         mSignature = jsonObject.getString("signature");
                         mPhone = jsonObject.getString("phone");
                         mEmail = jsonObject.getString("email");
@@ -480,17 +460,17 @@ public class VisitHomePageActivity extends AppCompatActivity {
                         JSONObject jsonObject = new JSONObject(resStr);
 
                         Boolean status = jsonObject.getBoolean("status");
-                        if(status){
+                        if (status) {
                             JSONArray array = jsonObject.getJSONArray("recruitment_id_list");
                             List<Integer> enrollmentIdList = new ArrayList<>();
-                            for (int i=0;i<array.length();i++){
+                            for (int i = 0; i < array.length(); i++) {
                                 enrollmentIdList.add(array.getInt(i));
                             }
 
                             // 按id获取招收意向
 
-                            if(enrollmentIdList!=null){
-                                for(int i=0;i<enrollmentIdList.size();i++){
+                            if (enrollmentIdList != null) {
+                                for (int i = 0; i < enrollmentIdList.size(); i++) {
                                     new GetRecruitIntentionDetailRequest(new okhttp3.Callback() {
                                         @Override
                                         public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -506,7 +486,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
                                                 JSONObject jsonObject = new JSONObject(resStr);
 
                                                 Boolean status = jsonObject.getBoolean("status");
-                                                if(status){
+                                                if (status) {
                                                     RecruitmentInfo recruitmentInfo = new RecruitmentInfo(
                                                             jsonObject.getString("research_fields"),
                                                             jsonObject.getString("recruitment_type"),
@@ -523,11 +503,11 @@ public class VisitHomePageActivity extends AppCompatActivity {
 
                                             }
                                         }
-                                    },String.valueOf(enrollmentIdList.get(i))).send();
+                                    }, String.valueOf(enrollmentIdList.get(i))).send();
                                 }
                             }
 
-                        }else{
+                        } else {
                             String info = jsonObject.getString("info");
                         }
                     } catch (JSONException e) {
@@ -552,15 +532,15 @@ public class VisitHomePageActivity extends AppCompatActivity {
                         JSONObject jsonObject = new JSONObject(resStr);
 
                         Boolean status = jsonObject.getBoolean("status");
-                        if(status){
+                        if (status) {
                             JSONArray array = jsonObject.getJSONArray("application_id_list");
                             List<Integer> applicationIdList = new ArrayList<>();
-                            for (int i=0;i<array.length();i++){
+                            for (int i = 0; i < array.length(); i++) {
                                 applicationIdList.add(array.getInt(i));
                             }
                             // 按id获取申请意向
-                            if(applicationIdList != null){
-                                for(int i=0;i<applicationIdList.size();i++){
+                            if (applicationIdList != null) {
+                                for (int i = 0; i < applicationIdList.size(); i++) {
                                     new GetApplyIntentionDetailRequest(new okhttp3.Callback() {
                                         @Override
                                         public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -575,7 +555,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
                                                 // 解析json，然后进行自己的内部逻辑处理
                                                 JSONObject jsonObject = new JSONObject(resStr);
                                                 Boolean status = jsonObject.getBoolean("status");
-                                                if(status){
+                                                if (status) {
                                                     ApplicationInfo applicationInfo = new ApplicationInfo(
                                                             jsonObject.getString("research_interests"),
                                                             jsonObject.getString("intention_state"),

@@ -10,9 +10,9 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.androidapp.R;
 import com.example.androidapp.activity.MainActivity;
 import com.example.androidapp.activity.QueryActivity;
-import com.example.androidapp.R;
 import com.example.androidapp.util.MyImageLoader;
 
 import butterknife.BindView;
@@ -27,11 +27,8 @@ public class ConversationFragment extends Fragment {
 
     @BindView(R.id.search_view)
     EditText searchView;
-
-
-    private Unbinder unbinder;
-
     boolean searchFreeze = false;
+    private Unbinder unbinder;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

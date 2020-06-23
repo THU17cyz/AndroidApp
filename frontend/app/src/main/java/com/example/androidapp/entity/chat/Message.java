@@ -18,19 +18,11 @@ public class Message implements IMessage,
     private User user;
     private Image image;
     private Voice voice;
-    private Boolean read=false;
+    private Boolean read = false;
 
     private String dateString;
 
-  public String getDateString() {
-    return dateString;
-  }
-
-  public void setDateString(String dateString) {
-    this.dateString = dateString;
-  }
-
-  public Message(String id, User user, String text) {
+    public Message(String id, User user, String text) {
 
         // todo 解决方案
         Date date = new Date();
@@ -49,20 +41,28 @@ public class Message implements IMessage,
         this.createdAt = createdAt;
     }
 
-  public Message(String id, User user, String text, Date createdAt,Boolean read) {
-    this.id = id;
-    this.text = text;
-    this.user = user;
-    this.createdAt = createdAt;
-    this.read = read;
-  }
+    public Message(String id, User user, String text, Date createdAt, Boolean read) {
+        this.id = id;
+        this.text = text;
+        this.user = user;
+        this.createdAt = createdAt;
+        this.read = read;
+    }
 
-  public Boolean isRead(){
-      return this.read;
-  }
+    public String getDateString() {
+        return dateString;
+    }
+
+    public void setDateString(String dateString) {
+        this.dateString = dateString;
+    }
+
+    public Boolean isRead() {
+        return this.read;
+    }
 
 
-  @Override
+    @Override
     public String getId() {
         return id;
     }
@@ -72,9 +72,17 @@ public class Message implements IMessage,
         return text;
     }
 
+    public void setText(String text) {
+        this.text = text;
+    }
+
     @Override
     public Date getCreatedAt() {
         return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -91,6 +99,10 @@ public class Message implements IMessage,
         return voice;
     }
 
+    public void setVoice(Voice voice) {
+        this.voice = voice;
+    }
+
     public String getStatus() {
         return "Sent";
     }
@@ -99,21 +111,8 @@ public class Message implements IMessage,
         read = true;
     }
 
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public void setImage(Image image) {
         this.image = image;
-    }
-
-    public void setVoice(Voice voice) {
-        this.voice = voice;
     }
 
     public static class Image {

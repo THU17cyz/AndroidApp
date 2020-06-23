@@ -4,6 +4,7 @@ import com.example.androidapp.util.Http;
 import com.example.androidapp.util.Valid;
 
 import java.util.HashMap;
+
 import okhttp3.Callback;
 
 public class BaseGetRequest {
@@ -13,6 +14,7 @@ public class BaseGetRequest {
 
     /**
      * 设置请求URL
+     *
      * @param url {String} 请求URL
      */
     protected void to(String url) {
@@ -21,7 +23,8 @@ public class BaseGetRequest {
 
     /**
      * 添加请求参数
-     * @param key {String} 参数 键
+     *
+     * @param key   {String} 参数 键
      * @param value {String>} 参数 值
      */
     protected void put(String key, String value) {
@@ -31,12 +34,13 @@ public class BaseGetRequest {
 
     /**
      * 设置回调函数
+     *
      * @param callback {Callback} 回调函数
      */
     protected void call(Callback callback) {
         this.callback = callback;
     }
-    
+
     /**
      * 发送请求
      */

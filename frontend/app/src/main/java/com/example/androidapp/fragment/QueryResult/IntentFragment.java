@@ -34,35 +34,26 @@ import butterknife.Unbinder;
 
 public class IntentFragment extends Fragment {
 
+    public boolean isFilterOpen = false;
     @BindView(R.id.orderSpinner)
     protected Spinner orderSpinner;
-
     @BindView(R.id.selectText)
     protected TextView selectText;
-
     protected ArrayAdapter<String> spinnerAdapter;
-
-    public boolean isFilterOpen = false;
-
     @BindView(R.id.recycleView)
     protected RecyclerView recyclerView;
 
     protected ShortIntentAdapter mShortIntentAdapter;
-
-    SelectList selectList;
     protected ArrayList<ShortIntent> mIntentList;
-
     protected ArrayList<ShortIntent> filteredIntentList;
-    private Lock lock = new ReentrantLock();
-
     protected Unbinder unbinder;
-
-//    LoadService loadService;
-
     protected String[] order;
-    boolean[] filters = new boolean[]{false, false, false, false};
     protected int current_order = 0;
 
+//    LoadService loadService;
+    SelectList selectList;
+    boolean[] filters = new boolean[]{false, false, false, false};
+    private Lock lock = new ReentrantLock();
     private String test_url = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1592237104788&di=da06c7ee8d8256243940b53531bdeba7&imgtype=0&src=http%3A%2F%2Ftupian.qqjay.com%2Ftou2%2F2018%2F1106%2F60bdf5b88754650e51ccee32bb6ac8ae.jpg";
 
     public IntentFragment() {
@@ -114,7 +105,8 @@ public class IntentFragment extends Fragment {
         });
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }
@@ -147,13 +139,14 @@ public class IntentFragment extends Fragment {
             Log.e("errorrecyclerview", "ohno");
             recyclerView.post(() -> {
                 if (isRefresh) {
-                    for (ShortIntent tmp: mIntentList) {
+                    for (ShortIntent tmp : mIntentList) {
                         if (tmp.id == shortIntent.id) return;
                     }
                     mIntentList.remove(0);
                     mShortIntentAdapter.notifyItemRemoved(0);
                 }
-                if (shortIntent.id == BasicInfo.ID && shortIntent.isTeacher == BasicInfo.IS_TEACHER) return; // 如果是自己，筛去
+                if (shortIntent.id == BasicInfo.ID && shortIntent.isTeacher == BasicInfo.IS_TEACHER)
+                    return; // 如果是自己，筛去
                 lock.lock();
                 mIntentList.add(shortIntent);
                 lock.unlock();
@@ -162,13 +155,14 @@ public class IntentFragment extends Fragment {
 
         } else {
             if (isRefresh) {
-                for (ShortIntent tmp: mIntentList) {
+                for (ShortIntent tmp : mIntentList) {
                     if (tmp.id == shortIntent.id) return;
                 }
                 mIntentList.remove(0);
                 mShortIntentAdapter.notifyItemRemoved(0);
             }
-            if (shortIntent.id == BasicInfo.ID && shortIntent.isTeacher == BasicInfo.IS_TEACHER) return; // 如果是自己，筛去
+            if (shortIntent.id == BasicInfo.ID && shortIntent.isTeacher == BasicInfo.IS_TEACHER)
+                return; // 如果是自己，筛去
             lock.lock();
             mIntentList.add(shortIntent);
             lock.unlock();
@@ -178,20 +172,20 @@ public class IntentFragment extends Fragment {
     private void visitHomePage(int position) {
         Intent intent = new Intent(getContext(), VisitHomePageActivity.class);
         ShortIntent shortIntent = mIntentList.get(position);
-        intent.putExtra("id",shortIntent.id);
+        intent.putExtra("id", shortIntent.id);
         intent.putExtra("isTeacher", shortIntent.isTeacher);
         intent.putExtra("isFan", shortIntent.isFan);
         intent.putExtra("profile", new ShortProfile(shortIntent));
         startActivity(intent);
     }
-    
+
 
     public void adjustList() {
         int i = 0;
         ArrayList<Integer> removed = new ArrayList<>();
         mIntentList.addAll(filteredIntentList);
         filteredIntentList.clear();
-        for (ShortIntent ShortIntent: mIntentList) {
+        for (ShortIntent ShortIntent : mIntentList) {
             if (filters[0] && !ShortIntent.intentionState.equals("O")) {
                 removed.add(i);
             }

@@ -1,7 +1,5 @@
 package com.example.androidapp.activity;
 
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +7,8 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.androidapp.R;
 import com.example.androidapp.entity.chat.Message;
@@ -30,26 +30,30 @@ import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class InfoActivity extends BaseActivity implements  DateFormatter.Formatter {
-
-    private MessagesListAdapter messagesAdapter;
+public class InfoActivity extends BaseActivity implements DateFormatter.Formatter {
 
     @BindView(R.id.messagesList)
     MessagesList messagesList;
-
     @BindView(R.id.name)
     TextView name;
-
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
     int type;
     ArrayList<Message> note1;
     ArrayList<Message> note2;
     ArrayList<Message> note3;
     ArrayList<Message> note4;
-
+    private MessagesListAdapter messagesAdapter;
     private Handler mHandler = new Handler(Looper.getMainLooper());
+    private Runnable mTimeCounterRunnable = new Runnable() {
+        @Override
+        public void run() {//在此添加需轮寻的接口
+            Log.e("消息列表轮询", "+1");
+            refreshData();
+            // 每30秒刷新一次
+            mHandler.postDelayed(this, 5 * 1000);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +101,7 @@ public class InfoActivity extends BaseActivity implements  DateFormatter.Formatt
         }
 
 
-        toolbar.setNavigationOnClickListener(v->this.finish());
+        toolbar.setNavigationOnClickListener(v -> this.finish());
         mTimeCounterRunnable.run();
     }
 
@@ -117,16 +121,6 @@ public class InfoActivity extends BaseActivity implements  DateFormatter.Formatt
         super.onDestroy();
         mHandler.removeCallbacks(mTimeCounterRunnable);
     }
-
-    private Runnable mTimeCounterRunnable = new Runnable() {
-        @Override
-        public void run() {//在此添加需轮寻的接口
-            Log.e("消息列表轮询","+1");
-            refreshData();
-            // 每30秒刷新一次
-            mHandler.postDelayed(this, 5 * 1000);
-        }
-    };
 
     private void refreshData() {
         messagesAdapter.clear();

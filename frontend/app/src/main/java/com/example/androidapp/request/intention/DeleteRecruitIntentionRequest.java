@@ -2,8 +2,6 @@ package com.example.androidapp.request.intention;
 
 import com.example.androidapp.request.base.BasePostRequest;
 
-import java.io.File;
-
 import okhttp3.Callback;
 
 public class DeleteRecruitIntentionRequest extends BasePostRequest {

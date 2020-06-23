@@ -12,9 +12,14 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 @Database(entities = {ChatHistory.class}, version = 2, exportSchema = false)
 public abstract class ChatHistoryDb extends RoomDatabase {
 
-    public abstract ChatHistoryDao chatHistoryDao();
-
     private static ChatHistoryDb INSTANCE;
+    private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
+        @Override
+        public void onOpen(@NonNull SupportSQLiteDatabase db) {
+            super.onOpen(db);
+            new PopulateDbAsync(INSTANCE).execute();
+        }
+    };
 
     static ChatHistoryDb getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -31,13 +36,7 @@ public abstract class ChatHistoryDb extends RoomDatabase {
         return INSTANCE;
     }
 
-    private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback(){
-        @Override
-        public void onOpen (@NonNull SupportSQLiteDatabase db){
-            super.onOpen(db);
-            new PopulateDbAsync(INSTANCE).execute();
-        }
-    };
+    public abstract ChatHistoryDao chatHistoryDao();
 
     /**
      * Populate the database in the background.

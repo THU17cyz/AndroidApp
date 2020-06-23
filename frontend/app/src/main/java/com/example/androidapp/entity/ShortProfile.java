@@ -9,6 +9,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ShortProfile implements Parcelable {
+    public static final Creator<ShortProfile> CREATOR = new Creator<ShortProfile>() {
+        @Override
+        public ShortProfile createFromParcel(Parcel in) {
+            return new ShortProfile(in);
+        }
+
+        @Override
+        public ShortProfile[] newArray(int size) {
+            return new ShortProfile[size];
+        }
+    };
     public boolean isTeacher;
     public int id;
     public String name;
@@ -22,8 +33,9 @@ public class ShortProfile implements Parcelable {
     public int relate;
 
     public ShortProfile() {
-        
+
     }
+
     public ShortProfile(int id, String name, String school, String url, int fanNum, boolean isValidated, boolean isFan) {
         this.id = id;
         this.name = name;
@@ -123,16 +135,4 @@ public class ShortProfile implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<ShortProfile> CREATOR = new Creator<ShortProfile>() {
-        @Override
-        public ShortProfile createFromParcel(Parcel in) {
-            return new ShortProfile(in);
-        }
-
-        @Override
-        public ShortProfile[] newArray(int size) {
-            return new ShortProfile[size];
-        }
-    };
 }

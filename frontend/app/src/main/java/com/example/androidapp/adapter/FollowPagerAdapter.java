@@ -9,25 +9,28 @@ import com.example.androidapp.fragment.follow.FollowListFragment;
 
 public class FollowPagerAdapter extends FragmentStatePagerAdapter {
 
-  int mNumOfTabs;
+    int mNumOfTabs;
 
-  public FollowPagerAdapter(@NonNull FragmentManager fm, int NumOfTabs) {
-    super(fm);
-    this.mNumOfTabs = NumOfTabs;
-  }
-
-  @NonNull
-  @Override
-  public Fragment getItem(int position) {
-    switch (position) {
-      case 0: return new FollowListFragment(true);
-      case 1: return new FollowListFragment(false);
-      default: return null;
+    public FollowPagerAdapter(@NonNull FragmentManager fm, int NumOfTabs) {
+        super(fm);
+        this.mNumOfTabs = NumOfTabs;
     }
-  }
 
-  @Override
-  public int getCount() {
-    return mNumOfTabs;
-  }
+    @NonNull
+    @Override
+    public Fragment getItem(int position) {
+        switch (position) {
+            case 0:
+                return new FollowListFragment(true);
+            case 1:
+                return new FollowListFragment(false);
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public int getCount() {
+        return mNumOfTabs;
+    }
 }

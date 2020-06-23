@@ -47,63 +47,6 @@ public class LogonFragment3 extends Fragment {
     FormEditText idNumberEditText;
 
     private Unbinder unbinder;
-
-    /******************************
-     ************ 方法 ************
-     ******************************/
-    public LogonFragment3() { }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_logon3, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        // 添加验证
-        tsNumberEditText.addValidator(new Valid.NumberValidator());
-        tsNumberEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) { tsNumberEditText.testValidity(); }
-            @Override
-            public void afterTextChanged(Editable s) { }
-        });
-        idNumberEditText.addValidator(new Valid.NumberValidator());
-        idNumberEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) { idNumberEditText.testValidity(); }
-            @Override
-            public void afterTextChanged(Editable s) { }
-        });
-        return view;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    /******************************
-     ************ 事件 ************
-     ******************************/
-    @OnClick(R.id.logon3_next)
-    void onClickNext() {
-        // 进行验证
-        String tsNumber = tsNumberEditText.getText().toString();
-        String idNumber = idNumberEditText.getText().toString();
-        if (!Valid.isNumber(tsNumber) || !Valid.isNumber(idNumber)) {
-            Hint.showLongCenterToast(getContext(), "格式错误！");
-            return;
-        }
-        new UserAuthRequest(handleVerify, tsNumber, tsNumber, idNumber).send();
-    }
-
     /******************************
      ************ 回调 ************
      ******************************/
@@ -143,4 +86,74 @@ public class LogonFragment3 extends Fragment {
                 Log.e("HttpError", e.toString());
         }
     };
+
+    /******************************
+     ************ 方法 ************
+     ******************************/
+    public LogonFragment3() {
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_logon3, container, false);
+        unbinder = ButterKnife.bind(this, view);
+        // 添加验证
+        tsNumberEditText.addValidator(new Valid.NumberValidator());
+        tsNumberEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tsNumberEditText.testValidity();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        idNumberEditText.addValidator(new Valid.NumberValidator());
+        idNumberEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                idNumberEditText.testValidity();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    /******************************
+     ************ 事件 ************
+     ******************************/
+    @OnClick(R.id.logon3_next)
+    void onClickNext() {
+        // 进行验证
+        String tsNumber = tsNumberEditText.getText().toString();
+        String idNumber = idNumberEditText.getText().toString();
+        if (!Valid.isNumber(tsNumber) || !Valid.isNumber(idNumber)) {
+            Hint.showLongCenterToast(getContext(), "格式错误！");
+            return;
+        }
+        new UserAuthRequest(handleVerify, tsNumber, tsNumber, idNumber).send();
+    }
 }

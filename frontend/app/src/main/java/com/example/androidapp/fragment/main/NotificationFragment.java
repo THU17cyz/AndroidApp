@@ -50,7 +50,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class NotificationFragment extends Fragment implements DateFormatter.Formatter{
+public class NotificationFragment extends Fragment implements DateFormatter.Formatter {
 
     @BindView(R.id.imageButton)
     CircleImageView drawerBtn;
@@ -63,40 +63,42 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
 
     @BindView(R.id.refreshLayout)
     RefreshLayout refreshLayout;
-
+    boolean searchFreeze = false;
+    // 全标已读
+    @BindView(R.id.btn_all_read)
+    TextView btnAllRead;
     private ImageLoader imageLoader;
-
     private DialogsListAdapter dialogsAdapter;
-
     private List<Integer> informationIdList;
     private ArrayList<Dialog> dialogs;
     private ArrayList<Message> messages;
     private LoadService loadService;
     private User user;
-
     private Unbinder unbinder;
-
-    boolean searchFreeze = false;
-
     private Handler mHandler = new Handler(Looper.getMainLooper());
-
-    // 全标已读
-    @BindView(R.id.btn_all_read)
-    TextView btnAllRead;
+    private Runnable mTimeCounterRunnable = new Runnable() {
+        @Override
+        public void run() {//在此添加需轮寻的接口
+            Log.e("消息列表轮询", "+1");
+            refreshData();
+            // 每30秒刷新一次
+            mHandler.postDelayed(this, 5 * 1000);
+        }
+    };
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_notification, container, false);
-        unbinder = ButterKnife.bind(this,root);
-        Log.d("Life","oncreateview");
+        unbinder = ButterKnife.bind(this, root);
+        Log.d("Life", "oncreateview");
 
 
         //设置头像
         imageLoader = (imageView, url, payload) -> MyImageLoader.loadImage(imageView, url);
         dialogsAdapter = new DialogsListAdapter<>(imageLoader);
 
-        user = new User("0","","xz",false);
+        user = new User("0", "", "xz", false);
 
         dialogs = new ArrayList<>();
         dialogsAdapter.setItems(dialogs);
@@ -131,7 +133,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
         });
 
         btnAllRead.setOnClickListener(v -> {
-            for(int i = 0;i < dialogs.size(); i++){
+            for (int i = 0; i < dialogs.size(); i++) {
                 Dialog dialog = dialogs.get(i);
                 // 修改消息状态
                 new SetInformationStateRequest(new okhttp3.Callback() {
@@ -165,7 +167,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
                 @Override
                 public void onResponse(@NotNull Call call, @NotNull Response response) {
                     getActivity().runOnUiThread(() -> {
-                        Log.e("s","更新消息状态成功");
+                        Log.e("s", "更新消息状态成功");
                         Dialog d = (Dialog) dialog;
                         d.setUnreadCount(0);
                         d.getLastMessage().setRead();
@@ -177,7 +179,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
             // 进入页面
             Intent intent = new Intent(getActivity(), InfoActivity.class);
             intent.putExtra("text", dialog.getLastMessage().getText());
-            intent.putExtra("dateString", ((Message)dialog.getLastMessage()).getDateString());
+            intent.putExtra("dateString", ((Message) dialog.getLastMessage()).getDateString());
             startActivity(intent);
         });
         getAvatar();
@@ -200,7 +202,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
                 else count++;
                 size--;
             }
-            dialogs.add(new Dialog("1","小管家",
+            dialogs.add(new Dialog("1", "小管家",
                     LocalPicx.NOTIFICATION_WELCOME,
                     new ArrayList<>(Arrays.asList(user)), m, count));
         }
@@ -213,7 +215,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
                 else count++;
                 size--;
             }
-            dialogs.add(new Dialog("1","新关注提醒",
+            dialogs.add(new Dialog("1", "新关注提醒",
                     LocalPicx.NOTIFICATION_WATCH,
                     new ArrayList<>(Arrays.asList(user)), m, count));
         }
@@ -226,7 +228,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
                 else count++;
                 size--;
             }
-            dialogs.add(new Dialog("1","意向变更",
+            dialogs.add(new Dialog("1", "意向变更",
                     LocalPicx.NOTIFICATION_INTENTION,
                     new ArrayList<>(Arrays.asList(user)), m, count));
         }
@@ -239,7 +241,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
                 else count++;
                 size--;
             }
-            dialogs.add(new Dialog("1","密码更新",
+            dialogs.add(new Dialog("1", "密码更新",
                     LocalPicx.NOTIFICATION_PASSWORD_CHANGE,
                     new ArrayList<>(Arrays.asList(user)), m, count));
         }
@@ -250,7 +252,7 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
     @Override
     public String format(Date date) {
         try {
-            String s =  DateUtil3.formatDate(date);
+            String s = DateUtil3.formatDate(date);
             return s;
         } catch (ParseException e) {
             return "";
@@ -259,21 +261,10 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        Log.d("Life","onactivitycreated");
+        Log.d("Life", "onactivitycreated");
         super.onActivityCreated(savedInstanceState);
         mTimeCounterRunnable.run();
     }
-
-
-    private Runnable mTimeCounterRunnable = new Runnable() {
-        @Override
-        public void run() {//在此添加需轮寻的接口
-            Log.e("消息列表轮询","+1");
-            refreshData();
-            // 每30秒刷新一次
-            mHandler.postDelayed(this, 5 * 1000);
-        }
-    };
 
     @Override
     public void onDestroy() {

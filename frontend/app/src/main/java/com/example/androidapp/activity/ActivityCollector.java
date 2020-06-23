@@ -1,15 +1,13 @@
 package com.example.androidapp.activity;
 
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityCollector {
-    private long exitTime = 0;
     private static List<Activity> activities = new ArrayList<>();
+    private long exitTime = 0;
 
     /**
      * 添加 Activity

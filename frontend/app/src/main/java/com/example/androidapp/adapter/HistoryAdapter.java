@@ -5,7 +5,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
-
 import com.example.androidapp.R;
 
 import java.util.List;
@@ -20,7 +19,7 @@ public class HistoryAdapter<T> extends MyBaseAdapter {
     private TextView mAffiliation;
     private Button mWatchBtn;
 
-    public HistoryAdapter(List<T> data, Context context){
+    public HistoryAdapter(List<T> data, Context context) {
         super(R.layout.layout_history_list, data, context);
     }
 

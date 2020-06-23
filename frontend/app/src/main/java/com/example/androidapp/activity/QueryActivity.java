@@ -7,7 +7,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -92,12 +91,12 @@ public class QueryActivity extends BaseActivity {
 
 //        fillFlexBox(Arrays.asList("清华大学","清华大学软件学院","北京大学","小花","小海","小林","小叶","小虎","小柔"));
 
-        historyList.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        historyList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         records = new ArrayList<>();
         hot = new ArrayList<>();
         // records.addAll(Arrays.asList("小明","小红","小芳","小花","小海","小林","小叶","小虎","小柔"));
-        historyAdapter=new HistoryAdapter(records, this);//初始化NameAdapter
+        historyAdapter = new HistoryAdapter(records, this);//初始化NameAdapter
         historyAdapter.setRecyclerManager(historyList);//设置RecyclerView特性
         // historyAdapter.openLeftAnimation();//设置加载动画
 
@@ -116,7 +115,7 @@ public class QueryActivity extends BaseActivity {
         getSearchHistory();
         getHotSearch();
 
-        toolbar.setNavigationOnClickListener(v->this.finish());
+        toolbar.setNavigationOnClickListener(v -> this.finish());
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
     }
@@ -126,14 +125,14 @@ public class QueryActivity extends BaseActivity {
         float factor = getResources().getDisplayMetrics().density;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                 (int) (40 * factor));
-        for (String query: queries) {
+        for (String query : queries) {
             TextView textView = new TextView(this);
             textView.setLayoutParams(params);
             textView.setClickable(true);
             textView.setBackground(getDrawable(R.drawable.shape_label));
             textView.setText(query);
             textView.setGravity(Gravity.CENTER);
-            textView.setPadding(15,0,15,0);
+            textView.setPadding(15, 0, 15, 0);
             textView.setTextColor(getColor(R.color.text_color));
             textView.setOnClickListener(viewIn -> {
                 searchView.setQuery(query, true);

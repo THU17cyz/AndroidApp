@@ -52,7 +52,7 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_edit_intention_info, container, false);
-        unbinder = ButterKnife.bind(this,view);
+        unbinder = ButterKnife.bind(this, view);
 
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
@@ -86,7 +86,7 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
     }
 
     public void setInfo() {
-        for (ApplicationInfo applicationInfo: BasicInfo.mApplicationList) {
+        for (ApplicationInfo applicationInfo : BasicInfo.mApplicationList) {
             mApplicationList.add(new ApplicationInfo((applicationInfo)));
         }
         adapter.notifyItemRangeInserted(0, BasicInfo.mApplicationList.size());
@@ -100,15 +100,14 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btn_add:
-            {
-                if(mApplicationList.size()>= BasicInfo.MAX_INTENTION_NUMBER){
-                    Toast.makeText(getContext(),"已达到意向数量上限",Toast.LENGTH_SHORT).show();
+        switch (v.getId()) {
+            case R.id.btn_add: {
+                if (mApplicationList.size() >= BasicInfo.MAX_INTENTION_NUMBER) {
+                    Toast.makeText(getContext(), "已达到意向数量上限", Toast.LENGTH_SHORT).show();
                     break;
                 }
                 // Toast.makeText(getActivity(),"添加",Toast.LENGTH_SHORT).show();
-                ApplicationInfo applicationInfo = new ApplicationInfo("","进行","");
+                ApplicationInfo applicationInfo = new ApplicationInfo("", "进行", "");
                 mApplicationList.add(applicationInfo);
                 adapter.notifyItemInserted(mApplicationList.size() - 1);
                 recyclerView.smoothScrollToPosition(mApplicationList.size() - 1);
@@ -120,10 +119,10 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
 
     }
 
-    public boolean checkContent(){
-        for(int i = 0; i < mApplicationList.size();i++) {
+    public boolean checkContent() {
+        for (int i = 0; i < mApplicationList.size(); i++) {
             ApplicationInfo applicationInfo = mApplicationList.get(i);
-            if(applicationInfo.direction==null||applicationInfo.direction.length()==0){
+            if (applicationInfo.direction == null || applicationInfo.direction.length() == 0) {
                 return false;
             }
         }
@@ -133,7 +132,7 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
     public void update() {
 
         BasicInfo.mApplicationList.clear();
-        for(int i = 0; i < mApplicationList.size();i++) {
+        for (int i = 0; i < mApplicationList.size(); i++) {
             ApplicationInfo applicationInfo = mApplicationList.get(i);
             BasicInfo.mApplicationList.add(applicationInfo);
         }
@@ -156,7 +155,7 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
 
 
                     // 全部删除以后再插入
-                    for(int i = 0; i < mApplicationList.size();i++){
+                    for (int i = 0; i < mApplicationList.size(); i++) {
                         ApplicationInfo applicationInfo = mApplicationList.get(i);
 
                         new CreateApplyIntentionRequest(new okhttp3.Callback() {

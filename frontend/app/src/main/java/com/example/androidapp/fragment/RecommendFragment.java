@@ -35,20 +35,18 @@ import okhttp3.Response;
  */
 public class RecommendFragment extends ProfileListFragment {
 
+    final static int fixed_num = 6;
     boolean isTeacher;
     LoadService loadService;
     Activity activity;
-    final static int fixed_num = 6;
     private Lock lock = new ReentrantLock();
 
     public RecommendFragment() {
     }
 
     public RecommendFragment(int num) {
-        if (num == 0) isTeacher = true;
-        else isTeacher = false;
+        isTeacher = num == 0;
     }
-
 
 
     @Override
@@ -73,13 +71,12 @@ public class RecommendFragment extends ProfileListFragment {
     }
 
 
-
     @Override
     public void onStart() {
         super.onStart();
         int i = 0;
         lock.lock();
-        for (ShortProfile shortProfile: mProfileList) {
+        for (ShortProfile shortProfile : mProfileList) {
             boolean true_state = BasicInfo.isInWatchList(shortProfile.id, shortProfile.isTeacher);
             if (true_state && !shortProfile.isFan) {
                 shortProfile.isFan = true;
@@ -249,8 +246,9 @@ public class RecommendFragment extends ProfileListFragment {
         if (mRecyclerView.isComputingLayout()) {
             mRecyclerView.post(() -> {
 
-                if (shortProfile.id == BasicInfo.ID && shortProfile.isTeacher == BasicInfo.IS_TEACHER) return; // 如果是自己，筛去
-                for (ShortProfile tmp: mProfileList) {
+                if (shortProfile.id == BasicInfo.ID && shortProfile.isTeacher == BasicInfo.IS_TEACHER)
+                    return; // 如果是自己，筛去
+                for (ShortProfile tmp : mProfileList) {
                     if (tmp.id == shortProfile.id) return;
                 }
                 lock.lock();
@@ -264,8 +262,9 @@ public class RecommendFragment extends ProfileListFragment {
 
 
         } else {
-            if (shortProfile.id == BasicInfo.ID && shortProfile.isTeacher == BasicInfo.IS_TEACHER) return; // 如果是自己，筛去
-            for (ShortProfile tmp: mProfileList) {
+            if (shortProfile.id == BasicInfo.ID && shortProfile.isTeacher == BasicInfo.IS_TEACHER)
+                return; // 如果是自己，筛去
+            for (ShortProfile tmp : mProfileList) {
                 if (tmp.id == shortProfile.id) return;
             }
             lock.lock();

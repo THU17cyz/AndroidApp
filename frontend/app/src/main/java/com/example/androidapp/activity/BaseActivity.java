@@ -1,7 +1,5 @@
 package com.example.androidapp.activity;
 
-import android.app.ActivityManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 

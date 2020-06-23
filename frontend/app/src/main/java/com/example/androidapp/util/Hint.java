@@ -27,7 +27,8 @@ public class Hint {
     public static void startActivityLoad(BaseActivity activity) {
         activity.loadService = LoadSir.getDefault().register(activity, new Callback.OnReloadListener() {
             @Override
-            public void onReload(View v) { }
+            public void onReload(View v) {
+            }
         });
     }
 

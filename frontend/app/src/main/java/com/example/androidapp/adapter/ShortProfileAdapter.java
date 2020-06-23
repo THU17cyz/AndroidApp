@@ -5,9 +5,9 @@ import android.graphics.drawable.Drawable;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.example.androidapp.myView.FocusButton;
-import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.R;
+import com.example.androidapp.entity.ShortProfile;
+import com.example.androidapp.myView.FocusButton;
 import com.example.androidapp.util.MyImageLoader;
 import com.example.androidapp.util.StringCutter;
 
@@ -23,7 +23,7 @@ public class ShortProfileAdapter<T> extends MyBaseAdapter {
     private TextView mAffiliation;
     private FocusButton mWatchBtn;
 
-    public ShortProfileAdapter(List<T> data, Context context){
+    public ShortProfileAdapter(List<T> data, Context context) {
         super(R.layout.layout_profile_row, data, context);
     }
 
@@ -43,7 +43,7 @@ public class ShortProfileAdapter<T> extends MyBaseAdapter {
         ShortProfile data = (ShortProfile) o;
         viewHolder.setText(R.id.profile_user_name, data.name)
                 .setText(R.id.info, StringCutter.cutter(data.school + " " + data.department, 15))
-                .setText(R.id.fan,  data.fanNum + " 人关注");
+                .setText(R.id.fan, data.fanNum + " 人关注");
 
         try {
             mHead = viewHolder.getView(R.id.profile_image);
@@ -56,7 +56,7 @@ public class ShortProfileAdapter<T> extends MyBaseAdapter {
             TextView mNameView = viewHolder.getView(R.id.profile_user_name);
             Drawable drawable = mNameView.getContext().getDrawable(R.drawable.ic_validated);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            mNameView.setCompoundDrawables(drawable,null, null, null);
+            mNameView.setCompoundDrawables(drawable, null, null, null);
             mNameView.setCompoundDrawablePadding(5);
         }
 

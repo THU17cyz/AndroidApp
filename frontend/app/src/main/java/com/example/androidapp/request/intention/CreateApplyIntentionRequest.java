@@ -8,7 +8,7 @@ import okhttp3.Callback;
 
 public class CreateApplyIntentionRequest extends BasePostRequest {
     public CreateApplyIntentionRequest(Callback callback, String research_interests,
-                                         String introduction, String intention_state, File intention_picture) {
+                                       String introduction, String intention_state, File intention_picture) {
         // 设置请求URL
         this.to("/api/intention/create_apply_intention");
         // 设置请求参数

@@ -52,8 +52,7 @@ public class RecruitmentInfoFragment extends Fragment {
         Activity activity = getActivity();
         if (activity instanceof MainActivity) {
             mRecruitmentList.addAll(BasicInfo.mRecruitmentList);
-        }
-        else {
+        } else {
             VisitHomePageActivity activity_ = (VisitHomePageActivity) activity;
             mRecruitmentList.addAll(activity_.mRecruitmentList);
         }

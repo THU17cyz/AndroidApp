@@ -1,9 +1,9 @@
 package com.example.androidapp.fragment.homepage;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -106,7 +106,7 @@ public class SelfInfoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_self_info, container, false);
-        unbinder = ButterKnife.bind(this,view);
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -122,23 +122,23 @@ public class SelfInfoFragment extends Fragment {
         if (activity instanceof MainActivity) {
             account.setText(BasicInfo.ACCOUNT);
             name.setText(BasicInfo.mName);
-            if (BasicInfo.mGender.equals("M")){
+            if (BasicInfo.mGender.equals("M")) {
                 gender.setText("男");
-            } else if (BasicInfo.mGender.equals("F")){
+            } else if (BasicInfo.mGender.equals("F")) {
                 gender.setText("女");
             } else {
                 gender.setText("保密");
             }
             school.setText(BasicInfo.mSchool);
             department.setText(BasicInfo.mDepartment);
-            if(type.equals("T")){
-                if(BasicInfo.mTitle.equals("TA")){
+            if (type.equals("T")) {
+                if (BasicInfo.mTitle.equals("TA")) {
                     title.setText("助理");
-                } else if(BasicInfo.mTitle.equals("LT")){
+                } else if (BasicInfo.mTitle.equals("LT")) {
                     title.setText("讲师");
-                } else if(BasicInfo.mTitle.equals("AP")){
+                } else if (BasicInfo.mTitle.equals("AP")) {
                     title.setText("助理教授");
-                } else if(BasicInfo.mTitle.equals("PP")){
+                } else if (BasicInfo.mTitle.equals("PP")) {
                     title.setText("教授");
                 }
                 layoutMajor.setVisibility(View.GONE);
@@ -147,9 +147,9 @@ public class SelfInfoFragment extends Fragment {
             } else {
                 major.setText(BasicInfo.mMajor);
 
-                if(BasicInfo.mDegree.equals("UG")){
+                if (BasicInfo.mDegree.equals("UG")) {
                     degree.setText("本科生");
-                } else if(BasicInfo.mDegree.equals("MT")){
+                } else if (BasicInfo.mDegree.equals("MT")) {
                     degree.setText("硕士生");
                 } else {
                     degree.setText("博士生");
@@ -158,7 +158,7 @@ public class SelfInfoFragment extends Fragment {
                 layoutTitle.setVisibility(View.GONE);
                 layoutTeacherNumber.setVisibility(View.GONE);
             }
-            if(type.equals("T")){
+            if (type.equals("T")) {
                 teacherNumber.setText(BasicInfo.mTeacherNumber);
             } else {
                 studentNumber.setText(BasicInfo.mStudentNumber);
@@ -170,28 +170,27 @@ public class SelfInfoFragment extends Fragment {
             homepage.setText(BasicInfo.mHomepage);
             address.setText(BasicInfo.mAddress);
             introduction.setText(BasicInfo.mIntroduction);
-        }
-        else {
+        } else {
             VisitHomePageActivity activity_ = (VisitHomePageActivity) activity;
             layoutAccount.setVisibility(View.GONE);
             name.setText(activity_.mName);
-            if (activity_.mGender.equals("M")){
+            if (activity_.mGender.equals("M")) {
                 gender.setText("男");
-            } else if (activity_.mGender.equals("F")){
+            } else if (activity_.mGender.equals("F")) {
                 gender.setText("女");
             } else {
                 gender.setText("保密");
             }
             school.setText(activity_.mSchool);
             department.setText(activity_.mDepartment);
-            if(type.equals("T")){
-                if(activity_.mTitle.equals("TA")){
+            if (type.equals("T")) {
+                if (activity_.mTitle.equals("TA")) {
                     title.setText("助理");
-                } else if(activity_.mTitle.equals("LT")){
+                } else if (activity_.mTitle.equals("LT")) {
                     title.setText("讲师");
-                } else if(activity_.mTitle.equals("AP")){
+                } else if (activity_.mTitle.equals("AP")) {
                     title.setText("助理教授");
-                } else if(activity_.mTitle.equals("PP")){
+                } else if (activity_.mTitle.equals("PP")) {
                     title.setText("教授");
                 }
                 layoutMajor.setVisibility(View.GONE);
@@ -200,9 +199,9 @@ public class SelfInfoFragment extends Fragment {
             } else {
                 major.setText(activity_.mMajor);
 
-                if(activity_.mDegree.equals("UG")){
+                if (activity_.mDegree.equals("UG")) {
                     degree.setText("本科生");
-                } else if(activity_.mDegree.equals("MT")){
+                } else if (activity_.mDegree.equals("MT")) {
                     degree.setText("硕士生");
                 } else {
                     degree.setText("博士生");

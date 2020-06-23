@@ -55,7 +55,7 @@ public class EditStudyInfoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_edit_study_info, container, false);
-        unbinder = ButterKnife.bind(this,view);
+        unbinder = ButterKnife.bind(this, view);
 
         return view;
     }
@@ -67,7 +67,7 @@ public class EditStudyInfoFragment extends Fragment {
     }
 
     public void setInfo() {
-        if(BasicInfo.TYPE.equals("S")){
+        if (BasicInfo.TYPE.equals("S")) {
             textDirOrInt.setText("兴趣方向");
             textResOrExp.setText("研究经历");
             dirOrInt.setText(BasicInfo.mInterest);
@@ -83,22 +83,17 @@ public class EditStudyInfoFragment extends Fragment {
     }
 
 
-    public boolean checkContent(){
-        if(BasicInfo.TYPE.equals("S")) {
-            if (dirOrInt.getText().toString() == null || dirOrInt.getText().toString().length() == 0) {
-                return false;
-            }
+    public boolean checkContent() {
+        if (BasicInfo.TYPE.equals("S")) {
+            return dirOrInt.getText().toString() != null && dirOrInt.getText().toString().length() != 0;
         } else {
-            if(dirOrInt.getText().toString()==null||dirOrInt.getText().toString().length()==0){
-                // Toast.makeText(getContext(),"科研信息->研究方向不能为空",Toast.LENGTH_SHORT);
-                return false;
-            }
+            // Toast.makeText(getContext(),"科研信息->研究方向不能为空",Toast.LENGTH_SHORT);
+            return dirOrInt.getText().toString() != null && dirOrInt.getText().toString().length() != 0;
         }
-        return true;
     }
 
     public void update() {
-        if(BasicInfo.TYPE.equals("S")){
+        if (BasicInfo.TYPE.equals("S")) {
             BasicInfo.mInterest = dirOrInt.getText().toString();
             BasicInfo.mExperience = resOrExp.getText().toString();
             BasicInfo.mUrl = url.getText().toString();
@@ -118,9 +113,9 @@ public class EditStudyInfoFragment extends Fragment {
                         JSONObject jsonObject = new JSONObject(resStr);
 
                         Boolean status = jsonObject.getBoolean("status");
-                        if(status){
+                        if (status) {
 
-                        }else{
+                        } else {
                         }
                     } catch (JSONException e) {
 
@@ -158,9 +153,9 @@ public class EditStudyInfoFragment extends Fragment {
                         JSONObject jsonObject = new JSONObject(resStr);
 
                         Boolean status = jsonObject.getBoolean("status");
-                        if(status){
+                        if (status) {
 
-                        }else{
+                        } else {
                         }
                     } catch (JSONException e) {
 

@@ -20,13 +20,13 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.androidapp.R;
 import com.example.androidapp.activity.EditInfoActivity;
 import com.example.androidapp.adapter.HomepagePagerAdapter;
-import com.example.androidapp.util.GifSizeFilter;
 import com.example.androidapp.entity.ApplicationInfo;
 import com.example.androidapp.entity.RecruitmentInfo;
 import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.entity.WholeProfile;
 import com.example.androidapp.request.user.GetInfoPictureRequest;
 import com.example.androidapp.util.BasicInfo;
+import com.example.androidapp.util.GifSizeFilter;
 import com.example.androidapp.util.MyImageLoader;
 import com.example.androidapp.util.SizeConverter;
 import com.google.android.material.appbar.AppBarLayout;
@@ -45,55 +45,9 @@ import butterknife.OnClick;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 public class DashboardFragment
-        extends Fragment
-{
-
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
-    @BindView(R.id.tab_layout)
-    TabLayout tabLayout;
-
-    @BindView(R.id.img_avatar)
-    ImageView imgAvatar;
-
-    @BindView(R.id.homepage_name)
-    TextView name;
-
-    @BindView(R.id.signature)
-    TextView signature;
-
-    @BindView(R.id.num_focus)
-    TextView numFocus;
-
-    @BindView(R.id.num_focused)
-    TextView numFocused;
-
-    @BindView(R.id.view_pager)
-    ViewPager viewPager;
-
-    @BindView(R.id.btn_edit)
-    Button button;
-
-    @BindView(R.id.visit_homepage_title)
-    TextView title;
-
-    @BindView(R.id.visit_homepage_appbar)
-    AppBarLayout app_bar;
-
-    private WholeProfile wholeProfile;
-    private ShortProfile shortProfile;
+        extends Fragment {
 
     private static final int REQUEST_CODE_CHOOSE = 11;
-
-    private HomepagePagerAdapter pagerAdapter;
-
-    private String mAccount;
-    private int mNumFocus;
-    private int mNumFocused;
-    private String type;
-    private int id;
-
     public String mTitle;
     public String mMajor;
     public String mDegree;
@@ -101,11 +55,9 @@ public class DashboardFragment
     public String mStudentNumber;
     public String mIdNumber;
     public String mGender;
-
     public String mName;
     public String mSchool;
     public String mDepartment;
-
     public String mSignature;
     public String mPhone;
     public String mEmail;
@@ -117,9 +69,38 @@ public class DashboardFragment
     public String mInterest;
     public String mResult;
     public String mExperience;
-
     public ArrayList<ApplicationInfo> mApplicationList;
     public ArrayList<RecruitmentInfo> mRecruitmentList;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.tab_layout)
+    TabLayout tabLayout;
+    @BindView(R.id.img_avatar)
+    ImageView imgAvatar;
+    @BindView(R.id.homepage_name)
+    TextView name;
+    @BindView(R.id.signature)
+    TextView signature;
+    @BindView(R.id.num_focus)
+    TextView numFocus;
+    @BindView(R.id.num_focused)
+    TextView numFocused;
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
+    @BindView(R.id.btn_edit)
+    Button button;
+    @BindView(R.id.visit_homepage_title)
+    TextView title;
+    @BindView(R.id.visit_homepage_appbar)
+    AppBarLayout app_bar;
+    private WholeProfile wholeProfile;
+    private ShortProfile shortProfile;
+    private HomepagePagerAdapter pagerAdapter;
+    private String mAccount;
+    private int mNumFocus;
+    private int mNumFocused;
+    private String type;
+    private int id;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -128,7 +109,7 @@ public class DashboardFragment
 
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-        ButterKnife.bind(this,root);
+        ButterKnife.bind(this, root);
 
 
         tabLayout.addTab(tabLayout.newTab().setText("个人信息"));
@@ -170,7 +151,7 @@ public class DashboardFragment
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getActivity(), EditInfoActivity.class);
+                Intent intent = new Intent(getActivity(), EditInfoActivity.class);
                 startActivity(intent);
             }
         });
@@ -242,7 +223,8 @@ public class DashboardFragment
     public void getAvatar(String path) {
         if (path == null) {
             GetInfoPictureRequest request;
-            if (type.equals("S")) request = new GetInfoPictureRequest(type, null, String.valueOf(id));
+            if (type.equals("S"))
+                request = new GetInfoPictureRequest(type, null, String.valueOf(id));
             else request = new GetInfoPictureRequest(type, String.valueOf(id), null);
             try {
                 MyImageLoader.loadImage(imgAvatar, request.getWholeUrl());

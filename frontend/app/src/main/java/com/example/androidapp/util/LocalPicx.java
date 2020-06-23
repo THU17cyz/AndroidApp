@@ -16,18 +16,19 @@ public class LocalPicx {
     public static String NOTIFICATION_WATCH;
     public static String NOTIFICATION_WELCOME;
     public static String NOTIFICATION_INTENTION;
+
     public static void loadAsset(Activity activity) {
         BitmapDrawable d = (BitmapDrawable) activity.getDrawable(R.drawable.notifications_password_change);
         Bitmap img = d.getBitmap();
 
         String fn = "NOTIFICATION_PASSWORD_CHANGE.png";
         String path = activity.getFilesDir() + File.separator + fn;
-        try{
+        try {
             OutputStream os = new FileOutputStream(path);
             img.compress(Bitmap.CompressFormat.PNG, 100, os);
             os.close();
             NOTIFICATION_PASSWORD_CHANGE = "file://" + path;
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.e("TAG", "", e);
         }
 
@@ -36,12 +37,12 @@ public class LocalPicx {
 
         fn = "NOTIFICATION_WATCH.png";
         path = activity.getFilesDir() + File.separator + fn;
-        try{
+        try {
             OutputStream os = new FileOutputStream(path);
             img.compress(Bitmap.CompressFormat.PNG, 100, os);
             os.close();
             NOTIFICATION_WATCH = "file://" + path;
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.e("TAG", "", e);
         }
 
@@ -50,12 +51,12 @@ public class LocalPicx {
 
         fn = "NOTIFICATION_WELCOME.png";
         path = activity.getFilesDir() + File.separator + fn;
-        try{
+        try {
             OutputStream os = new FileOutputStream(path);
             img.compress(Bitmap.CompressFormat.PNG, 100, os);
             os.close();
             NOTIFICATION_WELCOME = "file://" + path;
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.e("TAG", "", e);
         }
 
@@ -64,12 +65,12 @@ public class LocalPicx {
 
         fn = "NOTIFICATION_INTENTION.png";
         path = activity.getFilesDir() + File.separator + fn;
-        try{
+        try {
             OutputStream os = new FileOutputStream(path);
             img.compress(Bitmap.CompressFormat.PNG, 100, os);
             os.close();
             NOTIFICATION_INTENTION = "file://" + path;
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.e("TAG", "", e);
         }
 

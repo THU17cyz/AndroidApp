@@ -20,8 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.androidapp.R;
 import com.example.androidapp.activity.VisitHomePageActivity;
 import com.example.androidapp.adapter.ShortProfileAdapter;
-import com.example.androidapp.myView.FocusButton;
 import com.example.androidapp.entity.ShortProfile;
+import com.example.androidapp.myView.FocusButton;
 import com.example.androidapp.request.follow.AddToWatchRequest;
 import com.example.androidapp.request.follow.DeleteFromWatchRequest;
 import com.example.androidapp.request.follow.GetFanlistRequest;
@@ -50,41 +50,31 @@ public class FollowListFragment extends Fragment {
 //    @BindView(R.id.follow_list_layout)
 //    ConstraintLayout constraintLayout;
 
+    protected ShortProfileAdapter tShortProfileAdapter;
+    protected ShortProfileAdapter sShortProfileAdapter;
     @BindView(R.id.linearLayout2)
     LinearLayout linearLayout2;
 
+//  @BindView(R.id.t_refresh_layout)
+//  RefreshLayout tRefreshLayout;
     @BindView(R.id.linearLayout3)
     LinearLayout linearLayout3;
-
     @BindView(R.id.t_recycler_view)
     RecyclerView tRecyclerView;
 
-//  @BindView(R.id.t_refresh_layout)
-//  RefreshLayout tRefreshLayout;
-
-    @BindView(R.id.s_recycler_view)
-    RecyclerView sRecyclerView;
-
-    @BindView(R.id.follow_list_teacher)
-    TextView teacherTextView;
-
 //  @BindView(R.id.s_refresh_layout)
 //  RefreshLayout sRefreshLayout;
-
+    @BindView(R.id.s_recycler_view)
+    RecyclerView sRecyclerView;
+    @BindView(R.id.follow_list_teacher)
+    TextView teacherTextView;
     boolean isWatchList;
-
     Unbinder unbinder;
-
     ArrayList<ShortProfile> sProfileList;
     ArrayList<ShortProfile> tProfileList;
-
     LoadService tLoadService;
     LoadService sLoadService;
-
     private String test_url = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1592237104788&di=da06c7ee8d8256243940b53531bdeba7&imgtype=0&src=http%3A%2F%2Ftupian.qqjay.com%2Ftou2%2F2018%2F1106%2F60bdf5b88754650e51ccee32bb6ac8ae.jpg";
-
-    protected ShortProfileAdapter tShortProfileAdapter;
-    protected ShortProfileAdapter sShortProfileAdapter;
 
     public FollowListFragment(boolean isWatchList) {
         this.isWatchList = isWatchList;
@@ -200,7 +190,7 @@ public class FollowListFragment extends Fragment {
 //        }
     }
 
-    private void visitHomePage(boolean isTop,  int position) {
+    private void visitHomePage(boolean isTop, int position) {
         Intent intent = new Intent(getContext(), VisitHomePageActivity.class);
         ShortProfile shortProfile;
         if (isTop) {
@@ -208,7 +198,7 @@ public class FollowListFragment extends Fragment {
         } else {
             shortProfile = sProfileList.get(position);
         }
-        intent.putExtra("id",shortProfile.id);
+        intent.putExtra("id", shortProfile.id);
         intent.putExtra("isTeacher", shortProfile.isTeacher);
         intent.putExtra("isFan", shortProfile.isFan);
         intent.putExtra("profile", shortProfile);
@@ -230,7 +220,7 @@ public class FollowListFragment extends Fragment {
         sLoadService = LoadSir.getDefault().register(sRecyclerView,
                 (com.kingja.loadsir.callback.Callback.OnReloadListener) v -> {
 
-        });
+                });
         tLoadService = LoadSir.getDefault().register(tRecyclerView,
                 (com.kingja.loadsir.callback.Callback.OnReloadListener) v -> {
 

@@ -36,11 +36,8 @@ public class FollowFragment extends Fragment {
 
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
-
-    private Unbinder unbinder;
-
     boolean searchFreeze = false;
-
+    private Unbinder unbinder;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

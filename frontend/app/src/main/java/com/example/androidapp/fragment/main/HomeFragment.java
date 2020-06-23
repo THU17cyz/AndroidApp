@@ -1,7 +1,6 @@
 package com.example.androidapp.fragment.main;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.androidapp.R;
@@ -35,10 +33,8 @@ public class HomeFragment extends Fragment {
 
 //    @BindView(R.id.refreshLayout)
 //    public RefreshLayout refreshLayout;
-
-    private Unbinder unbinder;
-
     boolean searchFreeze = false;
+    private Unbinder unbinder;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -116,7 +112,6 @@ public class HomeFragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
-
 
 
 }

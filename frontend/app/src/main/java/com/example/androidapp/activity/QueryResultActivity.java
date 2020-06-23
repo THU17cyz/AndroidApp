@@ -20,8 +20,6 @@ import com.example.androidapp.fragment.QueryResult.Teacher;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -81,7 +79,7 @@ public class QueryResultActivity extends BaseActivity {
         });
 
 
-        for (String tab: tabs) {
+        for (String tab : tabs) {
             tabLayout.addTab(tabLayout.newTab().setText(tab));
         }
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -99,7 +97,8 @@ public class QueryResultActivity extends BaseActivity {
                 int position = tab.getPosition();
                 viewPager.setCurrentItem(position);
                 Fragment fragment = pagerAdapter.getRegisteredFragment(position);
-                if (fragment instanceof ProfileFragment) ((ProfileFragment) fragment).isFilterOpen = false;
+                if (fragment instanceof ProfileFragment)
+                    ((ProfileFragment) fragment).isFilterOpen = false;
                 else ((IntentFragment) fragment).isFilterOpen = false;
             }
 
@@ -118,11 +117,13 @@ public class QueryResultActivity extends BaseActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
+
             @Override
             public void onPageSelected(int position) {
                 Log.e("1", "wtf");
                 loadQueryInfo(position);
             }
+
             @Override
             public void onPageScrollStateChanged(int state) {
             }
@@ -164,7 +165,6 @@ public class QueryResultActivity extends BaseActivity {
             }
         }
     }
-
 
 
     public void loadQueryInfo(int position) {

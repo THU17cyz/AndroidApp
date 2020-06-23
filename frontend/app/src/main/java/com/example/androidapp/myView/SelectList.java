@@ -11,8 +11,8 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import com.example.androidapp.activity.QueryResultActivity;
 import com.example.androidapp.R;
+import com.example.androidapp.activity.QueryResultActivity;
 import com.example.androidapp.fragment.QueryResult.Apply;
 import com.example.androidapp.fragment.QueryResult.IntentFragment;
 import com.example.androidapp.fragment.QueryResult.ProfileFragment;
@@ -27,10 +27,10 @@ import java.util.List;
 import razerdp.basepopup.BasePopupWindow;
 
 public class SelectList extends BasePopupWindow {
+    FlexboxLayout flexboxLayout;
     private int num;
     private String[] options;
     private boolean[] selected;
-    FlexboxLayout flexboxLayout;
 
     public SelectList(Context context) {
         super(context);
@@ -51,16 +51,16 @@ public class SelectList extends BasePopupWindow {
         boolean[] filters;
         if (fragment instanceof ProfileFragment) {
             filters = ((ProfileFragment) fragment).getFilters();
-            options = new String[] {"男 ", "女 ", "已认证"};
+            options = new String[]{"男 ", "女 ", "已认证"};
             num = 3;
         } else {
             filters = ((IntentFragment) fragment).getFilters();
-            options = new String[] {"正在进行"};
+            options = new String[]{"正在进行"};
             num = 1;
 //            if (fragment instanceof Recruit) options = new String[] {"男 ", "女 ", "已认证"};
         }
         int i = 0;
-        for (boolean filter: filters) {
+        for (boolean filter : filters) {
             selected[i] = filter;
             i++;
         }
@@ -77,7 +77,8 @@ public class SelectList extends BasePopupWindow {
                 ((Teacher) fragment).filterResult(selected);
             } else if (fragment instanceof Student) {
                 ((Student) fragment).filterResult(selected);
-            } if (fragment instanceof Apply) {
+            }
+            if (fragment instanceof Apply) {
                 ((Apply) fragment).filterResult(selected);
             } else if (fragment instanceof Recruit) {
                 ((Recruit) fragment).filterResult(selected);
@@ -115,7 +116,7 @@ public class SelectList extends BasePopupWindow {
 //            selected = new boolean[]{false, false, false, false};
 //        }
         int i = 0;
-        for (String query: queries) {
+        for (String query : queries) {
             TextView textView = new TextView(getContext());
 //            textView.setWidth((int) (60 * factor));
             // textView.setLayoutParams(params);
@@ -162,7 +163,7 @@ public class SelectList extends BasePopupWindow {
         float factor = getContext().getResources().getDisplayMetrics().density;
         for (int i = 0; i < num; i++) {
 
-            TextView textView = ((TextView)flexboxLayout.getFlexItemAt(i));
+            TextView textView = ((TextView) flexboxLayout.getFlexItemAt(i));
             textView.setTextColor(getContext().getColor(R.color.text_color));
             textView.setBackground(getContext().getDrawable(R.drawable.shape_label));
             textView.setPadding(20, 20, 20, 20);

@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.androidapp.R;
 import com.example.androidapp.activity.VisitHomePageActivity;
 import com.example.androidapp.adapter.ShortProfileAdapter;
-import com.example.androidapp.myView.FocusButton;
 import com.example.androidapp.entity.ShortProfile;
+import com.example.androidapp.myView.FocusButton;
 import com.example.androidapp.request.follow.AddToWatchRequest;
 import com.example.androidapp.request.follow.DeleteFromWatchRequest;
 import com.example.androidapp.util.BasicInfo;
@@ -42,13 +42,10 @@ public class ProfileListFragment extends Fragment {
 
     @BindView(R.id.recycler_view)
     protected RecyclerView mRecyclerView;
-
-    @BindView(R.id.refreshLayout)
-    RefreshLayout refreshLayout;
-
     protected ArrayList<ShortProfile> mProfileList;
     protected ShortProfileAdapter mShortProfileAdapter;
-
+    @BindView(R.id.refreshLayout)
+    RefreshLayout refreshLayout;
     private String test_url = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1592237104788&di=da06c7ee8d8256243940b53531bdeba7&imgtype=0&src=http%3A%2F%2Ftupian.qqjay.com%2Ftou2%2F2018%2F1106%2F60bdf5b88754650e51ccee32bb6ac8ae.jpg";
 
     //To do
@@ -146,7 +143,8 @@ public class ProfileListFragment extends Fragment {
         return root;
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }
@@ -154,7 +152,7 @@ public class ProfileListFragment extends Fragment {
     private void visitHomePage(int position) {
         Intent intent = new Intent(getContext(), VisitHomePageActivity.class);
         ShortProfile shortProfile = mProfileList.get(position);
-        intent.putExtra("id",shortProfile.id);
+        intent.putExtra("id", shortProfile.id);
         intent.putExtra("isTeacher", shortProfile.isTeacher);
         intent.putExtra("isFan", shortProfile.isFan);
         intent.putExtra("profile", shortProfile);

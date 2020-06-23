@@ -7,6 +7,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ShortIntent implements Parcelable {
+    public static final Creator<ShortIntent> CREATOR = new Creator<ShortIntent>() {
+        @Override
+        public ShortIntent createFromParcel(Parcel in) {
+            return new ShortIntent(in);
+        }
+
+        @Override
+        public ShortIntent[] newArray(int size) {
+            return new ShortIntent[size];
+        }
+    };
     public boolean isTeacher;
     public int id;
     public String name;
@@ -54,18 +65,6 @@ public class ShortIntent implements Parcelable {
         target = in.readString();
         relate = in.readInt();
     }
-
-    public static final Creator<ShortIntent> CREATOR = new Creator<ShortIntent>() {
-        @Override
-        public ShortIntent createFromParcel(Parcel in) {
-            return new ShortIntent(in);
-        }
-
-        @Override
-        public ShortIntent[] newArray(int size) {
-            return new ShortIntent[size];
-        }
-    };
 
     @Override
     public int describeContents() {

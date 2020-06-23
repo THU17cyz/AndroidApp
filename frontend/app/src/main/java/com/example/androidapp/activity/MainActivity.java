@@ -26,15 +26,16 @@ import androidx.navigation.NavController;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.androidapp.R;
+import com.example.androidapp.adapter.MainActivityViewPagerAdapter;
+import com.example.androidapp.application.App;
+import com.example.androidapp.entity.chat.User;
 import com.example.androidapp.fragment.main.ConversationFragment;
 import com.example.androidapp.fragment.main.DashboardFragment;
 import com.example.androidapp.fragment.main.FollowFragment;
 import com.example.androidapp.fragment.main.HomeFragment;
 import com.example.androidapp.fragment.main.NotificationFragment;
-import com.example.androidapp.adapter.MainActivityViewPagerAdapter;
-import com.example.androidapp.application.App;
-import com.example.androidapp.entity.chat.User;
 import com.example.androidapp.repository.ChatHistory;
+import com.example.androidapp.repository.ChatHistoryViewModel;
 import com.example.androidapp.request.conversation.GetMessagePictureRequest;
 import com.example.androidapp.request.conversation.GetNewMessagesRequest;
 import com.example.androidapp.request.information.GetInformationDetailRequest;
@@ -46,7 +47,6 @@ import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.LocalPicx;
 import com.example.androidapp.util.MyImageLoader;
 import com.example.androidapp.util.Uri2File;
-import com.example.androidapp.repository.ChatHistoryViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gyf.immersionbar.ImmersionBar;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -82,27 +82,28 @@ import okhttp3.Response;
 
 public class MainActivity extends BaseActivity {
 
-    final FragmentManager fm = getSupportFragmentManager();
-
     private static final int REQUEST_CODE_CHOOSE = 11;
+    public static Handler msgHandler;
+    private static Handler mHandler = new Handler(Looper.getMainLooper());
+    final FragmentManager fm = getSupportFragmentManager();
+    BottomNavigationView navView;
     private long exitTime = 0;
     private boolean loaded = false;
-
     private Drawer drawer;
-
     private List<IProfile> drawerHead;
-
-    public static Handler msgHandler;
-
-    private static Handler mHandler = new Handler(Looper.getMainLooper());
-
     private NavController navController;
     private ViewPager viewPager;
     private MainActivityViewPagerAdapter mMainActivityViewPagerAdapter;
-    BottomNavigationView navView;
-
-
     private ChatHistoryViewModel chatHistoryViewModel;
+    private Runnable mTimeCounterRunnable = new Runnable() {
+        @Override
+        public void run() {//在此添加需轮寻的接口
+            Log.e("消息列表轮询", "+1");
+            refreshData();
+            // 每30秒刷新一次
+            mHandler.postDelayed(this, 2 * 1000);
+        }
+    };
 
     @SuppressLint("HandlerLeak")
     @Override
@@ -220,28 +221,18 @@ public class MainActivity extends BaseActivity {
         LocalPicx.loadAsset(this);
 
 
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("user",Context.MODE_PRIVATE);
-        boolean hasLogin = sharedPreferences.getBoolean("hasLogin",false);
-        if(!hasLogin){
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        boolean hasLogin = sharedPreferences.getBoolean("hasLogin", false);
+        if (!hasLogin) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("hasLogin",true);
-            editor.putString("type",BasicInfo.TYPE);
-            editor.putString("account",BasicInfo.ACCOUNT);
-            editor.putString("password",BasicInfo.PASSWORD);
+            editor.putBoolean("hasLogin", true);
+            editor.putString("type", BasicInfo.TYPE);
+            editor.putString("account", BasicInfo.ACCOUNT);
+            editor.putString("password", BasicInfo.PASSWORD);
             editor.commit();
         }
 
     }
-
-    private Runnable mTimeCounterRunnable = new Runnable() {
-        @Override
-        public void run() {//在此添加需轮寻的接口
-            Log.e("消息列表轮询","+1");
-            refreshData();
-            // 每30秒刷新一次
-            mHandler.postDelayed(this, 2 * 1000);
-        }
-    };
 
     @Override
     public void onStart() {
@@ -257,11 +248,11 @@ public class MainActivity extends BaseActivity {
     }
 
     private void getDatabase() {
-        Log.e("两边？？","fhsjafhkhfsaj");
+        Log.e("两边？？", "fhsjafhkhfsaj");
         LiveData<List<ChatHistory>> list = chatHistoryViewModel.getAllHistory();
         List<ChatHistory> chatList = list.getValue();
         if (chatList == null) {
-            Log.e("错误","数据库获取为null");
+            Log.e("错误", "数据库获取为null");
         } else {
 //            List<String> accounts = new ArrayList<>();//对方列表
 //            List<String> messages = new ArrayList<>();//对方最新消息列表
@@ -269,11 +260,11 @@ public class MainActivity extends BaseActivity {
 //            List<String> ids = new ArrayList<>();//对方id列表
 //            List<String> types = new ArrayList<>();//对方类型列表
 
-            for(int i = 0; i < chatList.size(); i++){
+            for (int i = 0; i < chatList.size(); i++) {
                 ChatHistory chat = chatList.get(i);
 
                 // 判断是否为当前用户的消息
-                if(chat.getUser().equals(BasicInfo.ACCOUNT)){
+                if (chat.getUser().equals(BasicInfo.ACCOUNT)) {
                     String id = chat.getContactId();
                     String account = chat.getContact();
                     String type = chat.getType();
@@ -285,7 +276,7 @@ public class MainActivity extends BaseActivity {
 //                    User user = new User(id, account,"", account, type);
                     com.example.androidapp.entity.chat.Message message;// = new com.example.androidapp.entity.chat.Message("", user, msg, date);
 
-                    if(send.equals("S")){
+                    if (send.equals("S")) {
                         User user = new User("0", realName,
                                 new GetInfoPictureRequest(otherUserType, id, id).getWholeUrl(),
                                 account, otherUserType, id);
@@ -318,7 +309,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void refreshData() {
-        User user = new User("0","","null",false);
+        User user = new User("0", "", "null", false);
         // 获取消息id列表
         new GetInformationRequest(new okhttp3.Callback() {
             @Override
@@ -343,26 +334,26 @@ public class MainActivity extends BaseActivity {
                     int len;
                     len = BasicInfo.WELCOME_NOTIFICATIONS.size();
                     if (len > 0) {
-                        tmp = Integer.valueOf(BasicInfo.WELCOME_NOTIFICATIONS.get(len-1).getId());
+                        tmp = Integer.valueOf(BasicInfo.WELCOME_NOTIFICATIONS.get(len - 1).getId());
                         if (idx < tmp) idx = tmp;
                     }
                     len = BasicInfo.FOLLOW_NOTIFICATIONS.size();
                     if (len > 0) {
-                        tmp = Integer.valueOf(BasicInfo.FOLLOW_NOTIFICATIONS.get(len-1).getId());
+                        tmp = Integer.valueOf(BasicInfo.FOLLOW_NOTIFICATIONS.get(len - 1).getId());
                         if (idx < tmp) idx = tmp;
                     }
                     len = BasicInfo.INTENTION_NOTIFICATIONS.size();
                     if (len > 0) {
-                        tmp = Integer.valueOf(BasicInfo.INTENTION_NOTIFICATIONS.get(len-1).getId());
+                        tmp = Integer.valueOf(BasicInfo.INTENTION_NOTIFICATIONS.get(len - 1).getId());
                         if (idx < tmp) idx = tmp;
                     }
                     len = BasicInfo.PWD_CHANGE_NOTIFICATIONS.size();
                     if (len > 0) {
-                        tmp = Integer.valueOf(BasicInfo.PWD_CHANGE_NOTIFICATIONS.get(len-1).getId());
+                        tmp = Integer.valueOf(BasicInfo.PWD_CHANGE_NOTIFICATIONS.get(len - 1).getId());
                         if (idx < tmp) idx = tmp;
                     }
                     //在获取id列表的基础上获取每条消息
-                    for(int i = 0; i < informationIdList.size(); i++){
+                    for (int i = 0; i < informationIdList.size(); i++) {
                         String id = informationIdList.get(i).toString();
                         if (Integer.valueOf(id) <= idx) continue;
                         new GetInformationDetailRequest(new okhttp3.Callback() {
@@ -381,14 +372,14 @@ public class MainActivity extends BaseActivity {
                                         String state = jsonObject.getString("information_state");
                                         String content = (String) jsonObject.get("information_content");
                                         com.example.androidapp.entity.chat.Message message;
-                                        SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm" );
-                                        if(state.equals("N")){
-                                            message = new com.example.androidapp.entity.chat.Message(id, user,content,sdf.parse(time),false);
+                                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                                        if (state.equals("N")) {
+                                            message = new com.example.androidapp.entity.chat.Message(id, user, content, sdf.parse(time), false);
                                         } else {
-                                            message = new com.example.androidapp.entity.chat.Message(id, user,content,sdf.parse(time),true);
+                                            message = new com.example.androidapp.entity.chat.Message(id, user, content, sdf.parse(time), true);
                                         }
                                         // message.setDateString(time);
-                                        Log.e("消息内容",sdf.parse(time).toString()+" "+state);
+                                        Log.e("消息内容", sdf.parse(time).toString() + " " + state);
                                         String type = content.substring(2, 4);
                                         if (type.equals("用户")) {
                                             BasicInfo.WELCOME_NOTIFICATIONS.add(message);
@@ -408,6 +399,7 @@ public class MainActivity extends BaseActivity {
 
                                 }
                             }
+
                             @Override
                             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                             }
@@ -422,13 +414,13 @@ public class MainActivity extends BaseActivity {
 
         // 先获取本地聊天id
         SharedPreferences sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE);
-        int currentMessageId = sharedPreferences.getInt(BasicInfo.ACCOUNT,0);
-        Log.e("当前id:",String.valueOf(currentMessageId));
+        int currentMessageId = sharedPreferences.getInt(BasicInfo.ACCOUNT, 0);
+        Log.e("当前id:", String.valueOf(currentMessageId));
 
         new GetNewMessagesRequest(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.e("error","获取最新消息失败");
+                Log.e("error", "获取最新消息失败");
             }
 
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -444,7 +436,7 @@ public class MainActivity extends BaseActivity {
                         JSONArray jsonArray = (JSONArray) jsonObject.get("message_info_list");
 
                         int messageId = -1;
-                        for (int i = 0; i < jsonArray.length(); i++){
+                        for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                             messageId = jsonObject1.getInt("message_id");
                             String objectType = jsonObject1.getString("object_type");
@@ -463,7 +455,7 @@ public class MainActivity extends BaseActivity {
 //                                    date, messageContent, messageType,
 //                                    messageWay, BasicInfo.ACCOUNT, objectAccount, objectId, objectType));
                             com.example.androidapp.entity.chat.Message message;
-                            if(messageWay.equals("S")){
+                            if (messageWay.equals("S")) {
                                 User user = new User("0", objectName,
                                         new GetInfoPictureRequest(objectType, objectId, objectId).getWholeUrl(),
 //                                        "http://diy.qqjay.com/u/files/2012/0510/d2e10cb3ac49dc63d013cb63ab6ca7cd.jpg",
@@ -476,7 +468,7 @@ public class MainActivity extends BaseActivity {
                                         objectAccount, objectType, objectId);
                                 message = new com.example.androidapp.entity.chat.Message(String.valueOf(messageId), user, messageContent, date, false);
                             }
-                            if(messageType.equals("T")){
+                            if (messageType.equals("T")) {
                                 chatHistoryViewModel.insert(new ChatHistory(date, messageContent,
                                         messageType, messageWay, BasicInfo.ACCOUNT, objectAccount, objectId, objectType, objectName));
 
@@ -499,7 +491,6 @@ public class MainActivity extends BaseActivity {
                             }
 
 
-
                         }
 
 
@@ -509,15 +500,13 @@ public class MainActivity extends BaseActivity {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putInt(BasicInfo.ACCOUNT, messageId);
                             editor.commit();
-                            Log.e("更新后id：",String.valueOf(messageId));
+                            Log.e("更新后id：", String.valueOf(messageId));
                         }
 
 
-
                     } else {
-                        Log.e("hasHandled置true","，");
+                        Log.e("hasHandled置true", "，");
                     }
-
 
 
                 } catch (JSONException | ParseException e) {
@@ -528,8 +517,6 @@ public class MainActivity extends BaseActivity {
     }
 
 
-
-
     public void openDrawer() {
         drawer.openDrawer();
     }
@@ -538,7 +525,7 @@ public class MainActivity extends BaseActivity {
     /**
      * [method]初始化侧边栏
      */
-    private void initDrawer(){
+    private void initDrawer() {
         DrawerImageLoader.init(new AbstractDrawerImageLoader() {
             @Override
             public void set(ImageView imageView, Uri uri, Drawable placeholder) {
@@ -604,45 +591,42 @@ public class MainActivity extends BaseActivity {
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         System.out.println("printed" + position);
                         // do something with the clicked item :D
-                        switch (position){
-                            case 1:
-                            {
+                        switch (position) {
+                            case 1: {
                                 drawer.closeDrawer();
                                 viewPager.setCurrentItem(4);
                                 navView.getMenu().findItem(R.id.navigation_dashboard).setChecked(true);
                                 break;
                             }
-                            case 3:
-                            {
+                            case 3: {
                                 drawer.closeDrawer();
                                 viewPager.setCurrentItem(2);
                                 navView.getMenu().findItem(R.id.navigation_conversations).setChecked(true);
                                 break;
                             }
-                            case 5:
-                            { ;
+                            case 5: {
                                 drawer.closeDrawer();
                                 viewPager.setCurrentItem(1);
                                 navView.getMenu().findItem(R.id.navigation_follow).setChecked(true);
                                 break;
                             }
-                            case 7:
-                            {
+                            case 7: {
                                 drawer.closeDrawer();
                                 viewPager.setCurrentItem(3);
                                 navView.getMenu().findItem(R.id.navigation_notifications).setChecked(true);
                                 break;
                             }
-                            case 9:{
+                            case 9: {
                                 Intent intent = new Intent(MainActivity.this, ResetPasswordActivity.class);
                                 startActivity(intent);
                                 break;
                             }
-                            case 11:{
+                            case 11: {
                                 logout();
                                 break;
                             }
-                            default: break;
+                            default:
+                                break;
                         }
 
                         return true;
@@ -671,9 +655,9 @@ public class MainActivity extends BaseActivity {
                     Boolean status = jsonObject.getBoolean("status");
                     if (status) {
                         // 登出时清除share中的信息
-                        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("user",Context.MODE_PRIVATE);
+                        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putBoolean("hasLogin",false);
+                        editor.putBoolean("hasLogin", false);
                         editor.commit();
 
                         BasicInfo.reset();
@@ -699,8 +683,8 @@ public class MainActivity extends BaseActivity {
             Fragment current = mMainActivityViewPagerAdapter.getRegisteredFragment(viewPager.getCurrentItem());
 
             // 主页双击返回退出程序
-            if(current != null && current instanceof HomeFragment){
-                if(System.currentTimeMillis() - exitTime > 2000){
+            if (current != null && current instanceof HomeFragment) {
+                if (System.currentTimeMillis() - exitTime > 2000) {
                     exitTime = System.currentTimeMillis();
                 } else {
                     App.appExit(MainActivity.this);
@@ -744,7 +728,7 @@ public class MainActivity extends BaseActivity {
                         if (status) {
                             System.out.println(BasicInfo.PATH);
                             MyImageLoader.invalidate();
-                            runOnUiThread(()-> {
+                            runOnUiThread(() -> {
                                 initDrawer();
                                 HomeFragment fragment1 = ((HomeFragment) mMainActivityViewPagerAdapter.getRegisteredFragment(0));
                                 fragment1.getAvatar();
@@ -766,7 +750,6 @@ public class MainActivity extends BaseActivity {
             }, Uri2File.convert(path)).send();
         }
     }
-
 
 
 }

@@ -17,51 +17,53 @@ import com.example.androidapp.util.BasicInfo;
 import org.jetbrains.annotations.NotNull;
 
 public class EditInfoPagerAdapter extends FragmentStatePagerAdapter {
-  int mNumOfTabs;
-  SparseArray<Fragment> registeredFragments = new SparseArray<>();
+    int mNumOfTabs;
+    SparseArray<Fragment> registeredFragments = new SparseArray<>();
 
-  public EditInfoPagerAdapter(@NonNull FragmentManager fm, int NumOfTabs) {
-    super(fm);
-    this.mNumOfTabs = NumOfTabs;
-  }
+    public EditInfoPagerAdapter(@NonNull FragmentManager fm, int NumOfTabs) {
+        super(fm);
+        this.mNumOfTabs = NumOfTabs;
+    }
 
-  @NonNull
-  @Override
-  public Fragment getItem(int position) {
-//    return new SelfInfoFragment();
-//    return new FollowFragment();
-    switch (position) {
-      case 0: return new EditSelfInfoFragment();
-      case 1: return new EditStudyInfoFragment();
-      case 2:
-        if(BasicInfo.TYPE.equals("S"))
-          return new EditApplicationInfoFragment();
-        else
-          return new EditRecruitmentInfoFragment();
-      default: return null;
-  }
-  }
+    @NonNull
+    @Override
+    public Fragment getItem(int position) {
 
-  @Override
-  public int getCount() {
-    return mNumOfTabs;
-  }
+        switch (position) {
+            case 0:
+                return new EditSelfInfoFragment();
+            case 1:
+                return new EditStudyInfoFragment();
+            case 2:
+                if (BasicInfo.TYPE.equals("S"))
+                    return new EditApplicationInfoFragment();
+                else
+                    return new EditRecruitmentInfoFragment();
+            default:
+                return null;
+        }
+    }
 
-  @NotNull
-  @Override
-  public Object instantiateItem(ViewGroup container, int position) {
-    Fragment fragment = (Fragment) super.instantiateItem(container, position);
-    registeredFragments.put(position, fragment);
-    return fragment;
-  }
+    @Override
+    public int getCount() {
+        return mNumOfTabs;
+    }
 
-  @Override
-  public void destroyItem(ViewGroup container, int position, Object object) {
-    registeredFragments.remove(position);
-    super.destroyItem(container, position, object);
-  }
+    @NotNull
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        Fragment fragment = (Fragment) super.instantiateItem(container, position);
+        registeredFragments.put(position, fragment);
+        return fragment;
+    }
 
-  public Fragment getRegisteredFragment(int position) {
-    return registeredFragments.get(position);
-  }
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        registeredFragments.remove(position);
+        super.destroyItem(container, position, object);
+    }
+
+    public Fragment getRegisteredFragment(int position) {
+        return registeredFragments.get(position);
+    }
 }

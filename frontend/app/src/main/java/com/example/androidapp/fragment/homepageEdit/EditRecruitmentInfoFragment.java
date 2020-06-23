@@ -34,7 +34,7 @@ import okhttp3.Call;
 import okhttp3.Response;
 
 public class EditRecruitmentInfoFragment extends Fragment
-        implements View.OnClickListener{
+        implements View.OnClickListener {
 
     @BindView(R.id.btn_add)
     FloatingActionButton btn_add;
@@ -55,7 +55,7 @@ public class EditRecruitmentInfoFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_edit_intention_info, container, false);
-        unbinder = ButterKnife.bind(this,view);
+        unbinder = ButterKnife.bind(this, view);
 
         recyclerView = view.findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -69,9 +69,9 @@ public class EditRecruitmentInfoFragment extends Fragment
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
-                Log.d("index",String.valueOf(i));
+                Log.d("index", String.valueOf(i));
 
-                if(view.getId() == R.id.delete){
+                if (view.getId() == R.id.delete) {
                     mRecruitmentList.remove(i);
                     adapter.notifyItemRemoved(i);
                 }
@@ -90,7 +90,7 @@ public class EditRecruitmentInfoFragment extends Fragment
     }
 
     public void setInfo() {
-        for (RecruitmentInfo recruitmentInfo: BasicInfo.mRecruitmentList) {
+        for (RecruitmentInfo recruitmentInfo : BasicInfo.mRecruitmentList) {
             mRecruitmentList.add(new RecruitmentInfo((recruitmentInfo)));
         }
         adapter.notifyItemRangeInserted(0, BasicInfo.mRecruitmentList.size());
@@ -103,9 +103,9 @@ public class EditRecruitmentInfoFragment extends Fragment
     }
 
     public boolean checkContent() {
-        for(int i = 0;i < mRecruitmentList.size(); i++){
+        for (int i = 0; i < mRecruitmentList.size(); i++) {
             RecruitmentInfo recruitmentInfo = mRecruitmentList.get(i);
-            if(recruitmentInfo.direction==null||recruitmentInfo.direction.length()==0){
+            if (recruitmentInfo.direction == null || recruitmentInfo.direction.length() == 0) {
                 return false;
             }
         }
@@ -114,7 +114,7 @@ public class EditRecruitmentInfoFragment extends Fragment
 
     public void update() {
         BasicInfo.mRecruitmentList.clear();
-        for(int i = 0; i < mRecruitmentList.size(); i++) {
+        for (int i = 0; i < mRecruitmentList.size(); i++) {
             RecruitmentInfo recruitmentInfo = mRecruitmentList.get(i);
             BasicInfo.mRecruitmentList.add(recruitmentInfo);
         }
@@ -137,7 +137,7 @@ public class EditRecruitmentInfoFragment extends Fragment
                     // getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
 
                     // 全部删除以后再插入
-                    for(int i = 0; i< mRecruitmentList.size(); i++){
+                    for (int i = 0; i < mRecruitmentList.size(); i++) {
                         RecruitmentInfo recruitmentInfo = mRecruitmentList.get(i);
                         new CreateRecruitIntentionRequest(new okhttp3.Callback() {
                             @Override
@@ -176,15 +176,14 @@ public class EditRecruitmentInfoFragment extends Fragment
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btn_add:
-            {
-                if(mRecruitmentList.size()>= BasicInfo.MAX_INTENTION_NUMBER){
-                    Toast.makeText(getContext(),"已达到意向数量上限",Toast.LENGTH_SHORT).show();
+        switch (v.getId()) {
+            case R.id.btn_add: {
+                if (mRecruitmentList.size() >= BasicInfo.MAX_INTENTION_NUMBER) {
+                    Toast.makeText(getContext(), "已达到意向数量上限", Toast.LENGTH_SHORT).show();
                     break;
                 }
                 // Toast.makeText(getActivity(),"添加",Toast.LENGTH_SHORT).show();
-                RecruitmentInfo recruitmentInfo = new RecruitmentInfo("","本科生","","进行","",-1, RecruitmentInfo.Type.ADD);
+                RecruitmentInfo recruitmentInfo = new RecruitmentInfo("", "本科生", "", "进行", "", -1, RecruitmentInfo.Type.ADD);
                 mRecruitmentList.add(recruitmentInfo);
                 adapter.notifyItemInserted(mRecruitmentList.size() - 1);
                 recyclerView.smoothScrollToPosition(mRecruitmentList.size() - 1);

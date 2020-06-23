@@ -20,8 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.androidapp.R;
 import com.example.androidapp.activity.VisitHomePageActivity;
 import com.example.androidapp.adapter.ShortProfileAdapter;
-import com.example.androidapp.myView.FocusButton;
 import com.example.androidapp.entity.ShortProfile;
+import com.example.androidapp.myView.FocusButton;
 import com.example.androidapp.myView.SelectList;
 import com.example.androidapp.request.follow.AddToWatchRequest;
 import com.example.androidapp.request.follow.DeleteFromWatchRequest;
@@ -46,32 +46,24 @@ import okhttp3.Response;
 
 public class ProfileFragment extends Fragment {
 
+    public boolean isFilterOpen = false;
     @BindView(R.id.orderSpinner)
     protected Spinner orderSpinner;
-
     @BindView(R.id.selectText)
     protected TextView selectText;
-
     protected ArrayAdapter<String> spinnerAdapter;
-
-    public boolean isFilterOpen = false;
-
     @BindView(R.id.recycleView)
     protected RecyclerView recyclerView;
 
     protected ShortProfileAdapter mShortProfileAdapter;
-
-    SelectList selectList;
     protected ArrayList<ShortProfile> mProfileList;
-
     protected ArrayList<ShortProfile> filteredProfileList;
-    private Lock lock = new ReentrantLock();
-
     protected Unbinder unbinder;
-
     protected String[] order;
-    boolean[] filters = new boolean[] {false, false, false, false};
     protected int current_order = 0;
+    SelectList selectList;
+    boolean[] filters = new boolean[]{false, false, false, false};
+    private Lock lock = new ReentrantLock();
 
     public ProfileFragment() {
 
@@ -121,7 +113,8 @@ public class ProfileFragment extends Fragment {
         });
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }
@@ -153,7 +146,7 @@ public class ProfileFragment extends Fragment {
         super.onStart();
         int i = 0;
         lock.lock();
-        for (ShortProfile shortProfile: mProfileList) {
+        for (ShortProfile shortProfile : mProfileList) {
             boolean true_state = BasicInfo.isInWatchList(shortProfile.id, shortProfile.isTeacher);
             if (true_state && !shortProfile.isFan) {
                 shortProfile.isFan = true;
@@ -182,13 +175,14 @@ public class ProfileFragment extends Fragment {
             recyclerView.post(() -> {
                 if (isRefresh) {
 
-                    for (ShortProfile tmp: mProfileList) {
+                    for (ShortProfile tmp : mProfileList) {
                         if (tmp.id == shortProfile.id) return;
                     }
                     mProfileList.remove(0);
                     mShortProfileAdapter.notifyItemRemoved(0);
                 }
-                if (shortProfile.id == BasicInfo.ID && shortProfile.isTeacher == BasicInfo.IS_TEACHER) return; // 如果是自己，筛去
+                if (shortProfile.id == BasicInfo.ID && shortProfile.isTeacher == BasicInfo.IS_TEACHER)
+                    return; // 如果是自己，筛去
                 lock.lock();
                 mProfileList.add(shortProfile);
                 lock.unlock();
@@ -197,13 +191,14 @@ public class ProfileFragment extends Fragment {
 
         } else {
             if (isRefresh) {
-                for (ShortProfile tmp: mProfileList) {
+                for (ShortProfile tmp : mProfileList) {
                     if (tmp.id == shortProfile.id) return;
                 }
                 mProfileList.remove(0);
                 mShortProfileAdapter.notifyItemRemoved(0);
             }
-            if (shortProfile.id == BasicInfo.ID && shortProfile.isTeacher == BasicInfo.IS_TEACHER) return; // 如果是自己，筛去
+            if (shortProfile.id == BasicInfo.ID && shortProfile.isTeacher == BasicInfo.IS_TEACHER)
+                return; // 如果是自己，筛去
             lock.lock();
             mProfileList.add(shortProfile);
             lock.unlock();
@@ -213,7 +208,7 @@ public class ProfileFragment extends Fragment {
     private void visitHomePage(int position) {
         Intent intent = new Intent(getContext(), VisitHomePageActivity.class);
         ShortProfile shortProfile = mProfileList.get(position);
-        intent.putExtra("id",shortProfile.id);
+        intent.putExtra("id", shortProfile.id);
         intent.putExtra("isTeacher", shortProfile.isTeacher);
         intent.putExtra("isFan", shortProfile.isFan);
         intent.putExtra("profile", shortProfile);
@@ -284,7 +279,7 @@ public class ProfileFragment extends Fragment {
         ArrayList<Integer> removed = new ArrayList<>();
         mProfileList.addAll(filteredProfileList);
         filteredProfileList.clear();
-        for (ShortProfile shortProfile: mProfileList) {
+        for (ShortProfile shortProfile : mProfileList) {
             if (filters[0] && !shortProfile.isMale) {
                 removed.add(i);
             }

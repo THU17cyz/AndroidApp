@@ -22,15 +22,17 @@ public class ChatHistoryRepository {
         return mAllHistory;
     }
 
-    public void insert (ChatHistory chatHistory) {
+    public void insert(ChatHistory chatHistory) {
         new insertAsyncTask(mChatHistoryDao).execute(chatHistory);
     }
 
-    public void deleteAll()  {
+    public void deleteAll() {
         new deleteAllAsyncTask(mChatHistoryDao).execute();
     }
 
-    public void delete(ChatHistory chatHistory)  { new deleteAsyncTask(mChatHistoryDao).execute(chatHistory); }
+    public void delete(ChatHistory chatHistory) {
+        new deleteAsyncTask(mChatHistoryDao).execute(chatHistory);
+    }
 
     private static class insertAsyncTask extends AsyncTask<ChatHistory, Void, Void> {
 

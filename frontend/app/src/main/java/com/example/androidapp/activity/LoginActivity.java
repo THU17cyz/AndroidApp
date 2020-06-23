@@ -24,6 +24,7 @@ import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.example.androidapp.R;
 import com.example.androidapp.entity.ApplicationInfo;
+import com.example.androidapp.entity.OptionItems;
 import com.example.androidapp.entity.RecruitmentInfo;
 import com.example.androidapp.entity.ShortProfile;
 import com.example.androidapp.request.follow.GetFanlistRequest;
@@ -40,7 +41,6 @@ import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Hint;
 import com.example.androidapp.util.LoginCache;
-import com.example.androidapp.entity.OptionItems;
 import com.example.androidapp.util.Valid;
 import com.rubengees.introduction.IntroductionBuilder;
 
@@ -87,6 +87,53 @@ public class LoginActivity extends BaseActivity {
     IntroductionBuilder introductionBuilder;
 
     int count = 0;
+    /******************************
+     ************ 回调 ************
+     ******************************/
+    private okhttp3.Callback handleLogin = new okhttp3.Callback() {
+        @Override
+        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+            LoginActivity.this.runOnUiThread(() -> Hint.endActivityLoad(LoginActivity.this));
+            try {
+                if (response.code() != 200) {
+                    LoginCache.removeCache(getApplicationContext());
+                    LoginActivity.this.runOnUiThread(() -> Hint.showLongCenterToast(LoginActivity.this, "登录失败..."));
+                } else {
+                    ResponseBody responseBody = response.body();
+                    String responseBodyString = responseBody != null ? responseBody.string() : "";
+                    if (Global.HTTP_DEBUG_MODE)
+                        Log.e("HttpResponse", responseBodyString);
+                    JSONObject jsonObject = new JSONObject(responseBodyString);
+                    boolean status = (Boolean) jsonObject.get("status");
+                    String info = (String) jsonObject.get("info");
+                    if (status) {
+
+                        // 保存密码以加入shared...
+                        BasicInfo.PASSWORD = passwordEditText.getText().toString();
+
+                        LoginActivity.this.runOnUiThread(() -> Hint.showLongCenterToast(LoginActivity.this, info));
+//                        LoginActivity.this.runOnUiThread(LoginActivity.this::onJumpToMain);
+                        beforeJump1();
+                    } else {
+                        LoginCache.removeCache(getApplicationContext());
+                        LoginActivity.this.runOnUiThread(() -> Hint.showLongCenterToast(LoginActivity.this, info));
+                    }
+                }
+            } catch (JSONException e) {
+                LoginActivity.this.runOnUiThread(() -> Hint.showLongCenterToast(LoginActivity.this, "登录失败..."));
+                if (Global.HTTP_DEBUG_MODE)
+                    Log.e("HttpResponse", e.toString());
+            }
+        }
+
+        @Override
+        public void onFailure(@NotNull Call call, @NotNull IOException e) {
+            LoginActivity.this.runOnUiThread(() -> Hint.endActivityLoad(LoginActivity.this));
+            LoginActivity.this.runOnUiThread(() -> Hint.showLongCenterToast(LoginActivity.this, "登录失败..."));
+            if (Global.HTTP_DEBUG_MODE)
+                Log.e("HttpError", e.toString());
+        }
+    };
 
     /******************************
      ************ 方法 ************
@@ -96,39 +143,52 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
         // 添加验证
         accountEditText.addValidator(new Valid.AccountValidator());
         accountEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) { accountEditText.testValidity(); }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                accountEditText.testValidity();
+            }
+
             @Override
-            public void afterTextChanged(Editable s) { }
+            public void afterTextChanged(Editable s) {
+            }
         });
         passwordEditText.addValidator(new Valid.PasswordValidator());
         passwordEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) { passwordEditText.testValidity(); }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                passwordEditText.testValidity();
+            }
+
             @Override
-            public void afterTextChanged(Editable s) { }
+            public void afterTextChanged(Editable s) {
+            }
         });
 
-        // 关键权限必须动态申请
+        // 权限申请
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
 
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("user",Context.MODE_PRIVATE);
-        boolean hasLogin = sharedPreferences.getBoolean("hasLogin",false);
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
+        boolean hasLogin = sharedPreferences.getBoolean("hasLogin", false);
         if (hasLogin) {
-            String type = sharedPreferences.getString("type","");
-            String account = sharedPreferences.getString("account","");
-            String password = sharedPreferences.getString("password","");
-            if(type.equals("")||account.equals("")||password.equals("")){
+            String type = sharedPreferences.getString("type", "");
+            String account = sharedPreferences.getString("account", "");
+            String password = sharedPreferences.getString("password", "");
+            if (type.equals("") || account.equals("") || password.equals("")) {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("hasLogin",false);
+                editor.putBoolean("hasLogin", false);
                 editor.commit();
             } else {
                 Hint.startActivityLoad(this);
@@ -136,9 +196,8 @@ public class LoginActivity extends BaseActivity {
             }
         }
 
-
+        // 引导页设置
         if (Global.INTRO) {
-            // 引导页设置
             introductionBuilder = new IntroductionBuilder(this);
             introductionBuilder.withSlides(Hint.generateSlides()).introduceMyself();
             Global.INTRO = false;
@@ -149,7 +208,6 @@ public class LoginActivity extends BaseActivity {
     private synchronized void addCounter() {
         count++;
     }
-
 
     private void onJumpToMain() {
         Hint.endActivityLoad(LoginActivity.this);
@@ -181,7 +239,7 @@ public class LoginActivity extends BaseActivity {
                         BasicInfo.mSchool = jsonObject.getString("school");
                         BasicInfo.mDepartment = jsonObject.getString("department");
 
-                        if(jsonObject.has("student_id")){
+                        if (jsonObject.has("student_id")) {
                             BasicInfo.ID = jsonObject.getInt("student_id");
                             BasicInfo.TYPE = "S";
                             BasicInfo.PATH = new GetInfoPictureRequest("S", null, String.valueOf(BasicInfo.ID)).getWholeUrl();
@@ -197,16 +255,16 @@ public class LoginActivity extends BaseActivity {
                             BasicInfo.mTitle = jsonObject.getString("title");
                         }
 
-                        Log.d("basic info",BasicInfo.ACCOUNT);
+                        Log.d("basic info", BasicInfo.ACCOUNT);
                         beforeJump2();
-                    }else{
+                    } else {
                         String info = jsonObject.getString("info");
                     }
                 } catch (JSONException e) {
 
                 }
             }
-        },"I",null,null).send();
+        }, "I", null, null).send();
     }
 
     private void beforeJump2() {
@@ -231,7 +289,7 @@ public class LoginActivity extends BaseActivity {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         ShortProfile shortProfile = new ShortProfile(jsonArray.getJSONObject(i), true);
                         BasicInfo.FAN_LIST.add(shortProfile);
-                   }
+                    }
                     jsonArray = (JSONArray) jsonObject.get("fanlist_students");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         ShortProfile shortProfile = new ShortProfile(jsonArray.getJSONObject(i), false);
@@ -302,7 +360,7 @@ public class LoginActivity extends BaseActivity {
                         BasicInfo.mSignature = jsonObject.getString("signature");
                         BasicInfo.mPhone = jsonObject.getString("phone");
                         BasicInfo.mEmail = jsonObject.getString("email");
-                        BasicInfo. mHomepage = jsonObject.getString("homepage");
+                        BasicInfo.mHomepage = jsonObject.getString("homepage");
                         BasicInfo.mAddress = jsonObject.getString("address");
                         BasicInfo.mIntroduction = jsonObject.getString("introduction");
                         BasicInfo.mIdNumber = jsonObject.getString("id_number");
@@ -357,17 +415,17 @@ public class LoginActivity extends BaseActivity {
                         JSONObject jsonObject = new JSONObject(resStr);
 
                         Boolean status = jsonObject.getBoolean("status");
-                        if(status){
+                        if (status) {
                             JSONArray array = jsonObject.getJSONArray("recruitment_id_list");
                             List<Integer> enrollmentIdList = new ArrayList<>();
-                            for (int i=0;i<array.length();i++){
+                            for (int i = 0; i < array.length(); i++) {
                                 enrollmentIdList.add(array.getInt(i));
                             }
 
                             // 按id获取招收意向
 
-                            if(enrollmentIdList!=null){
-                                for(int i=0;i<enrollmentIdList.size();i++){
+                            if (enrollmentIdList != null) {
+                                for (int i = 0; i < enrollmentIdList.size(); i++) {
                                     new GetRecruitIntentionDetailRequest(new okhttp3.Callback() {
                                         @Override
                                         public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -383,7 +441,7 @@ public class LoginActivity extends BaseActivity {
                                                 JSONObject jsonObject = new JSONObject(resStr);
 
                                                 Boolean status = jsonObject.getBoolean("status");
-                                                if(status){
+                                                if (status) {
                                                     RecruitmentInfo recruitmentInfo = new RecruitmentInfo(
                                                             jsonObject.getString("research_fields"),
                                                             jsonObject.getString("recruitment_type"),
@@ -400,11 +458,11 @@ public class LoginActivity extends BaseActivity {
 
                                             }
                                         }
-                                    },String.valueOf(enrollmentIdList.get(i))).send();
+                                    }, String.valueOf(enrollmentIdList.get(i))).send();
                                 }
                             }
                             addCounter();
-                        }else{
+                        } else {
                             String info = jsonObject.getString("info");
                             addCounter();
                         }
@@ -412,7 +470,7 @@ public class LoginActivity extends BaseActivity {
                         addCounter();
                     }
                 }
-            },String.valueOf(BasicInfo.ID)).send();
+            }, String.valueOf(BasicInfo.ID)).send();
         } else {
             // 获取申请意向id列表
             new GetApplyIntentionRequest(new okhttp3.Callback() {
@@ -431,15 +489,15 @@ public class LoginActivity extends BaseActivity {
                         JSONObject jsonObject = new JSONObject(resStr);
 
                         Boolean status = jsonObject.getBoolean("status");
-                        if(status){
+                        if (status) {
                             JSONArray array = jsonObject.getJSONArray("application_id_list");
                             List<Integer> applicationIdList = new ArrayList<>();
-                            for (int i=0;i<array.length();i++){
+                            for (int i = 0; i < array.length(); i++) {
                                 applicationIdList.add(array.getInt(i));
                             }
                             // 按id获取申请意向
-                            if(applicationIdList != null){
-                                for(int i=0;i<applicationIdList.size();i++){
+                            if (applicationIdList != null) {
+                                for (int i = 0; i < applicationIdList.size(); i++) {
                                     new GetApplyIntentionDetailRequest(new okhttp3.Callback() {
                                         @Override
                                         public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -454,7 +512,7 @@ public class LoginActivity extends BaseActivity {
                                                 // 解析json，然后进行自己的内部逻辑处理
                                                 JSONObject jsonObject = new JSONObject(resStr);
                                                 Boolean status = jsonObject.getBoolean("status");
-                                                if(status){
+                                                if (status) {
                                                     ApplicationInfo applicationInfo = new ApplicationInfo(
                                                             jsonObject.getString("research_interests"),
                                                             jsonObject.getString("intention_state"),
@@ -497,9 +555,9 @@ public class LoginActivity extends BaseActivity {
     public void onClickLogin() {
         String type = "";
         type = "T";
-        if(typeSelector.getText().toString().equals(OptionItems.optionsType.get(0))){
+        if (typeSelector.getText().toString().equals(OptionItems.optionsType.get(0))) {
             type = "T";
-        } else if(typeSelector.getText().toString().equals(OptionItems.optionsType.get(1))){
+        } else if (typeSelector.getText().toString().equals(OptionItems.optionsType.get(1))) {
             type = "S";
         }
         String account = accountEditText.getText().toString();
@@ -526,13 +584,12 @@ public class LoginActivity extends BaseActivity {
         startActivity(intent);
     }
 
-
     @OnClick(R.id.login_type)
-    public void onClickTypeSelector(){
+    public void onClickTypeSelector() {
 
         // 隐藏软键盘
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(typeSelector.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+        imm.hideSoftInputFromWindow(typeSelector.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
         OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
@@ -551,53 +608,4 @@ public class LoginActivity extends BaseActivity {
         pvOptions.setPicker(OptionItems.optionsType);
         pvOptions.show();
     }
-
-
-    /******************************
-     ************ 回调 ************
-     ******************************/
-    private okhttp3.Callback handleLogin = new okhttp3.Callback() {
-        @Override
-        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-            LoginActivity.this.runOnUiThread(() -> Hint.endActivityLoad(LoginActivity.this));
-                try {
-                if (response.code() != 200) {
-                    LoginCache.removeCache(getApplicationContext());
-                    LoginActivity.this.runOnUiThread(() -> Hint.showLongCenterToast(LoginActivity.this, "登录失败..."));
-                } else {
-                    ResponseBody responseBody = response.body();
-                    String responseBodyString = responseBody != null ? responseBody.string() : "";
-                    if (Global.HTTP_DEBUG_MODE)
-                        Log.e("HttpResponse", responseBodyString);
-                    JSONObject jsonObject = new JSONObject(responseBodyString);
-                    boolean status = (Boolean) jsonObject.get("status");
-                    String info = (String) jsonObject.get("info");
-                    if (status) {
-
-                        // 保存密码以加入shared...
-                        BasicInfo.PASSWORD = passwordEditText.getText().toString();
-
-                        LoginActivity.this.runOnUiThread(() -> Hint.showLongCenterToast(LoginActivity.this, info));
-//                        LoginActivity.this.runOnUiThread(LoginActivity.this::onJumpToMain);
-                        beforeJump1();
-                    } else {
-                        LoginCache.removeCache(getApplicationContext());
-                        LoginActivity.this.runOnUiThread(() -> Hint.showLongCenterToast(LoginActivity.this, info));
-                    }
-                }
-            } catch (JSONException e) {
-                LoginActivity.this.runOnUiThread(() -> Hint.showLongCenterToast(LoginActivity.this, "登录失败..."));
-                if (Global.HTTP_DEBUG_MODE)
-                    Log.e("HttpResponse", e.toString());
-            }
-        }
-
-        @Override
-        public void onFailure(@NotNull Call call, @NotNull IOException e) {
-            LoginActivity.this.runOnUiThread(() -> Hint.endActivityLoad(LoginActivity.this));
-            LoginActivity.this.runOnUiThread(() -> Hint.showLongCenterToast(LoginActivity.this, "登录失败..."));
-            if (Global.HTTP_DEBUG_MODE)
-                Log.e("HttpError", e.toString());
-        }
-    };
 }

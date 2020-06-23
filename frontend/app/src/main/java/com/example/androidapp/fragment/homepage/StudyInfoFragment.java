@@ -51,7 +51,7 @@ public class StudyInfoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_study_info, container, false);
-        unbinder = ButterKnife.bind(this,view);
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -69,8 +69,7 @@ public class StudyInfoFragment extends Fragment {
                 textResOrExp.setText("研究经历");
                 dirOrInt.setText(BasicInfo.mInterest);
                 resOrExp.setText(BasicInfo.mExperience);
-            }
-            else {
+            } else {
                 textDirOrInt.setText("研究方向");
                 textResOrExp.setText("研究成果");
                 dirOrInt.setText(BasicInfo.mDirection);
@@ -78,16 +77,14 @@ public class StudyInfoFragment extends Fragment {
             }
 
             videoPlayer.setUp(BasicInfo.mUrl, JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "宣传视频");
-        }
-        else {
+        } else {
             VisitHomePageActivity activity_ = (VisitHomePageActivity) activity;
             if (type.equals("S")) {
                 textDirOrInt.setText("兴趣方向");
                 textResOrExp.setText("研究经历");
                 dirOrInt.setText(activity_.mInterest);
                 resOrExp.setText(activity_.mExperience);
-            }
-            else {
+            } else {
                 textDirOrInt.setText("研究方向");
                 textResOrExp.setText("研究成果");
                 dirOrInt.setText(activity_.mDirection);

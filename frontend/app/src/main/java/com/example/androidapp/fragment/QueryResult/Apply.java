@@ -81,7 +81,8 @@ public class Apply extends IntentFragment {
         }, query).send();
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
     }

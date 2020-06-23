@@ -18,10 +18,10 @@ import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.example.androidapp.R;
+import com.example.androidapp.entity.OptionItems;
 import com.example.androidapp.request.user.UpdateInfoPlusRequest;
 import com.example.androidapp.request.user.UpdateInfoRequest;
 import com.example.androidapp.util.BasicInfo;
-import com.example.androidapp.entity.OptionItems;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -35,8 +35,7 @@ import butterknife.Unbinder;
 import okhttp3.Call;
 import okhttp3.Response;
 
-public class EditSelfInfoFragment extends Fragment implements View.OnClickListener
-{
+public class EditSelfInfoFragment extends Fragment implements View.OnClickListener {
 
 
     @BindView(R.id.edit_name)
@@ -110,7 +109,8 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
 
 
     //To do
-    public EditSelfInfoFragment() { }
+    public EditSelfInfoFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -122,6 +122,7 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
         chooseDegree.setOnClickListener(this);
         return view;
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -130,35 +131,35 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
 
     public void setInfo() {
         name.setText(BasicInfo.mName);
-        if(BasicInfo.mGender.equals("M")){
+        if (BasicInfo.mGender.equals("M")) {
             chooseGender.setText("男");
-        } else if(BasicInfo.mGender.equals("F")){
+        } else if (BasicInfo.mGender.equals("F")) {
             chooseGender.setText("女");
-        } else if(BasicInfo.mGender.equals("U")){
+        } else if (BasicInfo.mGender.equals("U")) {
             chooseGender.setText("保密");
         }
         school.setText(BasicInfo.mSchool);
         department.setText(BasicInfo.mDepartment);
-        if(BasicInfo.TYPE.equals("S")){
+        if (BasicInfo.TYPE.equals("S")) {
             major.setText(BasicInfo.mMajor);
-            if(BasicInfo.mDegree.equals("UG")){
+            if (BasicInfo.mDegree.equals("UG")) {
                 chooseDegree.setText("本科生");
-            } else if(BasicInfo.mDegree.equals("MT")){
+            } else if (BasicInfo.mDegree.equals("MT")) {
                 chooseDegree.setText("硕士生");
-            } else if(BasicInfo.mDegree.equals("DT")){
+            } else if (BasicInfo.mDegree.equals("DT")) {
                 chooseDegree.setText("博士生");
             }
             layoutTitle.setVisibility(View.GONE);
             layoutTeacherNumber.setVisibility(View.GONE);
         } else {
 
-            if(BasicInfo.mTitle.equals("TA")){
+            if (BasicInfo.mTitle.equals("TA")) {
                 chooseTitle.setText("助理");
-            } else if(BasicInfo.mTitle.equals("LT")){
+            } else if (BasicInfo.mTitle.equals("LT")) {
                 chooseTitle.setText("讲师");
-            } else if(BasicInfo.mTitle.equals("AP")){
+            } else if (BasicInfo.mTitle.equals("AP")) {
                 chooseTitle.setText("助理教授");
-            } else if(BasicInfo.mTitle.equals("PP")){
+            } else if (BasicInfo.mTitle.equals("PP")) {
                 chooseTitle.setText("教授");
             }
 
@@ -174,7 +175,7 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
         address.setText(BasicInfo.mAddress);
         introduction.setText(BasicInfo.mIntroduction);
         idNumber.setText(BasicInfo.mIdNumber);
-        if(BasicInfo.TYPE.equals("S")){
+        if (BasicInfo.TYPE.equals("S")) {
             studentNumber.setText(BasicInfo.mStudentNumber);
             layoutTeacherNumber.setVisibility(View.GONE);
         } else {
@@ -189,7 +190,7 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
             case R.id.choose_gender: {
 
                 InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(v.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
                 OptionsPickerView pvOptions = new OptionsPickerBuilder(getActivity(), new OnOptionsSelectListener() {
                     @Override
@@ -212,7 +213,7 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
             case R.id.choose_title: {
 
                 InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(v.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
                 OptionsPickerView pvOptions = new OptionsPickerBuilder(getActivity(), new OnOptionsSelectListener() {
                     @Override
@@ -235,7 +236,7 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
             case R.id.choose_degree: {
 
                 InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(v.getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
                 OptionsPickerView pvOptions = new OptionsPickerBuilder(getActivity(), new OnOptionsSelectListener() {
                     @Override
@@ -260,29 +261,29 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
 
     public void update() {
         String tmpDegree = "";
-        if(chooseDegree.getText().equals("本科生")){
+        if (chooseDegree.getText().equals("本科生")) {
             tmpDegree = "UG";
-        } else if(chooseDegree.getText().equals("硕士生")){
+        } else if (chooseDegree.getText().equals("硕士生")) {
             tmpDegree = "MT";
-        } else if(chooseDegree.getText().equals("博士生")) {
+        } else if (chooseDegree.getText().equals("博士生")) {
             tmpDegree = "DT";
         }
         String tmpTitle = "";
-        if(chooseTitle.getText().toString().equals("助理")){
-            tmpTitle="TA";
-        } else if(chooseTitle.getText().toString().equals("讲师")){
-            tmpTitle="LT";
-        } else if(chooseTitle.getText().toString().equals("助理教授")){
-            tmpTitle="AP";
-        } else if(chooseTitle.getText().toString().equals("教授")){
-            tmpTitle="PP";
+        if (chooseTitle.getText().toString().equals("助理")) {
+            tmpTitle = "TA";
+        } else if (chooseTitle.getText().toString().equals("讲师")) {
+            tmpTitle = "LT";
+        } else if (chooseTitle.getText().toString().equals("助理教授")) {
+            tmpTitle = "AP";
+        } else if (chooseTitle.getText().toString().equals("教授")) {
+            tmpTitle = "PP";
         }
-        String tmpGender="";
-        if(chooseGender.getText().toString().equals("男")){
+        String tmpGender = "";
+        if (chooseGender.getText().toString().equals("男")) {
             tmpGender = "M";
-        } else if(chooseGender.getText().toString().equals("女")){
+        } else if (chooseGender.getText().toString().equals("女")) {
             tmpGender = "F";
-        } else if(chooseGender.getText().toString().equals("保密")){
+        } else if (chooseGender.getText().toString().equals("保密")) {
             tmpGender = "U";
         }
 
@@ -318,9 +319,9 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
                     JSONObject jsonObject = new JSONObject(resStr);
 
                     Boolean status = jsonObject.getBoolean("status");
-                    if(status){
+                    if (status) {
 
-                    }else{
+                    } else {
                     }
                 } catch (JSONException e) {
 
@@ -333,7 +334,7 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
                 department.getText().toString(),
                 tmpTitle,
                 major.getText().toString(),
-                tmpDegree ).send();
+                tmpDegree).send();
 
         new UpdateInfoPlusRequest(new okhttp3.Callback() {
             @Override
@@ -351,9 +352,9 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
                     JSONObject jsonObject = new JSONObject(resStr);
 
                     Boolean status = jsonObject.getBoolean("status");
-                    if(status){
+                    if (status) {
 
-                    }else{
+                    } else {
                     }
                 } catch (JSONException e) {
 

@@ -3,8 +3,6 @@ package com.example.androidapp.request.conversation;
 import com.example.androidapp.request.base.BaseGetRequest;
 import com.example.androidapp.util.Global;
 
-import okhttp3.Callback;
-
 public class GetMessagePictureRequest extends BaseGetRequest {
 
     private String url = "/api/conversation/get_message_picture";
@@ -21,6 +19,6 @@ public class GetMessagePictureRequest extends BaseGetRequest {
     }
 
     public String getWholeUrl() {
-            return Global.SERVER_URL + this.url + "?message_id=" + message_id;
+        return Global.SERVER_URL + this.url + "?message_id=" + message_id;
     }
 }

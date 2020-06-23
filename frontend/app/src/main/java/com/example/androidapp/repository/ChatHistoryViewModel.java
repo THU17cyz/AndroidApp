@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
-public class ChatHistoryViewModel extends AndroidViewModel  {
+public class ChatHistoryViewModel extends AndroidViewModel {
 
     private ChatHistoryRepository mRepository;
 
@@ -22,13 +22,21 @@ public class ChatHistoryViewModel extends AndroidViewModel  {
     }
 
 
-    public LiveData<List<ChatHistory>> getAllHistory() { return mAllHistory; }
+    public LiveData<List<ChatHistory>> getAllHistory() {
+        return mAllHistory;
+    }
 
-    public void insert(ChatHistory chatHistory) { mRepository.insert(chatHistory); }
+    public void insert(ChatHistory chatHistory) {
+        mRepository.insert(chatHistory);
+    }
 
-    public void deleteAll() {mRepository.deleteAll();}
+    public void deleteAll() {
+        mRepository.deleteAll();
+    }
 
-    public void deleteWord(ChatHistory chatHistory) {mRepository.delete(chatHistory);}
+    public void deleteWord(ChatHistory chatHistory) {
+        mRepository.delete(chatHistory);
+    }
 
 }
 

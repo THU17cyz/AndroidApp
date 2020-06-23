@@ -9,10 +9,10 @@ import java.util.ArrayList;
  */
 public class Dialog implements IDialog<Message>, Comparable<Dialog> {
 
+    public ArrayList<User> users;
     private String id;
     private String dialogPhoto;
     private String dialogName;
-    public ArrayList<User> users;
     private Message lastMessage;
 
     private int unreadCount;

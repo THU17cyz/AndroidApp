@@ -26,11 +26,9 @@ import okhttp3.Response;
 public class Teacher extends ProfileFragment {
 
 
-
     public Teacher() {
         order = new String[]{"最相关（默认）", "关注人数最多"};
     }
-
 
 
     @Override
@@ -40,7 +38,7 @@ public class Teacher extends ProfileFragment {
     }
 
     @Override
-    public void onActivityCreated (Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         loadQueryInfo(((QueryResultActivity) getActivity()).getQuery());
     }
@@ -86,7 +84,6 @@ public class Teacher extends ProfileFragment {
         mProfileList.clear();
         mShortProfileAdapter.notifyItemRangeRemoved(0, size);
     }
-
 
 
 }

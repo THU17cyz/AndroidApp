@@ -1,8 +1,6 @@
 package com.example.androidapp.adapter;
 
 import android.content.Context;
-//import android.support.v7.widget.LinearLayoutManager;
-//import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -14,6 +12,9 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.animation.BaseAnimation;
 
 import java.util.List;
+
+//import android.support.v7.widget.LinearLayoutManager;
+//import android.support.v7.widget.RecyclerView;
 
 /**
  * Title:RecyclerView适配器基类
@@ -30,57 +31,71 @@ public abstract class MyBaseAdapter<T> extends BaseQuickAdapter<T, BaseViewHolde
     protected View mHeaderView;
     protected View mFooterView;
 
-    public MyBaseAdapter(int itemViewId, List<T>data, Context context) {
+    public MyBaseAdapter(int itemViewId, List<T> data, Context context) {
         super(itemViewId, data);
-        this.mItemViewId=itemViewId;
-        this.mContext=context;
-        this.mData =data;
+        this.mItemViewId = itemViewId;
+        this.mContext = context;
+        this.mData = data;
     }
 
     @Override
     protected void convert(BaseViewHolder viewHolder, T t) {
-        initView(viewHolder,t);
-        initData(viewHolder,t);
-        setListener(viewHolder,t);
+        initView(viewHolder, t);
+        initData(viewHolder, t);
+        setListener(viewHolder, t);
     }
 
     protected abstract void initView(BaseViewHolder viewHolder, T t);
+
     protected abstract void initData(BaseViewHolder viewHolder, T t);
+
     protected abstract void setListener(BaseViewHolder viewHolder, T t);
 
-    /**获取position，当添加有header或footer要注意改变**/
-    public int getPosition(BaseViewHolder viewHolder){
+    /**
+     * 获取position，当添加有header或footer要注意改变
+     **/
+    public int getPosition(BaseViewHolder viewHolder) {
         return viewHolder.getLayoutPosition();
     }
 
-    /**获取headerView**/
+    /**
+     * 获取headerView
+     **/
     protected View getHeaderView(int headerViewId) {
-        if(mContext!=null){
-            mHeaderView=LayoutInflater.from(mContext).inflate(headerViewId, null);
+        if (mContext != null) {
+            mHeaderView = LayoutInflater.from(mContext).inflate(headerViewId, null);
         }
         return mHeaderView;
     }
 
-    /**获取footerView**/
+    /**
+     * 获取footerView
+     **/
     protected View getFooterView(int footerViewId) {
-        if (mContext != null&&mFooterView==null) {
+        if (mContext != null && mFooterView == null) {
             mFooterView = LayoutInflater.from(mContext).inflate(footerViewId, null);
         }
         return mFooterView;
     }
 
-    /**添加headerView**/
-    public void addHeaderView(int headerViewId){
+    /**
+     * 添加headerView
+     **/
+    public void addHeaderView(int headerViewId) {
         addHeaderView(getHeaderView(headerViewId));
     }
 
-    /**添加footerView**/
-    public void addFooterView(int footerViewId){
+    /**
+     * 添加footerView
+     **/
+    public void addFooterView(int footerViewId) {
         addFooterView(getFooterView(footerViewId));
     }
 
-    /**设置RecyclerView**/
-    public void setRecyclerManager(RecyclerView recyclerView){
+    /**
+     * 设置RecyclerView
+     **/
+    public void setRecyclerManager(RecyclerView recyclerView) {
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
         layoutManager.setSmoothScrollbarEnabled(true);
         recyclerView.setNestedScrollingEnabled(false);
@@ -90,33 +105,45 @@ public abstract class MyBaseAdapter<T> extends BaseQuickAdapter<T, BaseViewHolde
         // openLoadAnimation();//默认adapter渐现效果
     }
 
-    /**adapter渐现动画**/
-    public void openAlphaAnimation(){
+    /**
+     * adapter渐现动画
+     **/
+    public void openAlphaAnimation() {
         openLoadAnimation(BaseQuickAdapter.ALPHAIN);
     }
 
-    /**adapter缩放动画**/
-    public void openScaleAnimation(){
-        openLoadAnimation(BaseQuickAdapter.SCALEIN );
+    /**
+     * adapter缩放动画
+     **/
+    public void openScaleAnimation() {
+        openLoadAnimation(BaseQuickAdapter.SCALEIN);
     }
 
-    /**adapter从下到上动画**/
-    public void openBottomAnimation(){
-        openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM  );
+    /**
+     * adapter从下到上动画
+     **/
+    public void openBottomAnimation() {
+        openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
     }
 
-    /**adapter从左到右动画**/
-    public void openLeftAnimation(){
-        openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT   );
+    /**
+     * adapter从左到右动画
+     **/
+    public void openLeftAnimation() {
+        openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
     }
 
-    /**adapter从右到左动画**/
-    public void openRightAnimation(){
-        openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT    );
+    /**
+     * adapter从右到左动画
+     **/
+    public void openRightAnimation() {
+        openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);
     }
 
-    /**自定义动画**/
-    public void openLoadAnimation(BaseAnimation animation){
+    /**
+     * 自定义动画
+     **/
+    public void openLoadAnimation(BaseAnimation animation) {
 
     }
 
