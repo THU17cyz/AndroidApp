@@ -184,6 +184,10 @@ public class DashboardFragment
         name.setText(BasicInfo.mName);
     }
 
+    public void changeFocus() {
+        numFocus.setText(String.valueOf(BasicInfo.WATCH_LIST.size()));
+    }
+
     @OnClick(R.id.img_avatar)
     void changeAvatar() {
         Matisse.from(getActivity())

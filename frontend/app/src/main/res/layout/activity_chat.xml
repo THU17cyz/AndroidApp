@@ -72,6 +72,7 @@
         app:inputButtonDefaultBgColor="@color/green"
         app:inputButtonDefaultBgPressedColor="@color/green_dark"
         app:inputCursorDrawable="@drawable/shape_custom_cursor"
+        app:inputHint="请输入..."
         app:showAttachmentButton="true"></com.stfalcon.chatkit.messages.MessageInput>
 
 

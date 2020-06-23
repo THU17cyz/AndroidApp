@@ -287,10 +287,11 @@ public class VisitHomePageActivity extends BaseActivity {
                             JSONObject jsonObject = new JSONObject(resStr);
                             isFan = false;
                             BasicInfo.removeFromWatchList(id, isTeacher);
-
-                            runOnUiThread(btn_focus::clickSuccess);
-                            BasicInfo.printWatchList();
-
+                            runOnUiThread(() -> {
+                                btn_focus.clickSuccess();
+                                fanNum = String.valueOf(Integer.valueOf(fanNum) - 1);
+                                numFocused.setText(fanNum);
+                            });
 //                            loadService.showSuccess();
                         } catch (JSONException e) {
                             Log.e("error2", e.toString());
@@ -315,8 +316,12 @@ public class VisitHomePageActivity extends BaseActivity {
                             JSONObject jsonObject = new JSONObject(resStr);
                             isFan = true;
                             BasicInfo.addToWatchList(shortProfile);
-                            runOnUiThread(btn_focus::clickSuccess);
-                            BasicInfo.printWatchList();
+                            runOnUiThread(() -> {
+                                btn_focus.clickSuccess();
+                                fanNum = String.valueOf(Integer.valueOf(fanNum) + 1);
+                                numFocused.setText(fanNum);
+                            });
+
 
                         } catch (JSONException e) {
                             Log.e("error2", e.toString());

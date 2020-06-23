@@ -169,6 +169,7 @@ public class MainActivity extends BaseActivity {
                         navView.getMenu().findItem(R.id.navigation_notifications).setChecked(true);
                         break;
                     default:
+                        ((DashboardFragment) mMainActivityPagerAdapter.getRegisteredFragment(4)).changeFocus();
                         navView.getMenu().findItem(R.id.navigation_dashboard).setChecked(true);
                         break;
                 }
