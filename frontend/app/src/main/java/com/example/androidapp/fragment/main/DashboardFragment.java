@@ -3,6 +3,8 @@ package com.example.androidapp.fragment.main;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.VectorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -78,6 +80,9 @@ public class DashboardFragment
     @BindView(R.id.btn_edit)
     Button button;
 
+    @BindView(R.id.btn_edit2)
+    Button button2;
+
     @BindView(R.id.visit_homepage_title)
     TextView title;
 
@@ -138,21 +143,31 @@ public class DashboardFragment
             }
         });
 
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), EditInfoActivity.class);
+                startActivity(intent);
+            }
+        });
+
         title.setText("我的个人主页");
         name.setText(BasicInfo.mName);
 
         final int alphaMaxOffset = SizeConverter.dpToPx(150);
         toolbar.getBackground().setAlpha(0);
         title.setAlpha(0);
-
+        button2.setAlpha(1);
         app_bar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             // 设置 toolbar 背景
             if (verticalOffset > -alphaMaxOffset) {
                 toolbar.getBackground().setAlpha(255 * -verticalOffset / alphaMaxOffset);
                 title.setAlpha(1 * -verticalOffset / alphaMaxOffset);
+                button2.setAlpha(1 * -verticalOffset / alphaMaxOffset);
             } else {
                 toolbar.getBackground().setAlpha(255);
                 title.setAlpha(1);
+                button2.setAlpha(1);
             }
         });
 

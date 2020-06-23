@@ -24,6 +24,7 @@ import com.example.androidapp.request.conversation.SendMessageRequest;
 import com.example.androidapp.request.user.GetInfoPictureRequest;
 import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.GifSizeFilter;
+import com.example.androidapp.util.Hint;
 import com.example.androidapp.util.Uri2File;
 import com.gyf.immersionbar.ImmersionBar;
 import com.squareup.picasso.Picasso;
@@ -213,7 +214,7 @@ public class ChatActivity
         new SendMessageRequest(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.e("error", "发送失败");
+                runOnUiThread(()-> Hint.showLongCenterToast(ChatActivity.this, "网络异常！"));
             }
 
             @Override
@@ -247,11 +248,11 @@ public class ChatActivity
                         });
 
                     } else {
-                        String info = jsonObject.getString("info");
+                        runOnUiThread(()-> Hint.showLongCenterToast(ChatActivity.this, "网络异常！"));
                     }
 
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    runOnUiThread(()-> Hint.showLongCenterToast(ChatActivity.this, "网络异常！"));
                 }
             }
         }, contactId, contactType, "T", input.toString(), null).send();

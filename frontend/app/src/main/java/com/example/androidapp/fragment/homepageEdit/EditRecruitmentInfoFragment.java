@@ -125,14 +125,12 @@ public class EditRecruitmentInfoFragment extends Fragment
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String resStr = response.body().string();
-                // getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
                 Log.e("response", resStr);
                 try {
                     // 解析json
                     JSONObject jsonObject = new JSONObject(resStr);
                     Boolean status = jsonObject.getBoolean("status");
                     String info = jsonObject.getString("info");
-                    // getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
 
                     // 全部删除以后再插入
                     for (int i = 0; i < mRecruitmentList.size(); i++) {

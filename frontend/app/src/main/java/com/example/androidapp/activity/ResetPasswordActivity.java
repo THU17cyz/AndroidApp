@@ -91,6 +91,7 @@ public class ResetPasswordActivity extends BaseActivity {
 
         @Override
         public void onFailure(@NotNull Call call, @NotNull IOException e) {
+            Hint.endActivityLoad(ResetPasswordActivity.this);
             ResetPasswordActivity.this.runOnUiThread(() -> Hint.showLongBottomToast(ResetPasswordActivity.this, "修改失败，请稍后重试！"));
             if (Global.HTTP_DEBUG_MODE)
                 Log.e("HttpError", e.toString());

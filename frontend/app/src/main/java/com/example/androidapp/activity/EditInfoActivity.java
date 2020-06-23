@@ -1,6 +1,7 @@
 package com.example.androidapp.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -14,12 +15,23 @@ import com.example.androidapp.fragment.homepageEdit.EditApplicationInfoFragment;
 import com.example.androidapp.fragment.homepageEdit.EditRecruitmentInfoFragment;
 import com.example.androidapp.fragment.homepageEdit.EditSelfInfoFragment;
 import com.example.androidapp.fragment.homepageEdit.EditStudyInfoFragment;
+import com.example.androidapp.request.information.GetInformationRequest;
+import com.example.androidapp.request.user.UpdateInfoRequest;
+import com.example.androidapp.util.Hint;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
+
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Call;
+import okhttp3.Response;
 
 
 /**
@@ -100,16 +112,41 @@ public class EditInfoActivity extends BaseActivity {
                 }
             }
         }
-
-        if (first_one != null) ((EditSelfInfoFragment) first_one).update();
-        if (second_one != null) ((EditStudyInfoFragment) second_one).update();
-        if (third_one != null) {
-            if (third_one instanceof EditRecruitmentInfoFragment) {
-                ((EditRecruitmentInfoFragment) third_one).update();
-            } else {
-                ((EditApplicationInfoFragment) third_one).update();
+        new GetInformationRequest(new okhttp3.Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Log.e("error", e.toString());
+                runOnUiThread(()-> Hint.showLongCenterToast(EditInfoActivity.this, "网络异常！"));
             }
-        }
-        finish();
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String resStr = response.body().string();
+                // getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
+                Log.e("response", resStr);
+                try {
+                    JSONObject jsonObject = new JSONObject(resStr);
+                    Boolean status = jsonObject.getBoolean("status");
+                    if (status) {
+                        if (first_one != null) ((EditSelfInfoFragment) first_one).update();
+                        if (second_one != null) ((EditStudyInfoFragment) second_one).update();
+                        if (third_one != null) {
+                            if (third_one instanceof EditRecruitmentInfoFragment) {
+                                ((EditRecruitmentInfoFragment) third_one).update();
+                            } else {
+                                ((EditApplicationInfoFragment) third_one).update();
+                            }
+                        }
+                        finish();
+                    } else {
+                        runOnUiThread(()-> Hint.showLongCenterToast(EditInfoActivity.this, "网络异常！"));
+                    }
+                } catch (JSONException e) {
+                    runOnUiThread(()-> Hint.showLongCenterToast(EditInfoActivity.this, "网络异常！"));
+                }
+            }
+        }).send();
+
+
     }
 }

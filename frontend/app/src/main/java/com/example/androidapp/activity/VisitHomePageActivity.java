@@ -32,6 +32,7 @@ import com.example.androidapp.request.user.GetInfoPictureRequest;
 import com.example.androidapp.request.user.GetInfoPlusRequest;
 import com.example.androidapp.request.user.GetInfoRequest;
 import com.example.androidapp.util.BasicInfo;
+import com.example.androidapp.util.Hint;
 import com.example.androidapp.util.MyImageLoader;
 import com.example.androidapp.util.SizeConverter;
 import com.google.android.material.appbar.AppBarLayout;
@@ -93,6 +94,9 @@ public class VisitHomePageActivity extends BaseActivity {
 
     @BindView(R.id.top_chat_btn)
     Button btn_chat;
+
+    @BindView(R.id.top_chat_btn2)
+    Button button2;
 
     @BindView(R.id.visit_homepage_appbar)
     AppBarLayout app_bar;
@@ -226,21 +230,32 @@ public class VisitHomePageActivity extends BaseActivity {
             intent1.putExtra("contact_type", type);
             startActivity(intent1);
         });
+        button2.setOnClickListener(v -> {
+            Intent intent1 = new Intent(VisitHomePageActivity.this, ChatActivity.class);
+            intent1.putExtra("user", BasicInfo.ACCOUNT);
+            intent1.putExtra("real_name", mName);
+            intent1.putExtra("contact", mAccount);
+            intent1.putExtra("contact_id", String.valueOf(id));
+            intent1.putExtra("contact_type", type);
+            startActivity(intent1);
+        });
         btn_focus.setPressed_(isFan);
         name.setText(mAccount);
 
         final int alphaMaxOffset = SizeConverter.dpToPx(150);
         toolbar.getBackground().setAlpha(0);
         title.setAlpha(0);
-
+        button2.setAlpha(1);
         app_bar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             // 设置 toolbar 背景
             if (verticalOffset > -alphaMaxOffset) {
                 toolbar.getBackground().setAlpha(255 * -verticalOffset / alphaMaxOffset);
                 title.setAlpha(1 * -verticalOffset / alphaMaxOffset);
+                button2.setAlpha(1 * -verticalOffset / alphaMaxOffset);
             } else {
                 toolbar.getBackground().setAlpha(255);
                 title.setAlpha(1);
+                button2.setAlpha(1);
             }
         });
 
@@ -347,6 +362,8 @@ public class VisitHomePageActivity extends BaseActivity {
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 Log.e("error", e.toString());
                 addCounter();
+                runOnUiThread(()->Hint.showLongCenterToast(VisitHomePageActivity.this, "网络异常！"));
+                finish();
             }
 
             @Override
@@ -375,9 +392,14 @@ public class VisitHomePageActivity extends BaseActivity {
                         String info = jsonObject.getString("info");
                         System.out.println(info);
                         addCounter();
+                        runOnUiThread(()->Hint.showLongCenterToast(VisitHomePageActivity.this, "网络异常！"));
+                        finish();
+
                     }
                 } catch (JSONException e) {
                     addCounter();
+                    runOnUiThread(()->Hint.showLongCenterToast(VisitHomePageActivity.this, "网络异常！"));
+                    finish();
                     Log.e("error", e.toString());
                 }
             }

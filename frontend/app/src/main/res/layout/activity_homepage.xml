@@ -166,6 +166,13 @@
                             android:layout_height="40dp"
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="15dp"
+                            android:background="@drawable/ic_chat_white_24dp"></Button>
+                        <Button
+                            android:id="@+id/top_chat_btn2"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="15dp"
                             android:background="@drawable/ic_chat_black_24dp"></Button>
                     </RelativeLayout>
                 </androidx.appcompat.widget.Toolbar>

@@ -66,8 +66,7 @@ public class LogonActivity extends BaseActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-        tabLayout.setVisibility(View.GONE);
-
+//        tabLayout.setVisibility(View.GONE);
     }
 
     public void onNextPage() {
