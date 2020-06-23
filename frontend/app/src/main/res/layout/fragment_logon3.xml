@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
     android:padding="20dp">
 
     <ImageView
@@ -13,8 +12,6 @@
         android:layout_height="wrap_content" />
 
     <com.andreabaccega.widget.FormEditText
-        android:inputType="number"
-        android:maxLines="1"
         android:id="@+id/logon3_ts_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,6 +20,8 @@
         android:drawableStart="@drawable/ic_lock_black_24dp"
         android:drawablePadding="10dp"
         android:hint="@string/TS_NUMBER"
+        android:inputType="number"
+        android:maxLines="1"
         android:padding="15dp"
         android:textColor="@color/white"
         android:textColorHighlight="@color/white"
@@ -31,8 +30,6 @@
 
 
     <com.andreabaccega.widget.FormEditText
-        android:inputType="number"
-        android:maxLines="1"
         android:id="@+id/logon3_id_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,6 +38,8 @@
         android:drawableStart="@drawable/ic_lock_black_24dp"
         android:drawablePadding="10dp"
         android:hint="@string/ID_NUMBER"
+        android:inputType="number"
+        android:maxLines="1"
         android:padding="15dp"
         android:textColor="@color/white"
         android:textColorHighlight="@color/white"

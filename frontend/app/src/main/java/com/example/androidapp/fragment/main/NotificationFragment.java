@@ -63,10 +63,11 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
 
     @BindView(R.id.refreshLayout)
     RefreshLayout refreshLayout;
-    boolean searchFreeze = false;
-    // 全标已读
+
     @BindView(R.id.btn_all_read)
     TextView btnAllRead;
+
+    boolean searchFreeze = false;
     private ImageLoader imageLoader;
     private DialogsListAdapter dialogsAdapter;
     private List<Integer> informationIdList;
@@ -78,10 +79,9 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
     private Handler mHandler = new Handler(Looper.getMainLooper());
     private Runnable mTimeCounterRunnable = new Runnable() {
         @Override
-        public void run() {//在此添加需轮寻的接口
+        public void run() {
             Log.e("消息列表轮询", "+1");
             refreshData();
-            // 每30秒刷新一次
             mHandler.postDelayed(this, 5 * 1000);
         }
     };
@@ -92,7 +92,6 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
         View root = inflater.inflate(R.layout.fragment_notification, container, false);
         unbinder = ButterKnife.bind(this, root);
         Log.d("Life", "oncreateview");
-
 
         //设置头像
         imageLoader = (imageView, url, payload) -> MyImageLoader.loadImage(imageView, url);
@@ -261,7 +260,6 @@ public class NotificationFragment extends Fragment implements DateFormatter.Form
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        Log.d("Life", "onactivitycreated");
         super.onActivityCreated(savedInstanceState);
         mTimeCounterRunnable.run();
     }

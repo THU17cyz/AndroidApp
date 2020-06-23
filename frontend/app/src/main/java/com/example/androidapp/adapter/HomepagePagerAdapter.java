@@ -32,8 +32,7 @@ public class HomepagePagerAdapter extends FragmentStatePagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-//    return new SelfInfoFragment();
-//    return new FollowFragment();
+
         switch (position) {
             case 0:
                 return new SelfInfoFragment(type, id);

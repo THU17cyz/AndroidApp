@@ -48,6 +48,40 @@ public class DashboardFragment
         extends Fragment {
 
     private static final int REQUEST_CODE_CHOOSE = 11;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.tab_layout)
+    TabLayout tabLayout;
+
+    @BindView(R.id.img_avatar)
+    ImageView imgAvatar;
+
+    @BindView(R.id.homepage_name)
+    TextView name;
+
+    @BindView(R.id.signature)
+    TextView signature;
+
+    @BindView(R.id.num_focus)
+    TextView numFocus;
+
+    @BindView(R.id.num_focused)
+    TextView numFocused;
+
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
+
+    @BindView(R.id.btn_edit)
+    Button button;
+
+    @BindView(R.id.visit_homepage_title)
+    TextView title;
+
+    @BindView(R.id.visit_homepage_appbar)
+    AppBarLayout app_bar;
+
     public String mTitle;
     public String mMajor;
     public String mDegree;
@@ -69,55 +103,28 @@ public class DashboardFragment
     public String mInterest;
     public String mResult;
     public String mExperience;
-    public ArrayList<ApplicationInfo> mApplicationList;
-    public ArrayList<RecruitmentInfo> mRecruitmentList;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.tab_layout)
-    TabLayout tabLayout;
-    @BindView(R.id.img_avatar)
-    ImageView imgAvatar;
-    @BindView(R.id.homepage_name)
-    TextView name;
-    @BindView(R.id.signature)
-    TextView signature;
-    @BindView(R.id.num_focus)
-    TextView numFocus;
-    @BindView(R.id.num_focused)
-    TextView numFocused;
-    @BindView(R.id.view_pager)
-    ViewPager viewPager;
-    @BindView(R.id.btn_edit)
-    Button button;
-    @BindView(R.id.visit_homepage_title)
-    TextView title;
-    @BindView(R.id.visit_homepage_appbar)
-    AppBarLayout app_bar;
     private WholeProfile wholeProfile;
     private ShortProfile shortProfile;
-    private HomepagePagerAdapter pagerAdapter;
     private String mAccount;
     private int mNumFocus;
     private int mNumFocused;
+    public ArrayList<ApplicationInfo> mApplicationList;
+    public ArrayList<RecruitmentInfo> mRecruitmentList;
+    private HomepagePagerAdapter pagerAdapter;
     private String type;
     private int id;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        System.out.println("onCreateView");
-
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
-
         ButterKnife.bind(this, root);
-
 
         tabLayout.addTab(tabLayout.newTab().setText("个人信息"));
         tabLayout.addTab(tabLayout.newTab().setText("科研信息"));
         tabLayout.addTab(tabLayout.newTab().setText("招生信息"));
         tabLayout.setBackgroundColor(Color.WHITE);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
 
         type = BasicInfo.TYPE;
         id = BasicInfo.ID;
@@ -147,7 +154,6 @@ public class DashboardFragment
             }
         });
 
-        // 编辑信息按钮点击事件
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,7 +169,6 @@ public class DashboardFragment
         toolbar.getBackground().setAlpha(0);
         title.setAlpha(0);
 
-
         app_bar.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             // 设置 toolbar 背景
             if (verticalOffset > -alphaMaxOffset) {
@@ -174,11 +179,7 @@ public class DashboardFragment
                 title.setAlpha(1);
             }
         });
-//        numFocus.setText(String.valueOf(BasicInfo.WATCH_LIST.size()));
-//        numFocused.setText(String.valueOf(BasicInfo.FAN_LIST.size()));
-//        signature.setText(BasicInfo.mSignature);
-//
-//        getAvatar(null);
+
         getAvatar(null);
         return root;
     }

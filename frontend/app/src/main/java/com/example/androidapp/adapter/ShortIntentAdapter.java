@@ -52,7 +52,6 @@ public class ShortIntentAdapter<T> extends MyBaseAdapter {
 
     @Override
     protected void setListener(BaseViewHolder viewHolder, Object o) {
-        // 注册按钮点击事件
         viewHolder.addOnClickListener(R.id.watch_btn);
     }
 }

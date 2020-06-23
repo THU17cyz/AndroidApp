@@ -63,13 +63,6 @@ public class RecommendFragment extends ProfileListFragment {
 
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        System.out.println("onActivityCreated");
-
-    }
-
 
     @Override
     public void onStart() {

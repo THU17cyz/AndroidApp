@@ -59,21 +59,51 @@ import okhttp3.Response;
 
 public class VisitHomePageActivity extends AppCompatActivity {
 
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.tab_layout)
+    TabLayout tabLayout;
+
+    @BindView(R.id.img_avatar)
+    ImageView imgAvatar;
+
+    @BindView(R.id.visit_homepage_title)
+    TextView title;
+
+    @BindView(R.id.homepage_name)
+    TextView name;
+
+    @BindView(R.id.signature)
+    TextView signature;
+
+    @BindView(R.id.num_focus)
+    TextView numFocus;
+
+    @BindView(R.id.num_focused)
+    TextView numFocused;
+
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
+
+    @BindView(R.id.btn_focus)
+    FocusButton btn_focus;
+
+    @BindView(R.id.top_chat_btn)
+    Button btn_chat;
+
+    @BindView(R.id.visit_homepage_appbar)
+    AppBarLayout app_bar;
+
     public String mTitle;
     public String mMajor;
     public String mDegree;
-    //    public String mTeacherNumber;
-//    public String mStudentNumber;
-//    public String mIdNumber;
     public String mGender;
     public String mAccount;
     public String mName;
     public String mSchool;
     public String mDepartment;
     public String mSignature;
-
-//    @BindView(R.id.btn_return)
-//    ImageView btn_return;
     public String mPhone;
     public String mEmail;
     public String mHomepage;
@@ -88,30 +118,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
     public String followNum;
     public ArrayList<ApplicationInfo> mApplicationList;
     public ArrayList<RecruitmentInfo> mRecruitmentList;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.tab_layout)
-    TabLayout tabLayout;
-    @BindView(R.id.img_avatar)
-    ImageView imgAvatar;
-    @BindView(R.id.visit_homepage_title)
-    TextView title;
-    @BindView(R.id.homepage_name)
-    TextView name;
-    @BindView(R.id.signature)
-    TextView signature;
-    @BindView(R.id.num_focus)
-    TextView numFocus;
-    @BindView(R.id.num_focused)
-    TextView numFocused;
-    @BindView(R.id.view_pager)
-    ViewPager viewPager;
-    @BindView(R.id.btn_focus)
-    FocusButton btn_focus;
-    @BindView(R.id.top_chat_btn)
-    Button btn_chat;
-    @BindView(R.id.visit_homepage_appbar)
-    AppBarLayout app_bar;
+
     HomepagePagerAdapter pagerAdapter;
     ShortProfile shortProfile;
     WholeProfile wholeProfile;
@@ -211,7 +218,6 @@ public class VisitHomePageActivity extends AppCompatActivity {
         });
 
         btn_chat.setOnClickListener(v -> {
-            // TODO
             Intent intent1 = new Intent(VisitHomePageActivity.this, ChatActivity.class);
             intent1.putExtra("user", BasicInfo.ACCOUNT);
             intent1.putExtra("real_name", mName);
@@ -242,12 +248,10 @@ public class VisitHomePageActivity extends AppCompatActivity {
             this.finish();
         });
 
-        System.out.println("hasijfkhasnfj");
         MyImageLoader.loadImage(imgAvatar, new GetInfoPictureRequest(type, String.valueOf(id), String.valueOf(id)).getWholeUrl());
         getInfo();
     }
 
-    // TODO 还有bug
     @OnClick(R.id.btn_focus)
     void watchOrUnwatch() {
         System.out.println(id + " " + isTeacher);
@@ -331,7 +335,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
             teacher_id = String.valueOf(id);
             student_id = null;
         }
-//        final int[] count = {0};
+
         count = 0;
 
         // 获取用户名和类型
@@ -456,9 +460,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
                     String resStr = response.body().string();
                     Log.e("response", resStr);
                     try {
-                        // 解析json，然后进行自己的内部逻辑处理
                         JSONObject jsonObject = new JSONObject(resStr);
-
                         Boolean status = jsonObject.getBoolean("status");
                         if (status) {
                             JSONArray array = jsonObject.getJSONArray("recruitment_id_list");
@@ -528,7 +530,7 @@ public class VisitHomePageActivity extends AppCompatActivity {
                     String resStr = response.body().string();
                     Log.e("response", resStr);
                     try {
-                        // 解析json，然后进行自己的内部逻辑处理
+                        // 解析json
                         JSONObject jsonObject = new JSONObject(resStr);
 
                         Boolean status = jsonObject.getBoolean("status");

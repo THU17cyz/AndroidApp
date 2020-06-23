@@ -36,6 +36,7 @@ public class FollowFragment extends Fragment {
 
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
+
     boolean searchFreeze = false;
     private Unbinder unbinder;
 
@@ -59,14 +60,10 @@ public class FollowFragment extends Fragment {
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabUnselected(TabLayout.Tab tab) { }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabReselected(TabLayout.Tab tab) { }
         });
 
         getAvatar();

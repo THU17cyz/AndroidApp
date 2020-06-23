@@ -27,7 +27,7 @@ public abstract class MyBaseAdapter<T> extends BaseQuickAdapter<T, BaseViewHolde
 
     protected Context mContext;
     protected List<T> mData;
-    protected int mItemViewId;//item布局id
+    protected int mItemViewId;
     protected View mHeaderView;
     protected View mFooterView;
 

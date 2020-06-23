@@ -90,7 +90,6 @@ public class EditApplicationListAdapter<T> extends MyBaseAdapter {
             @Override
             public void onClick(View v) {
 
-                // 隐藏软键盘
                 InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 

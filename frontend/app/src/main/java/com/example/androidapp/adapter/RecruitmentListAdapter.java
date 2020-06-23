@@ -11,13 +11,6 @@ import java.util.List;
 
 public class RecruitmentListAdapter<T> extends MyBaseAdapter {
 
-
-    private TextView direction;
-    private TextView studentType;
-    private TextView number;
-    private TextView state;
-    private TextView introduction;
-
     public RecruitmentListAdapter(List<T> data, Context context) {
         super(R.layout.item_recruitment_info, data, context);
     }

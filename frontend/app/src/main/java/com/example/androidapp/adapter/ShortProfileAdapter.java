@@ -28,18 +28,11 @@ public class ShortProfileAdapter<T> extends MyBaseAdapter {
     }
 
     @Override
-    protected void initView(BaseViewHolder viewHolder, Object o) {
-        // 这里大多数情况应该不需要初始化
-//        mName = viewHolder.getView(R.id.name);
-//        mHead = viewHolder.getView(R.id.profile_image);
-//        mAffiliation = viewHolder.getView(R.id.affiliation);
-
-        //
-    }
+    protected void initView(BaseViewHolder viewHolder, Object o) { }
 
     @Override
     protected void initData(BaseViewHolder viewHolder, Object o) {
-        // 在这里链式赋值就可以了
+
         ShortProfile data = (ShortProfile) o;
         viewHolder.setText(R.id.profile_user_name, data.name)
                 .setText(R.id.info, StringCutter.cutter(data.school + " " + data.department, 15))
@@ -66,7 +59,6 @@ public class ShortProfileAdapter<T> extends MyBaseAdapter {
 
     @Override
     protected void setListener(BaseViewHolder viewHolder, Object o) {
-        // 注册按钮点击事件
         viewHolder.addOnClickListener(R.id.watch_btn);
     }
 }

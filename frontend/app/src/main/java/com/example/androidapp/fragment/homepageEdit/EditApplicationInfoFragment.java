@@ -40,14 +40,10 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
 
     RecyclerView recyclerView;
     EditApplicationListAdapter adapter;
-
     ArrayList<ApplicationInfo> mApplicationList;
-
     private Unbinder unbinder;
 
-    public EditApplicationInfoFragment() {
-
-    }
+    public EditApplicationInfoFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -106,7 +102,6 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
                     Toast.makeText(getContext(), "已达到意向数量上限", Toast.LENGTH_SHORT).show();
                     break;
                 }
-                // Toast.makeText(getActivity(),"添加",Toast.LENGTH_SHORT).show();
                 ApplicationInfo applicationInfo = new ApplicationInfo("", "进行", "");
                 mApplicationList.add(applicationInfo);
                 adapter.notifyItemInserted(mApplicationList.size() - 1);
@@ -148,11 +143,10 @@ public class EditApplicationInfoFragment extends Fragment implements View.OnClic
                 String resStr = response.body().string();
                 Log.e("response", resStr);
                 try {
-                    // 解析json，然后进行自己的内部逻辑处理
+
                     JSONObject jsonObject = new JSONObject(resStr);
                     Boolean status = jsonObject.getBoolean("status");
                     String info = jsonObject.getString("info");
-
 
                     // 全部删除以后再插入
                     for (int i = 0; i < mApplicationList.size(); i++) {

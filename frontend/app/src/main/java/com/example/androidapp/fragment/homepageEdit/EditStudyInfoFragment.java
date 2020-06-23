@@ -28,9 +28,6 @@ import okhttp3.Response;
 
 public class EditStudyInfoFragment extends Fragment {
 
-//  @BindView(R.id.btn_concern)
-//  Button btnConcern;
-
     @BindView(R.id.text_direction_or_interest)
     TextView textDirOrInt;
 
@@ -48,15 +45,12 @@ public class EditStudyInfoFragment extends Fragment {
 
     private Unbinder unbinder;
 
-    public EditStudyInfoFragment() {
-
-    }
+    public EditStudyInfoFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_edit_study_info, container, false);
         unbinder = ButterKnife.bind(this, view);
-
         return view;
     }
 
@@ -87,7 +81,6 @@ public class EditStudyInfoFragment extends Fragment {
         if (BasicInfo.TYPE.equals("S")) {
             return dirOrInt.getText().toString() != null && dirOrInt.getText().toString().length() != 0;
         } else {
-            // Toast.makeText(getContext(),"科研信息->研究方向不能为空",Toast.LENGTH_SHORT);
             return dirOrInt.getText().toString() != null && dirOrInt.getText().toString().length() != 0;
         }
     }
@@ -109,14 +102,8 @@ public class EditStudyInfoFragment extends Fragment {
                     String resStr = response.body().string();
                     Log.e("response", resStr);
                     try {
-                        // 解析json，然后进行自己的内部逻辑处理
                         JSONObject jsonObject = new JSONObject(resStr);
-
                         Boolean status = jsonObject.getBoolean("status");
-                        if (status) {
-
-                        } else {
-                        }
                     } catch (JSONException e) {
 
                     }
@@ -149,14 +136,8 @@ public class EditStudyInfoFragment extends Fragment {
                     String resStr = response.body().string();
                     Log.e("response", resStr);
                     try {
-                        // 解析json，然后进行自己的内部逻辑处理
                         JSONObject jsonObject = new JSONObject(resStr);
-
                         Boolean status = jsonObject.getBoolean("status");
-                        if (status) {
-
-                        } else {
-                        }
                     } catch (JSONException e) {
 
                     }

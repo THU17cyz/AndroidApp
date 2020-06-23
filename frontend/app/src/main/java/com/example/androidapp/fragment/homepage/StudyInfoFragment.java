@@ -37,12 +37,9 @@ public class StudyInfoFragment extends Fragment {
     JCVideoPlayerStandard videoPlayer;
 
     private Unbinder unbinder;
-
     private String type;
     private int id;
 
-
-    //To do
     public StudyInfoFragment(String type, int id) {
         this.type = type;
         this.id = id;

@@ -42,16 +42,13 @@ public class ProfileListFragment extends Fragment {
 
     @BindView(R.id.recycler_view)
     protected RecyclerView mRecyclerView;
-    protected ArrayList<ShortProfile> mProfileList;
-    protected ShortProfileAdapter mShortProfileAdapter;
+
     @BindView(R.id.refreshLayout)
     RefreshLayout refreshLayout;
+
+    protected ArrayList<ShortProfile> mProfileList;
+    protected ShortProfileAdapter mShortProfileAdapter;
     private String test_url = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1592237104788&di=da06c7ee8d8256243940b53531bdeba7&imgtype=0&src=http%3A%2F%2Ftupian.qqjay.com%2Ftou2%2F2018%2F1106%2F60bdf5b88754650e51ccee32bb6ac8ae.jpg";
-
-    //To do
-    public ProfileListFragment() {
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,17 +56,9 @@ public class ProfileListFragment extends Fragment {
         unbinder = ButterKnife.bind(this, root);
 
         mProfileList = new ArrayList<>();
-//        mProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-//                test_url,999, true, false));
-//        mProfileList.add(new ShortProfile(1, "黄翔", "清华大学",
-//                test_url,999, true, false));
 
         mShortProfileAdapter = new ShortProfileAdapter(mProfileList, getContext());//初始化NameAdapter
         mShortProfileAdapter.setRecyclerManager(mRecyclerView);//设置RecyclerView特性
-        // mTestAdapter.openLeftAnimation();//设置加载动画
-
-        // 子组件的监听事件，比如按钮
-        // 在Adapter里注册（addOnClickListener）
         mShortProfileAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             FocusButton btn = ((FocusButton) view);
             btn.startLoading(() -> {
@@ -91,8 +80,6 @@ public class ProfileListFragment extends Fragment {
                                 profile.isFan = false;
                                 BasicInfo.removeFromWatchList(profile.id, profile.isTeacher);
                                 getActivity().runOnUiThread(btn::clickSuccess);
-
-//                            loadService.showSuccess();
                             } catch (JSONException e) {
                                 Log.e("error2", e.toString());
                                 getActivity().runOnUiThread(btn::clickFail);
@@ -130,7 +117,7 @@ public class ProfileListFragment extends Fragment {
 
         });
 
-        // RecycleView 本身的监听事件
+        // RecycleView的监听事件
         mShortProfileAdapter.setOnItemClickListener((adapter, view, position) -> {
             visitHomePage(position);
         });

@@ -4,9 +4,6 @@ import com.stfalcon.chatkit.commons.models.IDialog;
 
 import java.util.ArrayList;
 
-/*
- * Created by troy379 on 04.04.17.
- */
 public class Dialog implements IDialog<Message>, Comparable<Dialog> {
 
     public ArrayList<User> users;

@@ -112,15 +112,11 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-//        loadService = LoadSir.getDefault().register(this, (com.kingja.loadsir.callback.Callback.OnReloadListener) v -> { });
-
 
         navView = findViewById(R.id.nav_view);
 
         BasicInfo.NAV_VIEW = navView;
         navView.removeBadge(R.id.navigation_conversations);
-//        Window window = getWindow();
-//        window.setStatusBarColor(Color.TRANSPARENT);
         navView.setOnNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.navigation_home:
@@ -147,15 +143,9 @@ public class MainActivity extends BaseActivity {
         mMainActivityViewPagerAdapter = new MainActivityViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mMainActivityViewPagerAdapter);
         viewPager.setOffscreenPageLimit(5);
-
-
-//        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-//        NavigationUI.setupWithNavController(navView, navController);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
 
             @Override
             public void onPageSelected(int position) {
@@ -186,7 +176,6 @@ public class MainActivity extends BaseActivity {
 
 
         chatHistoryViewModel = new ViewModelProvider(this).get(ChatHistoryViewModel.class);
-//        chatHistoryViewModel = ViewModelProviders.of(this).get(ChatHistoryViewModel.class);
         chatHistoryViewModel.getAllHistory().observe(this, chatHistories -> {
             if (!BasicInfo.LOADED) {
                 BasicInfo.LOADED = true;
@@ -197,13 +186,6 @@ public class MainActivity extends BaseActivity {
         });
 
         ImmersionBar.with(this).statusBarColor(R.color.transparent).init();
-
-//        LoadService loadService = LoadSir.getDefault().register(this, new com.kingja.loadsir.callback.Callback.OnReloadListener() {
-//            @Override
-//            public void onReload(View v) { }
-//        });
-//        loadService.showSuccess();
-
 
         // 初始化侧边栏
         initDrawer();
@@ -220,7 +202,7 @@ public class MainActivity extends BaseActivity {
 
         LocalPicx.loadAsset(this);
 
-
+        // 保存登录信息
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("user", Context.MODE_PRIVATE);
         boolean hasLogin = sharedPreferences.getBoolean("hasLogin", false);
         if (!hasLogin) {
@@ -238,7 +220,6 @@ public class MainActivity extends BaseActivity {
     public void onStart() {
         super.onStart();
         initDrawer();
-//        loadService.showSuccess();
     }
 
     @Override
@@ -254,11 +235,6 @@ public class MainActivity extends BaseActivity {
         if (chatList == null) {
             Log.e("错误", "数据库获取为null");
         } else {
-//            List<String> accounts = new ArrayList<>();//对方列表
-//            List<String> messages = new ArrayList<>();//对方最新消息列表
-//            List<Date> dates = new ArrayList<>();//对方最新消息时间列表
-//            List<String> ids = new ArrayList<>();//对方id列表
-//            List<String> types = new ArrayList<>();//对方类型列表
 
             for (int i = 0; i < chatList.size(); i++) {
                 ChatHistory chat = chatList.get(i);
@@ -273,7 +249,7 @@ public class MainActivity extends BaseActivity {
                     String send = chat.getSend();
                     Date date = chat.getTime();
                     String realName = chat.getRealName();
-//                    User user = new User(id, account,"", account, type);
+
                     com.example.androidapp.entity.chat.Message message;// = new com.example.androidapp.entity.chat.Message("", user, msg, date);
 
                     if (send.equals("S")) {
@@ -300,8 +276,6 @@ public class MainActivity extends BaseActivity {
                         msgs = new ArrayList<>();
                         BasicInfo.CHAT_HISTORY.put(account, msgs);
                     }
-//                    System.out.println(account);
-//                    System.out.println(BasicInfo.CHAT_HISTORY.get(account));
                     msgs.add(message);
                 }
             }
@@ -322,7 +296,6 @@ public class MainActivity extends BaseActivity {
                 String resStr = response.body().string();
                 Log.e("response", resStr);
                 try {
-                    // 解析json，然后进行自己的内部逻辑处理
                     JSONObject jsonObject = new JSONObject(resStr);
                     JSONArray jsonArray = (JSONArray) jsonObject.get("information_id_list");
                     ArrayList<Integer> informationIdList = new ArrayList<>();
@@ -378,7 +351,6 @@ public class MainActivity extends BaseActivity {
                                         } else {
                                             message = new com.example.androidapp.entity.chat.Message(id, user, content, sdf.parse(time), true);
                                         }
-                                        // message.setDateString(time);
                                         Log.e("消息内容", sdf.parse(time).toString() + " " + state);
                                         String type = content.substring(2, 4);
                                         if (type.equals("用户")) {
@@ -489,8 +461,6 @@ public class MainActivity extends BaseActivity {
                                 msgs.add(message);
                                 BasicInfo.addToBadgeChat(1);
                             }
-
-
                         }
 
 
@@ -665,7 +635,6 @@ public class MainActivity extends BaseActivity {
 //                        Intent intent = new Intent(MainActivity.this,LoginActivity.class);
 //                        startActivity(intent);
                     } else {
-                        String info = jsonObject.getString("info");
                     }
                 } catch (JSONException e) {
                 }

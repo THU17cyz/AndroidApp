@@ -31,8 +31,6 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.search_view)
     EditText searchView;
 
-//    @BindView(R.id.refreshLayout)
-//    public RefreshLayout refreshLayout;
     boolean searchFreeze = false;
     private Unbinder unbinder;
 

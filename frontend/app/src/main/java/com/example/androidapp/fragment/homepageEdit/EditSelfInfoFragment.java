@@ -89,7 +89,6 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
     @BindView(R.id.edit_intro)
     FormEditText introduction;
 
-
     @BindView(R.id.choose_gender)
     TextView chooseGender;
 
@@ -107,16 +106,12 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
 
     private Unbinder unbinder;
 
-
-    //To do
-    public EditSelfInfoFragment() {
-    }
+    public EditSelfInfoFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_edit_self_info, container, false);
         unbinder = ButterKnife.bind(this, view);
-
         chooseGender.setOnClickListener(this);
         chooseTitle.setOnClickListener(this);
         chooseDegree.setOnClickListener(this);
@@ -315,14 +310,8 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
                 // getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
                 Log.e("response", resStr);
                 try {
-                    // 解析json，然后进行自己的内部逻辑处理
                     JSONObject jsonObject = new JSONObject(resStr);
-
                     Boolean status = jsonObject.getBoolean("status");
-                    if (status) {
-
-                    } else {
-                    }
                 } catch (JSONException e) {
 
                 }
@@ -348,14 +337,8 @@ public class EditSelfInfoFragment extends Fragment implements View.OnClickListen
                 // getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
                 Log.e("response", resStr);
                 try {
-                    // 解析json，然后进行自己的内部逻辑处理
                     JSONObject jsonObject = new JSONObject(resStr);
-
                     Boolean status = jsonObject.getBoolean("status");
-                    if (status) {
-
-                    } else {
-                    }
                 } catch (JSONException e) {
 
                 }

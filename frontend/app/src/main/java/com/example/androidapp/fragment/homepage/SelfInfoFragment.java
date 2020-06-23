@@ -90,14 +90,10 @@ public class SelfInfoFragment extends Fragment {
     @BindView(R.id.introduction)
     TextView introduction;
 
-
     private Unbinder unbinder;
-
     private String type;
     private int id;
 
-
-    //To do
     public SelfInfoFragment(String type, int id) {
         this.type = type;
         this.id = id;

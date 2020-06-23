@@ -42,9 +42,9 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class ChatFragment extends Fragment implements DateFormatter.Formatter {
-    // 全标已读
     @BindView(R.id.btn_all_read)
     TextView btnAllRead;
+
     boolean hasHandled = false;
     private DialogsList dialogsList;
     private DialogsListAdapter dialogsAdapter;
@@ -56,28 +56,19 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
     private ArrayList<Dialog> dialogs;
     private ArrayList<ChatHistory> tmpChatHistoryList;
     private Unbinder unbinder;
-    private int type; //0:老师 1：学生
+
     private Handler mHandler = new Handler(Looper.getMainLooper());
+
     private Runnable mTimeCounterRunnable = new Runnable() {
         @Override
-        public void run() {//在此添加需轮寻的接口
-            Log.e("联系人列表轮询", "+1");
-//            if(hasHandled){
-//                hasHandled = false;
-//                Log.e("hasHandles置false","..");
-//
-//            }
-            newTest();//getUnreadCount()执行的任务
+        public void run() {
+            newTest();
             mHandler.postDelayed(this, 2 * 1000);
         }
     };
 
-    public ChatFragment() {
-    }
+    public ChatFragment() { }
 
-    public ChatFragment(int type) {
-        this.type = type;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -88,7 +79,6 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
         dialogsList = root.findViewById(R.id.dialogsList);
         imageLoader = (imageView, url, payload) -> {
             Picasso.get().load(url).placeholder(R.drawable.ic_avatarholder).into(imageView);
-            // Log.d("url",url);
         };
 
         tmpChatHistoryList = new ArrayList<>();
@@ -111,7 +101,6 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
                 // todo
                 User contact = (User) dialog.getUsers().get(0);
                 ((Dialog) dialog).getLastMessage().setRead();
-                // System.out.println(BasicInfo.BADGE_CHAT.getNumber());
                 BasicInfo.subFromBadgeChat(dialog.getUnreadCount());
 
                 ArrayList<Message> msgs = BasicInfo.CHAT_HISTORY.get(contact.getAccount());
@@ -133,15 +122,6 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
         dialogsList.setAdapter(dialogsAdapter);
 
 
-//        RefreshLayout refreshLayout = (RefreshLayout) root.findViewById(R.id.refreshLayout);
-//        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
-//            @Override
-//            public void onRefresh(RefreshLayout refreshlayout) {
-//                newTest();
-//                refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
-//            }
-//        });
-
         btnAllRead.setOnClickListener(v -> {
             for (int i = 0; i < dialogs.size(); i++) {
                 Dialog dialog = dialogs.get(i);
@@ -160,21 +140,10 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
 
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-//        if(type==0){
-//            newTest();
-//        }
-
-    }
 
     @Override
     public void onStart() {
         super.onStart();
-//        if(type==0){
-//          mTimeCounterRunnable.run();
-//        }
         mTimeCounterRunnable.run();
     }
 
@@ -192,7 +161,6 @@ public class ChatFragment extends Fragment implements DateFormatter.Formatter {
 
     public void newTest() {
         // 初步构造联系人列表
-
         dialogs.clear();
         int i = 0;
         for (String account : BasicInfo.CHAT_HISTORY.keySet()) {

@@ -57,7 +57,6 @@ public class SelectList extends BasePopupWindow {
             filters = ((IntentFragment) fragment).getFilters();
             options = new String[]{"正在进行"};
             num = 1;
-//            if (fragment instanceof Recruit) options = new String[] {"男 ", "女 ", "已认证"};
         }
         int i = 0;
         for (boolean filter : filters) {

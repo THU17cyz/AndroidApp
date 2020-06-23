@@ -40,17 +40,11 @@ public class EditRecruitmentInfoFragment extends Fragment
     FloatingActionButton btn_add;
 
     RecyclerView recyclerView;
-
     EditRecruitmentListAdapter adapter;
-
     private ArrayList<RecruitmentInfo> mRecruitmentList;
-
     private Unbinder unbinder;
 
-    //To do
-    public EditRecruitmentInfoFragment() {
-
-    }
+    public EditRecruitmentInfoFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -130,7 +124,7 @@ public class EditRecruitmentInfoFragment extends Fragment
                 // getActivity().runOnUiThread(() -> Toast.makeText(getActivity(), resStr, Toast.LENGTH_LONG).show());
                 Log.e("response", resStr);
                 try {
-                    // 解析json，然后进行自己的内部逻辑处理
+                    // 解析json
                     JSONObject jsonObject = new JSONObject(resStr);
                     Boolean status = jsonObject.getBoolean("status");
                     String info = jsonObject.getString("info");

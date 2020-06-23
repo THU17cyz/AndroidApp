@@ -47,27 +47,24 @@ import okhttp3.Response;
 
 public class FollowListFragment extends Fragment {
 
-//    @BindView(R.id.follow_list_layout)
-//    ConstraintLayout constraintLayout;
 
     protected ShortProfileAdapter tShortProfileAdapter;
     protected ShortProfileAdapter sShortProfileAdapter;
     @BindView(R.id.linearLayout2)
     LinearLayout linearLayout2;
 
-//  @BindView(R.id.t_refresh_layout)
-//  RefreshLayout tRefreshLayout;
     @BindView(R.id.linearLayout3)
     LinearLayout linearLayout3;
+
     @BindView(R.id.t_recycler_view)
     RecyclerView tRecyclerView;
 
-//  @BindView(R.id.s_refresh_layout)
-//  RefreshLayout sRefreshLayout;
     @BindView(R.id.s_recycler_view)
     RecyclerView sRecyclerView;
+
     @BindView(R.id.follow_list_teacher)
     TextView teacherTextView;
+
     boolean isWatchList;
     Unbinder unbinder;
     ArrayList<ShortProfile> sProfileList;
@@ -90,28 +87,22 @@ public class FollowListFragment extends Fragment {
         sProfileList = new ArrayList<>();
         tProfileList = new ArrayList<>();
 
-        tShortProfileAdapter = new ShortProfileAdapter(tProfileList, getContext());//初始化NameAdapter
-        tShortProfileAdapter.setRecyclerManager(tRecyclerView);//设置RecyclerView特性
+        tShortProfileAdapter = new ShortProfileAdapter(tProfileList, getContext());
+        tShortProfileAdapter.setRecyclerManager(tRecyclerView);
 
-        sShortProfileAdapter = new ShortProfileAdapter(sProfileList, getContext());//初始化NameAdapter
-        sShortProfileAdapter.setRecyclerManager(sRecyclerView);//设置RecyclerView特性
+        sShortProfileAdapter = new ShortProfileAdapter(sProfileList, getContext());
+        sShortProfileAdapter.setRecyclerManager(sRecyclerView);
 
-        // RecycleView 本身的监听事件
         tShortProfileAdapter.setOnItemClickListener((adapter, view, position) -> {
             visitHomePage(true, position);
         });
 
-        // RecycleView 本身的监听事件
         sShortProfileAdapter.setOnItemClickListener((adapter, view, position) -> {
             visitHomePage(false, position);
         });
 
         addButtonListener(tShortProfileAdapter, tProfileList);
         addButtonListener(sShortProfileAdapter, sProfileList);
-
-//        getFanList();
-//        getWatchList();
-
 
         addDivider();
 
@@ -145,50 +136,8 @@ public class FollowListFragment extends Fragment {
                 else sProfileList.add(shortProfile);
             }
         }
-
-
-//        int i = 0;
-//        for (ShortProfile shortProfile: sProfileList) {
-//            if (!BasicInfo.isInWatchList(shortProfile.id, false)) {
-//                break;
-//            }
-//            i++;
-//        }
-//        if (i < sProfileList.size()) sProfileList.remove(i);
-//        sShortProfileAdapter.notifyItemRemoved(i);
-//
-//        i = 0;
-//        for (ShortProfile shortProfile: tProfileList) {
-//            if (!BasicInfo.isInWatchList(shortProfile.id, true)) {
-//                break;
-//            }
-//            i++;
-//        }
-//        if (i < tProfileList.size())tProfileList.remove(i);
-//        tShortProfileAdapter.notifyItemRemoved(i);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-//        int tSize = tProfileList.size();
-//        int sSize = sProfileList.size();
-//        tProfileList.clear();
-//        sProfileList.clear();
-//        tShortProfileAdapter.notifyItemRangeRemoved(0, tSize);
-//        sShortProfileAdapter.notifyItemRangeRemoved(0, sSize);
-//        if (isWatchList) {
-//            for (ShortProfile shortProfile : BasicInfo.WATCH_LIST) {
-//                if (shortProfile.isTeacher) tProfileList.add(shortProfile);
-//                else sProfileList.add(shortProfile);
-//            }
-//        } else {
-//            for (ShortProfile shortProfile : BasicInfo.FAN_LIST) {
-//                if (shortProfile.isTeacher) tProfileList.add(shortProfile);
-//                else sProfileList.add(shortProfile);
-//            }
-//        }
-    }
 
     private void visitHomePage(boolean isTop, int position) {
         Intent intent = new Intent(getContext(), VisitHomePageActivity.class);

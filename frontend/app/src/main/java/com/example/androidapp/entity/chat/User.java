@@ -2,9 +2,6 @@ package com.example.androidapp.entity.chat;
 
 import com.stfalcon.chatkit.commons.models.IUser;
 
-/*
- * Created by troy379 on 04.04.17.
- */
 public class User implements IUser {
 
     private String id;
@@ -13,7 +10,7 @@ public class User implements IUser {
     private boolean online;
 
     private String account;
-    private String type;//用户类型 S/T
+    private String type;   //用户类型 S/T
     private String userId; // 用于发送
 
     public User(String id, String name, String avatar, boolean online) {
