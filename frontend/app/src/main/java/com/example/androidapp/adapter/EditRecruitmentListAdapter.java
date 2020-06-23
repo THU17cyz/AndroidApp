@@ -19,7 +19,11 @@ import com.example.androidapp.entity.RecruitmentInfo;
 
 import java.util.List;
 
-public class EditRecruitmentListAdapter<T> extends MyBaseAdapter {
+
+/**
+ * 更改招生意向列表适配器
+ */
+public class EditRecruitmentListAdapter<T> extends MyBaseListAdapter {
 
     public EditRecruitmentListAdapter(List<T> data, Context context) {
         super(R.layout.item_edit_recruitment_info, data, context);

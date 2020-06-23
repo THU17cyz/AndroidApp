@@ -14,7 +14,9 @@ import com.example.androidapp.fragment.QueryResult.Teacher;
 
 import org.jetbrains.annotations.NotNull;
 
-
+/**
+ * 申请意向列表适配器
+ */
 public class QueryResultPageAdapter extends FragmentStatePagerAdapter {
     SparseArray<Fragment> registeredFragments = new SparseArray<>();
     int mNumOfTabs;

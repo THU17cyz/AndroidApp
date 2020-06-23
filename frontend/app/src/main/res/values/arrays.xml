@@ -5,7 +5,7 @@
         <item>按关注人数</item>
     </string-array>
     <string-array name="view_types_dialog">
-        <item name="image">Image (default)</item>
+        <item name="image">图片</item>
     </string-array>
 
     <string-array name="t_s_type">

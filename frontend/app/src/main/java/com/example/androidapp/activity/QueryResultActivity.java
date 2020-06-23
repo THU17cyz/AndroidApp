@@ -24,6 +24,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+
+/**
+ * 显示查询结果界面
+ */
 public class QueryResultActivity extends BaseActivity {
     @BindView(R.id.search_view)
     SearchView searchView;

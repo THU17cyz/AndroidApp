@@ -19,7 +19,10 @@ import com.example.androidapp.entity.OptionItems;
 
 import java.util.List;
 
-public class EditApplicationListAdapter<T> extends MyBaseAdapter {
+/**
+ * 更改申请意向列表适配器
+ */
+public class EditApplicationListAdapter<T> extends MyBaseListAdapter {
 
     public EditApplicationListAdapter(List<T> data, Context context) {
         super(R.layout.item_edit_application_info, data, context);

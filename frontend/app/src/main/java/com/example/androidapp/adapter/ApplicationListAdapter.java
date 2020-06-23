@@ -8,7 +8,10 @@ import com.example.androidapp.entity.ApplicationInfo;
 
 import java.util.List;
 
-public class ApplicationListAdapter<T> extends MyBaseAdapter {
+/**
+ * 申请意向列表适配器
+ */
+public class ApplicationListAdapter<T> extends MyBaseListAdapter {
 
     public ApplicationListAdapter(List<T> data, Context context) {
         super(R.layout.item_application_info, data, context);

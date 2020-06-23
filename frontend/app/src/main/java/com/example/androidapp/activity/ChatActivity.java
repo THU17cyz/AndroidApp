@@ -28,7 +28,6 @@ import com.example.androidapp.util.Uri2File;
 import com.gyf.immersionbar.ImmersionBar;
 import com.squareup.picasso.Picasso;
 import com.stfalcon.chatkit.commons.ImageLoader;
-import com.stfalcon.chatkit.commons.models.IMessage;
 import com.stfalcon.chatkit.messages.MessageInput;
 import com.stfalcon.chatkit.messages.MessagesList;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
@@ -55,7 +54,9 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-
+/**
+ * 聊天的具体界面
+ */
 public class ChatActivity
         extends BaseActivity
         implements DateFormatter.Formatter,
@@ -313,9 +314,7 @@ public class ChatActivity
                         })
                         .forResult(REQUEST_CODE_CHOOSE);
                 break;
-            case 1:
-//                messagesAdapter.addToStart(MessagesFixtures.getVoiceMessage(), true);
-                break;
+            case 1: break;
         }
     }
 
@@ -379,13 +378,6 @@ public class ChatActivity
                                 });
 
                             } else {
-//                                runOnUiThread(new Runnable() {
-//                                    String info = jsonObject.getString("info");
-//                                    @Override
-//                                    public void run() {
-//                                        runOnUiThread(() -> Toast.makeText(ChatActivity.this,info, Toast.LENGTH_LONG).show());
-//                                    }
-//                                });
                             }
 
                         } catch (JSONException e) {

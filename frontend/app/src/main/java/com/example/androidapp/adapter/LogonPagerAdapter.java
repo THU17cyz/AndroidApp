@@ -9,7 +9,7 @@ import com.example.androidapp.fragment.logon.LogonFragment2;
 import com.example.androidapp.fragment.logon.LogonFragment3;
 
 /**
- * Fragment to return the clicked tab.
+ * 注册界面ViewPager适配器
  */
 public class LogonPagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;

@@ -10,8 +10,10 @@ import com.example.androidapp.util.StringCutter;
 
 import java.util.List;
 
-
-public class ShortIntentAdapter<T> extends MyBaseAdapter {
+/**
+ * 搜索界面中，意向列表适配器
+ */
+public class ShortIntentAdapter<T> extends MyBaseListAdapter {
 
 
     public ShortIntentAdapter(List<T> data, Context context) {

@@ -13,6 +13,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 注册
+ */
 public class LogonActivity extends BaseActivity {
     /******************************
      ************ 变量 ************

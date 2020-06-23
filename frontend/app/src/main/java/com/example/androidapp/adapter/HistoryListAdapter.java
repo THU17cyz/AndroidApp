@@ -1,20 +1,18 @@
 package com.example.androidapp.adapter;
 
 import android.content.Context;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.androidapp.R;
 
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+/**
+ * 历史搜索记录列表适配器
+ */
+public class HistoryListAdapter<T> extends MyBaseListAdapter {
 
-
-public class HistoryAdapter<T> extends MyBaseAdapter {
-
-    public HistoryAdapter(List<T> data, Context context) {
+    public HistoryListAdapter(List<T> data, Context context) {
         super(R.layout.layout_history_list, data, context);
     }
 

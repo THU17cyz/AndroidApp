@@ -15,6 +15,10 @@ import com.example.androidapp.fragment.homepage.StudyInfoFragment;
 
 import org.jetbrains.annotations.NotNull;
 
+
+/**
+ * 主页ViewPager适配器
+ */
 public class HomepagePagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
     String type;

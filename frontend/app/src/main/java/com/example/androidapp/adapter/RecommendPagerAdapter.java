@@ -12,7 +12,7 @@ import com.example.androidapp.fragment.RecommendFragment;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Fragment to return the clicked tab.
+ * 推荐界面ViewPager适配器
  */
 public class RecommendPagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;

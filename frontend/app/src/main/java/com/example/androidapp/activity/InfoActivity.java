@@ -30,6 +30,9 @@ import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Response;
 
+/**
+ * 通知的具体界面
+ */
 public class InfoActivity extends BaseActivity implements DateFormatter.Formatter {
 
     @BindView(R.id.messagesList)

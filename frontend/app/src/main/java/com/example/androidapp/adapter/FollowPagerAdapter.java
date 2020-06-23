@@ -7,6 +7,10 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.example.androidapp.fragment.follow.FollowListFragment;
 
+
+/**
+ * 关注粉丝界面ViewPager适配器
+ */
 public class FollowPagerAdapter extends FragmentStatePagerAdapter {
 
     int mNumOfTabs;

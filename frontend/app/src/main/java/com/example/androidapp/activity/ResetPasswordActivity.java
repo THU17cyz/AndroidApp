@@ -1,8 +1,6 @@
 package com.example.androidapp.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,7 +10,6 @@ import android.widget.Button;
 import com.andreabaccega.widget.FormEditText;
 import com.example.androidapp.R;
 import com.example.androidapp.request.user.ChangePasswordRequest;
-import com.example.androidapp.util.BasicInfo;
 import com.example.androidapp.util.Global;
 import com.example.androidapp.util.Hint;
 import com.example.androidapp.util.LoginCache;
@@ -33,7 +30,9 @@ import okhttp3.ResponseBody;
 
 //import butterknife.BindView;
 
-
+/**
+ * 重置密码
+ */
 public class ResetPasswordActivity extends BaseActivity {
     /******************************
      ************ 变量 ************

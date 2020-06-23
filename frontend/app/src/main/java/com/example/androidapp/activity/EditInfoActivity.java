@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -22,7 +21,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class EditInfoActivity extends AppCompatActivity {
+
+/**
+ * 更改信息
+ */
+public class EditInfoActivity extends BaseActivity {
 
     @BindView(R.id.view_pager)
     ViewPager viewPager;

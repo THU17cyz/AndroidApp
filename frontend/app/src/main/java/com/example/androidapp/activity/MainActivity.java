@@ -26,7 +26,7 @@ import androidx.navigation.NavController;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.androidapp.R;
-import com.example.androidapp.adapter.MainActivityViewPagerAdapter;
+import com.example.androidapp.adapter.MainActivityPagerAdapter;
 import com.example.androidapp.application.App;
 import com.example.androidapp.entity.chat.User;
 import com.example.androidapp.fragment.main.ConversationFragment;
@@ -81,6 +81,10 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+
+/**
+ * 登录后进入的主界面
+ */
 public class MainActivity extends BaseActivity {
 
     private static final int REQUEST_CODE_CHOOSE = 11;
@@ -94,7 +98,7 @@ public class MainActivity extends BaseActivity {
     private List<IProfile> drawerHead;
     private NavController navController;
     private ViewPager viewPager;
-    private MainActivityViewPagerAdapter mMainActivityViewPagerAdapter;
+    private MainActivityPagerAdapter mMainActivityPagerAdapter;
     private ChatHistoryViewModel chatHistoryViewModel;
     private Runnable mTimeCounterRunnable = new Runnable() {
         @Override
@@ -141,8 +145,8 @@ public class MainActivity extends BaseActivity {
 
 
         viewPager = findViewById(R.id.nav_host_fragment);
-        mMainActivityViewPagerAdapter = new MainActivityViewPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(mMainActivityViewPagerAdapter);
+        mMainActivityPagerAdapter = new MainActivityPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(mMainActivityPagerAdapter);
         viewPager.setOffscreenPageLimit(5);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -646,7 +650,7 @@ public class MainActivity extends BaseActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
 
             // 获取当前fragment
-            Fragment current = mMainActivityViewPagerAdapter.getRegisteredFragment(viewPager.getCurrentItem());
+            Fragment current = mMainActivityPagerAdapter.getRegisteredFragment(viewPager.getCurrentItem());
 
             // 主页双击返回退出程序
             if (current != null && current instanceof HomeFragment) {
@@ -674,7 +678,7 @@ public class MainActivity extends BaseActivity {
 //                    .findFragmentById(R.id.nav_host_fragment).getChildFragmentManager()
 //                    .getPrimaryNavigationFragment();
 
-            DashboardFragment fragment = ((DashboardFragment) mMainActivityViewPagerAdapter.getRegisteredFragment(4));
+            DashboardFragment fragment = ((DashboardFragment) mMainActivityPagerAdapter.getRegisteredFragment(4));
             fragment.getAvatar("file://" + path);
             System.out.println(path);
             new UpdateInfoPictureRequest(new Callback() {
@@ -696,15 +700,15 @@ public class MainActivity extends BaseActivity {
                             MyImageLoader.invalidate();
                             runOnUiThread(() -> {
                                 initDrawer();
-                                HomeFragment fragment1 = ((HomeFragment) mMainActivityViewPagerAdapter.getRegisteredFragment(0));
+                                HomeFragment fragment1 = ((HomeFragment) mMainActivityPagerAdapter.getRegisteredFragment(0));
                                 fragment1.getAvatar();
-                                FollowFragment fragment2 = ((FollowFragment) mMainActivityViewPagerAdapter.getRegisteredFragment(1));
+                                FollowFragment fragment2 = ((FollowFragment) mMainActivityPagerAdapter.getRegisteredFragment(1));
                                 fragment2.getAvatar();
-                                ConversationFragment fragment3 = ((ConversationFragment) mMainActivityViewPagerAdapter.getRegisteredFragment(2));
+                                ConversationFragment fragment3 = ((ConversationFragment) mMainActivityPagerAdapter.getRegisteredFragment(2));
                                 fragment3.getAvatar();
-                                NotificationFragment fragment4 = ((NotificationFragment) mMainActivityViewPagerAdapter.getRegisteredFragment(3));
+                                NotificationFragment fragment4 = ((NotificationFragment) mMainActivityPagerAdapter.getRegisteredFragment(3));
                                 fragment4.getAvatar();
-                                DashboardFragment fragment5 = ((DashboardFragment) mMainActivityViewPagerAdapter.getRegisteredFragment(4));
+                                DashboardFragment fragment5 = ((DashboardFragment) mMainActivityPagerAdapter.getRegisteredFragment(4));
                                 fragment5.getAvatar(null);
                             });
 //                            ((DashboardFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_dashboard)).getAvatar(null);

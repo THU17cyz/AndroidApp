@@ -16,6 +16,9 @@ import com.example.androidapp.util.BasicInfo;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * 更改信息界面ViewPager适配器
+ */
 public class EditInfoPagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
     SparseArray<Fragment> registeredFragments = new SparseArray<>();

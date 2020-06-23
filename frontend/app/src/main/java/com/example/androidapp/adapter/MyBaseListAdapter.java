@@ -13,17 +13,16 @@ import com.chad.library.adapter.base.animation.BaseAnimation;
 
 import java.util.List;
 
-//import android.support.v7.widget.LinearLayoutManager;
-//import android.support.v7.widget.RecyclerView;
 
 /**
  * Title:RecyclerView适配器基类
  * Description:
  * <p>
  * Created by pei
+ * Modified by Yezhen Cong
  * Date: 2017/12/29
  */
-public abstract class MyBaseAdapter<T> extends BaseQuickAdapter<T, BaseViewHolder> {
+public abstract class MyBaseListAdapter<T> extends BaseQuickAdapter<T, BaseViewHolder> {
 
     protected Context mContext;
     protected List<T> mData;
@@ -31,7 +30,7 @@ public abstract class MyBaseAdapter<T> extends BaseQuickAdapter<T, BaseViewHolde
     protected View mHeaderView;
     protected View mFooterView;
 
-    public MyBaseAdapter(int itemViewId, List<T> data, Context context) {
+    public MyBaseListAdapter(int itemViewId, List<T> data, Context context) {
         super(itemViewId, data);
         this.mItemViewId = itemViewId;
         this.mContext = context;

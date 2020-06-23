@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidapp.R;
-import com.example.androidapp.adapter.HistoryAdapter;
+import com.example.androidapp.adapter.HistoryListAdapter;
 import com.example.androidapp.request.search.DeleteRecordRequest;
 import com.example.androidapp.request.search.SearchHotRecordRequest;
 import com.example.androidapp.request.search.SearchRecordRequest;
@@ -37,6 +37,9 @@ import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Response;
 
+/**
+ * 查询中转界面
+ */
 public class QueryActivity extends BaseActivity {
 
     @BindView(R.id.top_bar)
@@ -54,7 +57,7 @@ public class QueryActivity extends BaseActivity {
     @BindView(R.id.flexbox_layout)
     FlexboxLayout flexboxLayout;
 
-    private HistoryAdapter historyAdapter;
+    private HistoryListAdapter historyListAdapter;
 
     private List<String> records;
 
@@ -96,19 +99,19 @@ public class QueryActivity extends BaseActivity {
         records = new ArrayList<>();
         hot = new ArrayList<>();
         // records.addAll(Arrays.asList("小明","小红","小芳","小花","小海","小林","小叶","小虎","小柔"));
-        historyAdapter = new HistoryAdapter(records, this);//初始化NameAdapter
-        historyAdapter.setRecyclerManager(historyList);//设置RecyclerView特性
+        historyListAdapter = new HistoryListAdapter(records, this);//初始化NameAdapter
+        historyListAdapter.setRecyclerManager(historyList);//设置RecyclerView特性
         // historyAdapter.openLeftAnimation();//设置加载动画
 
 
-        historyAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+        historyListAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             // 用position获取点击的是什么
             deleteSearchHistory(records.get(position));
             adapter.remove(position);
 
         });
 
-        historyAdapter.setOnItemClickListener((adapter, view, position) -> {
+        historyListAdapter.setOnItemClickListener((adapter, view, position) -> {
             searchView.setQuery((String) adapter.getData().get(position), true);
 //            Toast.makeText(this, "testItemClick" + position, Toast.LENGTH_SHORT).show();
         });

@@ -16,7 +16,10 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class ShortProfileAdapter<T> extends MyBaseAdapter {
+/**
+ * 搜索界面中，导师/学生列表适配器
+ */
+public class ShortProfileAdapter<T> extends MyBaseListAdapter {
 
     private CircleImageView mHead;
     private TextView mName;

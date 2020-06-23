@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
@@ -57,7 +56,11 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class VisitHomePageActivity extends AppCompatActivity {
+
+/**
+ * 访问他人主页
+ */
+public class VisitHomePageActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -204,7 +207,6 @@ public class VisitHomePageActivity extends AppCompatActivity {
                             ((ApplicationInfoFragment) pagerAdapter.getRegisteredFragment(2)).setInfo();
                         else
                             ((RecruitmentInfoFragment) pagerAdapter.getRegisteredFragment(2)).setInfo();
-//                        ((SelfInfoFragment) pagerAdapter.getRegisteredFragment(0)).setInfo();
                         break;
                     }
                 }
@@ -318,6 +320,9 @@ public class VisitHomePageActivity extends AppCompatActivity {
         count++;
     }
 
+    /**
+     * 获取该用户全部信息
+     */
     protected void getInfo() {
         String type_ = "I";
         String teacher_id = null;
@@ -372,7 +377,6 @@ public class VisitHomePageActivity extends AppCompatActivity {
                         String info = jsonObject.getString("info");
                         System.out.println(info);
                         addCounter();
-                        // getActivity().runOnUiThread(() -> Toast.makeText(getActivity(),info, Toast.LENGTH_LONG).show());
                     }
                 } catch (JSONException e) {
                     addCounter();

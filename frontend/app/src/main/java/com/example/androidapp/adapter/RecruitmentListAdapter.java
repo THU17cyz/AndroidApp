@@ -1,7 +1,6 @@
 package com.example.androidapp.adapter;
 
 import android.content.Context;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.androidapp.R;
@@ -9,7 +8,11 @@ import com.example.androidapp.entity.RecruitmentInfo;
 
 import java.util.List;
 
-public class RecruitmentListAdapter<T> extends MyBaseAdapter {
+
+/**
+ * 招生意向列表适配器
+ */
+public class RecruitmentListAdapter<T> extends MyBaseListAdapter {
 
     public RecruitmentListAdapter(List<T> data, Context context) {
         super(R.layout.item_recruitment_info, data, context);

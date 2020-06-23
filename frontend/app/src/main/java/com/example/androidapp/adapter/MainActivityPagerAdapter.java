@@ -15,10 +15,13 @@ import com.example.androidapp.fragment.main.NotificationFragment;
 
 import org.jetbrains.annotations.NotNull;
 
-public class MainActivityViewPagerAdapter extends FragmentStatePagerAdapter {
+/**
+ * 主界面ViewPager适配器
+ */
+public class MainActivityPagerAdapter extends FragmentStatePagerAdapter {
     SparseArray<Fragment> registeredFragments = new SparseArray<>();
 
-    public MainActivityViewPagerAdapter(FragmentManager fm) {
+    public MainActivityPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
